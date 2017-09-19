@@ -1,5 +1,7 @@
 #pragma once
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 class GameEngine
 {
 private:
@@ -30,4 +32,9 @@ public:
 	// Cleans up game engine resources.
 	void CleanUp();
 
+
+
+
+	// Helper functions.
+	static void PrintGlewInfo();
 };
