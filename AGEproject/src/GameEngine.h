@@ -11,7 +11,9 @@ private:
 	// The window that is to be rendered too.
 	GLFWwindow* window;
 
+	int val;
 
+	GameEngine() {}
 
 public:
 	// Constructor, if singleton has not been initalised, initalise it, else return instance.
@@ -21,7 +23,6 @@ public:
 			instance = new GameEngine();
 		return instance;
 	}
-
 
 	// The render window.
 	GLFWwindow* GetWindow() { return instance->window; }

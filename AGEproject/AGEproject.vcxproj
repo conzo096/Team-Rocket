@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\StateManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
   </ItemGroup>
