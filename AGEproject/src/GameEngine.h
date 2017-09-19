@@ -26,11 +26,14 @@ public:
 	// The render window.
 	GLFWwindow* GetWindow() { return instance->window; }
 
+	
+	static void Initialise();
+	static void Render();
 
 	// Execute the game engine.
 	void Start();
 	// Cleans up game engine resources.
-	void CleanUp();
+	static void CleanUp();
 
 
 

@@ -4,13 +4,15 @@ StateManager *StateManager::instance = 0;
 
 void StateManager::StateLoop()
 {
-	GameEngine::Instance()->Start();
+	//GameEngine::Instance()->Start();
+	GameEngine::Instance()->Initialise();
 
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
 		switch (state)
 		{
 		case(Splash):
+			GameEngine::Instance()->Render();
 			break;
 		case(Menu):
 			break;
@@ -25,4 +27,5 @@ void StateManager::StateLoop()
 			break;
 		}
 	}
+	GameEngine::Instance()->CleanUp();
 }

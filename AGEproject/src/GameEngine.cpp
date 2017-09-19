@@ -3,21 +3,22 @@
 
 GameEngine *GameEngine::instance = 0;
 
-void GameEngine::Start()
+
+void GameEngine::Initialise()
 {
-	
 	if (!glfwInit())
 	{
 		std::fprintf(stderr, "ERROR: glfw failed init! exiting.");
 		return;
 	}
+
 	// Create a windowed mode window with hard coded parameters.
-	window = glfwCreateWindow(1920, 1080, "Team Rocket", NULL, NULL);
+	instance->window = glfwCreateWindow(1920, 1080, "Team Rocket", NULL, NULL);
 	// Window is now initalised, now make it the current context.
-	glfwMakeContextCurrent(window);
-	if (!window)
+	glfwMakeContextCurrent(instance->window);
+	if (!instance->window)
 	{
-		assert(window != NULL);
+		assert(instance->window != NULL);
 		CleanUp();
 		return;
 	}
@@ -32,22 +33,24 @@ void GameEngine::Start()
 	// glExperimental throws junk errors, Ignore.
 	glGetError();
 	PrintGlewInfo();
+}
 
-	// Loop through the game until the window is closed.
-	while (!glfwWindowShouldClose(window))
-	{
-		// Clear the opengl buffer.
-		glClear(GL_COLOR_BUFFER_BIT);
+void GameEngine::Render()
+{
+	// Clear the opengl buffer.
+	glClear(GL_COLOR_BUFFER_BIT);
 
-		// Swap the window buffers.
-		glfwSwapBuffers(window);
+	// Swap the window buffers.
+	glfwSwapBuffers(instance->window);
 
-		// process events.
-		glfwPollEvents();
-	}
-	
+	// process events.
+	glfwPollEvents();
+}
+
+void GameEngine::Start()
+{
 	// Application is over, handle resource cleaning.
-	CleanUp();
+	//CleanUp();
 }
 
 
