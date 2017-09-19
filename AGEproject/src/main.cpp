@@ -1,6 +1,7 @@
-#include "GameEngine.h"
+#include "StateManager.h"
+
 int main()
 {
-	GameEngine::Instance()->Start();
+	StateManager::Instance()->StateLoop();
 	return 0;
 }
