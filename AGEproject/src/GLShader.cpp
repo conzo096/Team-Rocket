@@ -2,6 +2,13 @@
 
 #include <fstream>
 #include <vector>
+
+GLShader::~GLShader()
+{
+
+}
+
+
 bool GLShader::AddShaderFromFile(const char* fileName, GLShader::GLSLSHADERTYPE type)
 {
 	// If file does not exist exit.
@@ -67,7 +74,7 @@ bool GLShader::AddShaderFromFile(const char* fileName, GLShader::GLSLSHADERTYPE 
 	{
 		//Create an empty vertex shader handle
 		GLuint geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(geometryShader, 1, &fileName, 0);
+		glShaderSource(geometryShader, 1, &source, 0);
 
 		//Compile the vertex shader
 		glCompileShader(geometryShader);
@@ -107,9 +114,52 @@ bool GLShader::Link()
 		glDeleteProgram(program);
 		return false;
 	}
+	return true;
+}
+
+// Checks if the shader has been linked together successfully or not.
+bool GLShader::IsLinked()
+{
+	GLint isLinked;
+	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+	if (isLinked == GL_FALSE)
+		return false;
+	else
+		return true;
 }
 
 
+void GLShader::SetUniform(const char* name, float val)
+{
+	GLint loc = glGetUniformLocation(program, name);
+	if (loc != -1)
+	{
+		glUniform1f(loc, val);
+	}
+	else
+		std::fprintf(stderr, "%s is not a parameter!",name);
+}
+void GLShader::SetUniform(const char* name, int val)
+{
+	GLint loc = glGetUniformLocation(program, name);
+	if (loc != -1)
+	{
+		glUniform1i(loc, val);
+	}
+	else
+		std::fprintf(stderr,"%s is not a parameter!",name);
+}
+
+// Returns -1 if location does not exist.
+GLuint GLShader::GetUniformLocation(const char* name)
+{
+	GLuint loc = glGetUniformLocation(program,name);
+	return loc;
+}
+void GLShader::Use()
+{
+	glUseProgram(program);
+}
 
 // This should be move to IO Class.
 bool GLShader::FileExists(const std::string& fileName)

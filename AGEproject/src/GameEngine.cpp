@@ -41,13 +41,37 @@ void GameEngine::Start()
 	if(!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
 		std::printf("Frag failed to compile.\n");
 	helloShader.Link();
+	
+	
+	float vertices[] = {
+		0.0f,  0.5f, // Vertex 1 (X, Y)
+		0.5f, -0.5f, // Vertex 2 (X, Y)
+		-0.5f, -0.5f  // Vertex 3 (X, Y)
+	};
+	GLuint vbo;
+	glGenBuffers(1, &vbo); // Generate 1 buffer
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glUseProgram(helloShader.GetId());
+	GLuint vao;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glBindFragDataLocation(helloShader.GetId(), 0, "outColor");
+	GLint posAttrib = glGetAttribLocation(helloShader.GetId(), "position");
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(posAttrib);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
 	std::printf("-------------------------------\n");
 
 	// Loop through the game until the window is closed.
 	while (!glfwWindowShouldClose(window))
 	{
 		// Clear the opengl buffer.
-		glClear(GL_COLOR_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT);
 
 		// Swap the window buffers.
 		glfwSwapBuffers(window);
