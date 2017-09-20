@@ -33,9 +33,19 @@ void GameEngine::Initialise()
 	// glExperimental throws junk errors, Ignore.
 	glGetError();
 	PrintGlewInfo();
+
+	std::printf("-------------------------------\n");
+	std::printf("Testing shaders\n");
+	GLShader helloShader;
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
+		std::printf("Vert failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+		std::printf("Frag failed to compile.\n");
+	helloShader.Link();
+	std::printf("-------------------------------\n");
+
 }
 
-<<<<<<< HEAD
 void GameEngine::Render()
 {
 	// Clear the opengl buffer.
@@ -43,23 +53,9 @@ void GameEngine::Render()
 
 	// Swap the window buffers.
 	glfwSwapBuffers(instance->window);
-=======
-	std::printf("-------------------------------\n");
-	std::printf("Testing shaders\n");
-	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
-		std::printf("Vert failed to compile.\n");
-	if(!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
-		std::printf("Frag failed to compile.\n");
-	helloShader.Link();
-	std::printf("-------------------------------\n");
 
-	// Loop through the game until the window is closed.
-	while (!glfwWindowShouldClose(window))
-	{
-		// Clear the opengl buffer.
-		glClear(GL_COLOR_BUFFER_BIT);
->>>>>>> parent of ae157ae... Shaders work!
+	// Clear the opengl buffer.
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	// process events.
 	glfwPollEvents();
