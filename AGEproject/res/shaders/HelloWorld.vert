@@ -1,7 +1,6 @@
-
+#version 150 core
+in vec2 position;
 void main()
 {	
-
-
-	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+	gl_Position = vec4(position, 0.0, 1.0);
 }
