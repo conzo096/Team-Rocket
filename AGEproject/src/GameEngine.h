@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "GLShader.h"
+#include "stb_image.h"
+#include <fstream>
+#include <sstream>
 
 class GameEngine
 {
@@ -43,4 +46,7 @@ public:
 
 	// Helper functions.
 	static void PrintGlewInfo();
+	static void LoadShaders();
+
+	static void ImSorryOrHowILearnedToStopCaringAndLoadTextures();
 };
