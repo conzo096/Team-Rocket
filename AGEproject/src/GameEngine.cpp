@@ -33,17 +33,7 @@ void GameEngine::Initialise()
 	// glExperimental throws junk errors, Ignore.
 	glGetError();
 	PrintGlewInfo();
-
-	std::printf("-------------------------------\n");
-	std::printf("Testing shaders\n");
-	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
-		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
-		std::printf("Frag failed to compile.\n");
-	helloShader.Link();
-	std::printf("-------------------------------\n");
-
+	LoadShaders();
 }
 
 void GameEngine::Render()
@@ -85,4 +75,46 @@ void GameEngine::PrintGlewInfo()
 	std::printf("Graphics card: %s\n", glGetString(GL_RENDERER));
 	std::printf("Shading: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 	std::printf("-------------------------------------------------------\n");
+}
+
+void GameEngine::LoadShaders()
+{
+	std::printf("-------------------------------\n");
+	std::printf("Testing shaders\n");
+	GLShader helloShader;
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
+		std::printf("Vert failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+		std::printf("Frag failed to compile.\n");
+	helloShader.Link();
+	std::printf("-------------------------------\n");
+}
+
+void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
+{
+	unsigned int texture;
+	// texture 1
+	// ---------
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// load image, create texture and generate mipmaps
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+	unsigned char *data = stbi_load("../res/textures/debug.png", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data); //Now remember to do something with this texture we got
 }
