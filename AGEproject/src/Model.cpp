@@ -25,36 +25,37 @@ void Model::SetUpMesh()
 		&indices[0], GL_STATIC_DRAW);
 
 	// vertex positions
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	// vertex normals
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-	// vertex texture coords
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+	glEnableVertexAttribArray(BUFFERS::POSITION);
+	glVertexAttribPointer(BUFFERS::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	
+	glEnableVertexAttribArray(BUFFERS::COLOR);
+	glVertexAttribPointer(BUFFERS::COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
-	glBindVertexArray(0);
+	// vertex normals
+	glEnableVertexAttribArray(BUFFERS::NORMAL);
+	glVertexAttribPointer(BUFFERS::NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	// vertex texture coords
+	glEnableVertexAttribArray(BUFFERS::TEX_COORD);
+	glVertexAttribPointer(BUFFERS::TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
 }
 
 void Model::Draw(GLShader shader)
 {
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	for (GLuint i = 0; i < this->textures.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);
+	//unsigned int diffuseNr = 1;
+	//unsigned int specularNr = 1;
+	//for (GLuint i = 0; i < this->textures.size(); i++)
+	//{
+	//	glActiveTexture(GL_TEXTURE0 + i);
 
-		std::string name = this->textures[i].type;
-		std::string number = (name == "texture_diffuse") ? std::to_string(diffuseNr++) : std::to_string(specularNr++);
+	//	std::string name = this->textures[i].type;
+	//	std::string number = (name == "texture_diffuse") ? std::to_string(diffuseNr++) : std::to_string(specularNr++);
 
-		glUniform1i(glGetUniformLocation(shader.GetId(), ("material." + name + number).c_str()), i);
-		glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
-	}
-	glActiveTexture(GL_TEXTURE0);
+	//	glUniform1i(glGetUniformLocation(shader.GetId(), ("material." + name + number).c_str()), i);
+	//	glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
+	//}
+	//glActiveTexture(GL_TEXTURE0);
 
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 }

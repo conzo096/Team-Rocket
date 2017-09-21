@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "GLShader.h"
-#include "assimp/Importer.hpp"	//OO version Header!
+#include "assimp/Importer.hpp"
 #include "assimp/PostProcess.h"
 #include "assimp/Scene.h"
 #include <math.h>
@@ -23,6 +23,7 @@ struct Vertex
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec2 texCoords;
+	glm::vec4 color;
 };
 
 struct Texture
@@ -30,6 +31,10 @@ struct Texture
 	unsigned int id;
 	std::string type;
 };
+
+enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
+
+
 
 class Model
 {
@@ -44,7 +49,7 @@ public:
 
 	Transform transform;
 	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
+	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
 
 
@@ -67,7 +72,7 @@ public:
 		{
 			// Display error
 			std::fprintf(stderr,"Data incorrectly read in at $s",fileName);
-			std::fprintf(stderr, "$s", loadModel.GetErrorString());
+			std::fprintf(stderr, loadModel.GetErrorString());
 			// Throw exception
 			throw std::runtime_error("Error reading in model file");
 		}
@@ -88,8 +93,13 @@ public:
 				vertex.position = glm::vec3(pos.x, pos.y, pos.z);
 				aiVector3D norm = modelMesh->mNormals[j];
 				vertex.normal = glm::vec3(norm.x, norm.y, norm.z);
-				/*aiColor4D colour = modelMesh->mColors[0][j];
-				colours.push_back(glm::vec4(colour.r, colour.g, colour.b, colour.a));*/
+				if (modelMesh->HasVertexColors(0))
+				{
+					aiColor4D colour = modelMesh->mColors[0][j];
+					vertex.color = glm::vec4(colour.r, colour.g, colour.b, colour.a); 
+				}
+				else
+					vertex.color = glm::vec4(0.7,0.7,0.7,1.0);
 				auto tex_coord = modelMesh->mTextureCoords[0][j];
 				vertex.texCoords = glm::vec2(tex_coord.x, tex_coord.y);
 				vertices.push_back(vertex);
@@ -101,15 +111,12 @@ public:
 				for (unsigned int j = 0; j < modelMesh->mNumFaces; j++)
 				{
 					aiFace modelFace = modelMesh->mFaces[j];
-					for (unsigned int l = 0; l < 3; l++)
+					for (GLuint l = 0; l < 3; l++)
 						indices.push_back(vertex_begin + modelFace.mIndices[l]);
 				}
 			}
 			vertex_begin += modelMesh->mNumVertices;
-
-
 		}
-
 		SetUpMesh();
 	}
 
