@@ -1,6 +1,8 @@
 #include "GameEngine.h"
+#include "Model.h"
 #include <assert.h>
-
+#include <glm\gtc\type_ptr.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 GameEngine *GameEngine::instance = 0;
 
 
@@ -38,14 +40,39 @@ void GameEngine::Initialise()
 
 void GameEngine::Render()
 {
-	// Clear the opengl buffer.
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	// Swap the window buffers.
 	glfwSwapBuffers(instance->window);
-
 	// Clear the opengl buffer.
 	glClear(GL_COLOR_BUFFER_BIT);
+	std::printf("-------------------------------\n");
+	std::printf("Testing Model loading\n");
+	Model model("res/Torus2.obj");
+	GLShader helloShader;
+	if (!helloShader.AddShaderFromFile("res/shaders/BasicVert.vert", GLShader::VERTEX))
+		std::printf("Vert failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
+		std::printf("Frag failed to compile.\n");
+	helloShader.Link();
+	helloShader.Use();
+
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
+
+	// Or, for an ortho camera :
+	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
+
+	// Camera matrix
+	glm::mat4 View = glm::lookAt(
+		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+		glm::vec3(0, 0, 0), // and looks at the origin
+		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+	);
+
+	auto mvp = Projection*View*glm::mat4(1.0);
+
+	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+	model.Draw(helloShader);
+	std::printf("-------------------------------\n");
+
 
 	// process events.
 	glfwPollEvents();
@@ -82,9 +109,9 @@ void GameEngine::LoadShaders()
 	std::printf("-------------------------------\n");
 	std::printf("Testing shaders\n");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
+	if (!helloShader.AddShaderFromFile("res/shaders/HelloWorld.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+	if (!helloShader.AddShaderFromFile("res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
 		std::printf("Frag failed to compile.\n");
 	helloShader.Link();
 	std::printf("-------------------------------\n");
@@ -106,7 +133,7 @@ void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char *data = stbi_load("../res/textures/debug.png", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("res/textures/debug.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
