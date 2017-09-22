@@ -6,7 +6,6 @@ void StateManager::StateLoop()
 {
 	//GameEngine::Instance()->Start();
 	GameEngine::Instance()->Initialise();
-	GameEngine::Instance()->ImSorryOrHowILearnedToStopCaringAndLoadTextures();
 
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{

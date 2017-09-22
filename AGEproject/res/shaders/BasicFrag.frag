@@ -1,15 +1,13 @@
 #version 440
 
-// Incoming vertex colour
-layout (location = 0) in vec4 in_colour;
+uniform sampler2D tex;
 
-// Outgoing pixel colour
-layout (location = 0) out vec4 out_colour;
+// Incoming texture coordinate
+layout(location = 0) in vec2 tex_coord;
+// Outgoing fragment colour
+layout(location = 0) out vec4 colour;
 
 void main()
 {
-	// Simply set outgoing colour
-	out_colour = in_colour;
-	// Alpha value set to 1 to ensure pixel is visable.
-	out_colour.a =1.0f;
+	colour = texture(tex, tex_coord);
 }

@@ -69,11 +69,11 @@ void GameEngine::Render()
 
 	auto mvp = Projection*View*glm::mat4(1.0);
 
+	ImSorryOrHowILearnedToStopCaringAndLoadTextures(helloShader);
+
 	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 	model.Draw(helloShader);
 	std::printf("-------------------------------\n");
-
-
 	// process events.
 	glfwPollEvents();
 }
@@ -117,7 +117,7 @@ void GameEngine::LoadShaders()
 	std::printf("-------------------------------\n");
 }
 
-void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
+void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures(GLShader shader)
 {
 	unsigned int texture;
 	// texture 1
@@ -143,5 +143,8 @@ void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
-	stbi_image_free(data); //Now remember to do something with this texture we got
+	stbi_image_free(data);
+	glUniform1i(shader.GetUniformLocation("tex"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
 }

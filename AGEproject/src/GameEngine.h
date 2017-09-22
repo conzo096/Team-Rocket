@@ -48,5 +48,5 @@ public:
 	static void PrintGlewInfo();
 	static void LoadShaders();
 
-	static void ImSorryOrHowILearnedToStopCaringAndLoadTextures();
+	static void ImSorryOrHowILearnedToStopCaringAndLoadTextures(GLShader shader);
 };
