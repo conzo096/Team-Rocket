@@ -46,11 +46,11 @@ void GameEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	std::printf("-------------------------------\n");
 	std::printf("Testing Model loading\n");
-	Model model("res/Torus2.obj");
+	Model model("../res/models/Torus2.obj");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("res/shaders/BasicVert.vert", GLShader::VERTEX))
+	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
+	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
 		std::printf("Frag failed to compile.\n");
 	helloShader.Link();
 	helloShader.Use();
@@ -109,9 +109,9 @@ void GameEngine::LoadShaders()
 	std::printf("-------------------------------\n");
 	std::printf("Testing shaders\n");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("res/shaders/HelloWorld.vert", GLShader::VERTEX))
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
 		std::printf("Frag failed to compile.\n");
 	helloShader.Link();
 	std::printf("-------------------------------\n");
@@ -133,7 +133,7 @@ void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char *data = stbi_load("res/textures/debug.png", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("../res/textures/debug.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
