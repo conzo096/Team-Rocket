@@ -59,17 +59,13 @@ public:
 
 	void Render()
 	{
-		int indices[] =
-		{
-			0, 1, 2, 3, 8, // Front wall
-			4, 5, 6, 7, 8, // Back wall
-			4, 0, 6, 2, 8, // Left wall
-			1, 5, 3, 7, 8, // Right wall
-			2, 3, 6, 7, 8, // Top wall
-			0, 1, 4, 5     // Bottom wall
-		};
 		glBindVertexArray(bbVAO);
-		glDrawElements(GL_TRIANGLES, 29, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLE_STRIP, 29, GL_UNSIGNED_INT, 0);
 	}
 
+	void RenderWireMesh()
+	{
+		glBindVertexArray(bbVAO);
+		glDrawElements(GL_LINE_STRIP, 29, GL_UNSIGNED_INT, 0);
+	}
 };

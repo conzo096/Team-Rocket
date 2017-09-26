@@ -147,7 +147,7 @@ public:
 		winZ = 0;
 		GLubyte bArray[4];
 		glReadPixels(winX, winY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, bArray);
-		int iResult = (bArray[0]) | (bArray[3] << 8) | (bArray[2] << 16);
+		int iResult = (bArray[0]) | (bArray[1] << 8) | (bArray[2] << 16);
 		return iResult;
 	}
 };

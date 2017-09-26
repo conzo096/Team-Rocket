@@ -44,22 +44,12 @@ void GameEngine::Render()
 
 	UserControls controls;
 	controls.ResetKeyBindings(UserControls::KEYBOARD);
-
+	Model model("res/models/Torus2.obj");
 	// Swap the window buffers.
 	glfwSwapBuffers(instance->window);
 	// Clear the opengl buffer.
 	glClear(GL_COLOR_BUFFER_BIT);
-//	std::printf("-------------------------------\n");
-//	std::printf("Testing Model loading\n");
-	Model model("res/models/Torus2.obj");
-	//GLShader helloShader;
-	//if (!helloShader.AddShaderFromFile("res/shaders/BasicVert.vert", GLShader::VERTEX))
-	//	std::printf("Vert failed to compile.\n");
-	//if (!helloShader.AddShaderFromFile("res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
-	//	std::printf("Frag failed to compile.\n");
-	//helloShader.Link();
-	//helloShader.Use();
-
+	controls.UpdateMousePosition();
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
 
 	// Or, for an ortho camera :
@@ -67,17 +57,10 @@ void GameEngine::Render()
 
 	// Camera matrix
 	glm::mat4 View = glm::lookAt(
-		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+		glm::vec3(90, 0, 90), // Camera is at (4,3,3), in World Space
 		glm::vec3(0, 0, 0), // and looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
-
-	auto mvp = Projection*View*glm::mat4(1.0);
-
-	//glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
-	//model.Draw(helloShader);
-//	std::printf("-------------------------------\n");
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	if (glfwGetMouseButton(Instance()->GetWindow(), controls.GetKey("Action")))
 	{
 		GLShader helloShader;
@@ -91,14 +74,32 @@ void GameEngine::Render()
 		glUniformMatrix4fv(helloShader.GetUniformLocation("matrices.viewMatrix"), 1, GL_FALSE, glm::value_ptr(View));
 		glUniformMatrix4fv(helloShader.GetUniformLocation("matrices.modelMatrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0)));
 		glm::vec4 vRed(1.0f, 0.0f, 0.0f, 1.0f); // Red color
-		glUniform4fv(helloShader.GetUniformLocation("vColor"),1, glm::value_ptr(vRed));
+		glUniform4fv(helloShader.GetUniformLocation("vColor"), 1, glm::value_ptr(vRed));
 		model.bb.Render();
 		//std::printf("Checking for pixel");
-		int i =controls.GetPickedColorIndexUnderMouse();
+		int i = controls.GetPickedColorIndexUnderMouse();
 		std::printf("%i \n", i);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		model.bb.RenderWireMesh();
 
 	}
+//	std::printf("-------------------------------\n");
+//	std::printf("Testing Model loading\n");
+	GLShader helloShader;
+	if (!helloShader.AddShaderFromFile("res/shaders/BasicVert.vert", GLShader::VERTEX))
+		std::printf("Vert failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
+		std::printf("Frag failed to compile.\n");
+	helloShader.Link();
+	helloShader.Use();
+
+
+	auto mvp = Projection*View*glm::mat4(1.0);
+
+	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+	model.Draw(helloShader);
+//	std::printf("-------------------------------\n");
+//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// process events.
 	glfwPollEvents();
