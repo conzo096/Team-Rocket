@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Material.h" />
+    <ClInclude Include="src\BoundingBox.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\UserControls.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine.cpp" />
@@ -33,6 +35,14 @@
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\BasicFrag.frag" />
+    <None Include="res\shaders\BasicVert.vert" />
+    <None Include="res\shaders\color.frag" />
+    <None Include="res\shaders\color.vert" />
+    <None Include="res\shaders\HelloWorld.frag" />
+    <None Include="res\shaders\HelloWorld.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -87,6 +97,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(VC_SourcePath)/src;</SourcePath>
+    <IntDir>$(Platform)\$(Configuration)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include "UserControls.h"
 GameEngine *GameEngine::instance = 0;
 
 
@@ -40,20 +41,24 @@ void GameEngine::Initialise()
 
 void GameEngine::Render()
 {
+
+	UserControls controls;
+	controls.ResetKeyBindings(UserControls::KEYBOARD);
+
 	// Swap the window buffers.
 	glfwSwapBuffers(instance->window);
 	// Clear the opengl buffer.
 	glClear(GL_COLOR_BUFFER_BIT);
-	std::printf("-------------------------------\n");
-	std::printf("Testing Model loading\n");
-	Model model("../res/models/Torus2.obj");
-	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
-		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
-		std::printf("Frag failed to compile.\n");
-	helloShader.Link();
-	helloShader.Use();
+//	std::printf("-------------------------------\n");
+//	std::printf("Testing Model loading\n");
+	Model model("res/models/Torus2.obj");
+	//GLShader helloShader;
+	//if (!helloShader.AddShaderFromFile("res/shaders/BasicVert.vert", GLShader::VERTEX))
+	//	std::printf("Vert failed to compile.\n");
+	//if (!helloShader.AddShaderFromFile("res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
+	//	std::printf("Frag failed to compile.\n");
+	//helloShader.Link();
+	//helloShader.Use();
 
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
 
@@ -69,10 +74,31 @@ void GameEngine::Render()
 
 	auto mvp = Projection*View*glm::mat4(1.0);
 
-	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
-	model.Draw(helloShader);
-	std::printf("-------------------------------\n");
+	//glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+	//model.Draw(helloShader);
+//	std::printf("-------------------------------\n");
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (glfwGetMouseButton(Instance()->GetWindow(), controls.GetKey("Action")))
+	{
+		GLShader helloShader;
+		if (!helloShader.AddShaderFromFile("res/shaders/color.vert", GLShader::VERTEX))
+			std::printf("Vert failed to compile.\n");
+		if (!helloShader.AddShaderFromFile("res/shaders/color.frag", GLShader::FRAGMENT))
+			std::printf("Frag failed to compile.\n");
+		helloShader.Link();
+		helloShader.Use();
+		glUniformMatrix4fv(helloShader.GetUniformLocation("matrices.projectionMatrix"), 1, GL_FALSE, glm::value_ptr(Projection));
+		glUniformMatrix4fv(helloShader.GetUniformLocation("matrices.viewMatrix"), 1, GL_FALSE, glm::value_ptr(View));
+		glUniformMatrix4fv(helloShader.GetUniformLocation("matrices.modelMatrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0)));
+		glm::vec4 vRed(1.0f, 0.0f, 0.0f, 1.0f); // Red color
+		glUniform4fv(helloShader.GetUniformLocation("vColor"),1, glm::value_ptr(vRed));
+		model.bb.Render();
+		//std::printf("Checking for pixel");
+		int i =controls.GetPickedColorIndexUnderMouse();
+		std::printf("%i \n", i);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	}
 
 	// process events.
 	glfwPollEvents();
@@ -109,9 +135,9 @@ void GameEngine::LoadShaders()
 	std::printf("-------------------------------\n");
 	std::printf("Testing shaders\n");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
+	if (!helloShader.AddShaderFromFile("res/shaders/HelloWorld.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+	if (!helloShader.AddShaderFromFile("res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
 		std::printf("Frag failed to compile.\n");
 	helloShader.Link();
 	std::printf("-------------------------------\n");

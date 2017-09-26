@@ -7,6 +7,7 @@
 #include "assimp/Importer.hpp"
 #include "assimp/PostProcess.h"
 #include "assimp/Scene.h"
+#include "BoundingBox.h"
 #include <math.h>
 #include <fstream>
 #include <map>
@@ -51,7 +52,7 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
-
+	BoundingBox bb;
 
 	void Draw(GLShader shader);
 
@@ -91,6 +92,17 @@ public:
 				Vertex vertex;
 				aiVector3D pos = modelMesh->mVertices[j];
 				vertex.position = glm::vec3(pos.x, pos.y, pos.z);
+				
+				// Update lower-left-front corner of BB
+				bb.lowerLeftFront.x = std::min(bb.lowerLeftFront.x, pos.x);
+				bb.lowerLeftFront.y = std::min(bb.lowerLeftFront.y, pos.y);
+				bb.lowerLeftFront.z = std::max(bb.lowerLeftFront.z, pos.z);
+				// Update upper-right-back corner of BB
+				bb.upperRightBack.x = std::max(bb.upperRightBack.x, pos.x);
+				bb.upperRightBack.y = std::max(bb.upperRightBack.y, pos.y);
+				bb.upperRightBack.z = std::min(bb.upperRightBack.z, pos.z);
+				
+
 				aiVector3D norm = modelMesh->mNormals[j];
 				vertex.normal = glm::vec3(norm.x, norm.y, norm.z);
 				if (modelMesh->HasVertexColors(0))
@@ -118,6 +130,7 @@ public:
 			vertex_begin += modelMesh->mNumVertices;
 		}
 		SetUpMesh();
+		bb.SetUpBoundingBox();
 	}
 
 };
