@@ -1,6 +1,10 @@
 #include "Renderable.h"
 
-Renderable::Renderable()
+void Renderable::from_json(const nlohmann::json & j)
+{
+}
+
+Renderable::Renderable() : model(nullptr), Component("Rendererable")
 {
 }
 
@@ -8,8 +12,9 @@ Renderable::~Renderable()
 {
 }
 
-void Renderable::SetMesh()
+void Renderable::SetModel()
 {
+
 }
 
 void Renderable::Render()

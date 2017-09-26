@@ -1,11 +1,19 @@
 #include "StateManager.h"
-
+#include "Entity.h"
+#include "Renderable.h"
+#include <memory>
 StateManager *StateManager::instance = 0;
 
 void StateManager::StateLoop()
 {
-	//GameEngine::Instance()->Start();
 	GameEngine::Instance()->Initialise();
+
+	//Very Proffessional
+	Entity arse;
+	auto biscuit = std::make_unique<Renderable>();
+	biscuit->SetModel();
+	arse.AddComponent(move(biscuit));
+	//VERY
 
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{

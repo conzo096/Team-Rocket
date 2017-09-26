@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Renderable.h"
 
 #include <algorithm>
 #include <iostream>

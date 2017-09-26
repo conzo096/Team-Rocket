@@ -1,15 +1,17 @@
 #pragma once
 #include "Entity.h"
+#include "Model.h"
 
 class Renderable : public Component
 {
 protected:
-	//meshes and stuff
+	Model *model;
+	void from_json(const nlohmann::json &j);
 
 public:
 	Renderable();
 	~Renderable();
 
-	void SetMesh();
+	void SetModel();
 	void Render();
 };

@@ -1,3 +1,4 @@
+#pragma once
 #include "json.hpp"
 #include <map>
 #include <memory>
@@ -8,7 +9,6 @@
 using json = nlohmann::json;
 
 class Entity;
-
 class Component
 {
 protected:
@@ -53,8 +53,8 @@ public:
 
 	const std::string GetName() const;
 	void SetName(std::string const &name);
-	virtual void Update(const double delta);
-	virtual void Render();
+	void Update(const double delta);
+	void Render();
 
 	template <typename T> T &GetComponent() const {
 		map::const_iterator iter = components.find(std::type_index(typeid(T)));
