@@ -2,8 +2,6 @@
 #define GLEW_STATIC
 #include "GameEngine.h"
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
 
 class StateManager
 {
@@ -31,8 +29,5 @@ public:
 	State state;
 
 	void StateLoop();
-
-
-private:
 
 };

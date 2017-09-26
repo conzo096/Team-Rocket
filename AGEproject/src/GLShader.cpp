@@ -9,7 +9,7 @@ GLShader::~GLShader()
 }
 
 
-bool GLShader::AddShaderFromFile(const char* fileName, GLShader::GLSLSHADERTYPE type)
+bool GLShader::AddShaderFromFile(const char* fileName, GLSLSHADERTYPE type)
 {
 	// If file does not exist exit.
 	if (!FileExists(fileName))
@@ -20,13 +20,13 @@ bool GLShader::AddShaderFromFile(const char* fileName, GLShader::GLSLSHADERTYPE 
 	std::ifstream ifs(fileName);
 	std::string content((std::istreambuf_iterator<char>(ifs)),
 		(std::istreambuf_iterator<char>()));
-	const GLchar *source = (const GLchar *)content.c_str();
+	const GLchar *source = static_cast<const GLchar *>(content.c_str());
 	// Create shader depending on type.
 	if (type == VERTEX)
 	{
 		//Create an empty vertex shader handle
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
- 		glShaderSource(vertexShader, 1, &source, 0);
+		const GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+ 		glShaderSource(vertexShader, 1, &source, nullptr);
 
 		//Compile the vertex shader
 		glCompileShader(vertexShader);
@@ -50,8 +50,8 @@ bool GLShader::AddShaderFromFile(const char* fileName, GLShader::GLSLSHADERTYPE 
 	else if (type == FRAGMENT)
 	{
 		//Create an empty vertex shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &source, 0);
+		const GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &source, nullptr);
 		glCompileShader(fragmentShader);
 		GLint isCompiled = 0;
 		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
@@ -73,8 +73,8 @@ bool GLShader::AddShaderFromFile(const char* fileName, GLShader::GLSLSHADERTYPE 
 	else if (type == GEOMETRY)
 	{
 		//Create an empty vertex shader handle
-		GLuint geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(geometryShader, 1, &source, 0);
+		const GLuint geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geometryShader, 1, &source, nullptr);
 
 		//Compile the vertex shader
 		glCompileShader(geometryShader);
@@ -103,7 +103,7 @@ bool GLShader::Link()
 {
 	glLinkProgram(program);
 	GLint isLinked = 0;
-	glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
+	glGetProgramiv(program, GL_LINK_STATUS, static_cast<int *>(&isLinked));
 	if (isLinked == GL_FALSE)
 	{
 		GLint maxLength = 0;
@@ -124,36 +124,35 @@ bool GLShader::IsLinked()
 	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
 	if (isLinked == GL_FALSE)
 		return false;
-	else
-		return true;
+	return true;
 }
 
 
 void GLShader::SetUniform(const char* name, float val)
 {
-	GLint loc = glGetUniformLocation(program, name);
+	const GLint loc = glGetUniformLocation(program, name);
 	if (loc != -1)
 	{
 		glUniform1f(loc, val);
 	}
 	else
-		std::fprintf(stderr, "%s is not a parameter!",name);
+		fprintf(stderr, "%s is not a parameter!",name);
 }
 void GLShader::SetUniform(const char* name, int val)
 {
-	GLint loc = glGetUniformLocation(program, name);
+	const GLint loc = glGetUniformLocation(program, name);
 	if (loc != -1)
 	{
 		glUniform1i(loc, val);
 	}
 	else
-		std::fprintf(stderr,"%s is not a parameter!",name);
+		fprintf(stderr,"%s is not a parameter!",name);
 }
 
 // Returns -1 if location does not exist.
 GLuint GLShader::GetUniformLocation(const char* name)
 {
-	GLuint loc = glGetUniformLocation(program,name);
+	const GLuint loc = glGetUniformLocation(program,name);
 	return loc;
 }
 void GLShader::Use()
@@ -165,8 +164,8 @@ void GLShader::Use()
 bool GLShader::FileExists(const std::string& fileName)
 {
 	std::ifstream infile(fileName);
-	bool good =  infile.good();
+	const bool good =  infile.good();
 	if(!good)
-		std::fprintf(stderr, "File %s does not exist!", fileName);
+		fprintf(stderr, "File %s does not exist!", fileName.c_str());
 	return good;
 }

@@ -1,16 +1,10 @@
 #pragma once
 #define GLEW_STATIC
 #include <string>
-#include <GL\glew.h>
-#include <GL\GL.h>
-
-#include <GLFW\glfw3.h>
-#include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <GL/GL.h>
 class GLShader
 {
-	
-
-private: 
 	GLint program;
 	bool linked;
 	std::string logString;

@@ -1,21 +1,21 @@
 #include "GameEngine.h"
 #include "Model.h"
 #include <assert.h>
-#include <glm\gtc\type_ptr.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-GameEngine *GameEngine::instance = 0;
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+GameEngine *GameEngine::instance = nullptr;
 
 
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
 	{
-		std::fprintf(stderr, "ERROR: glfw failed init! exiting.");
+		fprintf(stderr, "ERROR: glfw failed init! exiting.");
 		return;
 	}
 
 	// Create a windowed mode window with hard coded parameters.
-	instance->window = glfwCreateWindow(1920, 1080, "Team Rocket", NULL, NULL);
+	instance->window = glfwCreateWindow(1920, 1080, "Team Rocket", nullptr, nullptr);
 	// Window is now initalised, now make it the current context.
 	glfwMakeContextCurrent(instance->window);
 	if (!instance->window)
@@ -29,7 +29,7 @@ void GameEngine::Initialise()
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		std::fprintf(stderr, "ERROR: %s EXITING!", glewGetErrorString(glewInit()));
+		fprintf(stderr, "ERROR: %p EXITING!", glewGetErrorString(glewInit()));
 		return;
 	}
 	// glExperimental throws junk errors, Ignore.
@@ -44,24 +44,24 @@ void GameEngine::Render()
 	glfwSwapBuffers(instance->window);
 	// Clear the opengl buffer.
 	glClear(GL_COLOR_BUFFER_BIT);
-	std::printf("-------------------------------\n");
-	std::printf("Testing Model loading\n");
-	Model model("../res/models/Torus2.obj");
+	printf("-------------------------------\n");
+	printf("Testing Model loading\n");
+	Model model("./res/models/Torus2.obj");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
-		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
-		std::printf("Frag failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("./res/shaders/BasicVert.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("./res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
 	helloShader.Link();
 	helloShader.Use();
 
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
+	const glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
 
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
 
 	// Camera matrix
-	glm::mat4 View = glm::lookAt(
+	const glm::mat4 View = lookAt(
 		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
 		glm::vec3(0, 0, 0), // and looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
@@ -69,9 +69,9 @@ void GameEngine::Render()
 
 	auto mvp = Projection*View*glm::mat4(1.0);
 
-	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, value_ptr(mvp));
 	model.Draw(helloShader);
-	std::printf("-------------------------------\n");
+	printf("-------------------------------\n");
 
 
 	// process events.
@@ -95,26 +95,26 @@ void GameEngine::CleanUp()
 
 void GameEngine::PrintGlewInfo()
 {
-	std::printf("-------------------------------------------------------\n");
-	std::printf("Glew version: %s\n", glewGetString(GLEW_VERSION));
-	std::printf("Gl version: %s\n", glGetString(GL_VERSION));
-	std::printf("Vendor: %s\n", glGetString(GL_VENDOR));
-	std::printf("Graphics card: %s\n", glGetString(GL_RENDERER));
-	std::printf("Shading: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	std::printf("-------------------------------------------------------\n");
+	printf("-------------------------------------------------------\n");
+	printf("Glew version: %p\n", glewGetString(GLEW_VERSION));
+	printf("Gl version: %p\n", glGetString(GL_VERSION));
+	printf("Vendor: %p\n", glGetString(GL_VENDOR));
+	printf("Graphics card: %p\n", glGetString(GL_RENDERER));
+	printf("Shading: %p\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	printf("-------------------------------------------------------\n");
 }
 
 void GameEngine::LoadShaders()
 {
-	std::printf("-------------------------------\n");
-	std::printf("Testing shaders\n");
+	printf("-------------------------------\n");
+	printf("Testing shaders\n");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
-		std::printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
-		std::printf("Frag failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("./res/shaders/HelloWorld.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!helloShader.AddShaderFromFile("./res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
 	helloShader.Link();
-	std::printf("-------------------------------\n");
+	printf("-------------------------------\n");
 }
 
 void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
@@ -133,7 +133,7 @@ void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures()
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char *data = stbi_load("../res/textures/debug.png", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load("./res/textures/debug.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

@@ -1,6 +1,6 @@
 #include "StateManager.h"
 
-StateManager *StateManager::instance = 0;
+StateManager *StateManager::instance = nullptr;
 
 void StateManager::StateLoop()
 {
@@ -12,20 +12,19 @@ void StateManager::StateLoop()
 	{
 		switch (state)
 		{
-		case(Splash):
+		case Splash:
 			GameEngine::Instance()->Render();
 			break;
-		case(Menu):
+		case Menu:
 			break;
-		case(Settings):
+		case Settings:
 			break;
-		case(Playing):
+		case Playing:
 			break;
-		case(Exiting):
+		case Exiting:
 			break;
 		default:
 			throw std::invalid_argument("Error: No behavior has been set for state" + state);
-			break;
 		}
 	}
 	GameEngine::Instance()->CleanUp();

@@ -3,15 +3,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "GLShader.h"
 #include "stb_image.h"
-#include <fstream>
 #include <sstream>
 
 class GameEngine
 {
-private:
-
 	// Singleton instance of the Game Engine.
 	static GameEngine *instance;
 	// The window that is to be rendered too.

@@ -1,14 +1,12 @@
 #pragma once
-#include <glm\glm.hpp>
-#include <glm\gtc\quaternion.hpp> 
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp> 
 #include <string>
 #include <vector>
 #include "GLShader.h"
 #include "assimp/Importer.hpp"
 #include "assimp/PostProcess.h"
 #include "assimp/Scene.h"
-#include <math.h>
-#include <fstream>
 #include <map>
 
 struct Transform
@@ -38,7 +36,6 @@ enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 
 class Model
 {
-private:
 	unsigned int VAO, VBO, EBO;
 	void SetUpMesh();
 
@@ -71,8 +68,8 @@ public:
 		if (!model)
 		{
 			// Display error
-			std::fprintf(stderr,"Data incorrectly read in at $s",fileName);
-			std::fprintf(stderr, loadModel.GetErrorString());
+			fprintf(stderr,"Data incorrectly read in at %s",fileName.c_str());
+			fprintf(stderr, loadModel.GetErrorString());
 			// Throw exception
 			throw std::runtime_error("Error reading in model file");
 		}
@@ -89,18 +86,18 @@ public:
 			for (unsigned int j = 0; j < modelMesh->mNumVertices; j++)
 			{
 				Vertex vertex;
-				aiVector3D pos = modelMesh->mVertices[j];
+				const aiVector3D pos = modelMesh->mVertices[j];
 				vertex.position = glm::vec3(pos.x, pos.y, pos.z);
-				aiVector3D norm = modelMesh->mNormals[j];
+				const aiVector3D norm = modelMesh->mNormals[j];
 				vertex.normal = glm::vec3(norm.x, norm.y, norm.z);
 				if (modelMesh->HasVertexColors(0))
 				{
-					aiColor4D colour = modelMesh->mColors[0][j];
+					const aiColor4D colour = modelMesh->mColors[0][j];
 					vertex.color = glm::vec4(colour.r, colour.g, colour.b, colour.a); 
 				}
 				else
 					vertex.color = glm::vec4(0.7,0.7,0.7,1.0);
-				auto tex_coord = modelMesh->mTextureCoords[0][j];
+				const auto tex_coord = modelMesh->mTextureCoords[0][j];
 				vertex.texCoords = glm::vec2(tex_coord.x, tex_coord.y);
 				vertices.push_back(vertex);
 			}
@@ -110,7 +107,7 @@ public:
 			{
 				for (unsigned int j = 0; j < modelMesh->mNumFaces; j++)
 				{
-					aiFace modelFace = modelMesh->mFaces[j];
+					const aiFace modelFace = modelMesh->mFaces[j];
 					for (GLuint l = 0; l < 3; l++)
 						indices.push_back(vertex_begin + modelFace.mIndices[l]);
 				}
