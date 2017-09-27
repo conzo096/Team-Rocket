@@ -1,13 +1,15 @@
 #pragma once
 #include "Entity.h"
 #include "Model.h"
+#include "Material.h"
 
 class Renderable : public Component
 {
 	struct Effect
 	{
 		unsigned int texture;
-		//add shaders and material
+		std::string shader;
+		Material material;
 	};
 protected:
 	Model *mesh;

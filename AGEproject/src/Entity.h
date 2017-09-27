@@ -5,6 +5,8 @@
 #include <string>
 #include <typeindex>
 #include <vector>
+#include "GameEngine.h"
+
 
 using json = nlohmann::json;
 

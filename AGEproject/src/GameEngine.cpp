@@ -69,7 +69,7 @@ void GameEngine::Render()
 
 	auto mvp = Projection*View*glm::mat4(1.0);
 
-	ImSorryOrHowILearnedToStopCaringAndLoadTextures(helloShader);
+	LoadTextures(helloShader);
 
 	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 	model.Draw(helloShader);
@@ -117,7 +117,7 @@ void GameEngine::LoadShaders()
 	std::printf("-------------------------------\n");
 }
 
-void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures(GLShader shader)
+unsigned int GameEngine::LoadTextures(const char* location)
 {
 	unsigned int texture;
 	// texture 1
@@ -133,7 +133,7 @@ void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures(GLShader shader
 	// load image, create texture and generate mipmaps
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char *data = stbi_load("../res/textures/debug.png", &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load(location, &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -144,7 +144,4 @@ void GameEngine::ImSorryOrHowILearnedToStopCaringAndLoadTextures(GLShader shader
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
-	glUniform1i(shader.GetUniformLocation("tex"), 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
 }

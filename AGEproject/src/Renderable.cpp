@@ -19,6 +19,7 @@ void Renderable::SetMesh(std::string location)
 
 void Renderable::SetEffect()
 {
+	effect->texture = GameEngine::Instance()->LoadTextures("../res/textures/debug.png");
 }
 
 void Renderable::Render()

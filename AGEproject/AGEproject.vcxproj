@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Material.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\json.hpp" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\StateManager.h" />
