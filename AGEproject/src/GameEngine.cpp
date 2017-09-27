@@ -69,7 +69,7 @@ void GameEngine::Render()
 
 	auto mvp = Projection*View*glm::mat4(1.0);
 
-	LoadTextures(helloShader);
+	//LoadTextures(helloShader);
 
 	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 	model.Draw(helloShader);
@@ -144,4 +144,5 @@ unsigned int GameEngine::LoadTextures(const char* location)
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+	return texture;
 }
