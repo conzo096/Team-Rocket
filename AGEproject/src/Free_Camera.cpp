@@ -3,33 +3,37 @@
 // Update free camera (delta_time is not used)
 void Free_Camera::update(float delta_time)
 {
+	// "I'd like to try and understand what's going on here a bit more." - Jack
+
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
-	// "Going to try and understand this a bit more." - Jack
-
+	glm::vec3 forward(cosf(_pitch) * -sinf(_yaw), sinf(_pitch), -cosf(_yaw) * cosf(_pitch));
 	// Normalise forward direction
+	forward = glm::normalize(forward);
 
-
-	// Calculate standard right. Rotate right vector by yaw.
-
+	// Create standard right vector and rotate it by the yaw
+	glm::vec3 right = glm::vec3(glm::eulerAngleY(_yaw) * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	// Normalise right
+	right = glm::normalize(right);
 
-
-	// Calculate up vector
-
+	// Calculate (perpendicular) up vector using cross product
+	_orientation = glm::cross(right, forward);
 	// Normalise up
-
-
-	// Update position based on forward, up and right
-
+	_orientation = glm::normalize(_orientation);
+	
+	// Update position by multiplying translation elements by forward, up and right
+	glm::vec3 trans = _translation.x * right;
+	trans += _translation.y * _orientation;
+	trans += _translation.z * forward;
+	_position += trans;
 
 	// Target vector is position vector plus forward
-
+	_target = _position + forward;
 
 	// Reset the translation vector for the next frame
-
+	_translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	
 	// Calculate view matrix
-
+	_view = glm::lookAt(_position, _target, _orientation);
 }
 
 // Rotate free camera around the y- and x-axes
