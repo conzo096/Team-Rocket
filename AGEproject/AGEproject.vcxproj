@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Material.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Free_Camera.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\Model.h" />
@@ -27,6 +29,7 @@
     <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Free_Camera.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
