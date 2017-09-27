@@ -8,12 +8,11 @@ void StateManager::StateLoop()
 {
 	GameEngine::Instance()->Initialise();
 
-	//Very Proffessional
-	Entity arse;
-	auto biscuit = std::make_unique<Renderable>();
-	biscuit->SetModel();
-	arse.AddComponent(move(biscuit));
-	//VERY
+	Entity tempEntitiy;
+	auto tempRenderable = std::make_unique<Renderable>();
+	tempRenderable->SetMesh("../res/models/Torus2.obj");
+	tempRenderable->SetEffect();
+	tempEntitiy.AddComponent(move(tempRenderable));
 
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{

@@ -4,7 +4,7 @@ void Renderable::from_json(const nlohmann::json & j)
 {
 }
 
-Renderable::Renderable() : model(nullptr), Component("Rendererable")
+Renderable::Renderable() : mesh(nullptr), effect(nullptr), Component("Rendererable")
 {
 }
 
@@ -12,9 +12,13 @@ Renderable::~Renderable()
 {
 }
 
-void Renderable::SetModel()
+void Renderable::SetMesh(std::string location)
 {
+	mesh = &Model(location);
+}
 
+void Renderable::SetEffect()
+{
 }
 
 void Renderable::Render()

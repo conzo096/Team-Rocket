@@ -4,14 +4,21 @@
 
 class Renderable : public Component
 {
+	struct Effect
+	{
+		unsigned int texture;
+		//add shaders and material
+	};
 protected:
-	Model *model;
+	Model *mesh;
+	Effect *effect;
 	void from_json(const nlohmann::json &j);
 
 public:
 	Renderable();
 	~Renderable();
 
-	void SetModel();
+	void SetMesh(std::string location);
+	void SetEffect();
 	void Render();
 };
