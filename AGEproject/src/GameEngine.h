@@ -7,6 +7,7 @@
 #include "stb_image.h"
 #include <fstream>
 #include <sstream>
+#include "Model.h"
 
 class GameEngine
 {
@@ -34,7 +35,7 @@ public:
 
 	
 	static void Initialise();
-	static void Render();
+	static void Render(Model model);
 
 	// Execute the game engine.
 	void Start();

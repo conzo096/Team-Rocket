@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-#include "Model.h"
 #include <assert.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
@@ -38,7 +37,7 @@ void GameEngine::Initialise()
 	LoadShaders();
 }
 
-void GameEngine::Render()
+void GameEngine::Render(Model model)
 {
 	// Swap the window buffers.
 	glfwSwapBuffers(instance->window);
@@ -46,7 +45,6 @@ void GameEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	std::printf("-------------------------------\n");
 	std::printf("Testing Model loading\n");
-	Model model("../res/models/Torus2.obj");
 	GLShader helloShader;
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
