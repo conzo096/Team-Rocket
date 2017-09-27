@@ -44,5 +44,5 @@ public:
 	static void PrintGlewInfo();
 	static void LoadShaders();
 
-	static void ImSorryOrHowILearnedToStopCaringAndLoadTextures();
+	static unsigned int LoadTextures(const char* location);
 };

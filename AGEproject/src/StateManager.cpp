@@ -1,12 +1,18 @@
 #include "StateManager.h"
-
-StateManager *StateManager::instance = nullptr;
+#include "Entity.h"
+#include "Renderable.h"
+#include <memory>
+StateManager *StateManager::instance = 0;
 
 void StateManager::StateLoop()
 {
-	//GameEngine::Instance()->Start();
 	GameEngine::Instance()->Initialise();
-	GameEngine::Instance()->ImSorryOrHowILearnedToStopCaringAndLoadTextures();
+
+	Entity tempEntitiy;
+	auto tempRenderable = std::make_unique<Renderable>();
+	tempRenderable->SetMesh("../res/models/Torus2.obj");
+	tempRenderable->SetEffect();
+	tempEntitiy.AddComponent(move(tempRenderable));
 
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{

@@ -36,6 +36,12 @@
     <ClCompile Include="src\PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -55,9 +61,31 @@
     </ClInclude>
     <ClInclude Include="src\PointLight.h">
       <Filter>Source Files</Filter>
+    <ClInclude Include="src\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderable.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\BasicFrag.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\BasicVert.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\HelloWorld.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\HelloWorld.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
