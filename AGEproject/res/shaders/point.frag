@@ -19,7 +19,6 @@ struct material
 	vec4 specular_reflection;
 	float shininess;
 };
-// Here's a bunch of free materials: http://devernay.free.fr/cours/opengl/materials.html
 
 // Point light for the scene
 uniform point_light point;

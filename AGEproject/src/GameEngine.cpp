@@ -46,11 +46,11 @@ void GameEngine::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	printf("-------------------------------\n");
 	printf("Testing Model loading\n");
-	Model model("./res/models/Torus2.obj");
+	Model model("../res/models/Torus2.obj");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("./res/shaders/BasicVert.vert", GLShader::VERTEX))
+	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("./res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
+	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
 		printf("Frag failed to compile.\n");
 	helloShader.Link();
 	helloShader.Use();
@@ -109,9 +109,9 @@ void GameEngine::LoadShaders()
 	printf("-------------------------------\n");
 	printf("Testing shaders\n");
 	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("./res/shaders/HelloWorld.vert", GLShader::VERTEX))
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
 		printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("./res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
+	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
 		printf("Frag failed to compile.\n");
 	helloShader.Link();
 	printf("-------------------------------\n");

@@ -1,91 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\GLShader.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\Renderable.cpp" />
+    <ClCompile Include="src\StateManager.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GLShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PointLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\GLShader.h" />
+    <ClInclude Include="src\json.hpp" />
+    <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Renderable.h" />
+    <ClInclude Include="src\PointLight.h" />
+    <ClInclude Include="src\StateManager.h" />
+    <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\StateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GLShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PointLight.h">
-      <Filter>Source Files</Filter>
-    <ClInclude Include="src\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\shaders\BasicFrag.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\BasicVert.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\HelloWorld.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\HelloWorld.vert">
-      <Filter>Resource Files</Filter>
-    </None>
+    <None Include="res\shaders\BasicFrag.frag" />
+    <None Include="res\shaders\BasicVert.vert" />
+    <None Include="res\shaders\HelloWorld.frag" />
+    <None Include="res\shaders\HelloWorld.vert" />
   </ItemGroup>
 </Project>

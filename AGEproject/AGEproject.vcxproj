@@ -35,6 +35,7 @@
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
