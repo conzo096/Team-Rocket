@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 #include "GameEngine.h"
 #include "Entity.h"
@@ -9,6 +10,7 @@ class Game
 {
 private:
 	static Game *instance;
+	static std::vector<Entity*> entities;//Figure out how to split this.
 
 public:
 	static Game *Instance()
@@ -19,8 +21,6 @@ public:
 		}
 		return instance;
 	}
-
-	std::vector<Entity> entities;//Figure out how to split this.
 
 	static void Initialise();
 	static void Update();

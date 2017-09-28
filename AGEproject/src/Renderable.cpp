@@ -14,7 +14,7 @@ Renderable::~Renderable()
 
 void Renderable::SetModel(std::string location)
 {
-	model = &Model(location);
+	model = &Model(location);//FIX THIS
 }
 
 void Renderable::SetEffect()
@@ -24,5 +24,6 @@ void Renderable::SetEffect()
 
 void Renderable::Render()
 {
-	GameEngine::Instance()->Render(*model);
+	unsigned int a = effect->texture;
+	GameEngine::Instance()->Render(*model, a);
 }

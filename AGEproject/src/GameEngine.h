@@ -35,7 +35,7 @@ public:
 
 	
 	static void Initialise();
-	static void Render(Model model);
+	static void Render(Model model, unsigned int texture);
 
 	// Execute the game engine.
 	void Start();
