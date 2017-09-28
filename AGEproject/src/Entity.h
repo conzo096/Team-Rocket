@@ -5,13 +5,13 @@
 #include <string>
 #include <typeindex>
 #include <vector>
+#include "Transform.h"
 #include "GameEngine.h"
-
 
 using json = nlohmann::json;
 
 class Entity;
-class Component
+class Component : Transform
 {
 protected:
 	Entity *entity;
@@ -42,7 +42,7 @@ public:
 	Entity *GetParent() const;
 };
 
-class Entity
+class Entity : Transform
 {
 protected:
 	std::string name;
