@@ -44,7 +44,6 @@ void GameEngine::Render(Model model, unsigned int texture)
 	// Clear the opengl buffer.
 	glClear(GL_COLOR_BUFFER_BIT);
 	GLShader helloShader;
-	//model = Model("../res/models/Torus2.obj");
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
@@ -75,7 +74,6 @@ void GameEngine::Render(Model model, unsigned int texture)
 
 	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 	model.Draw(helloShader);
-	std::printf("-------------------------------\n");
 	// process events.
 	glfwPollEvents();
 }
