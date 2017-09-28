@@ -1,4 +1,5 @@
 #include "StateManager.h"
+#include "Game.h"
 #include "Entity.h"
 #include "Renderable.h"
 #include <memory>
@@ -7,19 +8,14 @@ StateManager *StateManager::instance = 0;
 void StateManager::StateLoop()
 {
 	GameEngine::Instance()->Initialise();
-
-	Entity tempEntitiy;
-	auto tempRenderable = std::make_unique<Renderable>();
-	tempRenderable->SetMesh("../res/models/Torus2.obj");
-	tempRenderable->SetEffect();
-	tempEntitiy.AddComponent(move(tempRenderable));
-
+	Game::Instance()->Initialise();
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
 		switch (state)
 		{
 		case(Splash):
-			GameEngine::Instance()->Render();
+			//GameEngine::Instance()->Render();
+			Game::Instance()->Render();
 			break;
 		case(Menu):
 			break;

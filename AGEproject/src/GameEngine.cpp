@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-#include "Model.h"
 #include <assert.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
@@ -38,20 +37,22 @@ void GameEngine::Initialise()
 	LoadShaders();
 }
 
-void GameEngine::Render()
+void GameEngine::Render(Model model, unsigned int texture)
 {
 	// Swap the window buffers.
 	glfwSwapBuffers(instance->window);
 	// Clear the opengl buffer.
 	glClear(GL_COLOR_BUFFER_BIT);
-	std::printf("-------------------------------\n");
-	std::printf("Testing Model loading\n");
-	Model model("../res/models/Torus2.obj");
 	GLShader helloShader;
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
 		std::printf("Frag failed to compile.\n");
+
+	glUniform1i(helloShader.GetUniformLocation("tex"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
 	helloShader.Link();
 	helloShader.Use();
 
@@ -73,7 +74,6 @@ void GameEngine::Render()
 
 	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 	model.Draw(helloShader);
-	std::printf("-------------------------------\n");
 	// process events.
 	glfwPollEvents();
 }
@@ -136,7 +136,7 @@ unsigned int GameEngine::LoadTextures(const char* location)
 	unsigned char *data = stbi_load(location, &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
