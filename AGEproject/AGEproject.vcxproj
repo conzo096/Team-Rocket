@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\Free_Camera.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GLShader.h" />
@@ -29,9 +31,11 @@
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\Free_Camera.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />

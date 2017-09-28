@@ -11,13 +11,6 @@
 #include <fstream>
 #include <map>
 
-struct Transform
-{
-	glm::vec3 scale;
-	glm::quat orientation;
-	glm::vec3 position;
-};
-
 struct Vertex
 {
 	glm::vec3 position;
@@ -47,7 +40,6 @@ private:
 public:
 	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 
-	Transform transform;
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
