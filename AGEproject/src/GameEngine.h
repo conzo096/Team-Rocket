@@ -5,7 +5,15 @@
 #include <iostream>
 #include "stb_image.h"
 #include <sstream>
+#include "Material.h"
 #include "Model.h"
+
+struct Effect
+{
+	unsigned int texture;
+	std::string shader;
+	Material material;
+};
 
 class GameEngine
 {
@@ -31,7 +39,7 @@ public:
 
 	
 	static void Initialise();
-	static void Render(glm::mat4 mvp, Model model, unsigned int texture);
+	static void Render(glm::mat4 mvp, Model model, Effect effect);
 
 	// Execute the game engine.
 	void Start();

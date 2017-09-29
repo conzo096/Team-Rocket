@@ -1,9 +1,7 @@
 #include "GameEngine.h"
 #include <assert.h>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-GameEngine *GameEngine::instance = nullptr;
-
+#include "Shader.h"
+Shader *Shader::instance = 0;
 
 void GameEngine::Initialise()
 {
@@ -41,24 +39,12 @@ void GameEngine::Initialise()
 	glCullFace(GL_BACK);
 }
 
-void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
+void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
 	// Clear the opengl buffer.
 	glClearColor(0.1, 0.0, 0.4, 1);
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 	//glDisable(GL_CULL_FACE);
-	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
-		printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
-		std::printf("Frag failed to compile.\n");
-
-	glUniform1i(helloShader.GetUniformLocation("tex"), 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	helloShader.Link();
-	helloShader.Use();
 
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 1000.0f);
 
@@ -74,10 +60,9 @@ void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
 
 	auto mvp = Projection*View*m;
 
-	//LoadTextures(helloShader);
+	Shader::Instance()->UseShader("Basic", effect, mvp);
 
-	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
-	model.Draw(helloShader);
+	model.Draw();
 	// process events.
 	glfwPollEvents();
 	// Swap the window buffers.
@@ -113,15 +98,7 @@ void GameEngine::PrintGlewInfo()
 
 void GameEngine::LoadShaders()
 {
-	printf("-------------------------------\n");
-	printf("Testing shaders\n");
-	GLShader helloShader;
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.vert", GLShader::VERTEX))
-		printf("Vert failed to compile.\n");
-	if (!helloShader.AddShaderFromFile("../res/shaders/HelloWorld.frag", GLShader::FRAGMENT))
-		printf("Frag failed to compile.\n");
-	helloShader.Link();
-	printf("-------------------------------\n");
+	Shader::Instance()->AddShader("Basic");
 }
 
 unsigned int GameEngine::LoadTextures(const char* location)

@@ -39,7 +39,7 @@ void Model::SetUpMesh()
 	glVertexAttribPointer(TEX_COORD, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, texCoords)));
 }
 
-void Model::Draw(GLShader shader)
+void Model::Draw()
 {
 	//unsigned int diffuseNr = 1;
 	//unsigned int specularNr = 1;
