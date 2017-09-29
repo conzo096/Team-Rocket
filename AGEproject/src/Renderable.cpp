@@ -4,7 +4,7 @@ void Renderable::from_json(const nlohmann::json & j)
 {
 }
 
-Renderable::Renderable() : mesh(nullptr), effect(new Effect()), Component("Rendererable")
+Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rendererable")
 {
 }
 
@@ -12,9 +12,9 @@ Renderable::~Renderable()
 {
 }
 
-void Renderable::SetMesh(std::string location)
+void Renderable::SetModel(std::string location)
 {
-	mesh = &Model(location);
+	model = new Model(location);//FIX THIS
 }
 
 void Renderable::SetEffect()
@@ -24,4 +24,7 @@ void Renderable::SetEffect()
 
 void Renderable::Render()
 {
+	Rotate(glm::vec3(0.05, 0.05, 0));
+	UpdateTransforms();
+	GameEngine::Instance()->Render(GetTransform(),*model, effect->texture);
 }

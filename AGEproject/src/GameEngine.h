@@ -5,6 +5,7 @@
 #include <iostream>
 #include "stb_image.h"
 #include <sstream>
+#include "Model.h"
 
 class GameEngine
 {
@@ -30,7 +31,7 @@ public:
 
 	
 	static void Initialise();
-	static void Render();
+	static void Render(glm::mat4 mvp, Model model, unsigned int texture);
 
 	// Execute the game engine.
 	void Start();

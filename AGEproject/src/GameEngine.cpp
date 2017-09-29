@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-#include "Model.h"
 #include <assert.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -36,46 +35,54 @@ void GameEngine::Initialise()
 	glGetError();
 	PrintGlewInfo();
 	LoadShaders();
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
-void GameEngine::Render()
+void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
 {
-	// Swap the window buffers.
-	glfwSwapBuffers(instance->window);
 	// Clear the opengl buffer.
-	glClear(GL_COLOR_BUFFER_BIT);
-	printf("-------------------------------\n");
-	printf("Testing Model loading\n");
-	Model model("../res/models/Torus2.obj");
+	glClearColor(0.1, 0.0, 0.4, 1);
+	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+	//glDisable(GL_CULL_FACE);
 	GLShader helloShader;
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		printf("Vert failed to compile.\n");
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicFrag.frag", GLShader::FRAGMENT))
-		printf("Frag failed to compile.\n");
+		std::printf("Frag failed to compile.\n");
+
+	glUniform1i(helloShader.GetUniformLocation("tex"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
 	helloShader.Link();
 	helloShader.Use();
 
-	const glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 1000.0f);
 
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
 
 	// Camera matrix
-	const glm::mat4 View = lookAt(
-		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+	glm::mat4 View = glm::lookAt(
+		glm::vec3(120, 3, 30), // Camera is at (4,3,3), in World Space
 		glm::vec3(0, 0, 0), // and looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
 
-	auto mvp = Projection*View*glm::mat4(1.0);
+	auto mvp = Projection*View*m;
 
 	//LoadTextures(helloShader);
 
 	glUniformMatrix4fv(helloShader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 	model.Draw(helloShader);
-	std::printf("-------------------------------\n");
 	// process events.
 	glfwPollEvents();
+	// Swap the window buffers.
+	glfwSwapBuffers(instance->window);
+
 }
 
 void GameEngine::Start()
@@ -136,7 +143,7 @@ unsigned int GameEngine::LoadTextures(const char* location)
 	unsigned char *data = stbi_load(location, &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else

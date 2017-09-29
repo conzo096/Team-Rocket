@@ -12,7 +12,7 @@ class Renderable : public Component
 		Material material;
 	};
 protected:
-	Model *mesh;
+	Model *model;
 	Effect *effect;
 	void from_json(const nlohmann::json &j);
 
@@ -20,7 +20,7 @@ public:
 	Renderable();
 	~Renderable();
 
-	void SetMesh(std::string location);
+	void SetModel(std::string location);
 	void SetEffect();
 	void Render();
 };
