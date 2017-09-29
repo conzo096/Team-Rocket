@@ -11,7 +11,7 @@
 using json = nlohmann::json;
 
 class Entity;
-class Component : Transform
+class Component : public Transform
 {
 protected:
 	Entity *entity;
@@ -42,7 +42,7 @@ public:
 	Entity *GetParent() const;
 };
 
-class Entity : Transform
+class Entity : public Transform
 {
 protected:
 	std::string name;

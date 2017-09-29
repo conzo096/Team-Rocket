@@ -35,14 +35,18 @@ void GameEngine::Initialise()
 	glGetError();
 	PrintGlewInfo();
 	LoadShaders();
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
-void GameEngine::Render(Model model, unsigned int texture)
+void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
 {
-	// Swap the window buffers.
-	glfwSwapBuffers(instance->window);
 	// Clear the opengl buffer.
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.1, 0.0, 0.4, 1);
+	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+	//glDisable(GL_CULL_FACE);
 	GLShader helloShader;
 	if (!helloShader.AddShaderFromFile("../res/shaders/BasicVert.vert", GLShader::VERTEX))
 		std::printf("Vert failed to compile.\n");
@@ -56,19 +60,19 @@ void GameEngine::Render(Model model, unsigned int texture)
 	helloShader.Link();
 	helloShader.Use();
 
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 100.0f);
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 1000.0f);
 
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
 
 	// Camera matrix
 	glm::mat4 View = glm::lookAt(
-		glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+		glm::vec3(120, 3, 30), // Camera is at (4,3,3), in World Space
 		glm::vec3(0, 0, 0), // and looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
 
-	auto mvp = Projection*View*glm::mat4(1.0);
+	auto mvp = Projection*View*m;
 
 	//LoadTextures(helloShader);
 
@@ -76,6 +80,9 @@ void GameEngine::Render(Model model, unsigned int texture)
 	model.Draw(helloShader);
 	// process events.
 	glfwPollEvents();
+	// Swap the window buffers.
+	glfwSwapBuffers(instance->window);
+
 }
 
 void GameEngine::Start()
