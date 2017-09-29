@@ -19,21 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Material.h" />
     <ClInclude Include="src\BoundingBox.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\Free_Camera.h" />
+    <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GLShader.h" />
+    <ClInclude Include="src\json.hpp" />
+    <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Renderable.h" />
+    <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\UserControls.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BoundingBox.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\Free_Camera.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>

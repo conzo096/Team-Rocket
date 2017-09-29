@@ -11,13 +11,6 @@
 #include <fstream>
 #include <map>
 
-struct Transform
-{
-	glm::vec3 scale;
-	glm::quat orientation;
-	glm::vec3 position;
-};
-
 struct Vertex
 {
 	glm::vec3 position;
@@ -47,7 +40,6 @@ private:
 public:
 	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 
-	Transform transform;
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
@@ -99,8 +91,8 @@ public:
 				}
 				else
 					vertex.color = glm::vec4(0.7,0.7,0.7,1.0);
-				auto tex_coord = modelMesh->mTextureCoords[0][j];
-				vertex.texCoords = glm::vec2(tex_coord.x, tex_coord.y);
+				auto texCoord = modelMesh->mTextureCoords[0][j];
+				vertex.texCoords = glm::vec2(texCoord.x, texCoord.y);
 				vertices.push_back(vertex);
 			}
 
@@ -117,6 +109,15 @@ public:
 			vertex_begin += modelMesh->mNumVertices;
 		}
 		SetUpMesh();
+	}
+
+
+	std::vector<glm::vec3> GetVertexPositions()
+	{
+		std::vector<glm::vec3> temp;
+		for (Vertex vert : vertices)
+			temp.push_back(vert.position);
+		return temp;
 	}
 
 };

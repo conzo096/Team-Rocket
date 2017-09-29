@@ -36,6 +36,18 @@
     <ClCompile Include="src\BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Free_Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -53,13 +65,37 @@
     <ClInclude Include="src\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\UserControls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Free_Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

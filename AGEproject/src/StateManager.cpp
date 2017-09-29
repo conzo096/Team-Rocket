@@ -1,19 +1,21 @@
 #include "StateManager.h"
-
+#include "Game.h"
+#include "Entity.h"
+#include "Renderable.h"
+#include <memory>
 StateManager *StateManager::instance = 0;
 
 void StateManager::StateLoop()
 {
-	//GameEngine::Instance()->Start();
 	GameEngine::Instance()->Initialise();
-	GameEngine::Instance()->ImSorryOrHowILearnedToStopCaringAndLoadTextures();
-
+	Game::Instance()->Initialise();
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
 		switch (state)
 		{
 		case(Splash):
-			GameEngine::Instance()->Render();
+			//GameEngine::Instance()->Render();
+			Game::Instance()->Render();
 			break;
 		case(Menu):
 			break;
