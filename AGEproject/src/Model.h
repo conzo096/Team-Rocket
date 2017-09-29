@@ -45,7 +45,7 @@ public:
 	std::vector<Texture> textures;
 
 
-	void Draw(GLShader shader);
+	void Draw();
 
 	Model(const std::string& fileName)
 	{

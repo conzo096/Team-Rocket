@@ -45,6 +45,9 @@
     <ClCompile Include="src\Free_Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -86,18 +89,21 @@
     <ClInclude Include="src\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\BasicFrag.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\BasicVert.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\shaders\HelloWorld.frag">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\HelloWorld.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Basic.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Basic.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
