@@ -1,6 +1,6 @@
 #pragma once
 #include "Camera.h"
-#include "glm\gtx\euler_angles.hpp"
+#include "glm/gtx/euler_angles.hpp"
 
 class Free_Camera : public Camera
 {
@@ -13,7 +13,7 @@ private:
 	glm::vec3 _translation;
 public:
 	// Create free camera
-	Free_Camera() : Camera() {}
+//	Free_Camera() : Camera() {}
 	// Destroy free camera
 	~Free_Camera() {}
 	// Update free camera

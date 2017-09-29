@@ -5,6 +5,8 @@ void Free_Camera::update(float delta_time)
 {
 	// "I'd like to try and understand what's going on here a bit more." - Jack
 
+	glm::vec3 position = glm::vec3(GetPosition().x, GetPosition().y, GetPosition().z);
+
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
 	glm::vec3 forward(cosf(_pitch) * -sinf(_yaw), sinf(_pitch), -cosf(_yaw) * cosf(_pitch));
 	// Normalise forward direction
@@ -16,24 +18,25 @@ void Free_Camera::update(float delta_time)
 	right = glm::normalize(right);
 
 	// Calculate (perpendicular) up vector using cross product
-	_orientation = glm::cross(right, forward);
+	orientation = glm::cross(right, forward);
 	// Normalise up
-	_orientation = glm::normalize(_orientation);
+	orientation = glm::normalize(orientation);
 	
 	// Update position by multiplying translation elements by forward, up and right
 	glm::vec3 trans = _translation.x * right;
-	trans += _translation.y * _orientation;
+	trans += _translation.y * orientation;
 	trans += _translation.z * forward;
-	_position += trans;
+	position += trans;
+	SetPosition(position);
 
 	// Target vector is position vector plus forward
-	_target = _position + forward;
+	target = position + forward;
 
 	// Reset the translation vector for the next frame
 	_translation = glm::vec3(0.0f, 0.0f, 0.0f);
 	
 	// Calculate view matrix
-	_view = glm::lookAt(_position, _target, _orientation);
+	view = glm::lookAt(position, target, orientation);
 }
 
 // Rotate free camera around the y- and x-axes
