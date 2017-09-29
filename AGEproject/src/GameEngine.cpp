@@ -75,12 +75,10 @@ void GameEngine::Render()
 		glUniformMatrix4fv(helloShader.GetUniformLocation("matrices.modelMatrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0)));
 		glm::vec4 vRed(1.0f, 0.0f, 0.0f, 1.0f); // Red color
 		glUniform4fv(helloShader.GetUniformLocation("vColor"), 1, glm::value_ptr(vRed));
-		model.bb.Render();
 		//std::printf("Checking for pixel");
 		int i = controls.GetPickedColorIndexUnderMouse();
 		std::printf("%i \n", i);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		model.bb.RenderWireMesh();
 
 	}
 //	std::printf("-------------------------------\n");

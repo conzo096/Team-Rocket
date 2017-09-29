@@ -29,6 +29,7 @@
     <ClInclude Include="src\UserControls.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BoundingBox.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
