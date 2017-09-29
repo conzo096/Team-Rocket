@@ -7,6 +7,7 @@
 class Transform
 {
 private:
+	bool changed;
 	glm::dvec3 scale;
 	glm::dvec3 position;
 	glm::dquat rotation;
@@ -20,8 +21,14 @@ public:
 
 	void UpdateTransforms()
 	{
-		transform = glm::translate(position) * mat4_cast(rotation) * glm::scale(scale);
+		if (changed)
+		{
+			transform = glm::translate(position) * mat4_cast(rotation) * glm::scale(scale);
+			changed = false;
+		}
 	}
+
+	const bool GetChanged() const { return changed; }
 
 	const glm::dvec3 GetScale() const { return scale; }
 
@@ -33,26 +40,27 @@ public:
 
 	const glm::dmat4 GetTransform() const { return transform; }
 
-	void SetTransform(const glm::dmat4 m4) { transform = m4; }
+	void SetTransform(const glm::dmat4 m4) { transform = m4; changed = true; }
 
-	void SetScale(const glm::dvec3 &v3) { scale = v3; }
+	void SetScale(const glm::dvec3 &v3) { scale = v3;  changed = true; }
 
-	void SetPosition(const glm::dvec3 &v3) { position = v3; }
+	void SetPosition(const glm::dvec3 &v3) { position = v3;  changed = true; }
 
-	void Move(const glm::dvec3 &v3) { SetPosition(position + v3); }
+	void Move(const glm::dvec3 &v3) { SetPosition(position + v3); changed = true; }
 
-	void SetRotation(const glm::dvec3 &v3) {}
+	void SetRotation(const glm::dvec3 &v3) { changed = true; } //how do
 
-	void SetRotation(const glm::dquat &q) { rotation = q; }
+	void SetRotation(const glm::dquat &q) { rotation = q;  changed = true; }
 
-	void Rotate(const glm::dvec3 &v3) { SetRotation(rotation * glm::dquat(v3)); }
+	void Rotate(const glm::dvec3 &v3) { SetRotation(rotation * glm::dquat(v3));  changed = true; }
 
-	void Rotate(const glm::dquat &q) { SetRotation(rotation * q); }
+	void Rotate(const glm::dquat &q) { SetRotation(rotation * q); changed = true; }
 
 	Transform(glm::dvec3 pos, glm::dvec3 rot, glm::dvec3 scale) : Transform()
 	{
 		SetPosition(pos);
 		SetRotation(rot);
 		SetScale(scale);
+		changed = true;
 	}
 };

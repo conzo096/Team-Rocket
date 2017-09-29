@@ -15,6 +15,7 @@ void StateManager::StateLoop()
 		{
 		case(Splash):
 			//GameEngine::Instance()->Render();
+			Game::Instance()->Update();
 			Game::Instance()->Render();
 			break;
 		case(Menu):
