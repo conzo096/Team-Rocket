@@ -1,17 +1,22 @@
 #include "Entity.h"
 #include "Renderable.h"
-
 #include <algorithm>
 #include <iostream>
 
+// PEWTI? = Please Explain What This Is?
+
 using namespace std;
 
+//############## COMPONENT ##############
+
+// PEWTI?
 Component::Component(const string &token) : token(token)
 {
 	entity = nullptr;
 	active = false;
 }
 
+// PEWTI?
 Component *Component::MakeGeneric(const json &j) {
 	const string ctype = j.at("component_type").get<string>();
 	Component *cmp;
@@ -21,14 +26,7 @@ Component *Component::MakeGeneric(const json &j) {
 	return cmp;
 }
 
-/*
-void Component::from_json(const nlohmann::json & j, Component & c)
-{
-  const string ctype = j.at("component_type").get<string>();
-  if (ctype)
-}
-*/
-
+// PEWTI?
 Component::~Component() {
 	cout << "Goodbye from Component: " << token << endl;
 	entity = nullptr;
@@ -40,11 +38,13 @@ bool Component::IsActive() { return active; }
 
 void Component::SetActive(bool b) { active = b; }
 
-void Component::SetParent(Entity *p) { entity = p; }
+void Component::SetParent(Entity* p) { entity = p; }
 
-Entity *Component::GetParent() const { return entity; }
+Entity* Component::GetParent() const { return entity; }
 
-//############## Entity ###################
+
+
+//############## ENTITY ##############
 
 Entity::Entity() { components.clear(); }
 
@@ -69,6 +69,7 @@ void Entity::Render() {
 		c.second->Render();
 	}
 }
+
 /*
 void Entity::RemoveComponent(Component &c) {
   // Todo: Test This
@@ -77,5 +78,13 @@ void Entity::RemoveComponent(Component &c) {
   if (position != components_.end()) {
 	components_.erase(position);
   }
+}
+*/
+
+/*
+void Component::from_json(const nlohmann::json & j, Component & c)
+{
+const string ctype = j.at("component_type").get<string>();
+if (ctype)
 }
 */
