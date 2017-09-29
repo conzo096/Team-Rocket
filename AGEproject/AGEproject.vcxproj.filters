@@ -94,16 +94,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\HelloWorld.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\HelloWorld.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\shaders\Basic.vert">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\Basic.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\bloom-blend.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\gaussian-blur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\phong.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\phong.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\simple_texture.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
