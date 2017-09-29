@@ -24,5 +24,7 @@ void Renderable::SetEffect()
 
 void Renderable::Render()
 {
-	GameEngine::Instance()->Render(*model, effect->texture);
+	Rotate(glm::vec3(0.05, 0.05, 0));
+	UpdateTransforms();
+	GameEngine::Instance()->Render(GetTransform(),*model, effect->texture);
 }

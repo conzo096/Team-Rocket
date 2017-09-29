@@ -92,8 +92,8 @@ public:
 				}
 				else
 					vertex.color = glm::vec4(0.7,0.7,0.7,1.0);
-				auto tex_coord = modelMesh->mTextureCoords[0][j];
-				vertex.texCoords = glm::vec2(tex_coord.x, tex_coord.y);
+				auto texCoord = modelMesh->mTextureCoords[0][j];
+				vertex.texCoords = glm::vec2(texCoord.x, texCoord.y);
 				vertices.push_back(vertex);
 			}
 

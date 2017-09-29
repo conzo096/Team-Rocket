@@ -35,7 +35,7 @@ public:
 
 	
 	static void Initialise();
-	static void Render(Model model, unsigned int texture);
+	static void Render(glm::mat4 mvp, Model model, unsigned int texture);
 
 	// Execute the game engine.
 	void Start();
