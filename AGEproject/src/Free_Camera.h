@@ -6,38 +6,37 @@ class Free_Camera : public Camera
 {
 private:
 	// Current rotation on the x-axis
-	float _pitch = 0.0f;
+	float pitch;
 	// Current rotation on the y-axis
-	float _yaw = 0.0f;
+	float yaw;
 	// Camera's translation since previous frame
-	glm::vec3 _translation;
+	glm::dvec3 translation;
+
 public:
 	// Create free camera
-	Free_Camera() : Camera() {}
+	Free_Camera() : pitch(0.0f), yaw(0.0f), Camera("Free_Camera") {}
 	// Destroy free camera
 	~Free_Camera() {}
 	// Update free camera
-	void update(float delta_time);
+	void Update(float deltaTime);
+
 	// Get camera's current rotations
-	float get_pitch() const
+	float GetPitch() const
 	{
-		return _pitch;
+		return GetPosition().x;
 	}
-	float get_yaw() const
+	float GetYaw() const
 	{
-		return _yaw;
+		return GetPosition().y;
 	}
+
 	// Set camera's current rotations
-	void set_yaw(float value)
+	void SetYaw(float value)
 	{
-		_yaw = value;
+		SetPosition(glm::dvec3(GetPitch(), value, 0.0f));
 	}
-	void set_pitch(float value)
+	void SetPitch(float value)
 	{
-		_pitch = value;
+		SetPosition(glm::dvec3(value, GetYaw(), 0.0f));
 	}
-	// Rotates the camera by the given yaw and pitch
-	void rotate(float delta_yaw, float delta_pitch);
-	// Move the camera
-	void move(const glm::vec3 &translation);
 };

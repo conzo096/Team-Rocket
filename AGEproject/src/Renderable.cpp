@@ -1,18 +1,12 @@
 #include "Renderable.h"
 
-void Renderable::from_json(const nlohmann::json & j)
-{
-}
+void Renderable::from_json(const nlohmann::json & j) {}
 
-Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rendererable")
-{
-}
+Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Renderable") {}
 
-Renderable::~Renderable()
-{
-}
+Renderable::~Renderable() {}
 
-void Renderable::SetModel(std::string location)
+void Renderable::SetModel(std::string location) 
 {
 	model = new Model(location);//FIX THIS
 }
