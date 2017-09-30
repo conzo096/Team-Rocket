@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "Shader.h"
 Shader *Shader::instance = 0;
+GameEngine *GameEngine::instance = nullptr;
 
 void GameEngine::Initialise()
 {
