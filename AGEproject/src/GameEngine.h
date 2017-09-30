@@ -5,14 +5,15 @@
 #include <iostream>
 #include "stb_image.h"
 #include <sstream>
-#include "Material.h"
 #include "Model.h"
+
+class Material;
 
 struct Effect
 {
 	unsigned int texture;
 	std::string shader;
-	Material material;
+	Material* material;
 };
 
 class GameEngine

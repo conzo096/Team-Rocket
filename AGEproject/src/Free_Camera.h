@@ -13,7 +13,7 @@ private:
 	glm::vec3 _translation;
 public:
 	// Create free camera
-//	Free_Camera() : Camera() {}
+//	Free_Camera() : Camera() {} // TODO: FIX THIS
 	// Destroy free camera
 	~Free_Camera() {}
 	// Update free camera
