@@ -19,7 +19,7 @@ void Renderable::SetModel(std::string location)
 
 void Renderable::SetEffect()
 {
-	effect->texture = GameEngine::Instance()->LoadTextures("../res/textures/debug.png");
+	effect->texture = GameEngine::Instance()->LoadTextures("../res/textures/ConstructorUV.png");
 }
 
 void Renderable::Render()

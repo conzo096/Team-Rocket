@@ -8,7 +8,7 @@ void Game::Initialise()
 {
 	Entity* tempEntitiy = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
-	tempRenderable->SetModel("../res/models/Torus2.obj");
+	tempRenderable->SetModel("../res/models/Constructor.obj");
 	tempRenderable->SetEffect();
 	tempRenderable->SetPosition(glm::vec3(0.0f, 0.0f, -50.0f));
 	tempRenderable->UpdateTransforms();
