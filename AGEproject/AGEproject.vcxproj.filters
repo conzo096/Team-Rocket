@@ -33,19 +33,22 @@
     <ClCompile Include="src\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BoundingBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Free_Camera.cpp">
+    <ClCompile Include="src\Renderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderable.cpp">
+    <ClCompile Include="src\Free_Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,16 +68,10 @@
     <ClInclude Include="src\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UserControls.h">
+    <ClInclude Include="src\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BoundingBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Singleton.h">
+    <ClInclude Include="src\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderable.h">
@@ -83,39 +80,45 @@
     <ClInclude Include="src\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Free_Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Free_Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UserControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\BasicFrag.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\BasicVert.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\color.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\color.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\shaders\HelloWorld.frag">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\HelloWorld.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Basic.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Basic.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\colour.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\colour.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

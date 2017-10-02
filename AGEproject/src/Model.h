@@ -33,18 +33,14 @@ class Model
 {
 private:
 	unsigned int VAO, VBO, EBO;
-	void SetUpMesh();
-
-
-
 public:
 	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
-
+	void SetUpMesh();
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
 
-	void Draw(GLShader shader);
+	void Draw();
 
 	Model(const std::string& fileName)
 	{

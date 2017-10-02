@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <chrono>
 
 #include "GameEngine.h"
 #include "Entity.h"
@@ -11,7 +12,7 @@ class Game
 private:
 	static Game *instance;
 	static std::vector<Entity*> entities;//Figure out how to split this.
-
+	static float lastTime;
 public:
 	static Game *Instance()
 	{

@@ -1,70 +1,59 @@
 #pragma once
+#include "Entity.h"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 
 // Base class for all camera types
-class Camera
+class Camera : public Component
 {
 protected:
-	// The camera's current position
-	glm::vec3 _position = glm::vec3(0.0f, 0.0f, 0.0f);
 	// The camera's current target
-	glm::vec3 _target = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 target = glm::vec3(0.0f, 0.0f, -1.0f);
 	// The camera's current orientation
-	glm::vec3 _orientation = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 orientation = glm::vec3(0.0f, 1.0f, 0.0f);
 	// The currently built view matrix since the last frame update
-	glm::mat4 _view;
+	glm::mat4 view;
 	// The currently built projection matrix since the last call to set_projection
-	glm::mat4 _projection;
+	glm::mat4 projection;
 public:
 	// Create a new camera (called by sub-classes)
-	Camera() = default;
+	Camera() : Component("Camera") {};
 	// Destroy the camera (virtual because this is an abstract class)
 	virtual ~Camera() {}
-	// Get camera's current position
-	const glm::vec3& get_position() const
-	{
-		return _position;
-	}
-	// Set camera's position
-	void set_position(const glm::vec3 &value)
-	{
-		_position = value;
-	}
 	// Get camera's current target
-	const glm::vec3& get_target() const
+	const glm::vec3& GetTarget() const
 	{
-		return _target;
+		return target;
 	}
 	// Set camera's target
-	void set_target(const glm::vec3 &value)
+	void SetTarget(const glm::vec3 &value)
 	{
-		_target = value;
+		target = value;
 	}
 	// Get camera's orientation
-	const glm::vec3& get_orientation() const
+	const glm::vec3& GetOrientation() const
 	{
-		return _orientation;
+		return orientation;
 	}
 	// Set camera's orientation
-	void set_orientation(const glm::vec3 &value)
+	void SetOrientation(const glm::vec3 &value)
 	{
-		_orientation = value;
+		orientation = value;
 	}
 	// Gets camera's current view matrix
-	const glm::mat4 get_view() const
+	const glm::mat4 GetView() const
 	{
-		return _view;
+		return view;
 	}
 	// Gets camera's current projection matrix
-	glm::mat4 get_projection() const
+	glm::mat4 GetProjection() const
 	{
-		return _projection;
+		return projection;
 	}
 	// Build projection matrix
-	void set_projection(float fov, float aspect, float near, float far)
+	void SetProjection(float fov, float aspect, float near, float far)
 	{
-		_projection = glm::perspective(fov, aspect, near, far);
+		projection = glm::perspective(fov, aspect, near, far);
 	}
 	// Updates the camera (pure virtual function)
 	virtual void update(float delta_time) = 0;

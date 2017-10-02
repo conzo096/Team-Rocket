@@ -3,9 +3,28 @@
 #include <GLFW\glfw3.h>
 #include "Singleton.h"
 #include "GameEngine.h"
+#include <thread>
+#include <iostream>
+#include <future>
+#include <conio.h>
+
+// Handle console input.
+std::string HandleConsoleInput()
+{
+	std::string input;
+
+	if (!_kbhit())
+		return "Nothing";
+	else
+		std::cin >> input;
+	return input;
+}
+
+
 class UserControls : Singleton<UserControls>
 {
 public:
+	std::future<std::string> info = std::async(std::launch::async, HandleConsoleInput);;
 	// Controller choices.
 	enum ControllerOption { KEYBOARD, CONTROLLER};
 	// User interaction option.
@@ -149,5 +168,22 @@ public:
 		glReadPixels(winX, winY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, bArray);
 		int iResult = (bArray[0]) | (bArray[1] << 8) | (bArray[2] << 16);
 		return iResult;
+	}
+
+
+	void Update()
+	{
+		if (info.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+		{
+			std::string para = info.get();
+			if (para.compare("Nothing"))
+				std::cout << "Got: " << para << std::endl;;
+			info = std::async(std::launch::async, HandleConsoleInput);
+		}
+		else
+		{
+		//	std::cout << "waiting..." << std::endl;
+			return;
+		}
 	}
 };

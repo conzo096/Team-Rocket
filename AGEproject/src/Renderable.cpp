@@ -15,6 +15,7 @@ Renderable::~Renderable()
 void Renderable::SetModel(std::string location)
 {
 	model = new Model(location);//FIX THIS
+	model->SetUpMesh();
 }
 
 void Renderable::SetEffect()
@@ -24,8 +25,5 @@ void Renderable::SetEffect()
 
 void Renderable::Render()
 {
-	Rotate(glm::vec3(0.01, 0.01, 0.01));
-	UpdateTransforms();
-	GameEngine::Instance()->Render(GetTransform(),*model, effect->texture);
-	
+	GameEngine::Instance()->Render(GetTransform(),*model, *effect);
 }

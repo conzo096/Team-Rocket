@@ -30,7 +30,7 @@
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Renderable.h" />
-    <ClInclude Include="src\Singleton.h" />
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Transform.h" />
@@ -46,14 +46,15 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\BasicFrag.frag" />
-    <None Include="res\shaders\BasicVert.vert" />
-    <None Include="res\shaders\color.frag" />
-    <None Include="res\shaders\color.vert" />
+    <None Include="res\shaders\Basic.frag" />
+    <None Include="res\shaders\Basic.vert" />
+    <None Include="res\shaders\colour.frag" />
+    <None Include="res\shaders\colour.vert" />
     <None Include="res\shaders\HelloWorld.frag" />
     <None Include="res\shaders\HelloWorld.vert" />
   </ItemGroup>
@@ -61,7 +62,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -110,7 +111,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(VC_SourcePath)/src;</SourcePath>
-    <IntDir>$(Platform)\$(Configuration)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
