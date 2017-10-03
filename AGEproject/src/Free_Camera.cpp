@@ -34,4 +34,22 @@ void Free_Camera::Update(float deltaTime)
 	
 	// Calculate view matrix
 	view = glm::lookAt(GetPosition(), target, orientation);
+
+
+	// Update cursor position
+	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &cursorX, &cursorY);
+
+	// The ratio of pixels to rotation
+	double ratioWidth = GetFOV() / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
+	double ratioHeight = ( GetFOV() * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
+									  / static_cast<float>(GameEngine::Instance()->GetScreenWidth())) ) 
+									  / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
+
+	double currentX;
+	double currentY;
+
+	float moveSpeed = 20.0f;
+
 }
+
+void Free_Camera::from_json(const json &j) {}

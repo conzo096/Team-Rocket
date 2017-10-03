@@ -1,5 +1,6 @@
 #pragma once
 #include "Camera.h"
+#include "GameEngine.h"
 #include "glm\gtx\euler_angles.hpp"
 
 class Free_Camera : public Camera
@@ -11,10 +12,19 @@ private:
 	float yaw;
 	// Camera's translation since previous frame
 	glm::dvec3 translation;
+	// Cursor's current position
+	double cursorX;
+	double cursorY;
 
 public:
 	// Create free camera
-	Free_Camera() : pitch(0.0f), yaw(0.0f), Camera("Free_Camera") {}
+	Free_Camera(float aspect, float fov) : 
+		pitch(0.0f), yaw(0.0f), 				   
+		cursorX(0.0), cursorY(0.0),					   
+		Camera("Free_Camera", aspect, fov) 
+	{
+		glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
 	// Destroy free camera
 	~Free_Camera() {}
 	// Update free camera
@@ -39,4 +49,7 @@ public:
 	{
 		SetPosition(glm::dvec3(value, GetYaw(), 0.0f));
 	}
+
+	// Only here so it compiles.
+	void from_json(const json &j);
 };

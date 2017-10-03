@@ -1,9 +1,10 @@
 #include "GameEngine.h"
+#include "Free_Camera.h"
 #include <assert.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 GameEngine *GameEngine::instance = 0;
-
+Free_Camera cam(glm::radians(45.0f));
 
 void GameEngine::Initialise()
 {
@@ -13,8 +14,10 @@ void GameEngine::Initialise()
 		return;
 	}
 
-	// Create a windowed mode window with hard coded parameters.
-	instance->window = glfwCreateWindow(1920, 1080, "Team Rocket", NULL, NULL);
+	// Create a window
+	instance->window = glfwCreateWindow(GameEngine::Instance()->GetScreenWidth(), 
+										GameEngine::Instance()->GetScreenHeight(), 
+										"Team Rocket", NULL, NULL);
 	// Window is now initalised, now make it the current context.
 	glfwMakeContextCurrent(instance->window);
 	if (!instance->window)
@@ -60,19 +63,16 @@ void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
 	helloShader.Link();
 	helloShader.Use();
 
-	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 1000.0f);
+	auto aspect = static_cast<float>(GameEngine::Instance()->GetScreenWidth()) / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
+	cam.SetPosition(glm::vec3(120, 3, 30));
+	cam.SetTarget(glm::vec3(0.0f, 0.0f, 0.0f));
+	cam.SetOrientation(glm::vec3(0, 1, 0));
+	cam.SetProjection(aspect, 0.1f, 1000.0f);
 
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
 
-	// Camera matrix
-	glm::mat4 View = glm::lookAt(
-		glm::vec3(120, 3, 30), // Camera is at (4,3,3), in World Space
-		glm::vec3(0, 0, 0), // and looks at the origin
-		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-	);
-
-	auto mvp = Projection*View*m;
+	auto mvp = cam.GetProjection() * cam.GetView() * m;
 
 	//LoadTextures(helloShader);
 
