@@ -38,7 +38,7 @@ void Shader::UseShader(std::string name, Effect effect, glm::mat4 mvp)
 			glBindTexture(GL_TEXTURE_2D, effect.texture);
 			return;
 		}
-		if (name == "Phong")
+		else if (name == "Phong")
 		{
 			glUniformMatrix4fv(shaders[name].GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 			glUniform1i(shaders[name].GetUniformLocation("tex"), 0);
@@ -46,6 +46,11 @@ void Shader::UseShader(std::string name, Effect effect, glm::mat4 mvp)
 			glBindTexture(GL_TEXTURE_2D, effect.texture);
 			return;
 		}
+		else if (name == "Colour")
+		{
+			glUniformMatrix4fv(shaders[name].GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+		}
+
 	}
 
 }
