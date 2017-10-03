@@ -40,15 +40,11 @@ void GameEngine::Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	glfwSwapInterval(1.0f);
 }
 
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
-	// Clear the opengl buffer.
-	glClearColor(0.1, 0.0, 0.4, 1);
-	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
-	//glDisable(GL_CULL_FACE);
-
 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080, 0.1f, 1000.0f);
 
 	// Or, for an ortho camera :
@@ -56,7 +52,7 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 
 	// Camera matrix
 	glm::mat4 View = glm::lookAt(
-		glm::vec3(0, 3, 200), // Camera is at (4,3,3), in World Space
+		glm::vec3(0, 3, 50), // Camera is at (4,3,3), in World Space
 		glm::vec3(0, 0, 0), // and looks at the origin
 		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
@@ -66,11 +62,6 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 	Shader::Instance()->UseShader("Basic", effect, mvp);
 
 	model.Draw();
-	// process events.
-	glfwPollEvents();
-	// Swap the window buffers.
-	glfwSwapBuffers(instance->window);
-
 }
 
 void GameEngine::Start()

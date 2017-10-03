@@ -8,13 +8,23 @@ void Game::Initialise()
 {
 	Entity* tempEntitiy = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
-	tempRenderable->SetModel("../res/models/Torus2.obj");
+	tempRenderable->SetModel("../res/models/Constructor.obj");
 	tempRenderable->SetEffect();
-	tempRenderable->SetPosition(glm::vec3(0.0f, 0.0f, -50.0f));
+	tempRenderable->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable->UpdateTransforms();
 	tempEntitiy->AddComponent(move(tempRenderable));
 
 	entities.push_back(tempEntitiy);
+
+	/*Entity* tempEntitiy2 = new Entity;
+	auto tempRenderable2 = std::make_unique<Renderable>();
+	tempRenderable2->SetPlane(1,10,10);
+	tempRenderable2->SetEffect();
+	tempRenderable2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	tempRenderable2->UpdateTransforms();
+	tempEntitiy2->AddComponent(move(tempRenderable2));
+
+	entities.push_back(tempEntitiy2);*/
 }
 
 void Game::Update()
@@ -33,9 +43,19 @@ void Game::Update()
 
 void Game::Render()
 {
+	// Clear the opengl buffer.
+	glClearColor(0.1, 0.0, 0.4, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glDisable(GL_CULL_FACE);
+
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		entities[n]->Render();
 		n++;
 	}
+
+	// process events.
+	glfwPollEvents();
+	// Swap the window buffers.
+	glfwSwapBuffers(GameEngine::Instance()->GetWindow());
 }

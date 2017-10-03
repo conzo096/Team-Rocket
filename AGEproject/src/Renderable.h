@@ -12,6 +12,7 @@ public:
 	Renderable();
 	~Renderable();
 
+	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
 	void SetEffect();
 	void Render();
