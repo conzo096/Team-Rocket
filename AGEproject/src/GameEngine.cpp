@@ -57,11 +57,17 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
 
+	//auto mvp = instance->cameraMVP*m;
 	auto mvp = Projection*View*m;
 
 	Shader::Instance()->UseShader("Basic", effect, mvp);
 
 	model.Draw();
+}
+
+void GameEngine::SetCamera(glm::mat4 camera)
+{
+	cameraMVP = camera;
 }
 
 void GameEngine::Start()

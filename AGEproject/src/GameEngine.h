@@ -27,6 +27,7 @@ private:
 	GLFWwindow* window;
 	unsigned int width = 1920;
 	unsigned int height = 1080;
+	glm::mat4 cameraMVP;
 
 public:
 	// Constructor, if singleton has not been initalised, initalise it, else return instance.
@@ -48,6 +49,7 @@ public:
 	unsigned int GetScreenWidth() { return width; }
 	unsigned int GetScreenHeight() { return height; }
 
+	void SetCamera(glm::mat4 camera);
 
 	// Execute the game engine.
 	void Start();
