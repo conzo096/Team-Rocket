@@ -12,9 +12,15 @@ Renderable::~Renderable()
 {
 }
 
+void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
+{
+	model = new Model();
+	model->CreatePlane(spacing, xSize, ySize);
+}
+
 void Renderable::SetModel(std::string location)
 {
-	model = new Model(location);//FIX THIS
+	model = new Model(location);
 }
 
 void Renderable::SetEffect()
