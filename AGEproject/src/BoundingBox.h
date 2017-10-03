@@ -18,21 +18,7 @@ public:
 	
 	BoundingBox(): Component("BoundingBox") {};
 	// Takes in a list of model vertices.
-	void SetUpBoundingBox(std::vector<glm::vec3>& vertices)
-	{
-		for (glm::vec3 pos : vertices)
-		{
-			// Update lower-left-front corner of BB
-			lowerLeftFront.x = std::min(lowerLeftFront.x, pos.x);
-			lowerLeftFront.y = std::min(lowerLeftFront.y, pos.y);
-			lowerLeftFront.z = std::max(lowerLeftFront.z, pos.z);
-			// Update upper-right-back corner of BB
-			upperRightBack.x = std::max(upperRightBack.x, pos.x);
-			upperRightBack.y = std::max(upperRightBack.y, pos.y);
-			upperRightBack.z = std::min(upperRightBack.z, pos.z);
-		}
-		SetUpBoundingBox();
-	};
+	void SetUpBoundingBox(std::vector<glm::vec3> &vertices);
 
 	void SetColour(glm::vec4 col) { colour = col; }
 	glm::vec4 GetColour() { return colour; }

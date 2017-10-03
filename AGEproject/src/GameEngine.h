@@ -9,6 +9,7 @@
 #include <sstream>
 #include "Material.h"
 #include "Model.h"
+#include "UserControls.h"
 
 struct Effect
 {
@@ -25,8 +26,6 @@ private:
 	static GameEngine *instance;
 	// The window that is to be rendered too.
 	GLFWwindow* window;
-
-
 
 public:
 	// Constructor, if singleton has not been initalised, initalise it, else return instance.
