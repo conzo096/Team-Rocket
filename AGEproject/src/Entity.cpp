@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "Renderable.h"
+#include "Free_Camera.h"
 #include <algorithm>
 #include <iostream>
 
@@ -59,7 +60,10 @@ const string Entity::GetName() const { return name; }
 void Entity::SetName(string const &name) { this->name = name; }
 
 void Entity::Update(const double delta) {
-	for (auto &c : components) {
+	for (auto &c : components)
+	{
+		c.second->UpdateTransforms();
+		c.second->SetTransform(GetTransform() * c.second->GetTransform());
 		c.second->Update(delta);
 	}
 }

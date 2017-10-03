@@ -1,4 +1,8 @@
 #include "Model.h"
+#include <sstream>
+Model::Model()
+{
+}
 
 Model::Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
 {
@@ -25,11 +29,11 @@ void Model::SetUpMesh()
 		&indices[0], GL_STATIC_DRAW);
 
 	// vertex positions
-	glEnableVertexAttribArray(POSITION);
-	glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<void*>(nullptr));
-	
-	glEnableVertexAttribArray(COLOR);
-	glVertexAttribPointer(COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, color)));
+	glEnableVertexAttribArray(BUFFERS::POSITION);
+	glVertexAttribPointer(BUFFERS::POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+	glEnableVertexAttribArray(BUFFERS::COLOR);
+	glVertexAttribPointer(BUFFERS::COLOR, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
 	// vertex normals
 	glEnableVertexAttribArray(NORMAL);
@@ -58,4 +62,43 @@ void Model::Draw()
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
+}
+
+void Model::CreatePlane(float spacing, unsigned int xSize, unsigned int ySize)
+{
+	vertices.clear();
+	for (int i = 0; i < ySize; i++)
+	{
+		for (int j = 0; j < xSize; j++)
+		{
+			Vertex v;
+			v.position = glm::vec3(i*spacing, 0.0f, j*spacing);
+			v.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			v.texCoords = glm::vec2(i*spacing, j*spacing);
+			v.color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+			vertices.push_back(v);
+		}
+	}
+
+	indices.clear();
+	for (int row = 0; row < ySize - 1; row++)
+	{
+		if ((row & 1) == 0)
+		{ // even rows
+			for (int col = 0; col < xSize; col++)
+			{
+				indices.push_back(col + (row*xSize));
+				indices.push_back(col + ((row + 1) * xSize));
+			}
+		}
+		else
+		{ // odd rows
+			for (int col = xSize - 1; col > 0; col--)
+			{
+				indices.push_back(col + ((row + 1) * xSize));
+				indices.push_back(col - 1 + (row * xSize));
+			}
+		}
+	}
+	SetUpMesh();
 }

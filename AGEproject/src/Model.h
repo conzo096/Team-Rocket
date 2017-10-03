@@ -35,6 +35,7 @@ class Model
 
 
 public:
+	Model();
 	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 
 	std::vector<Vertex> vertices;
@@ -109,4 +110,5 @@ public:
 		SetUpMesh();
 	}
 
+	void CreatePlane(float spacing, unsigned int xSize, unsigned int ySize);
 };

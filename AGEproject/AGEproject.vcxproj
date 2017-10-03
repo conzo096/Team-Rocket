@@ -53,8 +53,11 @@
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />
     <None Include="res\shaders\Basic.vert" />
-    <None Include="res\shaders\HelloWorld.frag" />
-    <None Include="res\shaders\HelloWorld.vert" />
+    <None Include="res\shaders\bloom-blend.frag" />
+    <None Include="res\shaders\gaussian-blur.frag" />
+    <None Include="res\shaders\phong.frag" />
+    <None Include="res\shaders\phong.vert" />
+    <None Include="res\shaders\simple_texture.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
