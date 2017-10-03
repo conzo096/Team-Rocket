@@ -69,9 +69,9 @@ public:
 		return projection;
 	}
 	// Build projection matrix
-	void SetProjection(float aspect, float near, float far)
+	void SetProjection(float near, float far)
 	{
-		projection = glm::perspective(fieldOfView, aspect, near, far);
+		projection = glm::perspective(fieldOfView, aspectRatio, near, far);
 	}
 	// Updates the camera (pure virtual function)
 	virtual void Update(float deltaTime) = 0;

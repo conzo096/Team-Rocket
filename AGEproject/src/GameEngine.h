@@ -20,7 +20,6 @@ private:
 	unsigned int width = 1920;
 	unsigned int height = 1080;
 
-
 public:
 	// Constructor, if singleton has not been initalised, initalise it, else return instance.
 	static GameEngine *Instance()

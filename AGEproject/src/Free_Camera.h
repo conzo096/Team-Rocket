@@ -24,6 +24,8 @@ public:
 		Camera("Free_Camera", aspect, fov) 
 	{
 		glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		// Update cursor position
+		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &cursorX, &cursorY);
 	}
 	// Destroy free camera
 	~Free_Camera() {}

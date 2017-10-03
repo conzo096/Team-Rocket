@@ -4,7 +4,9 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 GameEngine *GameEngine::instance = 0;
-Free_Camera cam(glm::radians(45.0f));
+Free_Camera cam( (static_cast<float>(GameEngine::Instance()->GetScreenWidth()) /
+				  static_cast<float>(GameEngine::Instance()->GetScreenHeight())), 
+				  glm::radians(45.0f));
 
 void GameEngine::Initialise()
 {
@@ -42,6 +44,11 @@ void GameEngine::Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+
+	cam.SetPosition(glm::dvec3(120.0, 3.0, 30.0));
+	cam.SetTarget(glm::dvec3(0.0f, 0.0f, 0.0f));
+	cam.SetOrientation(glm::dvec3(0.0, 1.0, 0.0));
+	cam.SetProjection(0.1f, 1000.0f);
 }
 
 void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
@@ -63,14 +70,10 @@ void GameEngine::Render(glm::mat4 m, Model model, unsigned int texture)
 	helloShader.Link();
 	helloShader.Use();
 
-	auto aspect = static_cast<float>(GameEngine::Instance()->GetScreenWidth()) / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
-	cam.SetPosition(glm::vec3(120, 3, 30));
-	cam.SetTarget(glm::vec3(0.0f, 0.0f, 0.0f));
-	cam.SetOrientation(glm::vec3(0, 1, 0));
-	cam.SetProjection(aspect, 0.1f, 1000.0f);
-
 	// Or, for an ortho camera :
 	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
+
+	cam.Update(0.0025);
 
 	auto mvp = cam.GetProjection() * cam.GetView() * m;
 
