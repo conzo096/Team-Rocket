@@ -30,7 +30,7 @@ public:
 	// Destroy free camera
 	~Free_Camera() {}
 	// Update free camera
-	void Update(float deltaTime);
+	void Update(double deltaTime) override;
 
 	// Get camera's current rotations
 	float GetPitch() const

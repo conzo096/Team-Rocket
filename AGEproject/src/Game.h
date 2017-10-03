@@ -14,7 +14,7 @@ private:
 	static Game *instance;
 	static Entity cam;
 	static std::vector<Entity*> entities;//Figure out how to split this.
-	static float lastTime;
+	static double lastTime;
 public:
 	static Game *Instance()
 	{

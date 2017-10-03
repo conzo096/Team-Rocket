@@ -74,5 +74,5 @@ public:
 		projection = glm::perspective(fieldOfView, aspectRatio, near, far);
 	}
 	// Updates the camera (pure virtual function)
-	virtual void Update(float deltaTime) = 0;
+	 virtual void Update(double deltaTime) override = 0 ;
 };

@@ -1,7 +1,7 @@
 #include "Free_Camera.h"
 
 // Update free camera for this frame
-void Free_Camera::Update(float deltaTime)
+void Free_Camera::Update(double deltaTime)
 {
 	// The ratio of pixels to rotation
 	double ratioWidth = GetFOV() / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
@@ -30,13 +30,13 @@ void Free_Camera::Update(float deltaTime)
 
 	// Move camera with WASD
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_W))
-		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime * moveSpeed);
+		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed);
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_A))
-		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime * moveSpeed);
+		translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_S))
-		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime * moveSpeed);
+		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_D))
-		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime * moveSpeed);
+		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
 	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
