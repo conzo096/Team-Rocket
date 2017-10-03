@@ -3,12 +3,13 @@
 
 Game *Game::instance = 0;
 std::vector<Entity*> Game::entities;
-float Game::lastTime = 0.0f;
+double Game::lastTime = 0.0f;
 Entity Game::cam = Entity();
 
 void Game::Initialise()
 {
 	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth()/GameEngine::Instance()->GetScreenHeight()), 90.0f);
+	camera->SetProjection(0.1, 1000);
 	cam.AddComponent(move(camera));
 
 	Entity* tempEntity = new Entity;
@@ -36,8 +37,8 @@ void Game::Update()
 {
 	glm::mat4 camMatrix = cam.GetComponent<Free_Camera>().GetProjection() * cam.GetComponent<Free_Camera>().GetView();
 	GameEngine::Instance()->SetCamera(camMatrix);
-	float deltaTime = (float(clock()) - lastTime) / (float)CLOCKS_PER_SEC;
-	lastTime = float(clock());
+	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
+	lastTime = clock();
 	cam.Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
@@ -49,7 +50,7 @@ void Game::Update()
 
 
 
-	printf("%.9f\n", deltaTime);
+	printf("%.9\n", deltaTime);
 }
 
 void Game::Render()
