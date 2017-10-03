@@ -8,29 +8,29 @@ Entity Game::cam = Entity();
 
 void Game::Initialise()
 {
-	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth()/GameEngine::Instance()->GetScreenHeight()), 90.0f);
-	camera->SetProjection(0.1, 1000);
+	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 90.0f);
+	camera->SetProjection(0.2, 1000);
 	cam.AddComponent(move(camera));
 
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
 	tempRenderable->SetModel("../res/models/Constructor.obj");
-	tempRenderable->SetEffect();
-	tempRenderable->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	tempRenderable->SetEffect("ConstructorUV");
+	tempRenderable->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
 	tempEntity->AddComponent(move(tempRenderable));
 
 	entities.push_back(tempEntity);
 
-	/*Entity* tempEntity2 = new Entity;
+	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
-	tempRenderable2->SetPlane(1,10,10);
-	tempRenderable2->SetEffect();
+	tempRenderable2->SetPlane(1, 100, 100);
+	tempRenderable2->SetEffect("debug");
 	tempRenderable2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 	tempEntity2->AddComponent(move(tempRenderable2));
 
-	entities.push_back(tempEntity2);*/
+	entities.push_back(tempEntity2);
 }
 
 void Game::Update()
@@ -42,7 +42,7 @@ void Game::Update()
 	cam.Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
-		entities[n]->Rotate(glm::vec3(0.01f, 0.01f, 0.0f));
+		//entities[n]->Rotate(glm::vec3(0.01f, 0.01f, 0.0f));
 		entities[n]->UpdateTransforms();
 		entities[n]->Update(deltaTime);
 		n++;
@@ -50,7 +50,7 @@ void Game::Update()
 
 
 
-	printf("%.9\n", deltaTime);
+	printf("%.9f\n", deltaTime);
 }
 
 void Game::Render()

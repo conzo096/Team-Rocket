@@ -16,16 +16,18 @@ void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
 	model = new Model();
 	model->CreatePlane(spacing, xSize, ySize);
+	model->SetStrip(true);
 }
 
 void Renderable::SetModel(std::string location)
 {
 	model = new Model(location);
+	model->SetStrip(false);
 }
 
-void Renderable::SetEffect()
+void Renderable::SetEffect(std::string texName)
 {
-	effect->texture = GameEngine::Instance()->LoadTextures("../res/textures/ConstructorUV.png");
+	effect->texture = Shader::Instance()->AddTexture(texName);
 }
 
 void Renderable::Render()

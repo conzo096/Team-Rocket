@@ -62,7 +62,10 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 
 	Shader::Instance()->UseShader("Basic", effect, mvp);
 
-	model.Draw();
+	if (!model.GetStrip())
+		model.Draw();
+	else
+		model.DrawStrip();
 }
 
 void GameEngine::SetCamera(glm::mat4 camera)

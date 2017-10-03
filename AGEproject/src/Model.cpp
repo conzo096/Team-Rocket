@@ -130,6 +130,12 @@ void Model::Draw()
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
+void Model::DrawStrip()
+{
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLE_STRIP, indices.size(), GL_UNSIGNED_INT, 0);
+}
+
 void Model::CreatePlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
 	vertices.clear();
@@ -147,22 +153,24 @@ void Model::CreatePlane(float spacing, unsigned int xSize, unsigned int ySize)
 	}
 
 	indices.clear();
-	for (int row = 0; row < ySize - 1; row++)
+	for (int i = 0; i < ySize - 1; i++)
 	{
-		if ((row & 1) == 0)
+		if ((i & 1) == 0)
 		{ // even rows
-			for (int col = 0; col < xSize; col++)
+			for (int j = 0; j < xSize; j++)
 			{
-				indices.push_back(col + (row*xSize));
-				indices.push_back(col + ((row + 1) * xSize));
+				indices.push_back(j + ((i + 1) * xSize));
+				indices.push_back(j + (i*xSize));
+				
 			}
 		}
 		else
 		{ // odd rows
-			for (int col = xSize - 1; col > 0; col--)
+			for (int j = xSize - 1; j > 0; j--)
 			{
-				indices.push_back(col + ((row + 1) * xSize));
-				indices.push_back(col - 1 + (row * xSize));
+				indices.push_back(j - 1 + (i * xSize));
+				indices.push_back(j + ((i + 1) * xSize));
+
 			}
 		}
 	}
