@@ -25,8 +25,8 @@ private:
 	static GameEngine *instance;
 	// The window that is to be rendered too.
 	GLFWwindow* window;
-
-
+	unsigned int width = 1920;
+	unsigned int height = 1080;
 
 public:
 	// Constructor, if singleton has not been initalised, initalise it, else return instance.
@@ -37,20 +37,22 @@ public:
 		return instance;
 	}
 
-
 	// The render window.
 	GLFWwindow* GetWindow() { return instance->window; }
 
-	
 	static void Initialise();
 	static void Render(glm::mat4 mvp, Model model, Effect effect);
+
+
+	// Getters for width and height
+	unsigned int GetScreenWidth() { return width; }
+	unsigned int GetScreenHeight() { return height; }
+
 
 	// Execute the game engine.
 	void Start();
 	// Cleans up game engine resources.
 	static void CleanUp();
-
-
 
 
 	// Helper functions.

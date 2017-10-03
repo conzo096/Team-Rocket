@@ -39,8 +39,20 @@ public:
 	const glm::dvec3 GetScale() const { return scale; }
 
 	const glm::dvec3 GetPosition() const { return position; }
+<<<<<<< HEAD
 
 	//const glm::dvec3 GetRotationV3() const { return glm::dvec3(); }
+=======
+	void SetPosition(const glm::dvec3 &v3) { position = v3; }
+	void Move(const glm::dvec3 &v3) { SetPosition(GetPosition() + v3); }
+
+	const glm::dquat GetRotation() const { return rotation; }
+	//const glm::dvec3 GetRotation() const { }
+	void SetRotation(const glm::dquat &q) { rotation = q; }
+	void SetRotation(const glm::dvec3 &v3) { rotation = glm::dquat(v3); }
+	void Rotate(const glm::dquat &q) { SetRotation(rotation * q); }
+	void Rotate(const glm::dvec3 &v3) { SetRotation(rotation * glm::dquat(v3)); }
+>>>>>>> CamerasToComponents
 
 	const glm::dquat GetRotation() const { return rotation; }
 
