@@ -104,5 +104,5 @@ PointLight::~PointLight()
 void PointLight::Render()
 {
 	// Use renderer, bind.
-	bind(*this, "pointLight");
+	bind(*this, "point_light0");
 }
