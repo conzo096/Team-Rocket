@@ -1,7 +1,4 @@
 #pragma once
-#include <glm/detail/type_vec3.hpp>
-#include <glm/detail/type_vec4.hpp>
-#include "Entity.h"
 #include "Shader.h"
 
 class PointLight : public Component

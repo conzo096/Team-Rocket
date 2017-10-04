@@ -1,5 +1,5 @@
 #include "PointLight.h"
-#include <glm/gtc/type_ptr.hpp>
+
 
 PointLight::PointLight() : Component("PointLight")
 {
@@ -39,7 +39,7 @@ PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Comp
 	specularIntensity = 0.5f;
 }
 
-void bind(const PointLight& pointLight, const std::string& name)
+void PointLight::bind(const PointLight& pointLight, const std::string& name)
 {
 	GLint idx;
 	auto effect = Shader::getShader("phong");
@@ -83,7 +83,7 @@ void bind(const PointLight& pointLight, const std::string& name)
 		glUniform1f(idx, pointLight.specularIntensity);
 }
 
-void bind(const std::vector<PointLight>& pointLights, const std::string& name)
+void PointLight::bind(const std::vector<PointLight>& pointLights, const std::string& name)
 {
 	unsigned int n = 0;
 	for (auto &p : pointLights)
