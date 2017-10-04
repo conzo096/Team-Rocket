@@ -1,7 +1,5 @@
 #include "PointLight.h"
 
-
-
 PointLight::PointLight() : Component("PointLight")
 {
 	position = glm::vec3(0.0f, 3.0f, 0.0f);
@@ -47,5 +45,5 @@ PointLight::~PointLight()
 
 void PointLight::Render()
 {
-
+	// Use renderer, ask padre. Something about forward declaration for include.
 }

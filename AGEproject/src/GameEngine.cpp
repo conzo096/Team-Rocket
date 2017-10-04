@@ -38,6 +38,7 @@ void GameEngine::Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	// V-Sync, does not run without it
 	glfwSwapInterval(1.0f);
 }
 
@@ -86,11 +87,17 @@ void GameEngine::CleanUp()
 void GameEngine::PrintGlewInfo()
 {
 	printf("-------------------------------------------------------\n");
-	printf("Glew version: %p\n", glewGetString(GLEW_VERSION));
-	printf("Gl version: %p\n", glGetString(GL_VERSION));
-	printf("Vendor: %p\n", glGetString(GL_VENDOR));
-	printf("Graphics card: %p\n", glGetString(GL_RENDERER));
-	printf("Shading: %p\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+//	printf("Glew version: %p\n", glewGetString(GLEW_VERSION));
+//	printf("Gl version: %p\n", glGetString(GL_VERSION));
+//	printf("Vendor: %p\n", glGetString(GL_VENDOR));
+//	printf("Graphics card: %p\n", glGetString(GL_RENDERER));
+//	printf("Shading: %p\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+	std::clog << "GLEW Version: " << glGetString(GLEW_VERSION) << std::endl;
+	std::clog << "GL Version: " << glGetString(GL_VERSION) << std::endl;
+	std::clog << "GL Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::clog << "GL Renderer: " << glGetString(GL_RENDERER) << std::endl;
+	std::clog << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 	printf("-------------------------------------------------------\n");
 }
 
