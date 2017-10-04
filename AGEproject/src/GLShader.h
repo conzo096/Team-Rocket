@@ -36,4 +36,5 @@ public:
 	void SetUniform(const char* name, const int val);
 
 	GLuint GetUniformLocation(const char* name);
+	GLuint GLShader::GetUniformLocation(std::string name);
 };

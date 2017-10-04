@@ -2,9 +2,12 @@
 #include <glm/detail/type_vec3.hpp>
 #include <glm/detail/type_vec4.hpp>
 #include "Entity.h"
+#include "Shader.h"
 
 class PointLight : public Component
 {
+	void bind(const PointLight& pointLight, const std::string& name);
+	void bind(const std::vector<PointLight>& pointLights, const std::string& name);
 public:
 	glm::vec3 position;
 

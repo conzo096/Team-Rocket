@@ -54,3 +54,8 @@ void Shader::UseShader(std::string name, Effect effect, glm::mat4 mvp)
 	}
 
 }
+
+GLShader Shader::getShader(const std::string name)
+{
+	return shaders[name];
+}

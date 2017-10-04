@@ -93,7 +93,6 @@ void GameEngine::PrintGlewInfo()
 //	printf("Graphics card: %p\n", glGetString(GL_RENDERER));
 //	printf("Shading: %p\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	std::clog << "GLEW Version: " << glGetString(GLEW_VERSION) << std::endl;
 	std::clog << "GL Version: " << glGetString(GL_VERSION) << std::endl;
 	std::clog << "GL Vendor: " << glGetString(GL_VENDOR) << std::endl;
 	std::clog << "GL Renderer: " << glGetString(GL_RENDERER) << std::endl;

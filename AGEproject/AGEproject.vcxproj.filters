@@ -14,8 +14,6 @@
     <ClCompile Include="src\Free_Camera.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\Effect2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -59,8 +57,6 @@
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Transform.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\Effect2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />

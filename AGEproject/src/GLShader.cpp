@@ -152,9 +152,16 @@ void GLShader::SetUniform(const char* name, int val)
 // Returns -1 if location does not exist.
 GLuint GLShader::GetUniformLocation(const char* name)
 {
-	const GLuint loc = glGetUniformLocation(program,name);
+	const GLuint loc = glGetUniformLocation(program, name);
 	return loc;
 }
+
+GLuint GLShader::GetUniformLocation(std::string name)
+{
+	const GLuint loc = glGetUniformLocation(program, name.c_str());
+	return loc;
+}
+
 void GLShader::Use()
 {
 	glUseProgram(program);

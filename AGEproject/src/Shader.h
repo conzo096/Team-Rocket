@@ -29,4 +29,6 @@ public:
 
 	static void AddShader(std::string name);
 	static void UseShader(std::string name, Effect effect, glm::mat4 mvp);
+
+	static GLShader getShader(std::string name);
 };

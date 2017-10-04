@@ -1,4 +1,5 @@
 #include "PointLight.h"
+#include <glm/gtc/type_ptr.hpp>
 
 PointLight::PointLight() : Component("PointLight")
 {
@@ -38,6 +39,63 @@ PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Comp
 	specularIntensity = 0.5f;
 }
 
+void bind(const PointLight& pointLight, const std::string& name)
+{
+	GLint idx;
+	auto effect = Shader::getShader("phong");
+	// Colours
+	idx = effect.GetUniformLocation(name + ".ambient");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(pointLight.ambient));
+	idx = effect.GetUniformLocation(name + ".diffuse");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(pointLight.diffuse));
+	idx = effect.GetUniformLocation(name + ".specular");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(pointLight.specular));
+	// Position
+	idx = effect.GetUniformLocation(name + ".position");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(pointLight.position));
+	// Attenuation
+	idx = effect.GetUniformLocation(name + ".constant");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.constant);
+	idx = effect.GetUniformLocation(name + ".linear");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.linear);
+	idx = effect.GetUniformLocation(name + ".quadratic");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.quadratic);
+	// Range
+	idx = effect.GetUniformLocation(name + ".range");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.range);
+	// Intensities
+	idx = effect.GetUniformLocation(name + ".ambientIntensity");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.ambientIntensity);
+	idx = effect.GetUniformLocation(name + ".diffuseIntensity");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.diffuseIntensity);
+	idx = effect.GetUniformLocation(name + ".specularIntensity");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.specularIntensity);
+}
+
+void bind(const std::vector<PointLight>& pointLights, const std::string& name)
+{
+	unsigned int n = 0;
+	for (auto &p : pointLights)
+	{
+		std::stringstream stream;
+		stream << name << '[' << n << ']';
+		const auto point_name = stream.str();
+		bind(p, point_name);
+		++n;
+	}
+}
+
 
 PointLight::~PointLight()
 {
@@ -45,5 +103,6 @@ PointLight::~PointLight()
 
 void PointLight::Render()
 {
-	// Use renderer, ask padre. Something about forward declaration for include.
+	// Use renderer, bind.
+	bind(*this, "pointLight");
 }
