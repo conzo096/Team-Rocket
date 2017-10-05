@@ -50,7 +50,7 @@ void Game::Update()
 
 
 
-	printf("%.9f\n", deltaTime);
+//	printf("%.9f\n", deltaTime);
 }
 
 void Game::Render()

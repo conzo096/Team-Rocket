@@ -27,20 +27,27 @@ void Free_Camera::Update(double deltaTime)
 
 	// Rotate camera by deltas
 	Rotate(glm::dvec3(deltaX, deltaY, 0.0));
+	if (UserControls::get().IsKeyPressed(std::string("RotateLeft")))
+		GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
+	 if(UserControls::get().IsKeyPressed(std::string("RotateRight")))
+		GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
 
-	// Move camera with WASD
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_W))
-		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_A))
-		translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_S))
-		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_D))
-		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_SPACE))
-		translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_LEFT_CONTROL))
-		translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	// Move camera with user controls.
+
+	if (UserControls::get().IsKeyPressed(std::string("Forward")))
+		(translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::get().IsKeyPressed(std::string("Left")))
+		(translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::get().IsKeyPressed(std::string("Backward")))
+		(translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::get().IsKeyPressed(std::string("Right")))
+		(translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::get().IsKeyPressed(std::string("Up")))
+		(translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::get().IsKeyPressed(std::string("Down")))
+		(translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::get().IsKeyPressed(std::string("Escape")))
+		glfwSetWindowShouldClose(GameEngine::Instance()->GetWindow(), true);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
 	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
@@ -70,7 +77,7 @@ void Free_Camera::Update(double deltaTime)
 	translation = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	// Calculate view matrix
-	view = glm::lookAt(GetPosition(), target, orientation);
+	view = glm::lookAt(GetPosition(), target, orientation); //glm::eulerAngles(GetRotation()));
 
 	// Update cursor position
 	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &cursorX, &cursorY);
