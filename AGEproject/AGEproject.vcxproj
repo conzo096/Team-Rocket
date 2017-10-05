@@ -32,6 +32,7 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Structure.h" />
     <ClInclude Include="src\Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +47,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\Structure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />
