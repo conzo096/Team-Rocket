@@ -19,9 +19,7 @@ struct point_light
 {
 	vec4 ambient, diffuse, specular;
 	vec3 position;
-	vec4 constant, linear, quadratic;
 	float range;
-	float ambientIntensity, diffuseIntensity, specularIntensity;
 };
 
 uniform directional_light light;
@@ -52,22 +50,45 @@ void main()
 }
 */
 
+vec4 do_directional_light(directional_light d)
+{
+	vec4 ambient = d.ambient_intensity * mat.diffuse_reflection;
+	vec4 diffuse = max(dot(normal, d.light_dir), 0) * (mat.diffuse_reflection * d.light_colour);
+	vec3 view_dir = (eye_pos - position) / (length(eye_pos - position));
+	vec3 half_vec = (d.light_dir + view_dir) / (length(d.light_dir + view_dir));
+	vec4 specular = pow((max(dot(normal, half_vec), 0)), mat.shininess) * (mat.specular_reflection * d.light_colour);
+	vec4 tex_colour = texture(tex, tex_coord);
+	vec4 primary = mat.emissive + ambient + diffuse;
+
+	return (primary * tex_colour + specular);
+}
+
+vec4 do_point_light(point_light p)
+{
+	if (length(p.position - position) < p.range)
+	{
+		// Diffuse
+		vec3 light_dir = normalize(p - position);
+		vec4 ambient = p.ambient * mat.diffuse_reflection;
+		vec4 diffuse = max(dot(normal, light_dir), 0.0) * mat.diffuse_reflection * p.diffuse;
+
+		// Specular
+		vec3 view_dir = (eye_pos - position) / (length(eye_pos - position));
+		vec3 half_vec = normalize(light_dir + view_dir);
+		vec4 specular = pow(max(dot(normal, half_vec), 0), mat.shininess) * (mat.specular_reflection * p.specular);
+
+		// Texture
+		vec4 tex_colour = texture(tex, tex_coord);
+
+		// Final
+		vec4 primary = mat.emissive + ambient + diffuse;
+		return (primary * tex_colour + specular);
+	}
+	return texture(tex, tex_coord);
+}
+
 void main()
 {
-	// Diffuse
-	vec3 light_dir = normalize(point_light0 - position);
-	vec4 ambient   = point_light0.ambient * point_light0.ambientIntensity * mat.diffuse_reflection;
-	vec4 diffuse   = max(dot(normal, light_dir), 0.0) * mat.diffuse_reflection * point_light0.diffuse;
-
-	// Specular
-	vec3 view_dir = (eye_pos - position) / (length(eye_pos - position));
-	vec3 half_vec = normalize(light_dir + view_dir);
-	vec4 specular = pow(max(dot(normal, half_vec), 0), mat.shininess) * (mat.specular_reflection * point_light0.specular);
-
-	// Texture
-	vec4 tex_colour = texture(tex, tex_coord);
-	
-	// Final
-	vec4 primary = mat.emissive + ambient + diffuse;
-	colour = primary * tex_colour + specular;
+	do_point_light(point_light0);
+	do_directional_light(light);
 }

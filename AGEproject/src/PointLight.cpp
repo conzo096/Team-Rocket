@@ -5,19 +5,16 @@ PointLight::PointLight() : Component("PointLight")
 {
 	position = glm::vec3(0.0f, 3.0f, 0.0f);
 
-	constant  = 1.000f;
-	linear    = 0.090f;
-	quadratic = 0.032f;
+	constant  = 1.0f;
+	linear    = 0.7f;
+	quadratic = 1.8f;
 
 	ambient  = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
 	diffuse  = glm::vec4(0.80f, 0.80f, 0.80f, 1.00f);
 	specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);
 	
-	range = 10.0f;
-
-	ambientIntensity  = 0.1f;
-	diffuseIntensity  = 1.0f;
-	specularIntensity = 0.5f;
+	const float lightMax = fmaxf(fmaxf(ambient.r, ambient.g), ambient.b);
+	range = (-linear + sqrtf(linear * linear - 4 * quadratic * (constant - 256.0 / 5.0 * lightMax))) / (2 * quadratic);
 }
 
 PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Component("PointLight")
@@ -25,18 +22,15 @@ PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Comp
 	this->position = position;
 	this->diffuse  = diffuse;
 
-	constant  = 1.000f;
-	linear    = 0.090f;
-	quadratic = 0.032f;
+	constant  = 1.0f;
+	linear    = 0.7f;
+	quadratic = 1.8f;
 
 	ambient  = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
 	specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);
 
-	range = 10.0f;
-
-	ambientIntensity  = 0.1f;
-	diffuseIntensity  = 1.0f;
-	specularIntensity = 0.5f;
+	const float lightMax = fmaxf(fmaxf(ambient.r, ambient.g), ambient.b);
+	range = (-linear + sqrtf(linear * linear - 4 * quadratic * (constant - 256.0 / 5.0 * lightMax)))	/ (2 * quadratic);
 }
 
 void PointLight::bind(const PointLight& pointLight, const std::string& name)
@@ -57,30 +51,10 @@ void PointLight::bind(const PointLight& pointLight, const std::string& name)
 	idx = effect.GetUniformLocation(name + ".position");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(pointLight.position));
-	// Attenuation
-	idx = effect.GetUniformLocation(name + ".constant");
-	if (idx != -1)
-		glUniform1f(idx, pointLight.constant);
-	idx = effect.GetUniformLocation(name + ".linear");
-	if (idx != -1)
-		glUniform1f(idx, pointLight.linear);
-	idx = effect.GetUniformLocation(name + ".quadratic");
-	if (idx != -1)
-		glUniform1f(idx, pointLight.quadratic);
 	// Range
 	idx = effect.GetUniformLocation(name + ".range");
 	if (idx != -1)
 		glUniform1f(idx, pointLight.range);
-	// Intensities
-	idx = effect.GetUniformLocation(name + ".ambientIntensity");
-	if (idx != -1)
-		glUniform1f(idx, pointLight.ambientIntensity);
-	idx = effect.GetUniformLocation(name + ".diffuseIntensity");
-	if (idx != -1)
-		glUniform1f(idx, pointLight.diffuseIntensity);
-	idx = effect.GetUniformLocation(name + ".specularIntensity");
-	if (idx != -1)
-		glUniform1f(idx, pointLight.specularIntensity);
 }
 
 void PointLight::bind(const std::vector<PointLight>& pointLights, const std::string& name)

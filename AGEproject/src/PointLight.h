@@ -5,6 +5,7 @@ class PointLight : public Component
 {
 	void bind(const PointLight& pointLight, const std::string& name);
 	void bind(const std::vector<PointLight>& pointLights, const std::string& name);
+	float range;
 public:
 	glm::vec3 position;
 
@@ -15,12 +16,6 @@ public:
 	glm::vec4 ambient;
 	glm::vec4 diffuse;
 	glm::vec4 specular;	
-	
-	float range;
-
-	float ambientIntensity;
-	float diffuseIntensity;
-	float specularIntensity;
 
 	PointLight();
 	PointLight(const glm::vec3 position, const glm::vec4 diffuse);
