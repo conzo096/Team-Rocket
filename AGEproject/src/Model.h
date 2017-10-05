@@ -33,6 +33,7 @@ class Model
 {
 private:
 	unsigned int VAO, VBO, EBO;
+	bool strip = false;
 public:
 	Model();
 	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
@@ -41,7 +42,10 @@ public:
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
 
+	void SetStrip(bool strip) { this->strip = strip; };
+	bool GetStrip() { return strip; };
 	void Draw();
+	void DrawStrip();
 
 	Model(const std::string& fileName);
 

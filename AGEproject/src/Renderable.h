@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Shader.h"
 
 class Renderable : public Component
 {
@@ -14,6 +15,6 @@ public:
 
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
-	void SetEffect();
+	void SetEffect(std::string texName);
 	void Render();
 };

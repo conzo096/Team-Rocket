@@ -2,6 +2,16 @@
 
 Shader *instance = 0;
 std::map<std::string, GLShader> Shader::shaders;
+std::map<std::string, unsigned int> Shader::textures;
+
+unsigned int Shader::AddTexture(std::string name)
+{
+	if (textures.find(name) == textures.end())
+	{
+		textures.insert(std::pair<std::string, unsigned int>(name, GameEngine::LoadTextures(("../res/textures/" + name + ".png").c_str())));
+	}
+	return textures[name];
+}
 
 void Shader::AddShader(std::string name)
 {
@@ -17,7 +27,7 @@ void Shader::AddShader(std::string name)
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".frag").c_str(), GLShader::FRAGMENT))
 			std::printf("Frag failed to compile.\n");
 		shader.Link();
-		shaders.insert(std::pair<std::string,GLShader>(name, shader));
+		shaders.insert(std::pair<std::string, GLShader>(name, shader));
 	}
 }
 
