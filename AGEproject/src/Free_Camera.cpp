@@ -37,6 +37,10 @@ void Free_Camera::Update(double deltaTime)
 		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_D))
 		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_SPACE))
+		translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_LEFT_CONTROL))
+		translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
 	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
