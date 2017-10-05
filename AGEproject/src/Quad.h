@@ -43,6 +43,7 @@ public:
 			v.texCoords = tex_coords.at(i);
 			vertices.push_back(v);
 		}
+
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 
@@ -66,6 +67,7 @@ public:
 	}
 	void Draw()
 	{
+		glBindVertexArray(VAO);
 		glDrawArrays(GL_QUADS, 0, vertices.size());
 	}
 };

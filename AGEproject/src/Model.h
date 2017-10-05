@@ -3,6 +3,7 @@
 #include <glm\gtc\quaternion.hpp> 
 #include <string>
 #include <vector>
+#include "Texture.h"
 #include "GLShader.h"
 #include "assimp/Importer.hpp"
 #include "assimp/PostProcess.h"
@@ -20,12 +21,6 @@ struct Vertex
 };
 
 enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
-
-struct Texture
-{
-	int id;
-
-};
 
 class Model
 {

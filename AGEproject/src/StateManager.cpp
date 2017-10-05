@@ -12,16 +12,21 @@ void StateManager::StateLoop()
 	Game::Instance()->Initialise();
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
+		std::vector<char*> texs;
+		texs.push_back("../res/textures/debug.png");
+		texs.push_back("../res/textures/debug.png");
+		texs.push_back("../res/textures/debug.png");
 		switch (state)
 		{
 		case(Splash):
-			TMenu::Draw(Shader::GetShader(std::string("Basic")));
-			//GameEngine::Instance()->Render();
-			//Game::Instance()->Update();
-			//Game::Instance()->Render();
-
+			TMenu(texs).Draw(Shader::GetShader(std::string("Basic")));
+			state = Menu;
 			break;
 		case(Menu):
+			//GameEngine::Instance()->Render();
+			Game::Instance()->Update();
+			Game::Instance()->Render();
+
 			break;
 		case(Settings):
 			break;

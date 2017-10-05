@@ -18,23 +18,24 @@ struct Button
 	Quad renderTarget;
 };
 
-static class TMenu
+class TMenu
 {
 public:
 	TMenu() {}
 	TMenu(std::vector<char *> textureLocs);
 
-	static std::vector<Button> buttons;
-	static int currentSelection;
+	std::vector<Button> buttons;
+	int currentSelection =0;
 
 	// Move up
-	static void SelectionUp();
+	void SelectionUp();
 	// Move down.
-	static void SelectionDown();
+	
+	void SelectionDown();
 	// Return selected button action.
-	static int SelectionPicked();
+	int SelectionPicked();
 
 	// Draw the menu.
-	static int Draw(GLShader shader);
+	int Draw(GLShader shader);
 
 };

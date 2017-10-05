@@ -4,15 +4,16 @@
 TMenu::TMenu(std::vector<char *> textureLocs)
 {
 
-	for (int i = 0; i < textureLocs.size(); i++)
-	{
-		Button newButton;
-		newButton.action = i;
-		newButton.texture = Texture(textureLocs.at(i),500,300);
-		newButton.renderTarget.SetPosition(glm::vec3(0, 0, i / textureLocs.size()));
-		newButton.renderTarget.UpdateTransforms();
-	}
+	//for (int i = 0; i < textureLocs.size(); i++)
+	//{
+	//	Button newButton;
+	//	newButton.action = i;
+	//	newButton.texture = Texture(textureLocs.at(i),500,300);
+	//	newButton.renderTarget.SetPosition(glm::vec3(0, 0, i / textureLocs.size()));
+	//	newButton.renderTarget.UpdateTransforms();
 
+	//}
+	
 }
 
 
@@ -50,33 +51,37 @@ int TMenu::Draw(GLShader shader)
 		Button newButton;
 		newButton.action = i;
 		newButton.texture = Texture("../res/textures/debug.png", 500, 300);
-		newButton.renderTarget.SetPosition(glm::vec3(0, 0, i / 3));
+		newButton.renderTarget = Quad();
+		newButton.renderTarget.SetPosition(glm::vec3(0, 0, i));
 		newButton.renderTarget.UpdateTransforms();
+		buttons.push_back(newButton);
+
 	}
 	shader.Use();
 	// Change while condition.
-	while (true)
+	while (!UserControls::get().IsKeyPressed("Enter"))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if (UserControls::get().IsKeyPressed("Forward"))
 			SelectionUp();
-		if (UserControls::get().IsKeyPressed("BackWard"));
-			SelectionDown();
-		if (UserControls::get().IsKeyPressed("Enter"));
-			return SelectionPicked();
-	
-		for (int i = 0; i < buttons.size(); i++)
-		{
+		if (UserControls::get().IsKeyPressed("BackWard"))
+			SelectionDown();	
 			// Bind texture.
 			glUniform1i(shader.GetUniformLocation("tex"), 0);
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture.texture);
-			// Set the MVP.
-			glm::mat4 t = buttons.at(i).renderTarget.GetTransform();
-			glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(t));
+			glBindTexture(GL_TEXTURE_2D, buttons.at(0).texture.texture);
 			// Draw the quad.
-			buttons.at(i).renderTarget.Draw();
-		}
+			for (int i = 0; i < buttons.size(); i++)
+			{
+				glm::mat4 t = buttons.at(i).renderTarget.GetTransform();
+				glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0)));
+				buttons.at(i).renderTarget.Draw();
+				
 
+			}
+			glfwSwapBuffers(GameEngine::Instance()->GetWindow());
+			glfwPollEvents();
 	}
+
+	return SelectionPicked();
 }
