@@ -32,6 +32,9 @@ void Shader::AddShader(std::string name)
 	}
 }
 
+
+
+
 void Shader::UseShader(std::string name, Effect effect, glm::mat4 mvp)
 {
 	if (shaders.find(name) == shaders.end())

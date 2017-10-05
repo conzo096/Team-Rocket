@@ -28,12 +28,15 @@
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\json.hpp" />
     <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\UserControls.h" />
   </ItemGroup>
@@ -45,6 +48,7 @@
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -65,7 +69,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

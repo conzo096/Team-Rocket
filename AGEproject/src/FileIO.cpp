@@ -44,6 +44,7 @@ bool FileIO::CreateIniFile()
 	outputFile << "RotateRight=69" << std::endl;
 	outputFile << "Up=32" << std::endl;
 	outputFile << "Down=341" << std::endl;
+	outputFile << "Enter=257" << std::endl;
 	outputFile.close();
 
 	return true;
@@ -90,6 +91,8 @@ void FileIO::ConfigureGame(std::string para)
 		if (token == "Up")
 			UserControls::get().BindKey(token, value);
 		if (token == "Down")
+			UserControls::get().BindKey(token, value);
+		if (token == "Enter")
 			UserControls::get().BindKey(token, value);
 	}
 	else

@@ -31,6 +31,7 @@ public:
 
 	// Returns true if it is a valid key and it is currently being pressed.
 	bool IsKeyPressed(std::string &action);
+	bool IsKeyPressed(char* action);
 	// Returns the key value of an action.
 	unsigned int GetKeyValue(std::string &name)
 	{

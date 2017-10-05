@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Entity.h"
 #include "Renderable.h"
+#include "Menu.h"
 #include <memory>
 StateManager *StateManager::instance = 0;
 
@@ -14,9 +15,10 @@ void StateManager::StateLoop()
 		switch (state)
 		{
 		case(Splash):
+			TMenu::Draw(Shader::GetShader(std::string("Basic")));
 			//GameEngine::Instance()->Render();
-			Game::Instance()->Update();
-			Game::Instance()->Render();
+			//Game::Instance()->Update();
+			//Game::Instance()->Render();
 
 			break;
 		case(Menu):

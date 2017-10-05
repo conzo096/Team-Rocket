@@ -37,6 +37,20 @@ bool UserControls::IsKeyPressed(std::string &action)
 	return false;
 }
 
+bool UserControls::IsKeyPressed(char * action)
+{
+	auto val = buttonOptions.find(action);
+	if (val == buttonOptions.end())
+		return false;
+	else
+	{
+		if (glfwGetKey(GameEngine::Instance()->GetWindow(), val->second) == GLFW_PRESS)
+			return true;
+	}
+	// Should never enter here but just in case.
+	return false;
+}
+
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
 	// clear the current map of keys.
@@ -51,6 +65,7 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Right", GLFW_KEY_D));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Reset camera", GLFW_KEY_SPACE));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Escape", GLFW_KEY_ESCAPE));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
 	}
 	// Set up controller configuration.
 	else

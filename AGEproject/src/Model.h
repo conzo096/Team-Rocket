@@ -19,15 +19,13 @@ struct Vertex
 	glm::vec4 color;
 };
 
-struct Texture
-{
-	unsigned int id;
-	std::string type;
-};
-
 enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 
+struct Texture
+{
+	int id;
 
+};
 
 class Model
 {
