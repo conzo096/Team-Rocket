@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "GameEngine.h"
+#include "UserControls.h"
 #include "glm\gtx\euler_angles.hpp"
 
 class Free_Camera : public Camera
@@ -23,7 +24,7 @@ public:
 		cursorX(0.0), cursorY(0.0),					   
 		Camera("Free_Camera", aspect, fov) 
 	{
-		glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//	glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		// Update cursor position
 		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &cursorX, &cursorY);
 	}

@@ -48,10 +48,10 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UserControls.cpp">
+    <ClCompile Include="src\FileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BoundingBox.cpp">
+    <ClCompile Include="src\UserControls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,13 +98,13 @@
     <ClInclude Include="src\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BoundingBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Singleton.h">
+    <ClInclude Include="src\FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\UserControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

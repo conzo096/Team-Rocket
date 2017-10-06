@@ -17,6 +17,7 @@ void StateManager::StateLoop()
 			//GameEngine::Instance()->Render();
 			Game::Instance()->Update();
 			Game::Instance()->Render();
+
 			break;
 		case(Menu):
 			break;

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\FileIO.h" />
     <ClInclude Include="src\Free_Camera.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameEngine.h" />
@@ -30,12 +31,15 @@
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\UserControls.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\FileIO.cpp" />
     <ClCompile Include="src\Free_Camera.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
@@ -46,6 +50,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />
@@ -79,13 +84,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

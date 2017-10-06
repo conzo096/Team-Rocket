@@ -23,7 +23,8 @@ void Shader::AddShader(std::string name)
 	{
 		GLShader shader;
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".vert").c_str(), GLShader::VERTEX))
-			std::printf("Vert failed to compile.\n");
+			
+			("Vert failed to compile.\n");
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".frag").c_str(), GLShader::FRAGMENT))
 			std::printf("Frag failed to compile.\n");
 		shader.Link();
