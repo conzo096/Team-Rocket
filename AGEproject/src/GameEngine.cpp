@@ -3,6 +3,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include "Shader.h"
+#include "FileIO.h"
 GameEngine *GameEngine::instance = 0;
 Shader *Shader::instance = 0;
 
@@ -13,9 +14,14 @@ void GameEngine::Initialise()
 		std::fprintf(stderr, "ERROR: glfw failed init! exiting.");
 		return;
 	}
-
+	FileIO io = FileIO::get();
+	io.LoadIniFile();
 	// Create a windowed mode window with hard coded parameters.
-	instance->window = glfwCreateWindow(1920, 1080, "Team Rocket", NULL, NULL);
+	if(instance->fullScreen == false)
+		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", NULL, NULL);
+	else
+		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
+	
 	// Window is now initalised, now make it the current context.
 	glfwMakeContextCurrent(instance->window);
 	if (!instance->window)

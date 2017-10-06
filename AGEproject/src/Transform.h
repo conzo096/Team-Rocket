@@ -45,7 +45,11 @@ public:
 	void SetRotation(const glm::dquat &q) { rotation = q;  changed = true; }
 	void SetRotation(const glm::dvec3 &v3) { rotation = glm::dquat(v3); changed = true;  }
 	void Rotate(const glm::dquat &q) { SetRotation(rotation * q); changed = true; }
-	void Rotate(const glm::dvec3 &v3) { SetRotation(rotation * glm::dquat(v3)); changed = true; }
+	
+	void Rotate(const glm::dvec3 &v3)
+	{
+		SetRotation(rotation * glm::dquat(glm::radians(v3))); changed = true;
+	}
 
 	const glm::dvec3 GetScale() const { return scale; }
 	void SetScale(const glm::dvec3 &v3) { scale = v3;  changed = true; }

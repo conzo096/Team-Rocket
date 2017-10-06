@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "GameEngine.h"
+#include "UserControls.h"
 #include "glm\gtx\euler_angles.hpp"
 
 class Free_Camera : public Camera
