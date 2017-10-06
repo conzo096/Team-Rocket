@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include <assert.h>
 #include "Shader.h"
-Shader *Shader::instance = 0;
+Shader *Shader::instance = nullptr;
 GameEngine *GameEngine::instance = nullptr;
 
 void GameEngine::Initialise()
@@ -60,6 +60,7 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 	//auto mvp = Projection*View*m;
 
 	Shader::Instance()->UseShader("Basic", effect, mvp);
+	//Shader::Instance()->UseShader("Phong", effect, mvp);
 
 	model.Draw();
 }
@@ -88,10 +89,6 @@ void GameEngine::PrintGlewInfo()
 {
 	printf("-------------------------------------------------------\n");
 //	printf("Glew version: %p\n", glewGetString(GLEW_VERSION));
-//	printf("Gl version: %p\n", glGetString(GL_VERSION));
-//	printf("Vendor: %p\n", glGetString(GL_VENDOR));
-//	printf("Graphics card: %p\n", glGetString(GL_RENDERER));
-//	printf("Shading: %p\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
 	std::clog << "GL Version: " << glGetString(GL_VERSION) << std::endl;
 	std::clog << "GL Vendor: " << glGetString(GL_VENDOR) << std::endl;
@@ -103,6 +100,7 @@ void GameEngine::PrintGlewInfo()
 void GameEngine::LoadShaders()
 {
 	Shader::Instance()->AddShader("Basic");
+	//Shader::Instance()->AddShader("Phong");
 }
 
 unsigned int GameEngine::LoadTextures(const char* location)

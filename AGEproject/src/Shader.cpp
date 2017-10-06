@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader *instance = 0;
+Shader *instance = nullptr;
 std::map<std::string, GLShader> Shader::shaders;
 
 void Shader::AddShader(std::string name)
@@ -21,7 +21,7 @@ void Shader::AddShader(std::string name)
 	}
 }
 
-void Shader::UseShader(std::string name, Effect effect, glm::mat4 mvp)
+void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mvp)
 {
 	if (shaders.find(name) == shaders.end())
 	{

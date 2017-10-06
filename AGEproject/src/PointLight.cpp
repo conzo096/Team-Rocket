@@ -1,20 +1,17 @@
 #include "PointLight.h"
 
+int PointLight::id_counter = 0;
+int PointLight::_id;
 
 PointLight::PointLight() : Component("PointLight")
 {
-	position = glm::vec3(0.0f, 3.0f, 0.0f);
+	this->position = glm::vec3(0.0f, 3.0f, 0.0f);
 
-	constant  = 1.0f;
-	linear    = 0.7f;
-	quadratic = 1.8f;
-
-	ambient  = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
-	diffuse  = glm::vec4(0.80f, 0.80f, 0.80f, 1.00f);
-	specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);
+	this->ambient  = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
+	this->diffuse  = glm::vec4(0.80f, 0.80f, 0.80f, 1.00f);
+	this->specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);
 	
-	const float lightMax = fmaxf(fmaxf(ambient.r, ambient.g), ambient.b);
-	range = (-linear + sqrtf(linear * linear - 4 * quadratic * (constant - 256.0 / 5.0 * lightMax))) / (2 * quadratic);
+	initialise();
 }
 
 PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Component("PointLight")
@@ -22,21 +19,16 @@ PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Comp
 	this->position = position;
 	this->diffuse  = diffuse;
 
-	constant  = 1.0f;
-	linear    = 0.7f;
-	quadratic = 1.8f;
+	this->ambient  = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
+	this->specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);	
 
-	ambient  = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
-	specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);
-
-	const float lightMax = fmaxf(fmaxf(ambient.r, ambient.g), ambient.b);
-	range = (-linear + sqrtf(linear * linear - 4 * quadratic * (constant - 256.0 / 5.0 * lightMax)))	/ (2 * quadratic);
+	initialise();
 }
 
 void PointLight::bind(const PointLight& pointLight, const std::string& name)
 {
 	GLint idx;
-	auto effect = Shader::getShader("phong");
+	auto effect = Shader::getShader("Phong");
 	// Colours
 	idx = effect.GetUniformLocation(name + ".ambient");
 	if (idx != -1)
@@ -57,17 +49,24 @@ void PointLight::bind(const PointLight& pointLight, const std::string& name)
 		glUniform1f(idx, pointLight.range);
 }
 
+/*
 void PointLight::bind(const std::vector<PointLight>& pointLights, const std::string& name)
 {
-	unsigned int n = 0;
 	for (auto &p : pointLights)
 	{
 		std::stringstream stream;
-		stream << name << '[' << n << ']';
+		stream << name << '[' << this->_id << ']';
 		const auto point_name = stream.str();
 		bind(p, point_name);
-		++n;
 	}
+}
+*/
+
+void PointLight::initialise()
+{
+	this->_id = id_counter++;
+	const float lightMax = fmaxf(fmaxf(this->ambient.r, this->ambient.g), this->ambient.b);
+	this->range = (-this->linear + sqrtf(this->linear * this->linear - 4 * this->quadratic * (this->constant - 256.0 / 5.0 * lightMax))) / (2 * this->quadratic);
 }
 
 
@@ -77,6 +76,8 @@ PointLight::~PointLight()
 
 void PointLight::Render()
 {
+	std::stringstream s;
+	s << this->_id;
 	// Use renderer, bind.
-	bind(*this, "point_light0");
+	bind(*this, "point_light[" + s.str() + ']');
 }
