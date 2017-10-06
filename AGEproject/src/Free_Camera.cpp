@@ -3,11 +3,13 @@
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
+	
+// NOT WORKING
 	// The ratio of pixels to rotation
 	double ratioWidth = GetFOV() / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
-	double ratioHeight = ( GetFOV() * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
-									  / static_cast<float>(GameEngine::Instance()->GetScreenWidth())) ) 
-									  / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
+	double ratioHeight = (GetFOV() / (static_cast<float>(GameEngine::Instance()->GetScreenHeight())));
+									 // / static_cast<float>(GameEngine::Instance()->GetScreenWidth())) ) 
+									  /// static_cast<float>(GameEngine::Instance()->GetScreenHeight());
 	double currentX;
 	double currentY;
 
@@ -18,15 +20,17 @@ void Free_Camera::Update(double deltaTime)
 	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &currentX, &currentY);
 
 	// Calculate delta of cursor positions from last frame
-	double deltaX = currentX - cursorX;
-	double deltaY = cursorY - currentY;
+	double deltaX = (currentX - cursorX)*deltaTime;
+	double deltaY = (cursorY - currentY)*deltaTime;
 
 	// Multiply deltas by ratios to get change in orientation
 	deltaX *= ratioWidth;
 	deltaY *= ratioHeight;
 
 	// Rotate camera by deltas
-	Rotate(glm::dvec3(deltaX, deltaY, 0.0));
+	Rotate(deltaX,deltaY);
+// END NOT WORKING
+
 
 	// Move camera with WASD
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_W))
@@ -37,9 +41,9 @@ void Free_Camera::Update(double deltaTime)
 		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
 	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_D))
 		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_SPACE))
+	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_LEFT_SHIFT))
 		translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_LEFT_CONTROL))
+	if (glfwGetKey(GameEngine::Instance()->GetWindow(), GLFW_KEY_SPACE))
 		translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)

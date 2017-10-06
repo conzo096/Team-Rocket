@@ -54,4 +54,10 @@ public:
 
 	// Only here so it compiles.
 	void from_json(const json &j);
+
+	void Rotate(float deltaYaw, float deltaPitch)
+	{
+		pitch += deltaPitch;
+		yaw -= deltaYaw;
+	}
 };
