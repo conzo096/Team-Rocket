@@ -4,8 +4,8 @@
 void Free_Camera::Update(double deltaTime)
 {
 	// The ratio of pixels to rotation
-	double ratioWidth = GetFOV() / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
-	double ratioHeight = ( GetFOV() * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
+	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
+	double ratioHeight = ( fieldOfView * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
 									  / static_cast<float>(GameEngine::Instance()->GetScreenWidth())) ) 
 									  / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
 	double currentX;
@@ -18,22 +18,22 @@ void Free_Camera::Update(double deltaTime)
 	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &currentX, &currentY);
 
 	// Calculate delta of cursor positions from last frame
-	double deltaX = currentX - cursorX;
-	double deltaY = cursorY - currentY;
+	double deltaX = (currentX - cursorX) * deltaTime;
+	double deltaY = (cursorY - currentY) * deltaTime;
 
 	// Multiply deltas by ratios to get change in orientation
 	deltaX *= ratioWidth;
 	deltaY *= ratioHeight;
 
 	// Rotate camera by deltas
-	Rotate(glm::dvec3(deltaX, deltaY, 0.0));
+	Rotate(deltaX, deltaY);
+
 	if (UserControls::get().IsKeyPressed(std::string("RotateLeft")))
 		GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
-	 if(UserControls::get().IsKeyPressed(std::string("RotateRight")))
+	if (UserControls::get().IsKeyPressed(std::string("RotateRight")))
 		GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
 
 	// Move camera with user controls.
-
 	if (UserControls::get().IsKeyPressed(std::string("Forward")))
 		(translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed));
 	if (UserControls::get().IsKeyPressed(std::string("Left")))

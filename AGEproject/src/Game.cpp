@@ -8,8 +8,9 @@ Entity Game::cam = Entity();
 
 void Game::Initialise()
 {
-	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 90.0f);
-	camera->SetProjection(0.2, 1000);
+	auto camera = std::make_unique<Free_Camera>(90.0f);
+	camera->SetProjection((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 0.2, 1000);
+	camera->SetPosition(glm::dvec3(10.0, 5.0, 20.0));
 	cam.AddComponent(move(camera));
 
 	Entity* tempEntity = new Entity;
