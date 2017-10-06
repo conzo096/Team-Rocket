@@ -5,13 +5,14 @@
 #include <glm\gtc\type_ptr.hpp>
 #include "Texture.h"
 #include "UserControls.h"
+#include <glm\gtc/matrix_transform.hpp>
 #include "Quad.h"
 #include "GLShader.h"
 
 struct Button
 {
 	// Texture of the button.
-	Texture texture;
+	unsigned int texture;
 	// What action the button does.
 	int action;
 	// Quad that the button is rendered on.

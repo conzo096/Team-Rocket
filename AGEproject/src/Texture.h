@@ -8,13 +8,11 @@ class Texture
 {
 public:
 	unsigned int texture;
-	int width, height;
+	//int width, height;
 	Texture() {}
 
-	Texture(const char* location, int w, int h)
+	Texture(const char* location)
 	{
-		width = w;
-		height = h;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		// set the texture wrapping parameters

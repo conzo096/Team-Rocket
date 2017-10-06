@@ -35,7 +35,7 @@ void Game::Initialise()
 
 void Game::Update()
 {
-	glm::mat4 camMatrix = cam.GetComponent<Free_Camera>().GetProjection() * cam.GetComponent<Free_Camera>().GetView();
+	glm::mat4& camMatrix = cam.GetComponent<Free_Camera>().GetProjection() * cam.GetComponent<Free_Camera>().GetView();
 	GameEngine::Instance()->SetCamera(camMatrix);
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
