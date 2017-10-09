@@ -54,6 +54,15 @@
     <ClCompile Include="src\UserControls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\FrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BoundingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -105,6 +114,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,11 +4,10 @@ Model::Model()
 {
 }
 
-Model::Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+Model::Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->textures = textures;
 
 	SetUpMesh();
 }

@@ -65,5 +65,4 @@ public:
 	static void PrintGlewInfo();
 	static void LoadShaders();
 
-	static unsigned int LoadTextures(const char* location);
 };
