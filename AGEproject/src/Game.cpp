@@ -11,7 +11,14 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 	for (int i = 0; i < 1; i++)
 	{
 		glm::vec3 spawnPosition = position;
-		spawnPosition.x += size.x;
+		if (i % 2 == 0)
+		{
+			spawnPosition.x += size.x;
+			size.x = -size.x;
+			size.y = -size.y;
+		}
+		else
+			spawnPosition.z += size.y;
 		Entity* tempEntity = new Entity;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("../res/models/Constructor.obj");
@@ -23,7 +30,6 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
 		entities.push_back(tempEntity);
-		return;
 	}
 }
 
@@ -51,7 +57,7 @@ void Game::Initialise()
 	auto tempRenderable2 = std::make_unique<Renderable>();
 	tempRenderable2->SetPlane(1, 100, 100);
 	tempRenderable2->SetEffect("debug");
-	tempEntity->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 	tempEntity2->AddComponent(move(tempRenderable2));
 
@@ -67,9 +73,7 @@ void Game::Update()
 	cam->Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
-		//entities[n]->Update(deltaTime);
 		//entities[n]->Rotate(glm::vec3(0.01f, 0.01f, 0.0f));
-		entities[n]->UpdateTransforms();
 		entities[n]->Update(deltaTime);
 		n++;
 	}
