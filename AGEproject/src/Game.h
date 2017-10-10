@@ -7,6 +7,7 @@
 #include "Free_Camera.h"
 #include "Renderable.h"
 #include "Structure.h"
+#include "AirMovement.h"
 
 class Entity;
 
