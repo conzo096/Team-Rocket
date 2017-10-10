@@ -8,7 +8,8 @@ unsigned int Shader::AddTexture(std::string name)
 {
 	if (textures.find(name) == textures.end())
 	{
-		textures.insert(std::pair<std::string, unsigned int>(name, GameEngine::LoadTextures(("../res/textures/" + name + ".png").c_str())));
+		Texture temp(("../res/textures/" + name + ".png").c_str());
+		textures.insert(std::pair<std::string, unsigned int>(name,temp.GetTextureId()));
 	}
 	return textures[name];
 }
@@ -23,7 +24,8 @@ void Shader::AddShader(std::string name)
 	{
 		GLShader shader;
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".vert").c_str(), GLShader::VERTEX))
-			std::printf("Vert failed to compile.\n");
+			
+			("Vert failed to compile.\n");
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".frag").c_str(), GLShader::FRAGMENT))
 			std::printf("Frag failed to compile.\n");
 		shader.Link();

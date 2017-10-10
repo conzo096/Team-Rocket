@@ -10,7 +10,7 @@
 #include <glm\glm.hpp>
 #include "GLShader.h"
 #include "Entity.h"
-
+#include "Texture.h"
 class Shader
 {
 private:

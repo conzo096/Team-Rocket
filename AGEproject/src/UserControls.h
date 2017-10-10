@@ -5,11 +5,9 @@
 #include <GLFW\glfw3.h>
 #include <iostream>
 
-class UserControls : Singleton<UserControls>
+class UserControls : public Singleton<UserControls>
 {
-
 private:
-
 	// If the joystick is not connected set to -1.
 	int joyStickConnected = -1;
 
@@ -24,6 +22,7 @@ private:
 
 
 public:
+
 	// Controller choices.
 	enum ControllerOption { KEYBOARD, CONTROLLER};
 
