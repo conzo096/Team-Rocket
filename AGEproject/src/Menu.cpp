@@ -47,7 +47,7 @@ int TMenu::SelectionPicked()
 int TMenu::Draw(GLShader shader)
 {
 	buttons.resize(3);
-	unsigned int tex = GameEngine::Instance()->LoadTextures("../res/textures/debug.png");
+	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId();
 	glm::mat4 m(1.0);
 	glm::mat4 v(1.0);
 	glm::mat4 p(1.0);
@@ -60,16 +60,16 @@ int TMenu::Draw(GLShader shader)
 	}
 
 	// Change while condition.
-	while (!UserControls::get().IsKeyPressed("Enter"))
+	while (!UserControls::get().IsKeyPressed(std::string("Enter")))
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(1, 0, 0, 1);
 		shader.Use();
 
-		if (UserControls::get().IsKeyPressed("Forward"))
+		if (UserControls::get().IsKeyPressed(std::string("Forward")))
 			SelectionUp();
-		if (UserControls::get().IsKeyPressed("BackWard"))
+		if (UserControls::get().IsKeyPressed(std::string("Backward")))
 			SelectionDown();
 		// Bind texture.
 		glUniform1i(shader.GetUniformLocation("tex"), 0);

@@ -1,14 +1,11 @@
 #pragma once
 #define GLEW_STATIC
 #include "GameEngine.h"
-#pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "Menu.h"
-#include "Game.h"
-#include "Entity.h"
-#include "Renderable.h"
+
 class StateManager
 {
 	enum State
@@ -36,13 +33,11 @@ public:
 
 	void StateLoop();
 
-
-private:
-
 	void ShowMainMenu()
 	{
 		TMenu t;
-		t.Draw(Shader::GetShader(std::string("Basic")));
+		t.Draw(Shader::Instance()->GetShader("Basic"));
 	}
+private:
 
 };

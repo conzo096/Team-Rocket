@@ -37,19 +37,6 @@ bool UserControls::IsKeyPressed(std::string &action)
 	return false;
 }
 
-bool UserControls::IsKeyPressed(char * action)
-{
-	auto val = buttonOptions.find(action);
-	if (val == buttonOptions.end())
-		return false;
-	else
-	{
-		if (glfwGetKey(GameEngine::Instance()->GetWindow(), val->second) == GLFW_PRESS)
-			return true;
-	}
-	// Should never enter here but just in case.
-	return false;
-}
 
 void UserControls::ResetKeyBindings(ControllerOption options)
 {

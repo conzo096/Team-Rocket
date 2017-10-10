@@ -8,8 +8,6 @@
 #include "Transform.h"
 #include "GameEngine.h"
 
-// PEWTI = Please Explain What This Is?
-
 using json = nlohmann::json;
 
 class Entity;
@@ -19,11 +17,10 @@ class Component : public Transform
 protected:
 	Entity* entity;
 	bool active;
-	Component() = delete;	// PEWTI?
-	Component(const Component &obj) = delete;	// PEWTI?
+	Component() = delete;
+	Component(const Component &obj) = delete;
 
 public:
-	// PEWTI? All of it.
 	virtual void from_json(const json &j) = 0;
 	std::string token;
 	explicit Component(const std::string &token);
@@ -62,7 +59,6 @@ public:
 	void Update(const double delta);
 	void Render();
 
-	// PEWTI?
 	template <typename T> T &GetComponent() const {
 		map::const_iterator iter = components.find(std::type_index(typeid(T)));
 
@@ -73,7 +69,6 @@ public:
 		throw;
 	}
 
-	// PEWTI?
 	template <typename T> void AddComponent(std::unique_ptr<T> component) noexcept
 	{
 		Component *a = component.get();

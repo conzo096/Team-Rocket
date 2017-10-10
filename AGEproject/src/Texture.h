@@ -1,36 +1,41 @@
 #pragma once
-#define GLEW_STATIC
-#include <GL/glew.h>
+#include "GL\glew.h"
 #include "stb_image.h"
-#include <GLFW/glfw3.h>
+#include "FileIO.h"
 
+#include <iostream>
 class Texture
 {
+private:
+	// Id of the texture on the gpu.
+	unsigned int textureId;
+	// Dimensions of the texture.
+	int width=0, height=0;
+	// Type of texture;
+	GLenum textureType;
+
 public:
-	unsigned int texture;
-	//int width, height;
+
 	Texture() {}
+	Texture(int w, int h);
+	Texture(const char* fileLocation);
 
-	Texture(const char* location)
+	void SetType(GLenum type)
 	{
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		// set the texture wrapping parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		// set texture filtering parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// load image, create texture and generate mipmaps
-		int width, height, nrChannels;
-		stbi_set_flip_vertically_on_load(true); 
-		unsigned char *data = stbi_load(location, &width, &height, &nrChannels, 0);
-		if (data)
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		}
+		textureType = type;
+	}
 
-		stbi_image_free(data);
+	unsigned int& GetTextureId()
+	{
+		return textureId;
+	}
+
+	unsigned int GetCopiedTextureId()
+	{
+		return textureId;
+	}
+	GLenum& GetTextureType()
+	{
+		return textureType;
 	}
 };

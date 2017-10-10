@@ -3,7 +3,6 @@
 #include <glm\gtc\quaternion.hpp> 
 #include <string>
 #include <vector>
-#include "Texture.h"
 #include "GLShader.h"
 #include "assimp/Importer.hpp"
 #include "assimp/PostProcess.h"
@@ -22,6 +21,8 @@ struct Vertex
 
 enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 
+
+
 class Model
 {
 private:
@@ -29,11 +30,10 @@ private:
 	bool strip = false;
 public:
 	Model();
-	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	void SetUpMesh();
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
-	std::vector<Texture> textures;
 
 	void SetStrip(bool strip) { this->strip = strip; };
 	bool GetStrip() { return strip; };

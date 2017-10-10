@@ -4,15 +4,17 @@
 #include <chrono>
 
 #include "GameEngine.h"
-#include "Entity.h"
 #include "Free_Camera.h"
 #include "Renderable.h"
+#include "Structure.h"
+
+class Entity;
 
 class Game
 {
 private:
 	static Game *instance;
-	static Entity cam;
+	static Entity *cam;
 	static std::vector<Entity*> entities;//Figure out how to split this.
 	static double lastTime;
 public:
@@ -24,6 +26,8 @@ public:
 		}
 		return instance;
 	}
+
+	static void SpawnUnit(glm::vec3 position, glm::vec2 size);
 
 	static void Initialise();
 	static void Update();

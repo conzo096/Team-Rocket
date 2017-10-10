@@ -8,6 +8,7 @@ void Free_Camera::Update(double deltaTime)
 	double ratioHeight = ( fieldOfView * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
 									  / static_cast<float>(GameEngine::Instance()->GetScreenWidth())) ) 
 									  / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
+
 	double currentX;
 	double currentY;
 
@@ -20,6 +21,7 @@ void Free_Camera::Update(double deltaTime)
 	// Calculate delta of cursor positions from last frame
 	double deltaX = (currentX - cursorX) * deltaTime;
 	double deltaY = (cursorY - currentY) * deltaTime;
+
 
 	// Multiply deltas by ratios to get change in orientation
 	deltaX *= ratioWidth;
