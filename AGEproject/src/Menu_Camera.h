@@ -12,6 +12,7 @@ private:
 
 public:
 	Menu_Camera() :
+		cursorX(0.0), cursorY(0.0),
 		Camera("Menu_Camera")
 	{
 		glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);

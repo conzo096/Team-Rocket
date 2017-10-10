@@ -9,12 +9,12 @@ void StateManager::StateLoop()
 {
 	GameEngine::Instance()->Initialise();
 	Game::Instance()->Initialise();
+
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
 		switch (state)
 		{
 		case(Splash):
-			
 			//GameEngine::Instance()->Render();
 			state = Menu;
 			break;
@@ -27,7 +27,6 @@ void StateManager::StateLoop()
 		case(Playing):
 			Game::Instance()->Update();
 			Game::Instance()->Render();
-
 			break;
 		case(Exiting):
 			break;

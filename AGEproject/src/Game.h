@@ -5,6 +5,7 @@
 
 #include "GameEngine.h"
 #include "Free_Camera.h"
+#include "Menu_Camera.h"
 #include "Renderable.h"
 #include "Structure.h"
 
@@ -14,8 +15,9 @@ class Game
 {
 private:
 	static Game *instance;
-	static Entity *cam;
-	static std::vector<Entity*> entities;//Figure out how to split this.
+	static Entity *menu_cam;
+	static Entity *free_cam;
+	static std::vector<Entity*> entities; //Figure out how to split this.
 	static double lastTime;
 public:
 	static Game *Instance()
