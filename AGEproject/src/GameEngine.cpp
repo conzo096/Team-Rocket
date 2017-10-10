@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include <assert.h>
-#include "Shader.h"
+#include "PointLight.h"
+
 Shader *Shader::instance = nullptr;
 GameEngine *GameEngine::instance = nullptr;
 
@@ -59,8 +60,8 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 	auto mvp = instance->cameraMVP*m;
 	//auto mvp = Projection*View*m;
 
-	Shader::Instance()->UseShader("Basic", effect, mvp);
-	//Shader::Instance()->UseShader("Phong", effect, mvp);
+	//Shader::Instance()->UseShader("Basic", effect, mvp);
+	Shader::Instance()->UseShader("Phong", effect, mvp);
 
 	model.Draw();
 }
@@ -99,8 +100,8 @@ void GameEngine::PrintGlewInfo()
 
 void GameEngine::LoadShaders()
 {
-	Shader::Instance()->AddShader("Basic");
-	//Shader::Instance()->AddShader("Phong");
+	//Shader::Instance()->AddShader("Basic");
+	Shader::Instance()->AddShader("Phong");
 }
 
 unsigned int GameEngine::LoadTextures(const char* location)

@@ -25,6 +25,16 @@ PointLight::PointLight(const glm::vec3 position, const glm::vec4 diffuse) : Comp
 	initialise();
 }
 
+PointLight::PointLight(const PointLight& obj) : Component("PointLight")
+{
+	this->position = obj.position;
+	this->ambient = obj.ambient;
+	this->diffuse = obj.diffuse;
+	this->specular = obj.specular;
+
+	initialise();
+}
+
 void PointLight::bind(const PointLight& pointLight, const std::string& name)
 {
 	GLint idx;
@@ -47,6 +57,11 @@ void PointLight::bind(const PointLight& pointLight, const std::string& name)
 	idx = effect.GetUniformLocation(name + ".range");
 	if (idx != -1)
 		glUniform1f(idx, pointLight.range);
+}
+
+void PointLight::from_json(const nlohmann::json& j)
+{
+
 }
 
 /*

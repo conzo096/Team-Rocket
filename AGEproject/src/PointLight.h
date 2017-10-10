@@ -5,6 +5,7 @@ class PointLight : public Component
 {
 	void bind(const PointLight& pointLight, const std::string& name);
 //	void bind(const std::vector<PointLight>& pointLights, const std::string& name);
+	void from_json(const nlohmann::json &j) override;
 	float range;
 	void initialise();
 	static int _id;
@@ -22,6 +23,7 @@ public:
 
 	PointLight();
 	PointLight(const glm::vec3 position, const glm::vec4 diffuse);
+	PointLight(const PointLight &obj);
 
 	int getId() { return _id; }
 
