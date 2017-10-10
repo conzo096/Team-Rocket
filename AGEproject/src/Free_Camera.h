@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "GameEngine.h"
+#include "UserControls.h"
 #include "glm\gtx\euler_angles.hpp"
 
 class Free_Camera : public Camera
@@ -54,4 +55,10 @@ public:
 
 	// Only here so it compiles.
 	void from_json(const json &j);
+
+	void Rotate(float deltaYaw, float deltaPitch)
+	{
+		pitch += deltaPitch;
+		yaw -= deltaYaw;
+	}
 };

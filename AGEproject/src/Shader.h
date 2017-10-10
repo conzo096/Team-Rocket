@@ -10,12 +10,13 @@
 #include <glm\glm.hpp>
 #include "GLShader.h"
 #include "Entity.h"
-
+#include "Texture.h"
 class Shader
 {
 private:
 	static Shader *instance;
 	static std::map<std::string, GLShader> shaders;
+	static std::map<std::string, unsigned int> textures;
 
 public:
 	static Shader *Instance()
@@ -27,6 +28,7 @@ public:
 		return instance;
 	}
 
+	static unsigned int AddTexture(std::string name);
 	static void AddShader(std::string name);
 	static void UseShader(std::string name, Effect effect, glm::mat4 mvp);
 

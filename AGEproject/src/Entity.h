@@ -7,7 +7,6 @@
 #include <vector>
 #include "Transform.h"
 #include "GameEngine.h"
-
 // PEWTI = Please Explain What This Is?
 
 using json = nlohmann::json;

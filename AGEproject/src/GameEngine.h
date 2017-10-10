@@ -22,8 +22,9 @@ class GameEngine
 	static GameEngine *instance;
 	// The window that is to be rendered too.
 	GLFWwindow* window;
-	unsigned int width = 1920;
-	unsigned int height = 1080;
+	unsigned int width;
+	unsigned int height;
+	bool fullScreen;
 	glm::mat4 cameraMVP;
 
 public:
@@ -45,9 +46,12 @@ public:
 	// Getters for width and height
 	unsigned int GetScreenWidth() { return width; }
 	unsigned int GetScreenHeight() { return height; }
+	bool GetFullScreen() { return fullScreen; }
+	void SetFullScreen(int val) { instance->fullScreen = val; }
+	void SetScreenWidth(int val) { instance->width = val; }
+	void SetScreenHeight(int val) { instance->height = val; }
 
 	void SetCamera(glm::mat4 camera);
-
 	// Execute the game engine.
 	void Start();
 	// Cleans up game engine resources.
@@ -58,5 +62,4 @@ public:
 	static void PrintGlewInfo();
 	static void LoadShaders();
 
-	static unsigned int LoadTextures(const char* location);
 };

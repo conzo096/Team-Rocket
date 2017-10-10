@@ -17,12 +17,6 @@ struct Vertex
 	glm::vec4 color;
 };
 
-struct Texture
-{
-	unsigned int id;
-	std::string type;
-};
-
 enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 
 
@@ -30,15 +24,18 @@ enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 class Model
 {
 	unsigned int VAO, VBO, EBO;
+	bool strip = false;
 public:
 	Model();
-	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	void SetUpMesh();
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
-	std::vector<Texture> textures;
 
+	void SetStrip(bool strip) { this->strip = strip; };
+	bool GetStrip() { return strip; };
 	void Draw();
+	void DrawStrip();
 
 	Model(const std::string& fileName);
 
