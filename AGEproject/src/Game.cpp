@@ -8,7 +8,7 @@ Entity* Game::cam = new Entity;
 
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		glm::vec3 spawnPosition = position;
 		if (i % 2 == 0)
