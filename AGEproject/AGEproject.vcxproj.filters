@@ -131,6 +131,9 @@
     <ClInclude Include="src\UserControls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\RayCast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">

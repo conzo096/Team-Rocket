@@ -8,7 +8,7 @@ Entity* Game::cam = new Entity;
 
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		glm::vec3 spawnPosition = position;
 		if (i % 2 == 0)
@@ -48,6 +48,9 @@ void Game::Initialise()
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Structure>();
 
+	auto tempBoundingBox = std::make_unique<BoundingBox>(tempRenderable->GetModel().GetVertexPositions());
+
+	tempEntity->AddComponent(move(tempBoundingBox));
 	tempEntity->AddComponent(move(tempRenderable));
 	tempEntity->AddComponent(move(tempStructure));
 
@@ -59,8 +62,9 @@ void Game::Initialise()
 	tempRenderable2->SetEffect("debug");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
-	tempEntity2->AddComponent(move(tempRenderable2));
 
+	auto tempBoundingBox2 = std::make_unique<BoundingBox>(tempRenderable2->GetModel().GetVertexPositions());
+	tempEntity2->AddComponent(move(tempRenderable2));
 	entities.push_back(tempEntity2);
 }
 

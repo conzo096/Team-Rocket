@@ -15,7 +15,6 @@ public:
 	// Opposite corners of the bounding box. 
 	glm::vec3 lowerLeftFront = glm::vec3(999999.0f, 999999.0f, -999999.0f),
 	upperRightBack = glm::vec3(-999999.0f, -999999.0f, 999999.0f);
-	
 	BoundingBox(): Component("BoundingBox") {};
 	// Takes in a list of model vertices.
 	void SetUpBoundingBox(std::vector<glm::vec3> &vertices);

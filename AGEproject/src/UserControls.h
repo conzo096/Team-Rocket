@@ -70,6 +70,14 @@ public:
 		return joyStickConnected;
 	}
 
+
+	// Returns mouse position.
+	glm::vec2 GetMousePos()
+	{
+		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &mouseX, &mouseY);
+		return glm::ivec2(mouseX, mouseY);
+	}
+
 	// Reset the keybindings to their default configuration.
 	void ResetKeyBindings(ControllerOption options);
 
