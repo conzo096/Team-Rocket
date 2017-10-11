@@ -3,6 +3,8 @@
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
+	glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 	// The ratio of pixels to rotation
 	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
 	double ratioHeight = ( fieldOfView * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
@@ -19,8 +21,8 @@ void Free_Camera::Update(double deltaTime)
 	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &currentX, &currentY);
 
 	// Calculate delta of cursor positions from last frame
-	double deltaX = (currentX - cursorX) * deltaTime;
-	double deltaY = (cursorY - currentY) * deltaTime;
+	double deltaX = (currentX - cursorX);
+	double deltaY = (cursorY - currentY);
 
 
 	// Multiply deltas by ratios to get change in orientation

@@ -8,7 +8,6 @@ StateManager *StateManager::instance = 0;
 void StateManager::StateLoop()
 {
 	GameEngine::Instance()->Initialise();
-	Game::Instance()->Initialise();
 
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
@@ -20,6 +19,7 @@ void StateManager::StateLoop()
 			break;
 		case(Menu):
 			ShowMainMenu();
+			Game::Instance()->Initialise(); //This will need a new home later.
 			state = Playing;
 			break;
 		case(Settings):

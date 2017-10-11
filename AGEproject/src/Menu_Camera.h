@@ -26,9 +26,9 @@ public:
 	void Update(double deltaTime) override;
 
 	// Build projection matrix
-	void SetProjection(float left, float right, float bottom, float top, float near, float far)
+	void SetProjection(float fov, float aspect, float near, float far)
 	{
-		projection = glm::ortho(left, right, bottom, top, near, far);
+		projection = glm::perspective(fov, aspect, near, far);
 	}
 
 	// Only here so it compiles.

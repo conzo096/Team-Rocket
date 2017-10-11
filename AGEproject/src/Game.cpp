@@ -4,20 +4,14 @@
 Game *Game::instance = 0;
 std::vector<Entity*> Game::entities;
 double Game::lastTime = 0.0f;
-Entity* Game::menu_cam = new Entity;
 Entity* Game::free_cam = new Entity;
 
 void Game::Initialise()
 {
-	auto camera1 = std::make_unique<Menu_Camera>();
-	camera1->SetPosition(glm::dvec3(0.0, 0.0, 0.0));
-	//camera1->SetProjection()
-	menu_cam->AddComponent(move(camera1));
-
-	auto camera2 = std::make_unique<Free_Camera>(90.0f);
-	camera2->SetPosition(glm::dvec3(10.0, 5.0, 20.0));
-	camera2->SetProjection((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 2.414f, 1000);
-	free_cam->AddComponent(move(camera2));
+	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
+	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
+	cam->SetProjection((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 2.414f, 1000);
+	free_cam->AddComponent(move(cam));
 
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
@@ -41,6 +35,7 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempRenderable2));
 
 	entities.push_back(tempEntity2);
+	lastTime = clock();
 }
 
 void Game::Update()
