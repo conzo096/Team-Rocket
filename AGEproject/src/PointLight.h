@@ -3,7 +3,7 @@
 
 class PointLight : public Component
 {
-	void bind(const PointLight& pointLight, const std::string& name);
+	void bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName);
 //	void bind(const std::vector<PointLight>& pointLights, const std::string& name);
 	void from_json(const nlohmann::json &j) override;
 	float range;

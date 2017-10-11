@@ -5,9 +5,6 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include "Shader.h"
 #include "FileIO.h"
-GameEngine *GameEngine::instance = 0;
-Shader *Shader::instance = 0;
-
 Shader *Shader::instance = nullptr;
 GameEngine *GameEngine::instance = nullptr;
 
@@ -22,9 +19,9 @@ void GameEngine::Initialise()
 	io.LoadIniFile();
 	// Create a windowed mode window with hard coded parameters.
 	if(instance->fullScreen == false)
-		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", NULL, NULL);
+		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", nullptr, nullptr);
 	else
-		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
+		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), nullptr);
 	
 	// Window is now initalised, now make it the current context.
 	glfwMakeContextCurrent(instance->window);
@@ -56,7 +53,7 @@ void GameEngine::Initialise()
 
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
-	auto mvp = instance->cameraMVP * m;
+	const auto mvp = instance->cameraMVP * m;
 	Shader::Instance()->UseShader("Basic", effect, mvp);
 	if (!model.GetStrip())
 		model.Draw();

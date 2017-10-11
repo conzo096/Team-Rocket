@@ -35,10 +35,10 @@ PointLight::PointLight(const PointLight& obj) : Component("PointLight")
 	initialise();
 }
 
-void PointLight::bind(const PointLight& pointLight, const std::string& name)
+void PointLight::bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName)
 {
 	GLint idx;
-	auto effect = Shader::getShader("Phong");
+	auto effect = Shader::getShader(shaderName);
 	// Colours
 	idx = effect.GetUniformLocation(name + ".ambient");
 	if (idx != -1)
@@ -94,5 +94,5 @@ void PointLight::Render()
 	std::stringstream s;
 	s << this->_id;
 	// Use renderer, bind.
-	bind(*this, "point_light[" + s.str() + ']');
+	bind(*this, "point_light[" + s.str() + ']', "Phong");
 }
