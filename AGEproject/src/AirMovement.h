@@ -1,4 +1,5 @@
 #pragma once
+#define GLM_SWIZZLE
 #include "Movement.h"
 
 class AirMovement : public Movement
@@ -11,6 +12,8 @@ public:
 	AirMovement();
 	~AirMovement();
 
+	void MoveTo(double delta);
+	void TurnTo(double delta);
 	void Update(double delta) override;
 
 };

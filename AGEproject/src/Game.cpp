@@ -30,6 +30,7 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(30.0);
 		tempAirMovement->SetAcceleration(0.5);
+		tempAirMovement->SetTurnSpeed(300.0);
 
 		tempFlyer->AddComponent(move(tempRenderable));
 		tempFlyer->AddComponent(move(tempAirMovement));
