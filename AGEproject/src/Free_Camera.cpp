@@ -17,20 +17,20 @@ void Free_Camera::Update(double deltaTime)
 	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &currentX, &currentY);
 
 	// Calculate delta of cursor positions from last frame
-	double deltaX = (currentX - cursorX)*deltaTime;
-	double deltaY = (cursorY - currentY)*deltaTime;
+	double deltaX = (currentX - cursorX);
+	double deltaY = (cursorY - currentY);
 
 	// Multiply deltas by ratios to get change in orientation
 	deltaX *= ratioWidth;
 	deltaY *= ratioHeight;
 
 	// Rotate camera by deltas
-	Rotate(deltaX, deltaY);
+//	Rotate(deltaX, deltaY);
 
-	//if (UserControls::get().IsKeyPressed(std::string("RotateLeft")))
-	//	GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
-	//if (UserControls::get().IsKeyPressed(std::string("RotateRight")))
-	//	GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
+	if (UserControls::get().IsKeyPressed(std::string("RotateLeft")))
+		Rotate(-2*deltaTime,0);
+	if (UserControls::get().IsKeyPressed(std::string("RotateRight")))
+		Rotate(2*deltaTime,0);
 
 	// Move camera with user controls.
 	if (UserControls::get().IsKeyPressed(std::string("Forward")))

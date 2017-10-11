@@ -35,7 +35,7 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 
 void Game::Initialise()
 {
-	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 90.0f);
+	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), glm::half_pi<float>());
 	camera->SetPosition(glm::dvec3(10.0, 5.0, 20.0));
 	camera->SetProjection(2.414f, 1000);
 	cam->AddComponent(move(camera));
@@ -48,10 +48,12 @@ void Game::Initialise()
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Structure>();
 
-	auto tempBoundingBox = std::make_unique<BoundingBox>(tempRenderable->GetModel().GetVertexPositions());
+	auto tempBoundingBox = std::make_unique<BoundingBox>();
+	tempBoundingBox->UpdateTransforms();
 
-	tempEntity->AddComponent(move(tempBoundingBox));
+	tempBoundingBox->SetUpBoundingBox(tempRenderable->GetModel().GetVertexPositions());
 	tempEntity->AddComponent(move(tempRenderable));
+	tempEntity->AddComponent(move(tempBoundingBox));
 	tempEntity->AddComponent(move(tempStructure));
 
 	entities.push_back(tempEntity);
@@ -63,8 +65,11 @@ void Game::Initialise()
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 
-	auto tempBoundingBox2 = std::make_unique<BoundingBox>(tempRenderable2->GetModel().GetVertexPositions());
+	//auto tempBoundingBox2 = std::make_unique<BoundingBox>();
+	//tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
+
 	tempEntity2->AddComponent(move(tempRenderable2));
+	//tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
 }
 
@@ -82,7 +87,7 @@ void Game::Update()
 		n++;
 	}
 
-	printf("%.9f\n", deltaTime);
+	//printf("%.9f\n", deltaTime);
 }
 
 void Game::Render()

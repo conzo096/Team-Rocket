@@ -72,7 +72,7 @@ public:
 
 
 	// Returns mouse position.
-	glm::vec2 GetMousePos()
+	glm::ivec2 GetMousePos()
 	{
 		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &mouseX, &mouseY);
 		return glm::ivec2(mouseX, mouseY);
