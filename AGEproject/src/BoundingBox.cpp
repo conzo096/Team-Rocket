@@ -59,60 +59,171 @@ void BoundingBox::Update(double deltaTime)
 {
 	if (CheckForMouseIntersection(RayCast(Game::Instance()->cam->GetComponent<Free_Camera>())))
 	{
-		std::cout << "WOOO" << std::endl;
+	//	std::cout << "WOOO" << std::endl;
 	}
-	else
-		std::cout << "NOT WOO" << std::endl;
+	//else
+	//	std::cout << "NOT WOO" << std::endl;
 }
 
 bool BoundingBox::CheckForMouseIntersection(RayCast ray)
 {
-	// Get local bounds.
+	//// Get local bounds.
 	glm::vec3 min = glm::vec3(lowerLeftFront.x, lowerLeftFront.y, upperRightBack.z);
 	glm::vec3 max = glm::vec3(upperRightBack.x,upperRightBack.y,lowerLeftFront.z);
-	// Transform into global bounds.
-	min = GetParent()->GetTransform() * glm::dvec4(min,1);
-	max = GetParent()->GetTransform() * glm::dvec4(max,1);
+	//// Transform into global bounds.
+	//min = GetParent()->GetTransform() * glm::dvec4(min,1);
+	//max = GetParent()->GetTransform() * glm::dvec4(max,1);
 
-	// Check if ray is within x bounds.
-	float tmin = (min.x - ray.origin.x) / ray.direction.x;
-	float tmax = (max.x - ray.origin.x) / ray.direction.x;
+	//// Check if ray is within x bounds.
+	//float tmin = (min.x - ray.origin.x) / ray.direction.x;
+	//float tmax = (max.x - ray.origin.x) / ray.direction.x;
 
-	if (tmin > tmax)
-		std::swap(tmin, tmax);
+	//if (tmin > tmax)
+	//	std::swap(tmin, tmax);
 
-	float tymin = (min.y - ray.origin.y) / ray.direction.y;
-	float tymax = (max.y - ray.origin.y) / ray.direction.y;
+	//float tymin = (min.y - ray.origin.y) / ray.direction.y;
+	//float tymax = (max.y - ray.origin.y) / ray.direction.y;
 
-	if (tymin > tymax) 
-		std::swap(tymin, tymax);
+	//if (tymin > tymax) 
+	//	std::swap(tymin, tymax);
 
-	if ((tmin > tymax) || (tymin > tmax))
-		return false;
+	//if ((tmin > tymax) || (tymin > tmax))
+	//	return false;
 
-	if (tymin > tmin)
-		tmin = tymin;
+	//if (tymin > tmin)
+	//	tmin = tymin;
 
-	if (tymax < tmax)
-		tmax = tymax;
+	//if (tymax < tmax)
+	//	tmax = tymax;
 
-	float tzmin = (min.z - ray.origin.z) / ray.direction.z;
-	float tzmax = (max.z - ray.origin.z) / ray.direction.z;
+	//float tzmin = (min.z - ray.origin.z) / ray.direction.z;
+	//float tzmax = (max.z - ray.origin.z) / ray.direction.z;
 
-	if (tzmin > tzmax) 
-		std::swap(tzmin, tzmax);
+	//if (tzmin > tzmax) 
+	//	std::swap(tzmin, tzmax);
 
-	if ((tmin > tzmax) || (tzmin > tmax))
-		return false;
+	//if ((tmin > tzmax) || (tzmin > tmax))
+	//	return false;
 
-	if (tzmin > tmin)
-		tmin = tzmin;
+	//if (tzmin > tmin)
+	//	tmin = tzmin;
 
-	if (tzmax < tmax)
-		tmax = tzmax;
+	//if (tzmax < tmax)
+	//	tmax = tzmax;
 
-	std::cout << "Contact at: " << std::endl;
+	////std::cout << "Contact at: " << std::endl;
+	//return true;
+
+	glm::mat4 ModelMatrix = GetParent()->GetTransform();
+	float intersection_distance;
+	
+	float tMin = 0.0f;
+	float tMax = 100000.0f;
+
+	
+	glm::vec3 delta = GetParent()->GetPosition() - glm::dvec3(ray.origin);
+
+	// Test intersection with the 2 planes perpendicular to the OBB's X axis
+	{
+		glm::vec3 xaxis(ModelMatrix[0].x, ModelMatrix[0].y, ModelMatrix[0].z);
+		float e = glm::dot(xaxis, delta);
+		float f = glm::dot(ray.direction, xaxis);
+
+		if (fabs(f) > 0.001f) { // Standard case
+
+			float t1 = (e + min.x) / f; // Intersection with the "left" plane
+			float t2 = (e + max.x) / f; // Intersection with the "right" plane
+											 // t1 and t2 now contain distances betwen ray origin and ray-plane intersections
+
+											 // We want t1 to represent the nearest intersection, 
+											 // so if it's not the case, invert t1 and t2
+			if (t1>t2) {
+				float w = t1; t1 = t2; t2 = w; // swap t1 and t2
+			}
+
+			// tMax is the nearest "far" intersection (amongst the X,Y and Z planes pairs)
+			if (t2 < tMax)
+				tMax = t2;
+			// tMin is the farthest "near" intersection (amongst the X,Y and Z planes pairs)
+			if (t1 > tMin)
+				tMin = t1;
+
+			// And here's the trick :
+			// If "far" is closer than "near", then there is NO intersection.
+			// See the images in the tutorials for the visual explanation.
+			if (tMax < tMin)
+				return false;
+
+		}
+		else { // Rare case : the ray is almost parallel to the planes, so they don't have any "intersection"
+			if (-e + min.x > 0.0f || -e + max.x < 0.0f)
+				return false;
+		}
+	}
+
+
+	// Test intersection with the 2 planes perpendicular to the OBB's Y axis
+	// Exactly the same thing than above.
+	{
+		glm::vec3 yaxis(ModelMatrix[1].x, ModelMatrix[1].y, ModelMatrix[1].z);
+		float e = glm::dot(yaxis, delta);
+		float f = glm::dot(ray.direction, yaxis);
+
+		if (fabs(f) > 0.001f) {
+
+			float t1 = (e + min.y) / f;
+			float t2 = (e + max.y) / f;
+
+			if (t1>t2) { float w = t1; t1 = t2; t2 = w; }
+
+			if (t2 < tMax)
+				tMax = t2;
+			if (t1 > tMin)
+				tMin = t1;
+			if (tMin > tMax)
+				return false;
+
+		}
+		else {
+			if (-e + min.y > 0.0f || -e + max.y < 0.0f)
+				return false;
+		}
+	}
+
+
+	// Test intersection with the 2 planes perpendicular to the OBB's Z axis
+	// Exactly the same thing than above.
+	{
+		glm::vec3 zaxis(ModelMatrix[2].x, ModelMatrix[2].y, ModelMatrix[2].z);
+		float e = glm::dot(zaxis, delta);
+		float f = glm::dot(ray.direction, zaxis);
+
+		if (fabs(f) > 0.001f) {
+
+			float t1 = (e + min.z) / f;
+			float t2 = (e + max.z) / f;
+
+			if (t1>t2) { float w = t1; t1 = t2; t2 = w; }
+
+			if (t2 < tMax)
+				tMax = t2;
+			if (t1 > tMin)
+				tMin = t1;
+			if (tMin > tMax)
+				return false;
+
+		}
+		else {
+			if (-e + min.z > 0.0f || -e + max.z < 0.0f)
+				return false;
+		}
+	}
+
+	intersection_distance = tMin;
+	std::cout << intersection_distance << std::endl;
 	return true;
+
+
 }
 
 void BoundingBox::SetUpBoundingBox(std::vector<glm::vec3> &vertices)
