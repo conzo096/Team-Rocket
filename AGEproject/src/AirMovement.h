@@ -1,5 +1,4 @@
 #pragma once
-#define GLM_SWIZZLE
 #include "Movement.h"
 
 class AirMovement : public Movement

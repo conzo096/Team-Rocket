@@ -45,27 +45,33 @@ void AirMovement::MoveTo(double delta)
 
 void AirMovement::TurnTo(double delta)
 {
-	
-	glm::vec2 targetVec = destination.xz - GetParent()->GetPosition().xz;
-	targetVec = glm::normalize(targetVec);
-	float targetAngle = (atan2(targetVec.x, -targetVec.y) * 180 / glm::pi<float>());
-	float angleDifference = targetAngle - (glm::eulerAngles(GetParent()->GetRotation())).y;
-	angleDifference += 180;
-	float rawAngle = angleDifference - floor(angleDifference / 360) * 360;
-	rawAngle -= 180;
-
-	if (rawAngle != 0)
+	if (GetParent()->GetPosition() != destination)
 	{
-		if (rawAngle > 0)
+		glm::vec3 thisPos = GetParent()->GetPosition();
+		glm::vec2 targetVec = glm::vec2(destination.x, destination.z) - glm::vec2(thisPos.x, thisPos.z);
+		if (targetVec.x != 0 && targetVec.y != 0)
+			targetVec = glm::normalize(targetVec);
+		float targetAngle = (atan2(targetVec.x, -targetVec.y) * 180 / glm::pi<float>());
+		float currentAngle = ((glm::eulerAngles(GetParent()->GetRotation())).y);
+		glm::vec2 currentVec = glm::vec2((float)cos(currentAngle), (float)sin(currentAngle));
+		float angle = acos(glm::dot(targetVec, currentVec) / (glm::length(targetVec) * glm::length(currentVec)));
+
+		glm::vec3 normalA = glm::vec3((float)cos(currentAngle + (glm::pi<float>() / 2.0)), 0, (float)sin(currentAngle + (glm::pi<float>() / 2.0)));
+		glm::vec3 AB = GetParent()->GetPosition() - destination;//I think A is wrong here, need nearest point?
+		double dot = glm::dot(AB, normalA);
+
+		if (dot != 0)
 		{
-			GetParent()->Rotate(glm::vec3(0, turnSpeed*delta, 0));
-		}
-		else
-		{
-			GetParent()->Rotate(glm::vec3(0, -turnSpeed*delta, 0));
+			if (dot > 0)
+			{
+				GetParent()->Rotate(glm::vec3(0, turnSpeed*delta, 0));
+			}
+			else
+			{
+				GetParent()->Rotate(glm::vec3(0, -turnSpeed*delta, 0));
+			}
 		}
 	}
-
 }
 
 void AirMovement::Update(double delta)
