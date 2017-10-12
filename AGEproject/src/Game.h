@@ -8,7 +8,7 @@
 #include "Renderable.h"
 #include "Structure.h"
 #include "BoundingBox.h"
-
+#include "BoundingSphere.h"
 class Entity;
 class Game
 {

@@ -1,5 +1,6 @@
  #include "BoundingBox.h"
 #include "Game.h"
+#include <glm\gtx\string_cast.hpp>
 
 // Load the information onto the gpu.
 void BoundingBox::SetUpBoundingBox()
@@ -81,6 +82,10 @@ bool BoundingBox::CheckForMouseIntersection(RayCast ray)
 	//if (tmin > tmax)
 	//	std::swap(tmin, tmax);
 
+	//		if (tmax < tmin)
+	//			return false;
+
+	////check y axis.
 	//float tymin = (min.y - ray.origin.y) / ray.direction.y;
 	//float tymax = (max.y - ray.origin.y) / ray.direction.y;
 
@@ -96,6 +101,7 @@ bool BoundingBox::CheckForMouseIntersection(RayCast ray)
 	//if (tymax < tmax)
 	//	tmax = tymax;
 
+	////check z axis.
 	//float tzmin = (min.z - ray.origin.z) / ray.direction.z;
 	//float tzmax = (max.z - ray.origin.z) / ray.direction.z;
 
@@ -110,6 +116,8 @@ bool BoundingBox::CheckForMouseIntersection(RayCast ray)
 
 	//if (tzmax < tmax)
 	//	tmax = tzmax;
+
+
 
 	////std::cout << "Contact at: " << std::endl;
 	//return true;
@@ -219,8 +227,9 @@ bool BoundingBox::CheckForMouseIntersection(RayCast ray)
 		}
 	}
 
-	intersection_distance = tMin;
-	std::cout << intersection_distance << std::endl;
+
+	std::cout << "Point of contact: " <<	glm::to_string(ray.origin + (ray.direction*tMin)) <<  std::endl;
+	//std::cout << intersection_distance << std::endl;
 	return true;
 
 
