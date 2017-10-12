@@ -3,10 +3,14 @@
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
+	glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 	// The ratio of pixels to rotation
-	double ratioWidth = GetFOV() / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
-	double ratioHeight = GetFOV() / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
-									
+	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Instance()->GetScreenWidth());
+	double ratioHeight = ( fieldOfView * (static_cast<float>(GameEngine::Instance()->GetScreenHeight()) 
+									  / static_cast<float>(GameEngine::Instance()->GetScreenWidth())) ) 
+									  / static_cast<float>(GameEngine::Instance()->GetScreenHeight());
+
 	double currentX;
 	double currentY;
 
@@ -17,8 +21,9 @@ void Free_Camera::Update(double deltaTime)
 	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &currentX, &currentY);
 
 	// Calculate delta of cursor positions from last frame
-	double deltaX = (currentX - cursorX)*deltaTime;
-	double deltaY = (cursorY - currentY)*deltaTime;
+	double deltaX = (currentX - cursorX);
+	double deltaY = (cursorY - currentY);
+
 
 	// Multiply deltas by ratios to get change in orientation
 	deltaX *= ratioWidth;
@@ -27,10 +32,10 @@ void Free_Camera::Update(double deltaTime)
 	// Rotate camera by deltas
 	Rotate(deltaX, deltaY);
 
-	//if (UserControls::get().IsKeyPressed(std::string("RotateLeft")))
-	//	GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
-	//if (UserControls::get().IsKeyPressed(std::string("RotateRight")))
-	//	GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
+	if (UserControls::get().IsKeyPressed(std::string("RotateLeft")))
+		GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
+	if (UserControls::get().IsKeyPressed(std::string("RotateRight")))
+		GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
 
 	// Move camera with user controls.
 	if (UserControls::get().IsKeyPressed(std::string("Forward")))

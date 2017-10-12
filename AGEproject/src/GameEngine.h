@@ -25,8 +25,8 @@ private:
 	static GameEngine *instance;
 	// The window that is to be rendered too.
 	GLFWwindow* window;
-	unsigned int width;
-	unsigned int height;
+	float width;
+	float height;
 	bool fullScreen;
 	glm::mat4 cameraMVP;
 
@@ -47,8 +47,8 @@ public:
 
 
 	// Getters for width and height
-	unsigned int GetScreenWidth() { return width; }
-	unsigned int GetScreenHeight() { return height; }
+	float GetScreenWidth() { return width; }
+	float GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
 	void SetFullScreen(int val) { instance->fullScreen = val; }
 	void SetScreenWidth(int val) { instance->width = val; }

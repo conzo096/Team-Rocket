@@ -16,13 +16,16 @@ private:
 	// Cursor's current position
 	double cursorX;
 	double cursorY;
+	// The current field of view
+	float fieldOfView;
 
 public:
 	// Create free camera
-	Free_Camera(float aspect, float fov) : 
+	Free_Camera(float fov) : 
 		pitch(0.0f), yaw(0.0f), 				   
-		cursorX(0.0), cursorY(0.0),					   
-		Camera("Free_Camera", aspect, fov) 
+		cursorX(0.0), cursorY(0.0),		
+		fieldOfView(fov),
+		Camera("Free_Camera") 
 	{
 		glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		// Update cursor position
@@ -30,6 +33,7 @@ public:
 	}
 	// Destroy free camera
 	~Free_Camera() {}
+
 	// Update free camera
 	void Update(double deltaTime) override;
 
@@ -53,12 +57,19 @@ public:
 		SetPosition(glm::dvec3(value, GetYaw(), 0.0f));
 	}
 
-	// Only here so it compiles.
-	void from_json(const json &j);
+	// Build projection matrix
+	void SetProjection(float aspect, float near, float far)
+	{
+		projection = glm::perspective(fieldOfView, aspect, near, far);
+	}
 
+	// Rotates the camera by the change in pitch and yaw
 	void Rotate(float deltaYaw, float deltaPitch)
 	{
 		pitch += deltaPitch;
 		yaw -= deltaYaw;
 	}
+
+	// Only here so it compiles.
+	void from_json(const json &j);
 };

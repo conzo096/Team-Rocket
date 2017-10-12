@@ -4,7 +4,7 @@
 Game *Game::instance = 0;
 std::vector<Entity*> Game::entities;
 double Game::lastTime = 0.0f;
-Entity* Game::cam = new Entity;
+Entity* Game::free_cam = new Entity;
 
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
@@ -41,10 +41,10 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 
 void Game::Initialise()
 {
-	auto camera = std::make_unique<Free_Camera>((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 90.0f);
-	camera->SetPosition(glm::dvec3(10.0, 5.0, 20.0));
-	camera->SetProjection(2.414f, 1000);
-	cam->AddComponent(move(camera));
+	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
+	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
+	cam->SetProjection((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 2.414f, 1000);
+	free_cam->AddComponent(move(cam));
 
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
@@ -68,15 +68,16 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempRenderable2));
 
 	entities.push_back(tempEntity2);
+	lastTime = clock();
 }
 
 void Game::Update()
 {
-	glm::mat4 camMatrix = cam->GetComponent<Free_Camera>().GetProjection() * cam->GetComponent<Free_Camera>().GetView();
+	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
 	GameEngine::Instance()->SetCamera(camMatrix);
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
-	cam->Update(deltaTime);
+	free_cam->Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		//entities[n]->Rotate(glm::vec3(0.01f, 0.01f, 0.0f));

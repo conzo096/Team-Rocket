@@ -31,8 +31,11 @@
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\json.hpp" />
     <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\Menu.h" />
+    <ClInclude Include="src\Menu_Camera.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
+    <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Singleton.h" />
@@ -54,6 +57,8 @@
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
+    <ClCompile Include="src\Menu_Camera.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
     <ClCompile Include="src\Renderable.cpp" />

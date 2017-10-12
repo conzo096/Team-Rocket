@@ -8,22 +8,25 @@ StateManager *StateManager::instance = 0;
 void StateManager::StateLoop()
 {
 	GameEngine::Instance()->Initialise();
-	Game::Instance()->Initialise();
+
 	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
 	{
 		switch (state)
 		{
 		case(Splash):
 			//GameEngine::Instance()->Render();
-			Game::Instance()->Update();
-			Game::Instance()->Render();
-
+			state = Menu;
 			break;
 		case(Menu):
+			ShowMainMenu();
+			Game::Instance()->Initialise(); //This will need a new home later.
+			state = Playing;
 			break;
 		case(Settings):
 			break;
 		case(Playing):
+			Game::Instance()->Update();
+			Game::Instance()->Render();
 			break;
 		case(Exiting):
 			break;

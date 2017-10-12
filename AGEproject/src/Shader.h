@@ -31,4 +31,9 @@ public:
 	static unsigned int AddTexture(std::string name);
 	static void AddShader(std::string name);
 	static void UseShader(std::string name, Effect effect, glm::mat4 mvp);
+
+	GLShader GetShader(char* loc)
+	{
+		return shaders.find(loc)->second;
+	}
 };

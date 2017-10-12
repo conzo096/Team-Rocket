@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "Menu.h"
 
 class StateManager
 {
@@ -32,7 +33,12 @@ public:
 
 	void StateLoop();
 
-
+	void ShowMainMenu()
+	{
+		TMenu t;
+		t.Draw(Shader::Instance()->GetShader("Basic"));
+	}
 private:
+
 
 };
