@@ -1,4 +1,4 @@
-#include "AirMovement.h"
+﻿#include "AirMovement.h"
 #include <random>
 
 void AirMovement::from_json(const nlohmann::json & j)
@@ -52,43 +52,40 @@ void AirMovement::TurnTo(double delta)
 		float distance = glm::length(targetVec);
 		if (targetVec.x != 0 && targetVec.y != 0)
 			targetVec = glm::normalize(targetVec);
-		float targetAngle = (atan2(targetVec.x, -targetVec.y));
-		glm::vec3 currentAngleVec = (glm::eulerAngles(GetParent()->GetRotation()));
-		float currentAngle = currentAngleVec.y;
-		glm::vec3 currentVec = glm::vec3((float)cos(currentAngle), 0.0f, -(float)sin(currentAngle));
+		glm::vec3 currentVec = glm::vec3(-GetParent()->GetTransform()[2][0], 0, -GetParent()->GetTransform()[2][2]);
 		if (currentVec.x != 0 && currentVec.z != 0)
 			currentVec = glm::normalize(currentVec);
-		float angle = glm::angle(glm::vec2(currentVec.x, currentVec.z), targetVec);
-
-		//glm::vec3 normalA = glm::vec3((float)cos(currentAngle + (glm::pi<float>() / 2.0)), 0, (float)sin(currentAngle + (glm::pi<float>() / 2.0)));
-		//glm::vec3 AB = GetParent()->GetPosition() - destination;//I think A is wrong here, need nearest point?
-		//double dot = glm::dot(AB, normalA);
+		float angle = (glm::angle(glm::vec2(currentVec.x, currentVec.z), targetVec)/glm::pi<float>()*180);//I think this is being calculated wrong
 
 		glm::vec3 distantPoint = thisPos + (distance * 2 * currentVec);
 
-		float determinant = glm::determinant(glm::mat2((distantPoint.x - thisPos.x), ((float)destination.x - thisPos.x), (distantPoint.z - thisPos.z), ((float)destination.z - thisPos.z)));
+		float determinant = ((destination.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((destination.z - thisPos.z)*(distantPoint.x - thisPos.x));
 
-		if (glm::isnan(angle))
-		{
-    			printf("bugger");
-		}
 		if (determinant != 0)
 		{
-			if (determinant > 0)
+			if (determinant < 0)
 			{
-				//if (turnSpeed*delta < angle)
-				GetParent()->Rotate(glm::vec3(0, turnSpeed*delta, 0));
-				/*else
+				if ((turnSpeed*delta) < angle)
+				{
+					GetParent()->Rotate(glm::vec3(0, turnSpeed*delta, 0));
+				}
+				else
+				{
 					if (!glm::isnan(angle))
-						GetParent()->Rotate(glm::vec3(0, angle, 0));*/
+						GetParent()->Rotate(glm::vec3(0, angle, 0));
+				}
 			}
 			else
 			{
-				//if (-turnSpeed*delta > angle)
-				GetParent()->Rotate(glm::vec3(0, -turnSpeed*delta, 0));
-				/*else
+				if ((turnSpeed*delta) < angle)
+				{
+					GetParent()->Rotate(glm::vec3(0, -turnSpeed*delta, 0));
+				}
+				else
+				{
 					if (!glm::isnan(angle))
-						GetParent()->Rotate(glm::vec3(0, -angle, 0));*/
+						GetParent()->Rotate(glm::vec3(0, -angle, 0));
+				}
 			}
 		}
 	}

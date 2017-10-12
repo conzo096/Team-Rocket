@@ -11,6 +11,7 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 	for (int i = 0; i < 1; i++)
 	{
 		glm::vec3 spawnPosition = position;
+		spawnPosition.y = 15.0;
 		if (i % 2 == 0)
 		{
 			spawnPosition.x += size.x;
@@ -30,7 +31,7 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(30.0);
 		tempAirMovement->SetAcceleration(0.5);
-		tempAirMovement->SetTurnSpeed(300.0);
+		tempAirMovement->SetTurnSpeed(180.0);
 
 		tempFlyer->AddComponent(move(tempRenderable));
 		tempFlyer->AddComponent(move(tempAirMovement));
