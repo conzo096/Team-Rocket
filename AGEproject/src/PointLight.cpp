@@ -3,7 +3,7 @@
 int PointLight::id_counter = 0;
 int PointLight::_id;
 
-PointLight::PointLight() : Component("PointLight")
+PointLight::PointLight() : Component("PointLight"), model(nullptr), effect(new Effect())
 {
 	this->position = glm::vec3(0.0f, 3.0f, 0.0f);
 
@@ -38,23 +38,23 @@ PointLight::PointLight(const PointLight& obj) : Component("PointLight")
 void PointLight::bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName)
 {
 	GLint idx;
-	auto effect = Shader::getShader(shaderName);
+	auto shader = Shader::getShader(shaderName);
 	// Colours
-	idx = effect.GetUniformLocation(name + ".ambient");
+	idx = shader.GetUniformLocation(name + ".ambient");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(pointLight.ambient));
-	idx = effect.GetUniformLocation(name + ".diffuse");
+	idx = shader.GetUniformLocation(name + ".diffuse");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(pointLight.diffuse));
-	idx = effect.GetUniformLocation(name + ".specular");
+	idx = shader.GetUniformLocation(name + ".specular");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(pointLight.specular));
 	// Position
-	idx = effect.GetUniformLocation(name + ".position");
+	idx = shader.GetUniformLocation(name + ".position");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(pointLight.position));
 	// Range
-	idx = effect.GetUniformLocation(name + ".range");
+	idx = shader.GetUniformLocation(name + ".range");
 	if (idx != -1)
 		glUniform1f(idx, pointLight.range);
 }
@@ -82,6 +82,7 @@ void PointLight::initialise()
 	this->_id = id_counter++;
 	const float lightMax = fmaxf(fmaxf(this->ambient.r, this->ambient.g), this->ambient.b);
 	this->range = (-this->linear + sqrtf(this->linear * this->linear - 4 * this->quadratic * (this->constant - 256.0 / 5.0 * lightMax))) / (2 * this->quadratic);
+	this->SetPosition(this->position);
 }
 
 
@@ -89,10 +90,17 @@ PointLight::~PointLight()
 {
 }
 
+void PointLight::SetEffect(std::string shaderName)
+{
+	effect->shader = shaderName;
+	Shader::Instance()->AddShader(effect->shader);
+}
+
 void PointLight::Render()
 {
 	std::stringstream s;
 	s << this->_id;
 	// Use renderer, bind.
-	bind(*this, "point_light[" + s.str() + ']', "Phong");
+	bind(*this, "point_light[" + s.str() + ']', effect->shader);
+//	GameEngine::Instance()->Render(GetTransform(), *model, *effect);
 }

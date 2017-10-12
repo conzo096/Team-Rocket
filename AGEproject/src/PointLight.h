@@ -1,17 +1,28 @@
 #pragma once
+#include "Entity.h"
 #include "Shader.h"
 
 class PointLight : public Component
 {
+protected:
+	Model* model;
+	Effect* effect;
+	void from_json(const nlohmann::json &j) override;
+
 	void bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName);
 //	void bind(const std::vector<PointLight>& pointLights, const std::string& name);
-	void from_json(const nlohmann::json &j) override;
+	
 	float range;
 	void initialise();
 	static int _id;
 	static int id_counter;
 public:
+	PointLight();
+	~PointLight();
+
 	glm::vec3 position;
+
+	void SetEffect(std::string shaderName);
 
 	float constant  = 1.0f;
 	float linear    = 0.7f;
@@ -21,13 +32,10 @@ public:
 	glm::vec4 diffuse;
 	glm::vec4 specular;	
 
-	PointLight();
 	PointLight(const glm::vec3 position, const glm::vec4 diffuse);
 	PointLight(const PointLight &obj);
 
 	int getId() { return _id; }
-
-	~PointLight();
 
 	void Render() override;
 };

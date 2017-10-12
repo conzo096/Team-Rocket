@@ -90,10 +90,10 @@ vec4 calculate_point(in point_light p, in material m, in vec3 position, in vec3 
 
 void main()
 {
-	colour = vec4(0, 0, 0, 1);
-
 	vec3 view_dir = normalize(eye_pos - position);
 	vec4 tex_colour = texture(tex, tex_coord);
+
+	colour = tex_colour;
 
 	colour += calculate_point(points[0], mat, position, normal, view_dir, tex_colour);
 //	for(int i = 0; i < num_spot_lights; i++)

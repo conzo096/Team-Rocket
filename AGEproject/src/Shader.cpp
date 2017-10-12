@@ -38,7 +38,7 @@ void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mv
 	{
 		return;
 	}
-	else
+	else if(&effect.texture != nullptr)
 	{
 		shaders[name].Use();
 		if (name == "Basic")

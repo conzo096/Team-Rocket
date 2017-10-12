@@ -1,12 +1,13 @@
 #include "GameEngine.h"
 #include <assert.h>
-#include "PointLight.h"
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include "Shader.h"
 #include "FileIO.h"
 Shader *Shader::instance = nullptr;
 GameEngine *GameEngine::instance = nullptr;
+
+
 
 void GameEngine::Initialise()
 {
@@ -54,11 +55,15 @@ void GameEngine::Initialise()
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
 	const auto mvp = instance->cameraMVP * m;
-	Shader::Instance()->UseShader("Basic", effect, mvp);
-	if (!model.GetStrip())
-		model.Draw();
-	else
-		model.DrawStrip();
+	// Switch back to basic when necessary
+	Shader::Instance()->UseShader("Phong", effect, mvp);
+	if (&model != nullptr)
+	{
+		if (!model.GetStrip())
+			model.Draw();
+		else
+			model.DrawStrip();
+	}
 }
 
 void GameEngine::SetCamera(glm::mat4 camera)

@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Entity.h"
+#include "PointLight.h"
 
 Game *Game::instance = 0;
 std::vector<Entity*> Game::entities;
@@ -62,6 +63,16 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempRenderable2));
 
 	entities.push_back(tempEntity2);
+
+	// Add a red point light to 0, 1, 0
+	Entity* tempEntity3 = new Entity;
+	auto tempLightEntity = std::make_unique<PointLight>();
+	tempLightEntity->SetEffect("Phong");
+	tempLightEntity->position = glm::vec3(0, 1, 0);
+	tempLightEntity->diffuse = glm::vec4(1, 0, 0, 1);
+	tempEntity3->AddComponent(move(tempLightEntity));
+
+	entities.push_back(tempEntity3);
 }
 
 void Game::Update()
