@@ -6,7 +6,7 @@ void Structure::from_json(const nlohmann::json & j)
 
 Structure::Structure() : building(true), constructionTime(0.0f), Component("Structure")
 {
-	for(int i = 0; i < 100; i++)
+	for(int i = 0; i < 1; i++)
 		AddProduct("TEMP", 1.0f);
 }
 

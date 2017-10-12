@@ -48,27 +48,47 @@ void AirMovement::TurnTo(double delta)
 	if (GetParent()->GetPosition() != destination)
 	{
 		glm::vec3 thisPos = GetParent()->GetPosition();
-		glm::vec2 targetVec = glm::vec2(destination.x, destination.z) - glm::vec2(thisPos.x, thisPos.z);
+		glm::vec2 targetVec = glm::vec2((float)destination.x, (float)destination.z) - glm::vec2(thisPos.x, thisPos.z);
+		float distance = glm::length(targetVec);
 		if (targetVec.x != 0 && targetVec.y != 0)
 			targetVec = glm::normalize(targetVec);
-		float targetAngle = (atan2(targetVec.x, -targetVec.y) * 180 / glm::pi<float>());
-		float currentAngle = ((glm::eulerAngles(GetParent()->GetRotation())).y);
-		glm::vec2 currentVec = glm::vec2((float)cos(currentAngle), (float)sin(currentAngle));
-		float angle = acos(glm::dot(targetVec, currentVec) / (glm::length(targetVec) * glm::length(currentVec)));
+		float targetAngle = (atan2(targetVec.x, -targetVec.y));
+		glm::vec3 currentAngleVec = (glm::eulerAngles(GetParent()->GetRotation()));
+		float currentAngle = currentAngleVec.y;
+		glm::vec3 currentVec = glm::vec3((float)cos(currentAngle), 0.0f, -(float)sin(currentAngle));
+		if (currentVec.x != 0 && currentVec.z != 0)
+			currentVec = glm::normalize(currentVec);
+		float angle = glm::angle(glm::vec2(currentVec.x, currentVec.z), targetVec);
 
-		glm::vec3 normalA = glm::vec3((float)cos(currentAngle + (glm::pi<float>() / 2.0)), 0, (float)sin(currentAngle + (glm::pi<float>() / 2.0)));
-		glm::vec3 AB = GetParent()->GetPosition() - destination;//I think A is wrong here, need nearest point?
-		double dot = glm::dot(AB, normalA);
+		//glm::vec3 normalA = glm::vec3((float)cos(currentAngle + (glm::pi<float>() / 2.0)), 0, (float)sin(currentAngle + (glm::pi<float>() / 2.0)));
+		//glm::vec3 AB = GetParent()->GetPosition() - destination;//I think A is wrong here, need nearest point?
+		//double dot = glm::dot(AB, normalA);
 
-		if (dot != 0)
+		glm::vec3 distantPoint = thisPos + (distance * 2 * currentVec);
+
+		float determinant = glm::determinant(glm::mat2((distantPoint.x - thisPos.x), ((float)destination.x - thisPos.x), (distantPoint.z - thisPos.z), ((float)destination.z - thisPos.z)));
+
+		if (glm::isnan(angle))
 		{
-			if (dot > 0)
+    			printf("bugger");
+		}
+		if (determinant != 0)
+		{
+			if (determinant > 0)
 			{
+				//if (turnSpeed*delta < angle)
 				GetParent()->Rotate(glm::vec3(0, turnSpeed*delta, 0));
+				/*else
+					if (!glm::isnan(angle))
+						GetParent()->Rotate(glm::vec3(0, angle, 0));*/
 			}
 			else
 			{
+				//if (-turnSpeed*delta > angle)
 				GetParent()->Rotate(glm::vec3(0, -turnSpeed*delta, 0));
+				/*else
+					if (!glm::isnan(angle))
+						GetParent()->Rotate(glm::vec3(0, -angle, 0));*/
 			}
 		}
 	}
