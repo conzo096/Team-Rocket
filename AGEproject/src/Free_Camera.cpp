@@ -1,5 +1,5 @@
 #include "Free_Camera.h"
-
+#include "UserControls.h"
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {

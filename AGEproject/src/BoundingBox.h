@@ -13,6 +13,7 @@ private:
 	unsigned int bbVAO, bbVBO, bbEBO;
 	// Colour of the bounding box. Used for colour picking.
 	glm::vec4 colour;
+	glm::vec3 poi;
 public:
 	// Opposite corners of the bounding box. 
 	glm::vec3 lowerLeftFront = glm::vec3(999999.0f, 999999.0f, -999999.0f),
@@ -25,6 +26,7 @@ public:
 	void SetColour(glm::vec4 col) { colour = col; }
 	glm::vec4 GetColour() { return colour; }
 
+	glm::vec3 GetPointOfIntersection(){ return poi; }
 
 	void from_json(const nlohmann::json &j) {};
 
@@ -34,8 +36,7 @@ public:
 
 	void Update(double deltaTime) override;
 
-	bool CheckForMouseIntersection(RayCast ray);
-
+	bool CheckForMouseIntersection(RayCast ray,glm::vec3& poi);
 
 	// Different render methods.
 	void Render();

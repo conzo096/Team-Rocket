@@ -48,10 +48,10 @@ void Game::Initialise()
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Structure>();
 
-	auto tempBoundingBox = std::make_unique<BoundingBox>();
+	auto tempBoundingBox = std::make_unique<BoundingSphere>();
 	tempBoundingBox->UpdateTransforms();
 
-	tempBoundingBox->SetUpBoundingBox(tempRenderable->GetModel().GetVertexPositions());
+	tempBoundingBox->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 	tempEntity->AddComponent(move(tempRenderable));
 	tempEntity->AddComponent(move(tempBoundingBox));
 	tempEntity->AddComponent(move(tempStructure));

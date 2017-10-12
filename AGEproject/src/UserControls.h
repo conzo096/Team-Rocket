@@ -4,7 +4,7 @@
 #include <map>
 #include <GLFW\glfw3.h>
 #include <iostream>
-
+#include "RayCast.h"
 class UserControls : public Singleton<UserControls>
 {
 private:
@@ -20,7 +20,9 @@ private:
 	// Cursor *not implemented yet*
 	GLFWcursor* cursor;
 
+	// Ray mouse generates.
 
+	RayCast mouseRay;
 public:
 
 	// Controller choices.
@@ -31,6 +33,9 @@ public:
 
 	// Returns true if it is a valid key and it is currently being pressed.
 	bool IsKeyPressed(std::string &action);
+
+	bool IsMouseButtonPressed(std::string &action);
+
 	// Returns the key value of an action.
 	unsigned int GetKeyValue(std::string &name)
 	{
@@ -89,7 +94,7 @@ public:
 
 	// Update method.
 	void Update();
-
+	void Update(Free_Camera& camera);
 	// Handle console input for debugging options (cheat menu).
 	void HandleConsoleInput();
 };
