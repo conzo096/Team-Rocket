@@ -90,4 +90,5 @@ void GameEngine::PrintGlewInfo()
 void GameEngine::LoadShaders()
 {
 	Shader::Instance()->AddShader("Basic");
+	Shader::Instance()->AddShader("Menu");
 }

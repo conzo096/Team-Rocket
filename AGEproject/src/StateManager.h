@@ -36,7 +36,7 @@ public:
 	void ShowMainMenu()
 	{
 		TMenu t;
-		t.Draw(Shader::Instance()->GetShader("Basic"));
+		t.Draw(Shader::Instance()->GetShader("Menu"));
 	}
 private:
 

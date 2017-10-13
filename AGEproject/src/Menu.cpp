@@ -3,15 +3,6 @@
 TMenu::TMenu(std::vector<char *> textureLocs)
 {
 
-	//for (int i = 0; i < textureLocs.size(); i++)
-	//{
-	//	Button newButton;
-	//	newButton.action = i;
-	//	newButton.texture = Texture(textureLocs.at(i),500,300);
-	//	newButton.renderTarget.SetPosition(glm::vec3(0, 0, i / textureLocs.size()));
-	//	newButton.renderTarget.UpdateTransforms();
-
-	//}
 }
 
 
@@ -44,17 +35,46 @@ int TMenu::Draw(GLShader shader)
 {
 	buttons.resize(3);
 	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId();
-	
 
-	for (int i = 0; i < 3; i++)
-	{
-		Button& newButton = buttons[i];
-		newButton.action = i;
-		newButton.texture = tex; 
-		newButton.renderTarget.SetPosition(glm::vec3(0, (i*-60) + 57, 0));
-		newButton.renderTarget.SetScale(glm::vec3(20, 20, 20));
-		buttons[i].renderTarget.UpdateTransforms();
-	}
+	// 3 buttons have to fit in a screen space of two (-1 to 1).
+	float length = 3 / 2;
+	// % size of the button (1 = 100%, 0.5 - 50% etc)
+	float buttonWidth = 0.6;
+	float buttonHeight = 0.3;
+
+	// Starting position for the button is the top - the button height.
+	float startPos = 1 - buttonHeight;
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	Button& newButton = buttons[i];
+	//	newButton.action = i;
+	//	newButton.texture = tex; 
+
+	//	newButton.renderTarget = Quad(glm::vec3(0,(startPos -) , 0),buttonWidth,buttonHeight);
+	//	newButton.renderTarget.OpenGL();
+	////	newButton.renderTarget.SetPosition(glm::vec3(0, (i*-60) + 57, 0));
+	////	newButton.renderTarget.SetScale(glm::vec3(20, 20, 20));
+	////	buttons[i].renderTarget.UpdateTransforms();
+	//}
+
+
+	
+	buttons[0].action = 0;
+	buttons[0].texture = tex;
+	buttons[0].renderTarget = Quad(glm::vec3(0, (0.8), 0), buttonWidth, buttonHeight);
+	buttons[0].renderTarget.OpenGL();
+
+	
+	buttons[1].action = 1;
+	buttons[1].texture = tex;
+	buttons[1].renderTarget = Quad(glm::vec3(0, (0), 0), buttonWidth, buttonHeight);
+	buttons[1].renderTarget.OpenGL();
+	
+	buttons[2].action = 2;
+	buttons[2].texture = tex;
+	buttons[2].renderTarget = Quad(glm::vec3(0, (-0.8), 0), buttonWidth, buttonHeight);
+	buttons[2].renderTarget.OpenGL();
+
 
 	// Change while condition.
 	while (!UserControls::get().IsKeyPressed(std::string("Enter")))
@@ -62,7 +82,7 @@ int TMenu::Draw(GLShader shader)
 		menu_cam->GetComponent<Menu_Camera>().Update(0);
 		glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
 		
-		buttons[0].renderTarget.Rotate(glm::vec3(1,1,1));
+	//	buttons[0].renderTarget.Rotate(glm::vec3(1,1,1));
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0, 1, 0, 1);
@@ -72,16 +92,22 @@ int TMenu::Draw(GLShader shader)
 			SelectionUp();
 		if (UserControls::get().IsKeyPressed(std::string("Backward")))
 			SelectionDown();
-		// Bind texture.
-		glUniform1i(shader.GetUniformLocation("tex"), 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, buttons.at(0).texture);
-		// Draw the quad.
 
-		for (int i = 0; i < 3; i++)
+
+
+  		for (int i = 0; i < 3; i++)
 		{		
-			glm::mat4 mvp = camMatrix * buttons[i].renderTarget.GetTransform();
-			glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+			if (glfwGetMouseButton(GameEngine::Instance()->GetWindow(), 0))
+			{
+				if (buttons[i].renderTarget.IsMouseInBounds())
+					std::cout << i << std::endl;
+			}
+			// Bind texture.
+			glUniform1i(shader.GetUniformLocation("tex"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
+		//	glm::mat4 mvp = camMatrix * buttons[i].renderTarget.GetTransform();
+		//	glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 			buttons[i].renderTarget.Draw();
 		}
 		glfwSwapBuffers(GameEngine::Instance()->GetWindow());
