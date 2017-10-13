@@ -10,7 +10,7 @@ Texture::Texture(int w, int h)
 }
 Texture::Texture(const char* fileLocation)
 {
-	if (!FileIO::get().FileExists(std::string(fileLocation)))
+	if (!FileIO::Get().FileExists(std::string(fileLocation)))
 		std::printf("\s does not exist", fileLocation);
 
 	glGenTextures(1, &textureId);

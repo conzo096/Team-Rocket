@@ -24,7 +24,7 @@ public:
 	bool TestIntersection(RayCast& ray,glm::vec3& poi)
 	{
 		
-
+		return true;
 	}
 
 

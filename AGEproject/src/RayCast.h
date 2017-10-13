@@ -2,7 +2,7 @@
 #include "glm\common.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include "Free_Camera.h"
-
+#include "Menu_Camera.h"
 class RayCast
 {
 public:
@@ -24,5 +24,7 @@ public:
 	}
 
 	void UpdateRay(Free_Camera& camera);
+
+	void UpdateRay(Menu_Camera& camera);
 
 };

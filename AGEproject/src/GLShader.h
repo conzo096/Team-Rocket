@@ -16,7 +16,7 @@ private:
 	std::string logString;
 	
 	// MOVE THIS TO IO class.
-	static bool FileExists(const std::string& fileName);
+	bool FileExists(const std::string& fileName);
 
 public:
 

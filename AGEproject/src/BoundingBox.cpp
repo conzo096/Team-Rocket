@@ -58,7 +58,7 @@ void BoundingBox::SetUpBoundingBox()
 
 void BoundingBox::Update(double deltaTime)
 {
-	if (CheckForMouseIntersection(RayCast(Game::Instance()->cam->GetComponent<Free_Camera>()),poi))
+	if (CheckForMouseIntersection(RayCast(Game::Get().free_cam->GetComponent<Free_Camera>()),poi))
 	{
 	//	std::cout << "WOOO" << std::endl;
 	}
@@ -215,9 +215,9 @@ void BoundingBox::SetUpBoundingBox(std::vector<glm::vec3> &vertices)
 void BoundingBox::Render()
 {
 
-	auto mvp = Game::Instance()->cam->GetComponent<Free_Camera>().GetProjection()*Game::Instance()->cam->GetComponent<Free_Camera>().GetView() * glm::mat4(GetParent()->GetTransform());
-	Shader::Instance()->GetShader("Basic").Use();
-	glUniformMatrix4fv(Shader::Instance()->GetShader("Basic").GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+	auto mvp = Game::Get().free_cam->GetComponent<Free_Camera>().GetProjection()*Game::Get().free_cam->GetComponent<Free_Camera>().GetView() * glm::mat4(GetParent()->GetTransform());
+	Shader::Get().GetShader("Basic").Use();
+	glUniformMatrix4fv(Shader::Get().GetShader("Basic").GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 
 	glBindVertexArray(bbVAO);
 	glDrawElements(GL_TRIANGLE_STRIP, 14, GL_UNSIGNED_INT, 0);

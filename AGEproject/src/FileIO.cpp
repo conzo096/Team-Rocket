@@ -44,6 +44,7 @@ bool FileIO::CreateIniFile()
 	outputFile << "RotateRight=69" << std::endl;
 	outputFile << "Up=32" << std::endl;
 	outputFile << "Down=341" << std::endl;
+	outputFile << "Enter=257" << std::endl;
 	outputFile.close();
 
 	return true;
@@ -62,35 +63,37 @@ void FileIO::ConfigureGame(std::string para)
 		unsigned int value = std::stoi(subString);
 		// First check if string meets critera.
 		if (token == "FullScreen")
-			GameEngine::Instance()->SetFullScreen(value);
+			GameEngine::Get().SetFullScreen(value);
 		if (token == "Width")
-			GameEngine::Instance()->SetScreenWidth(value);
+			GameEngine::Get().SetScreenWidth(value);
 		if (token == "Height")
-			GameEngine::Instance()->SetScreenHeight(value);
+			GameEngine::Get().SetScreenHeight(value);
 
 		
 		if (token == "Action")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Forward")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Backward")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Left")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Right")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "ResetCamera")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Escape")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "RotateLeft")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "RotateRight")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Up")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
 		if (token == "Down")
-			UserControls::get().BindKey(token, value);
+			UserControls::Get().BindKey(token, value);
+		if (token == "Enter")
+			UserControls::Get().BindKey(token, value);
 	}
 	else
 		std::cout << "Error" << std::endl;

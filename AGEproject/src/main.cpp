@@ -2,6 +2,6 @@
 
 int main()
 {
-	StateManager::Instance()->StateLoop();
+	StateManager::Get().StateLoop();
 	return 0;
 }

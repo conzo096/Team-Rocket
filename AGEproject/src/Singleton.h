@@ -11,7 +11,7 @@ class Singleton
 {
 public:
 	// This call needs to be inline and static
-	inline static T& get()
+	inline static T& Get()
 	{
 		// This *guarantees* that instance is only
 		// created once.  If your constructor is not
