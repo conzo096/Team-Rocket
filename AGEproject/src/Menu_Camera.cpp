@@ -3,10 +3,10 @@
 // Update free camera for this frame
 void Menu_Camera::Update(double deltaTime)
 {
-	glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	// Get current cursor position
-	glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &cursorX, &cursorY);
+	glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
 
 	// Calculate forward, right and up vectors
 	glm::dvec3 forward = target - GetPosition();

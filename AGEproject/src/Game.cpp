@@ -1,11 +1,6 @@
 #include "Game.h"
 #include "Entity.h"
 
-Game *Game::instance = 0;
-std::vector<Entity*> Game::entities;
-double Game::lastTime = 0.0f;
-Entity* Game::free_cam = new Entity;
-
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
 	for (int i = 0; i < 1; i++)
@@ -41,9 +36,11 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 
 void Game::Initialise()
 {
+	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->SetProjection((GameEngine::Instance()->GetScreenWidth() / GameEngine::Instance()->GetScreenHeight()), 2.414f, 1000);
+	cam->SetProjection((GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
+	std::cout << GameEngine::Get().GetScreenHeight();
 	free_cam->AddComponent(move(cam));
 
 	Entity* tempEntity = new Entity;
@@ -74,7 +71,7 @@ void Game::Initialise()
 void Game::Update()
 {
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
-	GameEngine::Instance()->SetCamera(camMatrix);
+	GameEngine::Get().SetCamera(camMatrix);
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
 	free_cam->Update(deltaTime);
@@ -104,5 +101,5 @@ void Game::Render()
 	// process events.
 	glfwPollEvents();
 	// Swap the window buffers.
-	glfwSwapBuffers(GameEngine::Instance()->GetWindow());
+	glfwSwapBuffers(GameEngine::Get().GetWindow());
 }

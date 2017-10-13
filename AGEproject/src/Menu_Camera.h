@@ -15,9 +15,9 @@ public:
 		cursorX(0.0), cursorY(0.0),
 		Camera("Menu_Camera")
 	{
-		glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// Update cursor position
-		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &cursorX, &cursorY);
+		glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
 	}
 	// Destroy free camera
 	~Menu_Camera() {}

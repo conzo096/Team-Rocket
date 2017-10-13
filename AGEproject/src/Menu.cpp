@@ -57,7 +57,7 @@ int TMenu::Draw(GLShader shader)
 	}
 
 	// Change while condition.
-	while (!UserControls::get().IsKeyPressed(std::string("Enter")))
+	while (!UserControls::Get().IsKeyPressed(std::string("Enter")))
 	{
 		menu_cam->GetComponent<Menu_Camera>().Update(0);
 		glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
@@ -68,9 +68,9 @@ int TMenu::Draw(GLShader shader)
 		glClearColor(0, 1, 0, 1);
 		shader.Use();
 
-		if (UserControls::get().IsKeyPressed(std::string("Forward")))
+		if (UserControls::Get().IsKeyPressed(std::string("Forward")))
 			SelectionUp();
-		if (UserControls::get().IsKeyPressed(std::string("Backward")))
+		if (UserControls::Get().IsKeyPressed(std::string("Backward")))
 			SelectionDown();
 		// Bind texture.
 		glUniform1i(shader.GetUniformLocation("tex"), 0);
@@ -84,7 +84,7 @@ int TMenu::Draw(GLShader shader)
 			glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 			buttons[i].renderTarget.Draw();
 		}
-		glfwSwapBuffers(GameEngine::Instance()->GetWindow());
+		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
 	}
 

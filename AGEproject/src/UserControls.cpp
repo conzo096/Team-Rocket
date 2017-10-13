@@ -30,7 +30,7 @@ bool UserControls::IsKeyPressed(std::string &action)
 		return false;
 	else
 	{
-		if (glfwGetKey(GameEngine::Instance()->GetWindow(), val->second) == GLFW_PRESS)
+		if (glfwGetKey(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
 			return true;
 	}
 	// Should never enter here but just in case.
@@ -113,7 +113,7 @@ void UserControls::Update()
 {
 	{
 		// Update cursor position.
-		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &mouseX, &mouseY);
+		glfwGetCursorPos(GameEngine::Get().GetWindow(), &mouseX, &mouseY);
 	}
 }
 

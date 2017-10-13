@@ -3,6 +3,7 @@
 #include <memory>
 #include <chrono>
 
+#include "Singleton.h"
 #include "GameEngine.h"
 #include "Free_Camera.h"
 #include "Menu_Camera.h"
@@ -12,26 +13,17 @@
 
 class Entity;
 
-class Game
+class Game : public Singleton<Game>
 {
 private:
-	static Game *instance;
-	static Entity *free_cam;
-	static std::vector<Entity*> entities; //Figure out how to split this.
-	static double lastTime;
+	Entity *free_cam = new Entity;
+	std::vector<Entity*> entities; //Figure out how to split this.
+	double lastTime;
 public:
-	static Game *Instance()
-	{
-		if (!instance)
-		{
-			instance = new Game();
-		}
-		return instance;
-	}
 
-	static void SpawnUnit(glm::vec3 position, glm::vec2 size);
+	void SpawnUnit(glm::vec3 position, glm::vec2 size);
 
-	static void Initialise();
-	static void Update();
-	static void Render();
+	void Initialise();
+	void Update();
+	void Render();
 };

@@ -7,6 +7,7 @@
 #include "stb_image.h"
 #include <fstream>
 #include <sstream>
+#include "Singleton.h"
 #include "Material.h"
 #include "Model.h"
 
@@ -17,12 +18,10 @@ struct Effect
 	Material material;
 };
 
-class GameEngine
+class GameEngine : public Singleton<GameEngine>
 {
 private:
 
-	// Singleton instance of the Game Engine.
-	static GameEngine *instance;
 	// The window that is to be rendered too.
 	GLFWwindow* window;
 	float width;
@@ -31,38 +30,31 @@ private:
 	glm::mat4 cameraMVP;
 
 public:
-	// Constructor, if singleton has not been initalised, initalise it, else return instance.
-	static GameEngine *Instance()
-	{
-		if (!instance)
-			instance = new GameEngine();
-		return instance;
-	}
 
 	// The render window.
-	GLFWwindow* GetWindow() { return instance->window; }
+	GLFWwindow* GetWindow() { return window; }
 
-	static void Initialise();
-	static void Render(glm::mat4 mvp, Model model, Effect effect);
+	void Initialise();
+	void Render(glm::mat4 mvp, Model model, Effect effect);
 
 
 	// Getters for width and height
 	float GetScreenWidth() { return width; }
 	float GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
-	void SetFullScreen(int val) { instance->fullScreen = val; }
-	void SetScreenWidth(int val) { instance->width = val; }
-	void SetScreenHeight(int val) { instance->height = val; }
+	void SetFullScreen(int val) { fullScreen = val; }
+	void SetScreenWidth(int val) { width = val; }
+	void SetScreenHeight(int val) { height = val; }
 
 	void SetCamera(glm::mat4 camera);
 	// Execute the game engine.
 	void Start();
 	// Cleans up game engine resources.
-	static void CleanUp();
+	void CleanUp();
 
 
 	// Helper functions.
-	static void PrintGlewInfo();
-	static void LoadShaders();
+	void PrintGlewInfo();
+	void LoadShaders();
 
 };

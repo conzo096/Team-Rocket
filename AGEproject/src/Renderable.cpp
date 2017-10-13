@@ -27,10 +27,10 @@ void Renderable::SetModel(std::string location)
 
 void Renderable::SetEffect(std::string texName)
 {
-	effect->texture = Shader::Instance()->AddTexture(texName);
+	effect->texture = Shader::Get().AddTexture(texName);
 }
 
 void Renderable::Render()
 {
-	GameEngine::Instance()->Render(GetTransform(),*model, *effect);
+	GameEngine::Get().Render(GetTransform(),*model, *effect);
 }
