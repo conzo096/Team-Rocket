@@ -1,11 +1,8 @@
 #pragma once
 #include "Entity.h"
 
-class Material : public Component
+class Material
 {
-protected:
-	void from_json(const nlohmann::json &j);
-
 public:
 	Material();
 	~Material();

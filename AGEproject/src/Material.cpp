@@ -2,7 +2,7 @@
 
 // Here's a bunch of free materials: http://devernay.free.fr/cours/opengl/materials.html
 
-Material::Material() : Component("Material")
+Material::Material()
 {
 	// Default is emerald:
 	emissive  = glm::vec4(0.0215, 0.1745, 0.0215, 1.0);
@@ -14,11 +14,6 @@ Material::Material() : Component("Material")
 
 Material::~Material()
 {
-}
-
-void Material::from_json(const json& j)
-{
-
 }
 
 void Material::Render()

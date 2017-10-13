@@ -55,8 +55,9 @@ void GameEngine::Initialise()
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
 	const auto mvp = instance->cameraMVP * m;
+
 	// Switch back to basic when necessary
-	Shader::Instance()->UseShader("Phong", effect, mvp);
+	Shader::Instance()->UseShader("Phong", effect, mvp, m, m, instance->cameraPos);
 	if (&model != nullptr)
 	{
 		if (!model.GetStrip())

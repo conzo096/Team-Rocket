@@ -30,7 +30,7 @@ public:
 
 	static unsigned int AddTexture(std::string name);
 	static void AddShader(std::string name);
-	static void UseShader(std::string name, Effect effect, glm::mat4 mvp);
+	static void UseShader(std::string name, Effect effect, glm::mat4 mvp, glm::mat4 m, glm::mat4 n, glm::vec3 eye_pos);
 
 	static GLShader getShader(std::string name);
 };

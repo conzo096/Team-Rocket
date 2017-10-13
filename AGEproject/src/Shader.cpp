@@ -4,6 +4,7 @@ Shader *instance = nullptr;
 std::map<std::string, GLShader> Shader::shaders;
 std::map<std::string, unsigned int> Shader::textures;
 
+
 unsigned int Shader::AddTexture(std::string name)
 {
 	if (textures.find(name) == textures.end())
@@ -32,7 +33,7 @@ void Shader::AddShader(std::string name)
 	}
 }
 
-void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mvp)
+void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mvp, glm::mat4 m, glm::mat4 n, glm::vec3 eye_pos)
 {
 	if (shaders.find(name) == shaders.end())
 	{
@@ -40,26 +41,40 @@ void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mv
 	}
 	else if(&effect.texture != nullptr)
 	{
-		shaders[name].Use();
+		GLShader shader = shaders[name];
+		shader.Use();
 		if (name == "Basic")
 		{
-			glUniformMatrix4fv(shaders[name].GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
-			glUniform1i(shaders[name].GetUniformLocation("tex"), 0);
+			glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, value_ptr(mvp));
+			glUniform1i(shader.GetUniformLocation("tex"), 0);
+			glUniformMatrix4fv(shader.GetUniformLocation("M"), 1, GL_FALSE, value_ptr(m));
+			glUniformMatrix3fv(shader.GetUniformLocation("N"), 1, GL_FALSE, value_ptr(glm::mat3(n)));
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, effect.texture);
 			return;
 		}
 		else if (name == "Phong")
 		{
-			glUniformMatrix4fv(shaders[name].GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
-			glUniform1i(shaders[name].GetUniformLocation("tex"), 0);
+			GLint index;
+
+			index = shader.GetUniformLocation("MVP");
+			glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));
+			index = shader.GetUniformLocation("tex");
+			glUniform1i(index, 0);
+			index = shader.GetUniformLocation("M");
+			glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(m));
+			index = shader.GetUniformLocation("N");
+			glUniformMatrix3fv(index, 1, GL_FALSE, value_ptr(glm::mat3(n)));
+			index = shader.GetUniformLocation("eye_pos");
+			glUniform3fv(index, 1, value_ptr(eye_pos));
+//			std::cout << "Eye pos: " << eye_pos.x << ", " << eye_pos.y << ", " << eye_pos.z << std::endl;
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, effect.texture);
 			return;
 		}
 		else if (name == "Colour")
 		{
-			glUniformMatrix4fv(shaders[name].GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+			glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, value_ptr(mvp));
 		}
 
 	}

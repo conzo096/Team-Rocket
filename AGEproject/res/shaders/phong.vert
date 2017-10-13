@@ -15,7 +15,9 @@ layout (location = 2) out vec2 tex_coord_out;
 void main()
 {
 	gl_Position = MVP * vec4(position, 1);
-	vertex_position = vec3(M * vec4(position.x, position.y, position.z, 1));
+	vertex_position = (M * vec4(position, 1)).xyz;
+
 	transformed_normal = N * normal;
+
 	tex_coord_out = tex_coord_in;
 }

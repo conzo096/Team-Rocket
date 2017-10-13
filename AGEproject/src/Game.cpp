@@ -41,6 +41,21 @@ void Game::Initialise()
 	camera->SetProjection(2.414f, 1000);
 	cam->AddComponent(move(camera));
 
+	// Add a red point light to 0, 0.5, 0
+	Entity* tempEntity3 = new Entity;
+	for(int i = 1; i < 5; i++)
+	{
+		for(int j = 1; j < 5; j++)
+		{
+			auto tempLightComponent = std::make_unique<PointLight>();
+			tempLightComponent->SetEffect("Phong");
+			tempLightComponent->setLightPosition(glm::vec3(i * 30 - 30, 10, j * 30 - 30));
+			tempLightComponent->diffuse = glm::vec4(i / 4, j / 4, i % j / 8, 1);
+			tempEntity3->AddComponent(move(tempLightComponent));
+		}
+	}
+	entities.push_back(tempEntity3);
+
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
 	tempRenderable->SetModel("../res/models/Constructor.obj");
@@ -64,15 +79,7 @@ void Game::Initialise()
 
 	entities.push_back(tempEntity2);
 
-	// Add a red point light to 0, 1, 0
-	Entity* tempEntity3 = new Entity;
-	auto tempLightEntity = std::make_unique<PointLight>();
-	tempLightEntity->SetEffect("Phong");
-	tempLightEntity->position = glm::vec3(0, 1, 0);
-	tempLightEntity->diffuse = glm::vec4(1, 0, 0, 1);
-	tempEntity3->AddComponent(move(tempLightEntity));
 
-	entities.push_back(tempEntity3);
 }
 
 void Game::Update()
@@ -98,6 +105,8 @@ void Game::Render()
 	glClearColor(0.1, 0.0, 0.4, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glDisable(GL_CULL_FACE);
+
+	GameEngine::Instance()->SetCameraPos(cam->GetComponent<Free_Camera>().GetPosition());
 
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{

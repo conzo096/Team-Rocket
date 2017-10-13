@@ -7,26 +7,29 @@ class PointLight : public Component
 protected:
 	Model* model;
 	Effect* effect;
+
 	void from_json(const nlohmann::json &j) override;
 
 	void bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName);
 //	void bind(const std::vector<PointLight>& pointLights, const std::string& name);
-	
+	void bindMaterial(const Material& material, const std::string& name, const std::string& shaderName);
+
 	float range;
 	void initialise();
 	static int _id;
 	static int id_counter;
+	glm::vec3 position;
 public:
 	PointLight();
 	~PointLight();
 
-	glm::vec3 position;
-
-	void SetEffect(std::string shaderName);
+	void SetEffect(const std::string shaderName);
+	void setLightPosition(const glm::vec3 position);
+	
 
 	float constant  = 1.0f;
-	float linear    = 0.7f;
-	float quadratic = 1.8f;
+	float linear    = 0.001f;
+	float quadratic = 0.00001f;
 
 	glm::vec4 ambient;
 	glm::vec4 diffuse;

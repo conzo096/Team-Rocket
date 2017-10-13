@@ -26,6 +26,7 @@ class GameEngine
 	unsigned int height;
 	bool fullScreen;
 	glm::mat4 cameraMVP;
+	glm::vec3 cameraPos;
 
 public:
 	// Constructor, if singleton has not been initalised, initalise it, else return instance.
@@ -41,7 +42,7 @@ public:
 
 	static void Initialise();
 	static void Render(glm::mat4 mvp, Model model, Effect effect);
-
+	
 
 	// Getters for width and height
 	unsigned int GetScreenWidth() { return width; }
@@ -50,6 +51,7 @@ public:
 	void SetFullScreen(int val) { instance->fullScreen = val; }
 	void SetScreenWidth(int val) { instance->width = val; }
 	void SetScreenHeight(int val) { instance->height = val; }
+	void SetCameraPos(glm::vec3 pos) { instance->cameraPos = pos; }
 
 	void SetCamera(glm::mat4 camera);
 	// Execute the game engine.

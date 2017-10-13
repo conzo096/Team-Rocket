@@ -1,4 +1,5 @@
 #include "PointLight.h"
+#include "Material.h"
 
 int PointLight::id_counter = 0;
 int PointLight::_id;
@@ -35,6 +36,7 @@ PointLight::PointLight(const PointLight& obj) : Component("PointLight")
 	initialise();
 }
 
+bool saidLightError = false;
 void PointLight::bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName)
 {
 	GLint idx;
@@ -52,11 +54,54 @@ void PointLight::bind(const PointLight& pointLight, const std::string& name, con
 	// Position
 	idx = shader.GetUniformLocation(name + ".position");
 	if (idx != -1)
-		glUniform4fv(idx, 1, value_ptr(pointLight.position));
+		glUniform3fv(idx, 1, value_ptr(pointLight.position));
 	// Range
 	idx = shader.GetUniformLocation(name + ".range");
 	if (idx != -1)
 		glUniform1f(idx, pointLight.range);
+	// Attenuation
+	idx = shader.GetUniformLocation(name + ".constant");
+	if(idx != -1)
+		glUniform1f(idx, pointLight.constant);
+	idx = shader.GetUniformLocation(name + ".linear");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.linear);
+	idx = shader.GetUniformLocation(name + ".quadratic");
+	if (idx != -1)
+		glUniform1f(idx, pointLight.quadratic);
+
+	if (idx == -1 && !saidLightError)
+	{
+		std::cerr << "Error binding light to shader, could not find uniform: " << name << std::endl;
+		std::cerr << "It may not be the only one." << std::endl;
+		saidLightError = true;
+	}
+}
+
+bool saidMatError = false;
+void PointLight::bindMaterial(const Material& material, const std::string& name, const std::string& shaderName)
+{
+	GLint idx;
+	auto shader = Shader::getShader(shaderName);
+	idx = shader.GetUniformLocation(name + ".emissive");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(material.emissive));
+	idx = shader.GetUniformLocation(name + ".diffuse_reflection");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(material.diffuse));
+	idx = shader.GetUniformLocation(name + ".specular_reflection");
+	if (idx != -1)
+		glUniform4fv(idx, 1, value_ptr(material.specular));
+	idx = shader.GetUniformLocation(name + ".shininess");
+	if (idx != -1)
+		glUniform1f(idx, material.shininess * 128);
+
+	if(idx == -1 && !saidMatError)
+	{
+		std::cerr << "Error binding material to shader, could not find uniform: " << name << std::endl;
+		std::cerr << "It may not be the only one." << std::endl;
+		saidMatError = true;
+	}
 }
 
 void PointLight::from_json(const nlohmann::json& j)
@@ -80,9 +125,18 @@ void PointLight::bind(const std::vector<PointLight>& pointLights, const std::str
 void PointLight::initialise()
 {
 	this->_id = id_counter++;
-	const float lightMax = fmaxf(fmaxf(this->ambient.r, this->ambient.g), this->ambient.b);
-	this->range = (-this->linear + sqrtf(this->linear * this->linear - 4 * this->quadratic * (this->constant - 256.0 / 5.0 * lightMax))) / (2 * this->quadratic);
+//	const float lightMax = fmaxf(fmaxf(this->ambient.r, this->ambient.g), this->ambient.b);
+//	this->range = (-this->linear + sqrtf(this->linear * this->linear - 4 * this->quadratic * (this->constant - 256.0 / 5.0 * lightMax))) / (2 * this->quadratic);
+	this->range = 100;
 	this->SetPosition(this->position);
+
+	Material* basic_material = new Material();
+	basic_material->diffuse = glm::vec4(1, 1, 1, 1);
+	basic_material->emissive = glm::vec4(0, 0, 0, 1);
+	basic_material->specular = glm::vec4(1, 1, 1, 1);
+	basic_material->shininess = 0.6f;
+
+	effect->material = basic_material;
 }
 
 
@@ -90,10 +144,16 @@ PointLight::~PointLight()
 {
 }
 
-void PointLight::SetEffect(std::string shaderName)
+void PointLight::SetEffect(const std::string shaderName)
 {
 	effect->shader = shaderName;
 	Shader::Instance()->AddShader(effect->shader);
+}
+
+void PointLight::setLightPosition(const glm::vec3 position)
+{
+	this->position = position;
+	SetPosition(position); // Sets the transform position
 }
 
 void PointLight::Render()
@@ -102,5 +162,7 @@ void PointLight::Render()
 	s << this->_id;
 	// Use renderer, bind.
 	bind(*this, "point_light[" + s.str() + ']', effect->shader);
+//	bind(*this, "obvious_name", effect->shader);
+	bindMaterial(*this->effect->material, "mat", effect->shader);
 //	GameEngine::Instance()->Render(GetTransform(), *model, *effect);
 }
