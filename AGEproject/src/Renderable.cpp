@@ -1,5 +1,5 @@
 #include "Renderable.h"
-
+#include "GeometryUtil.h"
 void Renderable::from_json(const nlohmann::json & j)
 {
 }
@@ -12,19 +12,23 @@ Renderable::~Renderable()
 {
 }
 
-void Renderable::SetModel(std::string location)
+void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
-	model = new Model(location);//FIX THIS
+	model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
+
 }
 
-void Renderable::SetEffect()
+void Renderable::SetModel(std::string location)
 {
-	effect->texture = GameEngine::Instance()->LoadTextures("../res/textures/debug.png");
+	model = new Model(location);
+}
+
+void Renderable::SetEffect(std::string texName)
+{
+	effect->texture = Shader::Get().AddTexture(texName);
 }
 
 void Renderable::Render()
 {
-	Rotate(glm::vec3(0.05, 0.05, 0));
-	UpdateTransforms();
-	GameEngine::Instance()->Render(GetTransform(),*model, effect->texture);
+	GameEngine::Get().Render(GetTransform(),*model, *effect);
 }

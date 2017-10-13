@@ -3,25 +3,29 @@
 #include "Entity.h"
 #include "Renderable.h"
 #include <memory>
-StateManager *StateManager::instance = 0;
 
 void StateManager::StateLoop()
 {
-	GameEngine::Instance()->Initialise();
-	Game::Instance()->Initialise();
-	while (!glfwWindowShouldClose(GameEngine::Instance()->GetWindow()))
+	GameEngine::Get().Initialise();
+
+	while (!glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 	{
 		switch (state)
 		{
 		case(Splash):
 			//GameEngine::Instance()->Render();
-			Game::Instance()->Render();
+			state = Menu;
 			break;
 		case(Menu):
+			ShowMainMenu();
+			Game::Get().Initialise(); //This will need a new home later.
+			state = Playing;
 			break;
 		case(Settings):
 			break;
 		case(Playing):
+			Game::Get().Update();
+			Game::Get().Render();
 			break;
 		case(Exiting):
 			break;
@@ -30,5 +34,5 @@ void StateManager::StateLoop()
 			break;
 		}
 	}
-	GameEngine::Instance()->CleanUp();
+	GameEngine::Get().CleanUp();
 }

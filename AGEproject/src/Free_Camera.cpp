@@ -1,53 +1,90 @@
 #include "Free_Camera.h"
 
-// Update free camera (delta_time is not used)
-void Free_Camera::update(float delta_time)
+// Update free camera for this frame
+void Free_Camera::Update(double deltaTime)
 {
-	// "I'd like to try and understand what's going on here a bit more." - Jack
+	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	// The ratio of pixels to rotation
+	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Get().GetScreenWidth());
+	double ratioHeight = ( fieldOfView * (static_cast<float>(GameEngine::Get().GetScreenHeight()) 
+									  / static_cast<float>(GameEngine::Get().GetScreenWidth())) ) 
+									  / static_cast<float>(GameEngine::Get().GetScreenHeight());
+
+	double currentX;
+	double currentY;
+
+	// The camera's movement speed
+	float moveSpeed = 20.0f;
+
+	// Get current cursor position
+	glfwGetCursorPos(GameEngine::Get().GetWindow(), &currentX, &currentY);
+
+	// Calculate delta of cursor positions from last frame
+	double deltaX = (currentX - cursorX);
+	double deltaY = (cursorY - currentY);
+
+
+	// Multiply deltas by ratios to get change in orientation
+	deltaX *= ratioWidth;
+	deltaY *= ratioHeight;
+
+	// Rotate camera by deltas
+	Rotate(deltaX, deltaY);
+
+	if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
+		GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
+		GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
+
+	// Move camera with user controls.
+	if (UserControls::Get().IsKeyPressed(std::string("Forward")))
+		(translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::Get().IsKeyPressed(std::string("Left")))
+		(translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::Get().IsKeyPressed(std::string("Backward")))
+		(translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::Get().IsKeyPressed(std::string("Right")))
+		(translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::Get().IsKeyPressed(std::string("Up")))
+		(translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::Get().IsKeyPressed(std::string("Down")))
+		(translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	if (UserControls::Get().IsKeyPressed(std::string("Escape")))
+		glfwSetWindowShouldClose(GameEngine::Get().GetWindow(), true);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
-	glm::vec3 forward(cosf(_pitch) * -sinf(_yaw), sinf(_pitch), -cosf(_yaw) * cosf(_pitch));
+	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
 	// Normalise forward direction
 	forward = glm::normalize(forward);
 
 	// Create standard right vector and rotate it by the yaw
-	glm::vec3 right = glm::vec3(glm::eulerAngleY(_yaw) * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	glm::dvec3 right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
 	// Normalise right
 	right = glm::normalize(right);
 
 	// Calculate (perpendicular) up vector using cross product
-	_orientation = glm::cross(right, forward);
+	orientation = glm::cross(right, forward);
 	// Normalise up
-	_orientation = glm::normalize(_orientation);
-	
+	orientation = glm::normalize(orientation);
+
 	// Update position by multiplying translation elements by forward, up and right
-	glm::vec3 trans = _translation.x * right;
-	trans += _translation.y * _orientation;
-	trans += _translation.z * forward;
-	_position += trans;
+	glm::dvec3 trans = translation.x * right;
+	trans += translation.y * orientation;
+	trans += translation.z * forward;
+	Move(trans);
 
 	// Target vector is position vector plus forward
-	_target = _position + forward;
+	target = GetPosition() + forward;
 
 	// Reset the translation vector for the next frame
-	_translation = glm::vec3(0.0f, 0.0f, 0.0f);
-	
+	translation = glm::vec3(0.0f, 0.0f, 0.0f);
+
 	// Calculate view matrix
-	_view = glm::lookAt(_position, _target, _orientation);
+	view = glm::lookAt(GetPosition(), target, orientation); //glm::eulerAngles(GetRotation()));
+
+	// Update cursor position
+	glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
 }
 
-// Rotate free camera around the y- and x-axes
-void Free_Camera::rotate(float delta_yaw, float delta_pitch)
-{
-	// Add rotation values to current rotation
-	_pitch += delta_pitch;
-	_yaw -= delta_yaw;
-}
-
-// Move free camera (used in the update with the orientation
-// to calculate actual movement)
-void Free_Camera::move(const glm::vec3 &translation)
-{
-	// Add translation vector to current translation
-	_translation += translation;
-}
+void Free_Camera::from_json(const json &j) {}

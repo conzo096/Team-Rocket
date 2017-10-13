@@ -1,16 +1,9 @@
 #pragma once
 #include "Entity.h"
-#include "Model.h"
-#include "Material.h"
+#include "Shader.h"
 
 class Renderable : public Component
 {
-	struct Effect
-	{
-		unsigned int texture;
-		std::string shader;
-		Material material;
-	};
 protected:
 	Model *model;
 	Effect *effect;
@@ -20,7 +13,8 @@ public:
 	Renderable();
 	~Renderable();
 
+	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
-	void SetEffect();
+	void SetEffect(std::string texName);
 	void Render();
 };

@@ -1,22 +1,21 @@
 #include "Entity.h"
 #include "Renderable.h"
+#include "Free_Camera.h"
+#include "Structure.h"
+#include "AirMovement.h"
 #include <algorithm>
 #include <iostream>
-
-// PEWTI? = Please Explain What This Is?
 
 using namespace std;
 
 //############## COMPONENT ##############
 
-// PEWTI?
 Component::Component(const string &token) : token(token)
 {
 	entity = nullptr;
 	active = false;
 }
 
-// PEWTI?
 Component *Component::MakeGeneric(const json &j) {
 	const string ctype = j.at("component_type").get<string>();
 	Component *cmp;
@@ -26,7 +25,6 @@ Component *Component::MakeGeneric(const json &j) {
 	return cmp;
 }
 
-// PEWTI?
 Component::~Component() {
 	cout << "Goodbye from Component: " << token << endl;
 	entity = nullptr;
@@ -58,8 +56,13 @@ const string Entity::GetName() const { return name; }
 
 void Entity::SetName(string const &name) { this->name = name; }
 
-void Entity::Update(const double delta) {
-	for (auto &c : components) {
+void Entity::Update(const double delta)
+{
+	UpdateTransforms();
+	for (auto &c : components)
+	{
+		c.second->UpdateTransforms();
+		c.second->SetTransform(GetTransform() * c.second->GetTransform());
 		c.second->Update(delta);
 	}
 }
