@@ -1,10 +1,5 @@
 #include "Shader.h"
 
-Shader *instance = nullptr;
-std::map<std::string, GLShader> Shader::shaders;
-std::map<std::string, unsigned int> Shader::textures;
-
-
 unsigned int Shader::AddTexture(std::string name)
 {
 	if (textures.find(name) == textures.end())

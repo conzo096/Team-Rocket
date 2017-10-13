@@ -1,9 +1,13 @@
 #pragma once
 #define GLEW_STATIC
 #include "GameEngine.h"
+#include "Singleton.h"
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+#include "Menu.h"
 
-class StateManager
+class StateManager : public Singleton<StateManager>
 {
 	enum State
 	{
@@ -14,20 +18,19 @@ class StateManager
 		Exiting
 	};
 
-	static StateManager *instance;
 
 public:
-	static StateManager *Instance()
-	{
-		if (!instance)
-		{
-			instance = new StateManager();
-		}
-		return instance;
-	}
 
 	State state;
 
 	void StateLoop();
+
+	void ShowMainMenu()
+	{
+		TMenu t;
+		t.Draw(Shader::Get().GetShader("Basic"));
+	}
+private:
+
 
 };

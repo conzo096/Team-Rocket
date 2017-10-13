@@ -1,6 +1,6 @@
 # All the other settings can be tweaked by editing the !defines at the top of this script
 !define APPNAME "Team Rocket RTS V1"
-!define COMPANYNAME "Not Nintendo affiliated Team Rocket"
+!define COMPANYNAME "Team Rocket (Team D)"
 !define DESCRIPTION "Version 1 of the untitled RTS game."
 # These three must be integers
 !define VERSIONMAJOR 1
@@ -47,7 +47,7 @@ section "install"
 	# Files for the install directory - to build the installer, these should be in the same directory as the install script (this file)
 	setOutPath $INSTDIR\game
 	# Files added here should be removed by the uninstaller (see section "uninstall")
-	file "x64\Debug\AGEProject.exe"
+	file "x64\Release\AGEProject.exe"
 	# Add any other files for the install directory (license files, app data, etc) here
 	#setOutPath $INSTDIR\gamebin
 	File /r "bin\"

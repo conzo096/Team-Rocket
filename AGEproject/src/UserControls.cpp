@@ -30,12 +30,13 @@ bool UserControls::IsKeyPressed(std::string &action)
 		return false;
 	else
 	{
-		if (glfwGetKey(GameEngine::Instance()->GetWindow(), val->second) == GLFW_PRESS)
+		if (glfwGetKey(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
 			return true;
 	}
 	// Should never enter here but just in case.
 	return false;
 }
+
 
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
@@ -51,6 +52,7 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Right", GLFW_KEY_D));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Reset camera", GLFW_KEY_SPACE));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Escape", GLFW_KEY_ESCAPE));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
 	}
 	// Set up controller configuration.
 	else
@@ -111,7 +113,7 @@ void UserControls::Update()
 {
 	{
 		// Update cursor position.
-		glfwGetCursorPos(GameEngine::Instance()->GetWindow(), &mouseX, &mouseY);
+		glfwGetCursorPos(GameEngine::Get().GetWindow(), &mouseX, &mouseY);
 	}
 }
 

@@ -11,26 +11,23 @@
 #include "GLShader.h"
 #include "Entity.h"
 #include "Texture.h"
-class Shader
+#include "Singleton.h"
+class Shader : public Singleton<Shader>
 {
 private:
-	static Shader *instance;
-	static std::map<std::string, GLShader> shaders;
-	static std::map<std::string, unsigned int> textures;
+
+	std::map<std::string, GLShader> shaders;
+	std::map<std::string, unsigned int> textures;
 
 public:
-	static Shader *Instance()
+	
+	unsigned int AddTexture(std::string name);
+	void AddShader(std::string name);
+	void UseShader(std::string name, Effect effect, glm::mat4 mvp);
+
+	GLShader GetShader(char* loc)
 	{
-		if (!instance)
-		{
-			instance = new Shader();
-		}
-		return instance;
+		return shaders.find(loc)->second;
 	}
-
-	static unsigned int AddTexture(std::string name);
-	static void AddShader(std::string name);
 	static void UseShader(std::string name, Effect effect, glm::mat4 mvp, glm::mat4 m, glm::mat4 n, glm::vec3 eye_pos);
-
-	static GLShader getShader(std::string name);
 };
