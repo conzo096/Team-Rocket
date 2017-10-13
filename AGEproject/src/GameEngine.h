@@ -42,10 +42,10 @@ public:
 	float GetScreenWidth() { return width; }
 	float GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
-	void SetFullScreen(int val) { instance->fullScreen = val; }
-	void SetScreenWidth(int val) { instance->width = val; }
-	void SetScreenHeight(int val) { instance->height = val; }
-	void SetCameraPos(glm::vec3 pos) { instance->cameraPos = pos; }
+	void SetFullScreen(int val) { fullScreen = val; }
+	void SetScreenWidth(int val) { width = val; }
+	void SetScreenHeight(int val) { height = val; }
+	void SetCameraPos(glm::vec3 pos) { cameraPos = pos; }
 
 	void SetCamera(glm::mat4 camera);
 	// Execute the game engine.

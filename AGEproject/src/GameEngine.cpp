@@ -4,9 +4,6 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include "Shader.h"
 #include "FileIO.h"
-Shader *Shader::instance = nullptr;
-GameEngine *GameEngine::instance = nullptr;
-
 
 void GameEngine::Initialise()
 {
@@ -53,8 +50,9 @@ void GameEngine::Initialise()
 
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
-	auto mvp = Get().cameraMVP * m;
-	Shader::Get().UseShader("Basic", effect, mvp);
+	const auto mvp = Get().cameraMVP * m;
+//	Shader::Get().UseShader("Basic", effect, mvp);
+	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
 	model.Draw();
 }
 
@@ -89,5 +87,5 @@ void GameEngine::PrintGlewInfo()
 
 void GameEngine::LoadShaders()
 {
-	Shader::Get().AddShader("Basic");
+	Shader::Get().AddShader("Phong");
 }

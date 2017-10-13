@@ -20,15 +20,15 @@ void Shader::AddShader(std::string name)
 	{
 		GLShader shader;
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".vert").c_str(), GLShader::VERTEX))
-			std::printf("Vert failed to compile.\n");
+			printf("Vert failed to compile.\n");
 		if (!shader.AddShaderFromFile(("../res/shaders/" + name + ".frag").c_str(), GLShader::FRAGMENT))
-			std::printf("Frag failed to compile.\n");
+			printf("Frag failed to compile.\n");
 		shader.Link();
 		shaders.insert(std::pair<std::string, GLShader>(name, shader));
 	}
 }
 
-void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mvp, glm::mat4 m, glm::mat4 n, glm::vec3 eye_pos)
+void Shader::UseShader(std::string name, Effect effect, glm::mat4 mvp, glm::mat4 m, glm::mat4 n, glm::vec3 eye_pos)
 {
 	if (shaders.find(name) == shaders.end())
 	{
@@ -36,7 +36,8 @@ void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mv
 	}
 	else if(&effect.texture != nullptr)
 	{
-		GLShader shader = shaders[name];
+		char* s_name = const_cast<char*>(name.c_str());
+		GLShader shader = GetShader(s_name);
 		shader.Use();
 		if (name == "Basic")
 		{
@@ -46,7 +47,6 @@ void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mv
 			glUniformMatrix3fv(shader.GetUniformLocation("N"), 1, GL_FALSE, value_ptr(glm::mat3(n)));
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, effect.texture);
-			return;
 		}
 		else if (name == "Phong")
 		{
@@ -65,7 +65,6 @@ void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mv
 //			std::cout << "Eye pos: " << eye_pos.x << ", " << eye_pos.y << ", " << eye_pos.z << std::endl;
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, effect.texture);
-			return;
 		}
 		else if (name == "Colour")
 		{
@@ -74,9 +73,4 @@ void Shader::UseShader(const std::string name, const Effect effect, glm::mat4 mv
 
 	}
 
-}
-
-GLShader Shader::getShader(const std::string name)
-{
-	return shaders[name];
 }

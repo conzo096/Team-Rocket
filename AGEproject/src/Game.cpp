@@ -2,6 +2,9 @@
 #include "Entity.h"
 #include "PointLight.h"
 
+std::vector<Entity*> Game::entities;
+double Game::lastTime;
+
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
 	for (int i = 0; i < 1; i++)
@@ -40,7 +43,7 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->SetProjection((GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
+	cam->SetProjection(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight(), 2.414f, 1000);
 	std::cout << GameEngine::Get().GetScreenHeight();
 	free_cam->AddComponent(move(cam));
 
@@ -108,7 +111,8 @@ void Game::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glDisable(GL_CULL_FACE);
 
-	GameEngine::Instance()->SetCameraPos(cam->GetComponent<Free_Camera>().GetPosition());
+//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
+	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
 
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{

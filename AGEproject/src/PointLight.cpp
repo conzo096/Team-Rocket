@@ -40,7 +40,8 @@ bool saidLightError = false;
 void PointLight::bind(const PointLight& pointLight, const std::string& name, const std::string& shaderName)
 {
 	GLint idx;
-	auto shader = Shader::getShader(shaderName);
+	char* s_name = const_cast<char*>(shaderName.c_str());
+	auto shader = Shader::Get().GetShader(s_name);
 	// Colours
 	idx = shader.GetUniformLocation(name + ".ambient");
 	if (idx != -1)
@@ -82,7 +83,8 @@ bool saidMatError = false;
 void PointLight::bindMaterial(const Material& material, const std::string& name, const std::string& shaderName)
 {
 	GLint idx;
-	auto shader = Shader::getShader(shaderName);
+	char* s_name = const_cast<char*>(shaderName.c_str());
+	auto shader = Shader::Get().GetShader(s_name);
 	idx = shader.GetUniformLocation(name + ".emissive");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(material.emissive));
@@ -147,7 +149,7 @@ PointLight::~PointLight()
 void PointLight::SetEffect(const std::string shaderName)
 {
 	effect->shader = shaderName;
-	Shader::Instance()->AddShader(effect->shader);
+	Shader::Get().AddShader(effect->shader);
 }
 
 void PointLight::setLightPosition(const glm::vec3 position)

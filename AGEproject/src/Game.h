@@ -16,8 +16,7 @@ class Entity;
 class Game : public Singleton<Game>
 {
 private:
-	static Game *instance;
-	static Entity *cam;
+	Entity *free_cam = new Entity;
 	static std::vector<Entity*> entities;//Figure out how to split this.
 	static double lastTime;
 
