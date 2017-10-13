@@ -158,6 +158,9 @@
     <ClInclude Include="src\Quad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GeometryUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">

@@ -52,10 +52,7 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
 	auto mvp = Get().cameraMVP * m;
 	Shader::Get().UseShader("Basic", effect, mvp);
-	if (!model.GetStrip())
-		model.Draw();
-	else
-		model.DrawStrip();
+	model.Draw();
 }
 
 void GameEngine::SetCamera(glm::mat4 camera)

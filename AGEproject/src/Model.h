@@ -27,18 +27,17 @@ class Model
 {
 private:
 	unsigned int VAO, VBO, EBO;
-	bool strip = false;
+	GLenum type;
 public:
 	Model();
 	Model(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	void SetUpMesh();
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
+	GLenum GetType() { return type; }
+	void SetType(GLenum t) { type = t; }
 
-	void SetStrip(bool strip) { this->strip = strip; };
-	bool GetStrip() { return strip; };
 	void Draw();
-	void DrawStrip();
 
 	Model(const std::string& fileName);
 
@@ -50,5 +49,4 @@ public:
 		return temp;
 	}
 
-	void CreatePlane(float spacing, unsigned int xSize, unsigned int ySize);
 };

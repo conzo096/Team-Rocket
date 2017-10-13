@@ -28,6 +28,7 @@
     <ClInclude Include="src\Free_Camera.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\GeometryUtil.h" />
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\json.hpp" />
     <ClInclude Include="src\Material.h" />
