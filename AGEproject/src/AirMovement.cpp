@@ -62,7 +62,7 @@ void AirMovement::TurnTo(double delta)
 
 		//currentVec = f;
 
-		float angle = (glm::angle(glm::normalize(glm::vec2(currentVec.x, currentVec.z)), glm::normalize(targetVec))/ glm::pi<float>()*180.0f);//I think this is being calculated wrong
+		float angle = (glm::angle(glm::normalize(glm::vec2(currentVec.x, currentVec.z)), glm::normalize(targetVec))/ glm::pi<float>()*180.0f);
 
 		glm::vec3 distantPoint = thisPos + (distance * 2 * currentVec);
 
