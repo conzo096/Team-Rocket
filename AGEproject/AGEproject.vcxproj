@@ -44,6 +44,7 @@
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Structure.h" />
+    <ClInclude Include="src\Targetable.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\UserControls.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Structure.cpp" />
+    <ClCompile Include="src\Targetable.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
