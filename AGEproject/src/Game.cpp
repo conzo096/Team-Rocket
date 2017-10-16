@@ -1,5 +1,9 @@
 #include "Game.h"
 #include "Entity.h"
+#include "PointLight.h"
+
+std::vector<Entity*> Game::entities;
+double Game::lastTime;
 
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
@@ -41,9 +45,24 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->SetProjection((GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
+	cam->SetProjection(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight(), 2.414f, 1000);
 	std::cout << GameEngine::Get().GetScreenHeight();
 	free_cam->AddComponent(move(cam));
+
+	// Add a red point light to 0, 0.5, 0
+	Entity* tempEntity3 = new Entity;
+	for(int i = 1; i < 5; i++)
+	{
+		for(int j = 1; j < 5; j++)
+		{
+			auto tempLightComponent = std::make_unique<PointLight>();
+			tempLightComponent->SetEffect("Phong");
+			tempLightComponent->setLightPosition(glm::vec3(i * 30 - 30, 10, j * 30 - 30));
+			tempLightComponent->diffuse = glm::vec4(i / 4, j / 4, i % j / 8, 1);
+			tempEntity3->AddComponent(move(tempLightComponent));
+		}
+	}
+	entities.push_back(tempEntity3);
 
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
@@ -84,7 +103,7 @@ void Game::Update()
 		n++;
 	}
 
-	printf("%.9f\n", deltaTime);
+//	printf("%f.9\n", deltaTime);
 }
 
 void Game::Render()
@@ -93,6 +112,9 @@ void Game::Render()
 	glClearColor(0.1, 0.0, 0.4, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glDisable(GL_CULL_FACE);
+
+//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
+	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
 
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{

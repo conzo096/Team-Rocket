@@ -1,14 +1,12 @@
 #pragma once
-#include <glm\glm.hpp>
-#include <glm\gtc\quaternion.hpp> 
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp> 
 #include <string>
 #include <vector>
 #include "GLShader.h"
 #include "assimp/Importer.hpp"
 #include "assimp/PostProcess.h"
 #include "assimp/Scene.h"
-#include <math.h>
-#include <fstream>
 #include <map>
 
 struct Vertex
@@ -25,7 +23,6 @@ enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 
 class Model
 {
-private:
 	unsigned int VAO, VBO, EBO;
 	GLenum type;
 public:

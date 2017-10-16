@@ -17,8 +17,9 @@ class Game : public Singleton<Game>
 {
 private:
 	Entity *free_cam = new Entity;
-	std::vector<Entity*> entities; //Figure out how to split this.
-	double lastTime;
+	static std::vector<Entity*> entities;//Figure out how to split this.
+	static double lastTime;
+
 public:
 
 	void SpawnUnit(glm::vec3 position, glm::vec2 size);
