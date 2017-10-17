@@ -9,6 +9,8 @@
 #include "Menu_Camera.h"
 #include "Renderable.h"
 #include "Structure.h"
+#include "BoundingBox.h"
+#include "BoundingSphere.h"
 #include "AirMovement.h"
 
 class Entity;
@@ -16,11 +18,11 @@ class Entity;
 class Game : public Singleton<Game>
 {
 private:
-	Entity *free_cam = new Entity;
-	static std::vector<Entity*> entities;//Figure out how to split this.
-	static double lastTime;
+	std::vector<Entity*> entities; //Figure out how to split this.
+	double lastTime;
 
 public:
+	Entity *free_cam = new Entity;
 
 	void SpawnUnit(glm::vec3 position, glm::vec2 size);
 

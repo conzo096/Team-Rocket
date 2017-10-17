@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="src\AirMovement.h" />
     <ClInclude Include="src\BoundingBox.h" />
+    <ClInclude Include="src\BoundingSphere.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\FileIO.h" />
@@ -36,8 +37,9 @@
     <ClInclude Include="src\Menu_Camera.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
-	<ClInclude Include="src\PointLight.h" />
+    <ClInclude Include="src\PointLight.h" />
     <ClInclude Include="src\Quad.h" />
+    <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Singleton.h" />
@@ -52,6 +54,7 @@
   <ItemGroup>
     <ClCompile Include="src\AirMovement.cpp" />
     <ClCompile Include="src\BoundingBox.cpp" />
+    <ClCompile Include="src\BoundingSphere.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\FileIO.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
@@ -60,12 +63,13 @@
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Menu_Camera.cpp" />
-	<ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
-	<ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
@@ -88,7 +92,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

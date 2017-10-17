@@ -1,9 +1,9 @@
 #include "Free_Camera.h"
-
+#include "UserControls.h"
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
-	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// The ratio of pixels to rotation
 	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Get().GetScreenWidth());
@@ -24,18 +24,15 @@ void Free_Camera::Update(double deltaTime)
 	double deltaX = (currentX - cursorX);
 	double deltaY = (cursorY - currentY);
 
-
 	// Multiply deltas by ratios to get change in orientation
 	deltaX *= ratioWidth;
 	deltaY *= ratioHeight;
 
-	// Rotate camera by deltas
-	Rotate(deltaX, deltaY);
-
 	if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
-		GetParent()->Rotate(glm::vec3(30, 0, 0) * float(deltaTime) * moveSpeed);
+		Rotate(-2*deltaTime,0);
 	if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
-		GetParent()->Rotate(glm::vec3(-30, 0, 0) * float(deltaTime) * moveSpeed);
+		Rotate(2*deltaTime,0);
+
 
 	// Move camera with user controls.
 	if (UserControls::Get().IsKeyPressed(std::string("Forward")))

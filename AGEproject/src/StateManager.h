@@ -18,7 +18,6 @@ class StateManager : public Singleton<StateManager>
 		Exiting
 	};
 
-
 public:
 
 	State state;

@@ -48,9 +48,21 @@ public:
 	}
 
 
-	static Model BuildLine()
+	static Model* BuildLine(std::vector<glm::vec3> p)
 	{
-		std::cout << "Not Implemented!" << std::endl;
+		std::vector<Vertex> vertex;
+		for (glm::vec3 pi : p)
+		{
+			Vertex v;
+			v.position = pi;
+			vertex.push_back(v);
+		}
+		std::vector<unsigned int> i;
+		i.push_back(0);
+		i.push_back(1);
+		Model* temp = new Model(vertex, i);
+		temp->SetType(GL_LINES);
+		return temp;
 	}
 
 };

@@ -1,7 +1,6 @@
 #pragma once
 #include "Camera.h"
 #include "GameEngine.h"
-#include "UserControls.h"
 #include "glm\gtx\euler_angles.hpp"
 
 class Free_Camera : public Camera
@@ -27,7 +26,8 @@ public:
 		fieldOfView(fov),
 		Camera("Free_Camera") 
 	{
-		glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//	glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 		// Update cursor position
 		glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
 	}

@@ -1,5 +1,5 @@
 #include "UserControls.h"
-
+#include "RayCast.h"
 void UserControls::BindKey(std::string &name, unsigned int key)
 {
 	// If action has a binding...
@@ -18,7 +18,7 @@ void UserControls::BindKey(std::string &name, unsigned int key)
 			}
 		}
 	}
-	// Not match, just insert.
+	// No match, just insert.
 	else
 		buttonOptions.insert(std::pair<std::string, unsigned int>(name, key));
 }
@@ -31,6 +31,21 @@ bool UserControls::IsKeyPressed(std::string &action)
 	else
 	{
 		if (glfwGetKey(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
+			return true;
+	}
+	// Should never enter here but just in case.
+	return false;
+}
+
+
+bool UserControls::IsMouseButtonPressed(std::string &action)
+{
+	auto val = buttonOptions.find(action);
+	if (val == buttonOptions.end())
+		return false;
+	else
+	{
+		if (glfwGetMouseButton(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
 			return true;
 	}
 	// Should never enter here but just in case.
@@ -117,6 +132,11 @@ void UserControls::Update()
 	}
 }
 
+void UserControls::Update(Free_Camera& camera)
+{
+	Update();
+	mouseRay.UpdateRay(camera);
+}
 
 void UserControls::HandleConsoleInput()
 {

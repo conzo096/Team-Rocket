@@ -2,8 +2,6 @@
 #include "Entity.h"
 #include "PointLight.h"
 
-std::vector<Entity*> Game::entities;
-double Game::lastTime;
 
 void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
@@ -42,11 +40,11 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 
 void Game::Initialise()
 {
+
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
 	cam->SetProjection(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight(), 2.414f, 1000);
-	std::cout << GameEngine::Get().GetScreenHeight();
 	free_cam->AddComponent(move(cam));
 
 	// Add a red point light to 0, 0.5, 0
@@ -83,8 +81,12 @@ void Game::Initialise()
 	tempRenderable2->SetEffect("debug");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
-	tempEntity2->AddComponent(move(tempRenderable2));
 
+	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
+	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
+
+	tempEntity2->AddComponent(move(tempRenderable2));
+	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
 	lastTime = clock();
 }
@@ -102,8 +104,7 @@ void Game::Update()
 		entities[n]->Update(deltaTime);
 		n++;
 	}
-
-//	printf("%f.9\n", deltaTime);
+	//printf("%f.9\n", deltaTime);
 }
 
 void Game::Render()

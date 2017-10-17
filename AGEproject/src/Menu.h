@@ -10,7 +10,6 @@
 #include "GLShader.h"
 #include "Menu_Camera.h"
 #include "Free_Camera.h"
-
 struct Button
 {
 	// Texture of the button.
