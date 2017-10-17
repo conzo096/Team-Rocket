@@ -51,12 +51,12 @@ void Game::Initialise()
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Structure>();
 
-	auto tempBoundingBox = std::make_unique<BoundingSphere>();
-	tempBoundingBox->UpdateTransforms();
+//	auto tempBoundingBox = std::make_unique<BoundingSphere>();
+//	tempBoundingBox->UpdateTransforms();
 
-	tempBoundingBox->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+//	tempBoundingBox->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 	tempEntity->AddComponent(move(tempRenderable));
-	tempEntity->AddComponent(move(tempBoundingBox));
+//	tempEntity->AddComponent(move(tempBoundingBox));
 	tempEntity->AddComponent(move(tempStructure));
 
 	entities.push_back(tempEntity);
@@ -68,11 +68,11 @@ void Game::Initialise()
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 
-	//auto tempBoundingBox2 = std::make_unique<BoundingBox>();
-	//tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
+	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
+	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 
 	tempEntity2->AddComponent(move(tempRenderable2));
-	//tempEntity2->AddComponent(move(tempBoundingBox2));
+	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
 	lastTime = clock();
 }

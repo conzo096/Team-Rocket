@@ -17,14 +17,59 @@ public:
 	// This center will only work for symmetrical objects.
 	void SetUpBoundingSphere(std::vector<glm::vec3> &vertices)
 	{	
-		radius = 2;
+		glm::vec3 modelCenter = glm::vec3(0);
+
+		for(glm::vec3 &v : vertices)
+		{
+			
+			modelCenter += v;
+		}
+
+		modelCenter /= vertices.size();
+
+		// Now we know the center point, we can compute the model radius  
+		// by examining the radius of each mesh bounding sphere.  
+		radius = 0;
+
+		for(glm::vec3 &v : vertices)
+		{
+			float length = (modelCenter - v).length();
+			radius = std::max(radius,length);
+		}
+		radius += 2;
 	}
 	void from_json(const nlohmann::json &j) {};
 
 	bool TestIntersection(RayCast& ray,glm::vec3& poi)
 	{
-		
-		return true;
+		glm::vec3 origin_position = GetParent()->GetPosition() - glm::dvec3(ray.origin);
+		double b = glm::dot(origin_position,ray.direction);
+		double determinant = b * b - glm::dot(origin_position,origin_position) + radius * radius;
+		if (determinant < 0)
+		{
+			return false;
+		}
+		else
+		{
+			determinant = sqrt(determinant);
+		}
+		double t = b - determinant;
+		if (t > 1e-4)
+		{
+			return true;
+		}
+		else
+		{
+			t = b + determinant;
+			if (t > 1e-4)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 
