@@ -14,12 +14,12 @@ public:
 	// Team the player is on.
 	Team team;
 	// is this player an npc.
-	bool isNPC;
+	bool isNPC = false;
 	// List of entities that this player contains.
 	std::vector<Entity*>entities;
 	
 	// This will be converted to a vector later.
-	Entity* selectedEntity;
+	std::vector<Entity*> selectedEntities;
 	
 	
 

@@ -9,19 +9,23 @@
 #include "Menu_Camera.h"
 #include "Renderable.h"
 #include "Structure.h"
+#include "BoundingBox.h"
+#include "BoundingSphere.h"
 #include "AirMovement.h"
-
+#include "Player.h"
 class Entity;
 
 class Game : public Singleton<Game>
 {
 private:
-	Entity *free_cam = new Entity;
-	std::vector<Entity*> entities; //Figure out how to split this.
 	double lastTime;
-public:
 
-	void SpawnUnit(glm::vec3 position, glm::vec2 size);
+public:
+	Player player;
+	Entity *free_cam = new Entity;
+
+	std::vector<Entity*> entities; //Figure out how to split this.
+	Entity* SpawnUnit(glm::vec3 position, glm::vec2 size);
 
 	void Initialise();
 	void Update();

@@ -1,7 +1,6 @@
 #pragma once
 #include "Camera.h"
 #include "GameEngine.h"
-#include "UserControls.h"
 
 class Menu_Camera : public Camera
 {

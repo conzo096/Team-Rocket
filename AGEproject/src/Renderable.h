@@ -13,6 +13,7 @@ public:
 	Renderable();
 	~Renderable();
 
+	Model GetModel() { return *model; }
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
 	void SetEffect(std::string texName);
