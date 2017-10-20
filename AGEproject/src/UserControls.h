@@ -37,6 +37,10 @@ public:
 		return buttonOptions.find(name)->second;
 	}
 
+	bool IsMouseButtonPressed(std::string &action);
+
+
+
 	// Search through all available index locations and connect to the first one found.
 	void FindConnectedJoystick()
 	{

@@ -38,6 +38,20 @@ bool UserControls::IsKeyPressed(std::string &action)
 }
 
 
+bool UserControls::IsMouseButtonPressed(std::string &action)
+{
+	auto val = buttonOptions.find(action);
+	if (val == buttonOptions.end())
+		return false;
+	else
+	{
+		if (glfwGetMouseButton(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
+			return true;
+	}
+	// Should never enter here but just in case.
+	return false;
+}
+
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
 	// clear the current map of keys.
