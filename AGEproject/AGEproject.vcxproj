@@ -31,6 +31,7 @@
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GeometryUtil.h" />
     <ClInclude Include="src\GLShader.h" />
+    <ClInclude Include="src\GroundMovement.h" />
     <ClInclude Include="src\json.hpp" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
+    <ClCompile Include="src\GroundMovement.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Menu.cpp" />
@@ -92,7 +94,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
