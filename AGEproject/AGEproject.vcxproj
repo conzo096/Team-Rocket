@@ -50,6 +50,7 @@
     <ClInclude Include="src\Targetable.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
   </ItemGroup>
   <ItemGroup>
