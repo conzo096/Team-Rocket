@@ -129,7 +129,7 @@ void PointLight::initialise()
 	this->_id = id_counter++;
 //	const float lightMax = fmaxf(fmaxf(this->ambient.r, this->ambient.g), this->ambient.b);
 //	this->range = (-this->linear + sqrtf(this->linear * this->linear - 4 * this->quadratic * (this->constant - 256.0 / 5.0 * lightMax))) / (2 * this->quadratic);
-	this->range = 100;
+	this->range = 128;
 	this->SetPosition(this->position);
 
 	Material* basic_material = new Material();
