@@ -67,12 +67,21 @@ void Player::HandleInput()
 		Entity* selectedEntity = selectedEntities[0];
 		if (selectedEntity != NULL)
 		{
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_4) == GLFW_PRESS)
+			{
+				entities.erase(std::remove(entities.begin(), entities.end(), selectedEntity), entities.end());
+				selectedEntities.erase(std::remove(selectedEntities.begin(), selectedEntities.end(), selectedEntity), selectedEntities.end());
+				// Destroy the building.
+				selectedEntity->~Entity();
+				selectedEntity = NULL;
+				return;
+			}
 			if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
 			{
 
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 				{
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("TEMP", 2);
+					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("TEMPAirShip", 2);
 				}
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
 				{
@@ -82,8 +91,9 @@ void Player::HandleInput()
 				{
 
 				}
+				
 			}
-			if (selectedEntity->GetCompatibleComponent<AirMovement>() != NULL)
+			else if (selectedEntity->GetCompatibleComponent<AirMovement>() != NULL)
 			{
 
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
@@ -98,6 +108,7 @@ void Player::HandleInput()
 				{
 
 				}
+
 			}
 		}
 	}
