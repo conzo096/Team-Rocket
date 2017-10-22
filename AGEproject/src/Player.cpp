@@ -52,10 +52,10 @@ void Player::HandleInput()
 			// Do not move strucutures.
 			for (Entity*&e : selectedEntities)
 			{
-				if (e != NULL && e->GetCompatibleComponent<AirMovement>() != NULL)
+				if (e != NULL && e->GetCompatibleComponent<Unit>() != NULL)
 				{
 					poi.y = e->GetPosition().y;
-					e->GetComponent<AirMovement>().SetDestination(poi);
+					e->GetComponent<Unit>().GetMovement().SetDestination(poi);
 				}
 			}
 		}
@@ -78,7 +78,6 @@ void Player::HandleInput()
 			}
 			if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
 			{
-
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 				{
 					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("TEMPAirShip", 2);
@@ -93,7 +92,7 @@ void Player::HandleInput()
 				}
 				
 			}
-			else if (selectedEntity->GetCompatibleComponent<AirMovement>() != NULL)
+			else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
 			{
 
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)

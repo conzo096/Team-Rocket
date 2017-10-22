@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include "PointLight.h"
 #include "UserControls.h"
-
+#include "ShipUnit.h"
 Entity* Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 {
 	for (int i = 0; i < 1; i++)
@@ -25,17 +25,20 @@ Entity* Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 		tempRenderable->SetEffect("FlyerUV");
 		tempFlyer->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
+		auto tempAirMovement = new AirMovement;
 		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
 		tempAirMovement->SetTurnSpeed(200.0);
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		
+		auto tempUnit = std::make_unique<Ship>();
+		tempUnit->SetMovement(tempAirMovement);
 		tempFlyer->AddComponent(move(tempRenderable));
-		tempFlyer->AddComponent(move(tempAirMovement));
+		tempFlyer->AddComponent(move(tempUnit));
+	//	tempFlyer->AddComponent(move(tempAirMovement));
 		tempFlyer->AddComponent(move(tempBoundingSphere));
-		//entities.push_back(tempFlyer);
 		return tempFlyer;
 	}
 }

@@ -13,6 +13,7 @@
 #include "BoundingSphere.h"
 #include "AirMovement.h"
 #include "Player.h"
+#include "Unit.h"
 class Entity;
 
 class Game : public Singleton<Game>

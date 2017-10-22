@@ -43,6 +43,7 @@
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ShipUnit.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
