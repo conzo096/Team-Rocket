@@ -4,29 +4,27 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include "Shader.h"
 #include "FileIO.h"
-GameEngine *GameEngine::instance = 0;
-Shader *Shader::instance = 0;
 
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
 	{
-		std::fprintf(stderr, "ERROR: glfw failed init! exiting.");
+		fprintf(stderr, "ERROR: glfw failed init! exiting.");
 		return;
 	}
-	FileIO io = FileIO::get();
+	FileIO io = FileIO::Get();
 	io.LoadIniFile();
 	// Create a windowed mode window with hard coded parameters.
-	if(instance->fullScreen == false)
-		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", NULL, NULL);
+	if(fullScreen == false)
+		window = glfwCreateWindow(GetScreenWidth(), GetScreenHeight(), "Team Rocket", NULL, NULL);
 	else
-		instance->window = glfwCreateWindow(instance->GetScreenWidth(), instance->GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
+		window = glfwCreateWindow(GetScreenWidth(),GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
 	
 	// Window is now initalised, now make it the current context.
-	glfwMakeContextCurrent(instance->window);
-	if (!instance->window)
+	glfwMakeContextCurrent(Get().window);
+	if (!Get().window)
 	{
-		assert(instance->window != NULL);
+		assert(Get().window != NULL);
 		CleanUp();
 		return;
 	}
@@ -35,7 +33,7 @@ void GameEngine::Initialise()
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
-		std::fprintf(stderr, "ERROR: %s EXITING!", glewGetErrorString(glewInit()));
+		fprintf(stderr, "ERROR: %p EXITING!", glewGetErrorString(glewInit()));
 		return;
 	}
 	// glExperimental throws junk errors, Ignore.
@@ -46,17 +44,16 @@ void GameEngine::Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	// V-Sync, does not run without it
 	glfwSwapInterval(1.0f);
 }
 
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
-	auto mvp = instance->cameraMVP * m;
-	Shader::Instance()->UseShader("Basic", effect, mvp);
-	if (!model.GetStrip())
-		model.Draw();
-	else
-		model.DrawStrip();
+	const auto mvp = Get().cameraMVP * m;
+//	Shader::Get().UseShader("Basic", effect, mvp);
+	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
+	model.Draw();
 }
 
 void GameEngine::SetCamera(glm::mat4 camera)
@@ -78,17 +75,18 @@ void GameEngine::CleanUp()
 
 void GameEngine::PrintGlewInfo()
 {
-	std::printf("-------------------------------------------------------\n");
-	std::printf("Glew version: %s\n", glewGetString(GLEW_VERSION));
-	std::printf("Gl version: %s\n", glGetString(GL_VERSION));
-	std::printf("Vendor: %s\n", glGetString(GL_VENDOR));
-	std::printf("Graphics card: %s\n", glGetString(GL_RENDERER));
-	std::printf("Shading: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	std::printf("-------------------------------------------------------\n");
+	printf("-------------------------------------------------------\n");
+//	printf("Glew version: %p\n", glewGetString(GLEW_VERSION));
+
+	std::clog << "GL Version: " << glGetString(GL_VERSION) << std::endl;
+	std::clog << "GL Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::clog << "GL Renderer: " << glGetString(GL_RENDERER) << std::endl;
+	std::clog << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+	printf("-------------------------------------------------------\n");
 }
 
 void GameEngine::LoadShaders()
 {
-	Shader::Instance()->AddShader("Basic");
-	Shader::Instance()->AddShader("Menu");
+	Shader::Get().AddShader("Phong");
+	Shader::Get().AddShader("tex");
 }
