@@ -17,6 +17,7 @@ public:
 	~Targetable();
 
 	void SetMaxHealth(float newMax) { maxHealth = newMax; };
+	void SetHealth(float h) { health = h; }
 	void Heal(float ammount) { health += ammount; };
 	void SetThreshold(float newThreshold) { thresholdArmour = newThreshold; };
 	void SetResistance(float newResistance) { resistanceArmour = newResistance; };

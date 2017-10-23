@@ -15,30 +15,33 @@ AirMovement::~AirMovement()
 
 void AirMovement::MoveTo(double delta)
 {
-	if (GetParent()->GetPosition() == destination)
+	if (IsActive())
 	{
-
-		destination.x = rand() % 200 - 100;
-		destination.z = rand() % 200 - 100;
-
-		currentSpeed = 0.0f;
-
-	}
-	else
-	{
-		if (currentSpeed < speed)
-			currentSpeed += speed*delta / accelerationTime;
-		glm::dvec3 moveVec = destination - GetParent()->GetPosition();
-		double distance = glm::length(moveVec);
-		moveVec = glm::normalize(moveVec);
-		moveVec = moveVec *delta * currentSpeed;
-		if (distance > glm::length(moveVec))
+		if (GetParent()->GetPosition() == destination)
 		{
-			GetParent()->Move(moveVec);
+
+			destination.x = rand() % 200 - 100;
+			destination.z = rand() % 200 - 100;
+
+			currentSpeed = 0.0f;
+
 		}
 		else
 		{
-			GetParent()->SetPosition(destination);
+			if (currentSpeed < speed)
+				currentSpeed += speed*delta / accelerationTime;
+			glm::dvec3 moveVec = destination - GetParent()->GetPosition();
+			double distance = glm::length(moveVec);
+			moveVec = glm::normalize(moveVec);
+			moveVec = moveVec *delta * currentSpeed;
+			if (distance > glm::length(moveVec))
+			{
+				GetParent()->Move(moveVec);
+			}
+			else
+			{
+				GetParent()->SetPosition(destination);
+			}
 		}
 	}
 }

@@ -37,7 +37,7 @@ void Structure::Produce(double delta)
 	ammountBuilt += delta;
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
-		collectionQueue.push_back(Game::Get().SpawnUnit(GetParent()->GetPosition(), glm::vec2(7, 7)));
+		collectionQueue.push_back(Game::Get().SpawnUnit(GetParent()->GetPosition(), glm::vec2(7, 7),team));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}

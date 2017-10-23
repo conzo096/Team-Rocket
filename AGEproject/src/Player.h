@@ -3,28 +3,27 @@
 #include <vector>
 #include "Entity.h"
 
-enum Team {TeamOne, TeamTwo, TeamThree};
 
 class Player
 {
 
-private:
-
-public:
+protected:
 	// Team the player is on.
-	Team team;
-	// is this player an npc.
-	bool isNPC = false;
+	int team;
 	// List of entities that this player contains.
 	std::vector<Entity*>entities;
-	
+
 	// This will be converted to a vector later.
 	std::vector<Entity*> selectedEntities;
-	
+public:
 	
 
-	void Update();
-	void HandleInput();
+	int GetTeam() { return team; }
+	void SetTeam(int t) { team = t; }
+	std::vector<Entity*>& GetEntities() { return entities; }
+
+	void Update(std::vector<Entity*>& enemyList);
+	void HandleInput(std::vector<Entity*>& enemyList);
 	void Render();
 
 

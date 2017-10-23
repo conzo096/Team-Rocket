@@ -18,7 +18,9 @@ private:
 	std::queue<Product> productQueue;
 	// Holds items that are created.
 	std::vector<Entity*> collectionQueue;
-
+	
+	// What team this structure belongs to.
+	int team;
 protected:
 	void from_json(const nlohmann::json &j);
 public:
@@ -30,5 +32,8 @@ public:
 	void AddProduct(std::string productName, float buildTime);
 	void Produce(double delta);
 	void Update(double delta) override;
+
+	void SetTeam(int t) { team = t; }
+	int GetTeam() { return team; }
 	
 };
