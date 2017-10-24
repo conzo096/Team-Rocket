@@ -37,20 +37,18 @@ int Menu::Draw(GLShader shader)
 	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId();
 	// 3 buttons have to fit in a screen space of two (-1 to 1).
 
-	// % size of the button (1 = 100%, 0.5 - 50% etc)
 	float buttonWidth = 0.6f;
 	float buttonHeight = 0.3f;
 	float buttonOffset = 0.5f;
 	const float offsetChange = 0.5f;
 
-	// Starting position for the button is the top - the button height.
 	for (int i = 0; i < numberOfButtons; i++)
 	{
 		Button& newButton = buttons[i];
 		newButton.action = i;
 		newButton.texture = tex; 
-		newButton.renderTarget = Quad(glm::vec2(0 - (buttonWidth / 2.0f), (1-i-buttonOffset) - (buttonHeight / 2.0f)),
-									  glm::vec2(0 + (buttonWidth / 2.0f), (1-i-buttonOffset) + (buttonHeight / 2.0f)));
+		newButton.renderTarget = Quad(glm::vec2(0 - (buttonWidth / 2.0f), (i + buttonOffset - 1) - (buttonHeight / 2.0f)),
+									  glm::vec2(0 + (buttonWidth / 2.0f), (i + buttonOffset - 1) + (buttonHeight / 2.0f)));
 		newButton.renderTarget.SetOpenGL();
 		buttonOffset -= offsetChange;
 	}
@@ -77,13 +75,8 @@ int Menu::Draw(GLShader shader)
 		}
 
 		// Draw the quad.
-  		for (int i = 0; i < 3; i++)
+  		for (int i = 0; i < numberOfButtons; i++)
 		{		
-			if (glfwGetMouseButton(GameEngine::Get().GetWindow(), 0))
-			{
-				if (buttons[i].renderTarget.IsMouseInBounds())
-					std::cout << i << std::endl;
-			}
 			// Bind texture.
 			glUniform1i(shader.GetUniformLocation("tex"), 0);
 			glActiveTexture(GL_TEXTURE0);
@@ -92,6 +85,19 @@ int Menu::Draw(GLShader shader)
 		}
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
+
+
+		if (glfwGetMouseButton(GameEngine::Get().GetWindow(), 0))
+		{
+			for (int i = 0; i < numberOfButtons; i++)
+			{
+				if (buttons[i].renderTarget.IsMouseInBounds())
+				{
+					std::cout << i << std::endl;
+					break;
+				}
+			}
+		}
 	}
 
 	return SelectionPicked();

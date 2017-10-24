@@ -221,18 +221,20 @@ public:
 		mousePos.x /= GameEngine::Get().GetScreenWidth();
 		mousePos.x = (mousePos.x * 2.0f) - 1;
 
-		int startX = vertices[1].position.x;
-		int endX = vertices[0].position.x;
+		// Here's the problem
+		float bottomLeftX = vertices[2].position.x;
+		float topRightX = vertices[0].position.x;
 
 		// Check mouse y is within % range of quad.
 		mousePos.y /= GameEngine::Get().GetScreenHeight();
 		mousePos.y = (mousePos.y * 2.0f) - 1;
 
-		float startY = vertices[1].position.y;
-		float endY = vertices[0].position.y;
+		// Here's the problem
+		float bottomLeftY = vertices[2].position.y;
+		float topRightY = vertices[0].position.y;
 
-		if ( (mousePos.x > startX) && (mousePos.x < endX) &&
-			 (mousePos.y > startY) && (mousePos.y < endY) )
+		if ( (mousePos.x > bottomLeftX) && (mousePos.x < topRightX) &&
+			 (mousePos.y > bottomLeftY) && (mousePos.y < topRightY) )
 		{
 			return true;
 		}
