@@ -7,9 +7,15 @@
 void StateManager::StateLoop()
 {
 	GameEngine::Get().Initialise();
+	running = true;
 
-	while (!glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+	while (running)
 	{
+		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+		{
+			state = Exiting;
+		}
+
 		switch (state)
 		{
 		case(Splash):
@@ -17,9 +23,17 @@ void StateManager::StateLoop()
 			state = MainMenu;
 			break;
 		case(MainMenu):
-			ShowMainMenu();
-			Game::Get().Initialise(); //This will need a new home later.
-			state = Playing;
+			select = ShowMainMenu();
+			if (select == 0)
+			{
+				Game::Get().Initialise(); //This will need a new home later.
+				state = Playing;
+			}
+			else if (select == 1)
+			{
+
+			}
+			else if (select == 2) { state = Exiting; }
 			break;
 		case(Settings):
 			break;
@@ -28,6 +42,7 @@ void StateManager::StateLoop()
 			Game::Get().Render();
 			break;
 		case(Exiting):
+			running = false;
 			break;
 		default:
 			throw std::invalid_argument("Error: No behavior has been set for state" + state);

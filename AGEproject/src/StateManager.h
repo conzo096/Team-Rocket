@@ -19,17 +19,18 @@ class StateManager : public Singleton<StateManager>
 	};
 
 public:
+
 	State state;
 
 	void StateLoop();
 
-	void ShowMainMenu()
+	int ShowMainMenu()
 	{
 		Menu t;
-		t.Draw(Shader::Get().GetShader("tex"));
+		return t.Draw(Shader::Get().GetShader("tex"));
 	}
 
 private:
-
-
+	int select;
+	bool running;
 };

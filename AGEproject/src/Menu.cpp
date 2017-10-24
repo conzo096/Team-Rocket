@@ -53,52 +53,53 @@ int Menu::Draw(GLShader shader)
 		buttonOffset -= offsetChange;
 	}
 
-	// Change while condition.
-	while (!UserControls::Get().IsKeyPressed(std::string("Enter")))
+	menu_cam->GetComponent<Menu_Camera>().Update(0);
+	glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0, 1, 0, 1);
+	shader.Use();
+
+	// Draw the quad.
+	for (int i = 0; i < numberOfButtons; i++)
 	{
-		menu_cam->GetComponent<Menu_Camera>().Update(0);
-		glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
-		
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0, 1, 0, 1);
-		shader.Use();
+		// Bind texture.
+		glUniform1i(shader.GetUniformLocation("tex"), 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
+		buttons[i].renderTarget.Draw();
+	}
+	glfwSwapBuffers(GameEngine::Get().GetWindow());
 
-		if (UserControls::Get().IsKeyPressed(std::string("Forward")))
-			SelectionUp();
-		if (UserControls::Get().IsKeyPressed(std::string("Backward")))
-			SelectionDown();
+	if (UserControls::Get().IsKeyPressed(std::string("Forward")))
+		SelectionUp();
+	if (UserControls::Get().IsKeyPressed(std::string("Backward")))
+		SelectionDown();
 
-		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+	{
+		// "Start Game" is clicked
+		if (buttons[0].renderTarget.IsMouseInBounds())
 		{
-		
+			selectionMade = true;
+			currentSelection = 0;
 		}
-
-		// Draw the quad.
-  		for (int i = 0; i < numberOfButtons; i++)
-		{		
-			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
-			buttons[i].renderTarget.Draw();
-		}
-		glfwSwapBuffers(GameEngine::Get().GetWindow());
-		glfwPollEvents();
-
-
-		if (glfwGetMouseButton(GameEngine::Get().GetWindow(), 0))
+		else if (buttons[1].renderTarget.IsMouseInBounds())
 		{
-			for (int i = 0; i < numberOfButtons; i++)
-			{
-				if (buttons[i].renderTarget.IsMouseInBounds())
-				{
-					std::cout << i << std::endl;
-					break;
-				}
-			}
+
+		}
+		else if (buttons[2].renderTarget.IsMouseInBounds())
+		{
+			selectionMade = true;
+			currentSelection = 2;
 		}
 	}
 
-	return SelectionPicked();
+	glfwPollEvents();
+
+	if (selectionMade)
+		return SelectionPicked();
+	else
+		return -1;
 }

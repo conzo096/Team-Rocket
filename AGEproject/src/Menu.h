@@ -24,12 +24,13 @@ struct Button
 class Menu
 {
 private:
-	// Camera that views menu (hopefully this will be shared in future)
 	Entity* menu_cam;
+	bool selectionMade;
 
 public:
 	Menu() 
 	{
+		selectionMade = false;
 		menu_cam = new Entity;
 
 		auto cam = std::make_unique<Menu_Camera>();
