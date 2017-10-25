@@ -1,18 +1,18 @@
 #pragma once
-#include "Unit.h"
-#include "AirMovement.h"
-class Ship : public Unit
+#pragma once
+#include "Structure.h"
+class Shipyard : public Structure
 {
 private:
 
 protected:
 	void from_json(const nlohmann::json &j) {};
 public:
-	Ship() : Unit("Ship")
+	Shipyard() : Structure("Shipyard")
 	{
-	
+
 	};
-	~Ship() {};
+	~Shipyard() {};
 
 	//void Update(double delta);
 

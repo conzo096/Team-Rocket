@@ -25,6 +25,7 @@ protected:
 	void from_json(const nlohmann::json &j);
 public:
 	Structure();
+	Structure(std::string type) : Component(type) {};
 	~Structure();
 
 	void Collect(std::vector<Entity*>& ents);
