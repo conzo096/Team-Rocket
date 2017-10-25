@@ -1,5 +1,5 @@
 #include "UserControls.h"
-#include "RayCast.h"
+
 void UserControls::BindKey(std::string &name, unsigned int key)
 {
 	// If action has a binding...
@@ -18,7 +18,7 @@ void UserControls::BindKey(std::string &name, unsigned int key)
 			}
 		}
 	}
-	// No match, just insert.
+	// Not match, just insert.
 	else
 		buttonOptions.insert(std::pair<std::string, unsigned int>(name, key));
 }
@@ -51,7 +51,6 @@ bool UserControls::IsMouseButtonPressed(std::string &action)
 	// Should never enter here but just in case.
 	return false;
 }
-
 
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
@@ -109,7 +108,6 @@ int UserControls::GetPickedColourIndexUnderMouse()
 		GLdouble modelview[16]; //var to hold the modelview info
 		GLdouble projection[16]; //var to hold the projection matrix info
 		GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
-		GLdouble worldX, worldY, worldZ; //variables to hold world x,y,z coordinates
 
 		glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
 		glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
@@ -132,12 +130,11 @@ void UserControls::Update()
 	}
 }
 
-void UserControls::Update(Free_Camera& camera)
+void UserControls::Update(Free_Camera& cam)
 {
 	Update();
-	mouseRay.UpdateRay(camera);
+	mouseRay.UpdateRay(cam);
 }
-
 void UserControls::HandleConsoleInput()
 {
 	std::cout << "Still to be implemented!" << std::endl;

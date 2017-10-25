@@ -28,6 +28,8 @@ public:
 	// Controller choices.
 	enum ControllerOption { KEYBOARD, CONTROLLER};
 
+	RayCast GetRay() { return mouseRay; };
+
 	// Bind action to a new key.
 	void BindKey(std::string &name, unsigned int key);
 
