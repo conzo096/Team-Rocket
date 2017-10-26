@@ -26,11 +26,13 @@ public:
 	// Ai decisions are handled here.
 	void HandleAiLogic(std::vector<Entity*>& enemyList)
 	{
-		if (entities.size() < 2)
+		// If structure is still around.
+		if (entities.size() >0)
 		{
 			// Spawn an entity.
 			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
-				entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 1);
+				if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 3)
+					entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 3);
 		}
 		for (Entity*& e : entities)
 		{

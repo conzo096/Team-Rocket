@@ -108,7 +108,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 				{
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("TEMPAirShip", 2);
+					// AddProduct with an int instead. This will change what should spawn in the inherited structures.
+					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
 				}
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
 				{

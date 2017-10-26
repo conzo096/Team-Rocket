@@ -1,8 +1,9 @@
 #pragma once
-#include "Game.h"
+#include "Spawner.h"
 #include "Entity.h"
 #include <queue>
 
+class Spawner;
 class Structure : public Component
 {
 	struct Product
@@ -34,6 +35,7 @@ public:
 	void Produce(double delta);
 	void Update(double delta) override;
 
+	int GetQueueSize() { return productQueue.size(); }
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
 	

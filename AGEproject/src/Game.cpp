@@ -5,48 +5,6 @@
 #include "ShipUnit.h"
 #include "Targetable.h"
 #include "AiPlayer.h"
-Entity* Game::SpawnUnit(glm::vec3 position, glm::vec2 size, int team)
-{
-	for (int i = 0; i < 1; i++)
-	{
-		glm::vec3 spawnPosition = position;
-		if (i % 2 == 0)
-		{
-			spawnPosition.x;
-			spawnPosition.z;
-			size.x = -size.x;
-			size.y = -size.y;
-		}
-		else
-		{
-
-		}
-		Entity* tempFlyer = new Entity;
-		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("../res/models/Flyer.obj");
-		tempRenderable->SetEffect("FlyerUV");
-		tempFlyer->SetPosition(spawnPosition);
-		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
-		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.5);
-		tempAirMovement->SetTurnSpeed(200.0);
-		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
-		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-		
-		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
-		auto tempUnit = std::make_unique<Ship>();
-		tempUnit->SetTeam(team);
-		tempFlyer->AddComponent(move(tempRenderable));
-		tempFlyer->AddComponent(move(tempUnit));
-		tempFlyer->AddComponent(move(tempAirMovement));
-		tempFlyer->AddComponent(move(tempBoundingSphere));
-		tempFlyer->AddComponent(move(target));
-		return tempFlyer;
-	}
-}
 
 void Game::Initialise()
 {
@@ -119,9 +77,6 @@ void Game::Initialise()
 
 	NPC->GetEntities().push_back(tempEntityn);
 
-	Entity* npcShip = SpawnUnit(glm::vec3(30.5f, 2.5f, 30.5f), glm::vec2(2, 2), 1);
-	npcShip->SetScale(glm::vec3(4, 4, 10));
-	NPC->GetEntities().push_back(npcShip);
 
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();

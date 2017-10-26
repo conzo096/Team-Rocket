@@ -49,6 +49,7 @@
     <ClInclude Include="src\ShipUnit.h" />
     <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
+    <ClInclude Include="src\Spawner.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Structure.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Structure.cpp" />
