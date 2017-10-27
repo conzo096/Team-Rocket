@@ -22,7 +22,7 @@ void TMenu::SelectionUp()
 		return;
 	// If currentSelection is the first one, loop to end one. 
 	if (currentSelection == 0)
-		currentSelection = buttons.size()-1;
+		currentSelection = (int)buttons.size()-1;
 	currentSelection -= 1;
 }
 

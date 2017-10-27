@@ -17,5 +17,6 @@ public:
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
 	void SetEffect(std::string texName);
+	Effect* GetEffect() { return effect; }
 	void Render();
 };

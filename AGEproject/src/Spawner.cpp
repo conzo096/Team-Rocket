@@ -97,5 +97,5 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 
 	}
 
-
+	return NULL;
 }

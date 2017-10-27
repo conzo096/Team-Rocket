@@ -14,11 +14,9 @@ protected:
 	// What entity is it looking to attack?
 	Entity* targetEntity = NULL;
 	// What team is this unit on?
-
-	Model* line = NULL;
-
 	int team;
-
+	// fire muh lazor.
+	Model* line = NULL;
 
 	void from_json(const nlohmann::json &j) {};
 public:
@@ -61,7 +59,7 @@ public:
 	//		if ((targetEntity->GetPosition()- GetPosition()).length() <2)
 			{
 				// Damage enemy.
-				targetEntity->GetCompatibleComponent<Targetable>()->TakeDamage(0.8);
+				targetEntity->GetCompatibleComponent<Targetable>()->TakeDamage(0.8f);
 			}
 
 
@@ -102,7 +100,9 @@ public:
 	void Render()
 	{
 		if (line != NULL)
+		{
 			line->Draw();
+		}
 	}
 
 };

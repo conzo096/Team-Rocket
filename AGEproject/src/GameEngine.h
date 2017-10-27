@@ -24,8 +24,8 @@ private:
 
 	// The window that is to be rendered too.
 	GLFWwindow* window;
-	float width;
-	float height;
+	int width;
+	int height;
 	bool fullScreen;
 	glm::mat4 cameraMVP;
 	glm::vec3 cameraPos;
@@ -39,8 +39,8 @@ public:
 	void Render(glm::mat4 mvp, Model model, Effect effect);
 
 	// Getters for width and height
-	float GetScreenWidth() { return width; }
-	float GetScreenHeight() { return height; }
+	int GetScreenWidth() { return width; }
+	int GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
 	void SetFullScreen(int val) { fullScreen = val; }
 	void SetScreenWidth(int val) { width = val; }

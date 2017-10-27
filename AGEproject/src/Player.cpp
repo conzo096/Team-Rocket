@@ -37,6 +37,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		}
 		// If no suitable object has been selected, clear selected list.
 		selectedEntities.clear();
+
 	}
 	// if it is a move action, move selected entity.
 	if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
@@ -52,7 +53,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 				{
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
-					poi.y = e->GetPosition().y;
+					poi.y = (float)e->GetPosition().y;
 					e->GetCompatibleComponent<Movement>()->SetDestination(poi);
 				}
 			}
