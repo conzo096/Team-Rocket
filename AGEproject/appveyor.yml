@@ -5,30 +5,12 @@ configuration:
 - Debug
 - Release
 
+install:
+    - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin\;%PATH%
+
 platform:
 
 - x64
-
-build_script:
-
-- ps: >-
-
-    if ($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2013") {
-      $PlatformToolset = "v120"
-    } elseif ($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2015") {
-      $PlatformToolset = "v140"
-    } else {
-      $PlatformToolset = "v141"
-    }
-
-    (Get-Content AGEproject.vcxproj) | %{$_ -replace "v100", $PlatformToolset} | Set-Content AGEproject.vcxproj
-
-    (Get-Content AGEproject.vcxproj) | %{$_ -replace "v100", $PlatformToolset} | Set-Content AGEproject.vcxproj
-
-    & msbuild AGEproject.vcxproj "/p:platform=$env:platform;configuration=$env:configuration"
-
-    & msbuild AGEproject.vcxproj "/p:platform=$env:platform;configuration=$env:configuration"
-
 
 build:
   project: AGEproject.vcxproj
