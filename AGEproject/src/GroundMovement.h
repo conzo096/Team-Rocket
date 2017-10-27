@@ -5,57 +5,57 @@
 using namespace glm;
 using namespace std;
 
-const int n = 60; // horizontal size of the map
-const int m = 60; // vertical size size of the map
-static int nodeMap[n][m];
-static int closed_nodes_map[n][m]; // map of closed (tried-out) nodes
-static int open_nodes_map[n][m]; // map of open (not-yet-tried) nodes
-static int dir_map[n][m]; // map of directions
-const int dir = 8;
-static int dx[dir] = { 1, 1, 0, -1, -1, -1, 0, 1 };
-static int dy[dir] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+//const int xSize = 60; // horizontal size of the map
+//const int zSize = 60; // vertical size size of the map
+//static int nodeMap[xSize][zSize];
+//static int closedNodes[xSize][zSize]; // map of closed (tried-out) nodes
+//static int openNodes[xSize][zSize]; // map of open (not-yet-tried) nodes
+//static int directions[xSize][zSize]; // map of directions
+//const int dir = 8;
+//static int dx[dir] = { 1, 1, 0, -1, -1, -1, 0, 1 }; //The x coordinate of the posible directions
+//static int dz[dir] = { 0, 1, 1, 1, 0, -1, -1, -1 }; //The z coordinate of the posible directions
 
-class node
+class Node
 {
 	// current position
 	int xPos;
-	int yPos;
+	int zPos;
 	// total distance already travelled to reach the node
-	int level;
+	int distanceTraveled;
 	// priority=level+remaining distance estimate
 	int priority;  // smaller: higher priority
 
 public:
-	node(int xp, int yp, int d, int p)
+	Node(int xp, int zp, int d, int p)
 	{
-		xPos = xp; yPos = yp; level = d; priority = p;
+		xPos = xp; zPos = zp; distanceTraveled = d; priority = p;
 	}
 
-	int getxPos() const { return xPos; }
-	int getyPos() const { return yPos; }
-	int getLevel() const { return level; }
-	int getPriority() const { return priority; }
+	int GetxPos() const { return xPos; }
+	int GetzPos() const { return zPos; }
+	int GetDistance() const { return distanceTraveled; }
+	int GetPriority() const { return priority; }
 
-	void updatePriority(const int & xDest, const int & yDest)
+	void UpdatePriority(const int & xDestination, const int & zDestination)
 	{
-		priority = level + estimate(xDest, yDest) * 10; //A*
+		priority = distanceTraveled + Estimate(xDestination, zDestination) * 10; //A*
 	}
 
-	// give better priority to going strait instead of diagonally
-	void nextLevel(const int & i) // i: direction
+	// give better priority to going straight instead of diagonally
+	void NextDistance(const int & i) // i: direction
 	{
-		level += (dir == 8 ? (i % 2 == 0 ? 10 : 14) : 10);
+		distanceTraveled += (i % 2 == 0 ? 10 : 14);
 	}
 
 	// Estimation function for the remaining distance to the goal.
-	const int & estimate(const int & xDest, const int & yDest) const
+	const int & Estimate(const int & xDest, const int & zDest) const
 	{
-		static int xd, yd, d;
+		static int xd, zd, d;
 		xd = xDest - xPos;
-		yd = yDest - yPos;
+		zd = zDest - zPos;
 
 		// Euclidian Distance
-		d = static_cast<int>(sqrt(xd*xd + yd*yd));
+		d = static_cast<int>(sqrt(xd*xd + zd*zd));
 
 		// Manhattan distance
 		//d=abs(xd)+abs(yd);
@@ -67,14 +67,23 @@ public:
 	}
 };
 
-bool operator<(const node & a, const node & b)
+bool operator<(const Node & a, const Node & b)
 {
-	return a.getPriority() > b.getPriority();
+	return a.GetPriority() > b.GetPriority();
 }
 
 class GroundMovement : public Movement
 {
 private:
+	int xSize = 60; // horizontal size of the map
+	int zSize = 60; // vertical size size of the map
+	int **nodeMap;
+	int **closedNodes; // map of closed (tried-out) nodes
+	int **openNodes; // map of open (not-yet-tried) nodes
+	int **directions; // map of directions
+	int dir = 8;
+	int *dx; //The x coordinate of the posible directions
+	int *dz; //The z coordinate of the posible directions
 
 protected:
 	dvec3 goal;
@@ -84,8 +93,10 @@ public:
 	GroundMovement();
 	~GroundMovement();
 
+	void SetGrid(int xSize, int zSize, int  **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
+	void FindClosest(vec3 point);
 	bool LineOfSight();
-	bool Pathfind(const int & xStart, const int & yStart, const int & xFinish, const int & yFinish);
+	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);
 	void MoveTo(double delta);
 	void TurnTo(double delta);
 	void Update(double delta) override;

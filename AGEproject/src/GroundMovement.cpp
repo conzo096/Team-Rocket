@@ -14,130 +14,132 @@ GroundMovement::~GroundMovement()
 {
 }
 
+void GroundMovement::FindClosest(vec3 point)
+{
+	//do some modulus stuff here
+}
+
 bool GroundMovement::LineOfSight()
 {
 	return false;
 }
 
-bool GroundMovement::Pathfind(const int & xStart, const int & yStart, const int & xFinish, const int & yFinish)
+bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish)
 {
-	static priority_queue<node> pq[2]; // list of open (not-yet-tried) nodes
-	static int pqi; // pq index
-	static node* n0;
-	static node* m0;
-	static int i, j, x, y, xdx, ydy;
-	static char c;
-	pqi = 0;
+	static priority_queue<Node> untriedNodes[2]; // list of open (not-yet-tried) nodes
+	static int nodeIndex = 0;
+	static Node* x0;
+	static Node* z0;
+	static int x, z,
+		xdx, //The Current x plus a direction
+		zdz; //The Current z plus a direction
 
 	// reset the node maps
-	for (y = 0; y<m; y++)
+	for (z = 0; z < zSize; z++)
 	{
-		for (x = 0; x<n; x++)
+		for (x = 0; x < xSize; x++)
 		{
-			closed_nodes_map[x][y] = 0;
-			open_nodes_map[x][y] = 0;
+			closedNodes[x][z] = 0;
+			openNodes[x][z] = 0;
 		}
 	}
 
 	// create the start node and push into list of open nodes
-	n0 = new node(xStart, yStart, 0, 0);
-	n0->updatePriority(xFinish, yFinish);
-	pq[pqi].push(*n0);
-	open_nodes_map[x][y] = n0->getPriority(); // mark it on the open nodes map
+	x0 = new Node(xStart, zStart, 0, 0);
+	x0->UpdatePriority(xFinish, zFinish);
+	untriedNodes[nodeIndex].push(*x0);
+	openNodes[x][z] = x0->GetPriority(); // mark it on the open nodes map
 
 											  // A* search
-	while (!pq[pqi].empty())
+	while (!untriedNodes[nodeIndex].empty())
 	{
 		// get the current node w/ the highest priority
 		// from the list of open nodes
-		n0 = new node(pq[pqi].top().getxPos(), pq[pqi].top().getyPos(),
-			pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
+		x0 = new Node(untriedNodes[nodeIndex].top().GetxPos(), untriedNodes[nodeIndex].top().GetzPos(),
+			untriedNodes[nodeIndex].top().GetDistance(), untriedNodes[nodeIndex].top().GetPriority());
 
-		x = n0->getxPos(); y = n0->getyPos();
+		x = x0->GetxPos(); z = x0->GetzPos();
 
-		pq[pqi].pop(); // remove the node from the open list
-		open_nodes_map[x][y] = 0;
+		untriedNodes[nodeIndex].pop(); // remove the node from the open list
+		openNodes[x][z] = 0;
 		// mark it on the closed nodes map
-		closed_nodes_map[x][y] = 1;
+		closedNodes[x][z] = 1;
 
 		// quit searching when the goal state is reached
-		//if((*n0).estimate(xFinish, yFinish) == 0)
-		if (x == xFinish && y == yFinish)
+		if (x == xFinish && z == zFinish)
 		{
 			// generate the path from finish to start
 			// by following the directions
-			string path = "";
-			while (!(x == xStart && y == yStart))
+			while (!(x == xStart && z == zStart))
 			{
-				j = dir_map[x][y];
-				c = '0' + (j + dir / 2) % dir;
-				path = c + path;
+				int j = directions[x][z];
 				x += dx[j];
-				y += dy[j];
+				z += dz[j];
 			}
 
-			// garbage collection
-			delete n0;
+			delete x0;
 			// empty the leftover nodes
-			while (!pq[pqi].empty()) pq[pqi].pop();
+			while (!untriedNodes[nodeIndex].empty())
+				untriedNodes[nodeIndex].pop();
 			return true;
 		}
 
 		// generate moves (child nodes) in all possible directions
-		for (i = 0; i<dir; i++)
+		for (int i = 0; i < dir; i++)
 		{
-			xdx = x + dx[i]; ydy = y + dy[i];
+			xdx = x + dx[i];
+			zdz = z + dz[i];
 
-			if (!(xdx<0 || xdx>n - 1 || ydy<0 || ydy>m - 1 || nodeMap[xdx][ydy] == 1
-				|| closed_nodes_map[xdx][ydy] == 1))
+			if (!(xdx<0 || xdx>xSize - 1 || zdz<0 || zdz>zSize - 1 || nodeMap[xdx][zdz] == 1
+				|| closedNodes[xdx][zdz] == 1))
 			{
 				// generate a child node
-				m0 = new node(xdx, ydy, n0->getLevel(),
-					n0->getPriority());
-				m0->nextLevel(i);
-				m0->updatePriority(xFinish, yFinish);
+				z0 = new Node(xdx, zdz, x0->GetDistance(),
+					x0->GetPriority());
+				z0->NextDistance(i);
+				z0->UpdatePriority(xFinish, zFinish);
 
 				// if it is not in the open list then add into that
-				if (open_nodes_map[xdx][ydy] == 0)
+				if (openNodes[xdx][zdz] == 0)
 				{
-					open_nodes_map[xdx][ydy] = m0->getPriority();
-					pq[pqi].push(*m0);
+					openNodes[xdx][zdz] = z0->GetPriority();
+					untriedNodes[nodeIndex].push(*z0);
 					// mark its parent node direction
-					dir_map[xdx][ydy] = (i + dir / 2) % dir;
+					directions[xdx][zdz] = (i + dir / 2) % dir;
 				}
-				else if (open_nodes_map[xdx][ydy]>m0->getPriority())
+				else if (openNodes[xdx][zdz] > z0->GetPriority())
 				{
 					// update the priority info
-					open_nodes_map[xdx][ydy] = m0->getPriority();
+					openNodes[xdx][zdz] = z0->GetPriority();
 					// update the parent direction info
-					dir_map[xdx][ydy] = (i + dir / 2) % dir;
+					directions[xdx][zdz] = (i + dir / 2) % dir;
 
 					// replace the node
-					// by emptying one pq to the other one
+					// by emptying one node to the other one
 					// except the node to be replaced will be ignored
 					// and the new node will be pushed in instead
-					while (!(pq[pqi].top().getxPos() == xdx &&
-						pq[pqi].top().getyPos() == ydy))
+					while (!(untriedNodes[nodeIndex].top().GetxPos() == xdx &&
+						untriedNodes[nodeIndex].top().GetzPos() == zdz))
 					{
-						pq[1 - pqi].push(pq[pqi].top());
-						pq[pqi].pop();
+						untriedNodes[1 - nodeIndex].push(untriedNodes[nodeIndex].top());
+						untriedNodes[nodeIndex].pop();
 					}
-					pq[pqi].pop(); // remove the wanted node
+					untriedNodes[nodeIndex].pop(); // remove the wanted node
 
-								   // empty the larger size pq to the smaller one
-					if (pq[pqi].size()>pq[1 - pqi].size()) pqi = 1 - pqi;
-					while (!pq[pqi].empty())
+								   // empty the larger size node to the smaller one
+					if (untriedNodes[nodeIndex].size() > untriedNodes[1 - nodeIndex].size()) nodeIndex = 1 - nodeIndex;
+					while (!untriedNodes[nodeIndex].empty())
 					{
-						pq[1 - pqi].push(pq[pqi].top());
-						pq[pqi].pop();
+						untriedNodes[1 - nodeIndex].push(untriedNodes[nodeIndex].top());
+						untriedNodes[nodeIndex].pop();
 					}
-					pqi = 1 - pqi;
-					pq[pqi].push(*m0); // add the better node instead
+					nodeIndex = 1 - nodeIndex;
+					untriedNodes[nodeIndex].push(*z0); // add the better node instead
 				}
-				else delete m0; // garbage collection
+				else delete z0;
 			}
 		}
-		delete n0; // garbage collection
+		delete x0;
 	}
 	return false; // no route found
 }
@@ -228,6 +230,10 @@ void GroundMovement::TurnTo(double delta)
 
 void GroundMovement::Update(double delta)
 {
+
+	Pathfind(1,1,1,1);
+	int j = directions[1][1];
+	destination = vec3((1 + dx[j]), 0.0, (1 + dz[j]));
 	MoveTo(delta);
 	TurnTo(delta);
 }

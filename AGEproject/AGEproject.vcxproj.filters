@@ -133,7 +133,7 @@
       <Filter>Source Files\Components\Structures</Filter>
     </ClCompile>
     <ClCompile Include="src\GroundMovement.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +264,7 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\GroundMovement.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
