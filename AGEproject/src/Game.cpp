@@ -1,9 +1,11 @@
 #include "Game.h"
 #include "Entity.h"
 #include "PointLight.h"
-
-
-void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
+#include "UserControls.h"
+#include "ShipUnit.h"
+#include "Targetable.h"
+#include "AiPlayer.h"
+Entity* Game::SpawnUnit(glm::vec3 position, glm::vec2 size, int team)
 {
 	for (int i = 0; i < 1; i++)
 	{
@@ -30,17 +32,29 @@ void Game::SpawnUnit(glm::vec3 position, glm::vec2 size)
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
 		tempAirMovement->SetTurnSpeed(200.0);
-
+		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
+		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		
+		auto target = std::make_unique<Targetable>();
+		target->SetHealth(100);
+		auto tempUnit = std::make_unique<Ship>();
+		tempUnit->SetTeam(team);
 		tempFlyer->AddComponent(move(tempRenderable));
+		tempFlyer->AddComponent(move(tempUnit));
 		tempFlyer->AddComponent(move(tempAirMovement));
-		entities.push_back(tempFlyer);
-		return;
+		tempFlyer->AddComponent(move(tempBoundingSphere));
+		tempFlyer->AddComponent(move(target));
+		return tempFlyer;
 	}
 }
 
 void Game::Initialise()
 {
+	player = new Player;
+	NPC = new AiPlayer;
 
+	player->SetTeam(0);
+	NPC->SetTeam(1);
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
@@ -49,7 +63,7 @@ void Game::Initialise()
 
 	// Add a red point light to 0, 0.5, 0
 	Entity* tempEntity3 = new Entity;
-	for(int i = 1; i < 5; i++)
+	/*for(int i = 1; i < 5; i++)
 	{
 		for(int j = 1; j < 5; j++)
 		{
@@ -59,7 +73,12 @@ void Game::Initialise()
 			tempLightComponent->diffuse = glm::vec4(i / 4, j / 4, i % j / 8, 1);
 			tempEntity3->AddComponent(move(tempLightComponent));
 		}
-	}
+	}*/
+	auto tempLightComponent = std::make_unique<PointLight>();
+	tempLightComponent->SetEffect("Phong");
+	tempLightComponent->setLightPosition(glm::vec3(50,20,50));
+	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
+	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
 
 	Entity* tempEntity = new Entity;
@@ -69,11 +88,40 @@ void Game::Initialise()
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Structure>();
-
+	tempStructure->SetTeam(player->GetTeam());
+	auto tempBoundSphere = std::make_unique<BoundingSphere>();
+	tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+	tempEntity->AddComponent(move(tempBoundSphere));
 	tempEntity->AddComponent(move(tempRenderable));
 	tempEntity->AddComponent(move(tempStructure));
+	auto target = std::make_unique<Targetable>();
+	target->SetHealth(100);
+	tempEntity->AddComponent(move(target));
+	player->GetEntities().push_back(tempEntity);
 
-	entities.push_back(tempEntity);
+
+	Entity* tempEntityn = new Entity;
+	auto tempRenderablen = std::make_unique<Renderable>();
+	tempRenderablen->SetModel("../res/models/Constructor.obj");
+	tempRenderablen->SetEffect("ConstructorUV");
+	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
+	tempRenderablen->UpdateTransforms();
+	auto tempStructuren = std::make_unique<Structure>();
+	tempStructuren->SetTeam(player->GetTeam());
+	auto tempBoundSpheren = std::make_unique<BoundingSphere>();
+	tempBoundSpheren->SetUpBoundingSphere(tempRenderablen->GetModel().GetVertexPositions());
+	tempEntityn->AddComponent(move(tempBoundSpheren));
+	tempEntityn->AddComponent(move(tempRenderablen));
+	tempEntityn->AddComponent(move(tempStructuren));
+	auto targetn = std::make_unique<Targetable>();
+	targetn->SetHealth(100);
+	tempEntityn->AddComponent(move(targetn));
+
+	NPC->GetEntities().push_back(tempEntityn);
+
+	Entity* npcShip = SpawnUnit(glm::vec3(30.5f, 2.5f, 30.5f), glm::vec2(2, 2), 1);
+	npcShip->SetScale(glm::vec3(4, 4, 10));
+	NPC->GetEntities().push_back(npcShip);
 
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
@@ -93,15 +141,43 @@ void Game::Initialise()
 
 void Game::Update()
 {
+	player->Update(NPC->GetEntities());
+	NPC->Update(player->GetEntities());
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
 	GameEngine::Get().SetCamera(camMatrix);
+	UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
 	free_cam->Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
-		//entities[n]->Rotate(glm::vec3(0.01f, 0.01f, 0.0f));
+
 		entities[n]->Update(deltaTime);
+		n++;
+	}
+	for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
+	{
+		Entity*& e = player->GetEntities()[n];
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+				// Delete this.
+				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
+			}
+		e->Update(deltaTime);
+		n++;
+	}
+
+	for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
+	{
+		Entity*& e = NPC->GetEntities()[n];
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+				// Delete this.
+				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
+			}
+		e->Update(deltaTime);
 		n++;
 	}
 	//printf("%f.9\n", deltaTime);
@@ -116,13 +192,23 @@ void Game::Render()
 
 //	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
-
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		entities[n]->Render();
 		n++;
 	}
 
+	for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
+	{
+		player->GetEntities()[n]->Render();
+		n++;
+	}
+
+	for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
+	{
+		NPC->GetEntities()[n]->Render();
+		n++;
+	}
 	// process events.
 	glfwPollEvents();
 	// Swap the window buffers.

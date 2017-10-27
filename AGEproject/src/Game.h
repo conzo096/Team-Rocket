@@ -13,18 +13,24 @@
 #include "BoundingSphere.h"
 #include "AirMovement.h"
 
+#include "Unit.h"
 class Entity;
-
+class Player;
+class AiPlayer;
 class Game : public Singleton<Game>
 {
 private:
-	std::vector<Entity*> entities; //Figure out how to split this.
 	double lastTime;
 
 public:
+	// User.
+	Player* player;
+	// Ai player.
+	AiPlayer* NPC;
 	Entity *free_cam = new Entity;
 
-	void SpawnUnit(glm::vec3 position, glm::vec2 size);
+	std::vector<Entity*> entities; //Figure out how to split this.
+	Entity* SpawnUnit(glm::vec3 position, glm::vec2 size,int team);
 
 	void Initialise();
 	void Update();

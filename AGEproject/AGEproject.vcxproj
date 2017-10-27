@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AiPlayer.h" />
     <ClInclude Include="src\AirMovement.h" />
+    <ClInclude Include="src\Barracks.h" />
+    <ClInclude Include="src\BaseStructure.h" />
     <ClInclude Include="src\BoundingBox.h" />
     <ClInclude Include="src\BoundingSphere.h" />
     <ClInclude Include="src\Camera.h" />
@@ -38,19 +41,27 @@
     <ClInclude Include="src\Menu_Camera.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\PointLight.h" />
     <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ShipUnit.h" />
+    <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Structure.h" />
+    <ClInclude Include="src\TankUnit.h" />
     <ClInclude Include="src\Targetable.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\TroopUnit.h" />
+    <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
+    <ClInclude Include="src\VehicleDepotStructure.h" />
+    <ClInclude Include="src\WorkerUnit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AirMovement.cpp" />
@@ -70,6 +81,7 @@
     <ClCompile Include="src\Menu_Camera.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />

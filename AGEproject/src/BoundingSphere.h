@@ -40,7 +40,7 @@ public:
 	}
 	void from_json(const nlohmann::json &j) {};
 
-	bool TestIntersection(RayCast& ray,glm::vec3& poi)
+	bool TestIntersection(RayCast& ray, glm::vec3& poi = glm::vec3(0))
 	{
 		glm::vec3 origin_position = GetParent()->GetPosition() - glm::dvec3(ray.origin);
 		double b = glm::dot(origin_position,ray.direction);
