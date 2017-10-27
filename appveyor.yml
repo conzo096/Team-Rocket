@@ -7,6 +7,6 @@ configuration:
 
     
 build:
-  project: AGEproject.vcxproj
+  project: AGEproject/AGEproject.vcxproj
   parallel: true
   verbosity: minimal
