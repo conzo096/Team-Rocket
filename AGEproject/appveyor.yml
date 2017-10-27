@@ -6,7 +6,7 @@ platform: x64
 
 build:
 
-  project: AGEproject.vcxproj
+  project: AGEproject/AGEproject.vcxproj
 
   parallel: true
 
