@@ -1,0 +1,13 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+configuration:
+- Debug
+- Release
+
+    
+build:
+  project: AGEproject.vcxproj
+  parallel: true
+  verbosity: minimal
+  

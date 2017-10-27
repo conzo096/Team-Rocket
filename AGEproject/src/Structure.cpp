@@ -30,6 +30,12 @@ void Structure::AddProduct(std::string productName, float buildTime)
 	productQueue.push(tempProduct);
 }
 
+void Structure::AddProduct(int value, int deposit)
+{
+
+
+}
+
 void Structure::Produce(double delta)
 {	
 	ammountBuilt += delta;

@@ -27,12 +27,20 @@ bool UserControls::IsKeyPressed(std::string &action)
 {
 	auto val = buttonOptions.find(action);
 	if (val == buttonOptions.end())
+	{
+	//	glfwPollEvents();
 		return false;
+	}
 	else
 	{
+		
 		if (glfwGetKey(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
+		{
+		//	glfwPollEvents();
 			return true;
+		}
 	}
+//	glfwPollEvents();
 	// Should never enter here but just in case.
 	return false;
 }
@@ -67,6 +75,14 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Reset camera", GLFW_KEY_SPACE));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Escape", GLFW_KEY_ESCAPE));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
+
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey1", GLFW_KEY_1));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey2", GLFW_KEY_2));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey3", GLFW_KEY_3));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey4", GLFW_KEY_4));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey5", GLFW_KEY_5));
+		
+
 	}
 	// Set up controller configuration.
 	else

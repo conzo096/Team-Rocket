@@ -5,7 +5,7 @@
 #include "ShipUnit.h"
 #include "Targetable.h"
 #include "AiPlayer.h"
-
+#include "ShipyardStructure.h"
 void Game::Initialise()
 {
 	player = new Player;
@@ -45,7 +45,7 @@ void Game::Initialise()
 	tempRenderable->SetEffect("ConstructorUV");
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
-	auto tempStructure = std::make_unique<Structure>();
+	auto tempStructure = std::make_unique<Shipyard>();
 	tempStructure->SetTeam(player->GetTeam());
 	auto tempBoundSphere = std::make_unique<BoundingSphere>();
 	tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
@@ -64,7 +64,7 @@ void Game::Initialise()
 	tempRenderablen->SetEffect("ConstructorUV");
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
-	auto tempStructuren = std::make_unique<Structure>();
+	auto tempStructuren = std::make_unique<Shipyard>();
 	tempStructuren->SetTeam(player->GetTeam());
 	auto tempBoundSpheren = std::make_unique<BoundingSphere>();
 	tempBoundSpheren->SetUpBoundingSphere(tempRenderablen->GetModel().GetVertexPositions());
