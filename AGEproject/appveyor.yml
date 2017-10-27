@@ -1,19 +1,13 @@
 version: 1.0.{build}
-image: Visual Studio 2017
 
-configuration:
-- Debug
-- Release
+configuration: Debug, Release
 
-install:
-    - SET PATH=C:\Program Files (x86)\MSBuild\12.0\bin\;%PATH%
-
-platform:
-
-- x64
+platform: x64
 
 build:
+
   project: AGEproject.vcxproj
+
   parallel: true
+
   verbosity: minimal
-  
