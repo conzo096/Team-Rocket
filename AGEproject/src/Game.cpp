@@ -42,7 +42,7 @@ void Game::Initialise()
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
 	tempRenderable->SetModel("../res/models/Constructor.obj");
-	tempRenderable->SetEffect("ConstructorUV");
+	tempRenderable->SetTexture("ConstructorUV");
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Shipyard>();
@@ -61,7 +61,7 @@ void Game::Initialise()
 	Entity* tempEntityn = new Entity;
 	auto tempRenderablen = std::make_unique<Renderable>();
 	tempRenderablen->SetModel("../res/models/Constructor.obj");
-	tempRenderablen->SetEffect("ConstructorUV");
+	tempRenderablen->SetTexture("ConstructorUV");
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
 	auto tempStructuren = std::make_unique<Shipyard>();
@@ -81,7 +81,7 @@ void Game::Initialise()
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
 	tempRenderable2->SetPlane(1, 100, 100);
-	tempRenderable2->SetEffect("debug");
+	tempRenderable2->SetTexture("debug");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 

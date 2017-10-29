@@ -17,7 +17,10 @@ protected:
 	int team;
 	// fire muh lazor.
 	Model* line = NULL;
-
+	// Is the unit currently controller by the player?
+	bool isControlled = false;
+	// Previous effect.
+	Effect* tempEffect;
 	void from_json(const nlohmann::json &j) {};
 public:
 
@@ -29,6 +32,11 @@ public:
 	void SetAction(Action act)
 	{
 		action = act;
+	}
+
+	void IsController(bool act)
+	{	
+		isControlled = act;
 	}
 
 	void SetEntityToTarget(Entity*& target)
@@ -99,6 +107,17 @@ public:
 
 	void Render()
 	{
+		if (isControlled)
+		{
+			Effect* eff = GetParent()->GetComponent<Renderable>().GetEffect();
+			eff->material = new Material();
+			eff->material->shininess = 20;
+			eff->material->diffuse = glm::vec4(255, 0, 0, 1);
+		}
+		else
+		{
+
+		}
 		if (line != NULL)
 		{
 			line->Draw();

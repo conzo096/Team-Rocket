@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
-#include "Shader.h"
+//#include "Shader.h"
 #include "FileIO.h"
 
 void GameEngine::Initialise()
@@ -39,7 +39,7 @@ void GameEngine::Initialise()
 	// glExperimental throws junk errors, Ignore.
 	glGetError();
 	PrintGlewInfo();
-	LoadShaders();
+	//LoadShaders();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -55,6 +55,33 @@ void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
 	model.Draw();
 }
+
+void GameEngine::Render()
+{
+	for (RenderData rl : renderList)
+	{
+		// Bind shader.
+		glUseProgram(rl.shader);
+		// Bind Uniforms.
+		const auto mvp = Get().cameraMVP * rl.m;
+		glUniformMatrix4fv(glGetUniformLocation(rl.shader,"MVP"), 1, GL_FALSE, value_ptr(mvp));
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, rl.texture);
+
+		// Bind and draw model.
+		glBindVertexArray(rl.modelVao);
+		glDrawElements(rl.drawType, rl.indices, GL_UNSIGNED_INT, 0);
+	}
+	// clear list.
+	renderList.clear();
+}
+
+void GameEngine::AddToRenderList(RenderData data)
+{
+	// Sort vector here.
+	renderList.push_back(data);
+}
+
 
 void GameEngine::SetCamera(glm::mat4 camera)
 {
@@ -85,7 +112,7 @@ void GameEngine::PrintGlewInfo()
 	printf("-------------------------------------------------------\n");
 }
 
-void GameEngine::LoadShaders()
-{
-	Shader::Get().AddShader("Phong");
-}
+//void GameEngine::LoadShaders()
+//{
+//	Shader::Get().AddShader("Phong");
+//}

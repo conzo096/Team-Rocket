@@ -18,6 +18,24 @@ struct Effect
 	Material* material;
 };
 
+struct RenderData
+{
+	// Shader object.
+	unsigned int shader;
+	// Change to vector later?
+	unsigned int texture;
+	// Model information.
+	int modelVao;
+	GLenum drawType;
+	int indices;
+
+	// Lighting info to do.
+	// **
+	// **
+	// Model matrix;
+	glm::mat4 m;
+};
+
 class GameEngine : public Singleton<GameEngine>
 {
 private:
@@ -30,6 +48,7 @@ private:
 	glm::mat4 cameraMVP;
 	glm::vec3 cameraPos;
 
+	std::vector<RenderData> renderList;
 public:
 
 	// The render window.
@@ -53,9 +72,13 @@ public:
 	// Cleans up game engine resources.
 	void CleanUp();
 
+	void AddToRenderList(RenderData list);
+	void Render();
+
+
 
 	// Helper functions.
 	void PrintGlewInfo();
-	void LoadShaders();
+	//void LoadShaders();
 
 };

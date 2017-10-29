@@ -18,11 +18,16 @@ void Player::Update(std::vector<Entity*>& enemyList)
 
 void Player::HandleInput(std::vector<Entity*>& enemyList)
 {
-	// Handle selection action.
+	// Select unit or units.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
 	{
 		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		{
+			for (Entity* &e : entities)
+			{
+				if(e->GetCompatibleComponent<Unit>()!=NULL)
+					e->GetCompatibleComponent<Unit>()->IsController(false);
+			}
 			selectedEntities.clear();
 		}
 		// Find if there is an intersection with any entity.
@@ -31,14 +36,22 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			// If a ray intersects with the bounding sphere.
 			if (e->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
 			{
+				if (e->GetCompatibleComponent<Unit>() != NULL)
+					e->GetCompatibleComponent<Unit>()->IsController(true);
 				selectedEntities.push_back(e);
 				return;
 			}
 		}
 		// If no suitable object has been selected, clear selected list.
+		for (Entity* &e : entities)
+		{
+			if (e->GetCompatibleComponent<Unit>() != NULL)
+				e->GetCompatibleComponent<Unit>()->IsController(false);
+		}
 		selectedEntities.clear();
 
 	}
+
 	// if it is a move action, move selected entity.
 	if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
 	{

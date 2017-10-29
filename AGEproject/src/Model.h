@@ -32,6 +32,8 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	GLenum GetType() { return type; }
+	unsigned int GetVAO() { return VAO; }
+	int GetIndices() { return indices.size(); }
 	void SetType(GLenum t) { type = t; }
 
 	void Draw();

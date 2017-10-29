@@ -12,7 +12,7 @@
 #include "BoundingBox.h"
 #include "BoundingSphere.h"
 #include "AirMovement.h"
-
+#include "ResourceHandler.h"
 #include "Unit.h"
 class Entity;
 class Player;
@@ -28,7 +28,6 @@ public:
 	// Ai player.
 	AiPlayer* NPC;
 	Entity *free_cam = new Entity;
-
 	std::vector<Entity*> entities; //Figure out how to split this.
 
 	void Initialise();
