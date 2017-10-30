@@ -33,9 +33,9 @@ public:
 		if (entities.size() >0 && entities.size() < 3)
 		{
 			// Spawn an entity.
-			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
-				if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
-					entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 3);
+			//if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
+			//	if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+			//		entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 3);
 		}
 		for (Entity*& e : entities)
 		{

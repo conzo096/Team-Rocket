@@ -26,17 +26,6 @@ void Game::Initialise()
 
 	// Add a red point light to 0, 0.5, 0
 	Entity* tempEntity3 = new Entity;
-	/*for(int i = 1; i < 5; i++)
-	{
-		for(int j = 1; j < 5; j++)
-		{
-			auto tempLightComponent = std::make_unique<PointLight>();
-			tempLightComponent->SetEffect("Phong");
-			tempLightComponent->setLightPosition(glm::vec3(i * 30 - 30, 10, j * 30 - 30));
-			tempLightComponent->diffuse = glm::vec4(i / 4, j / 4, i % j / 8, 1);
-			tempEntity3->AddComponent(move(tempLightComponent));
-		}
-	}*/
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetEffect("Phong");
 	tempLightComponent->setLightPosition(glm::vec3(50,30,50));
@@ -48,13 +37,8 @@ void Game::Initialise()
 	auto tempRenderable = std::make_unique<Renderable>();
 	tempRenderable->SetModel("../res/models/Constructor.obj");
 	tempRenderable->SetShader("Phong");
+	tempRenderable->SetMaterial(new Material());
 	tempRenderable->SetTexture("ConstructorUV");
-	Material* mat = new Material();
-	mat->diffuse = glm::vec4(1, 1, 1, 1);
-	mat->emissive = glm::vec4(0, 0, 0, 1);
-	mat->specular = glm::vec4(1, 1, 1, 1);
-	mat->shininess = 0.6f;
-	tempRenderable->SetMaterial(mat);
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Shipyard>();
@@ -75,12 +59,7 @@ void Game::Initialise()
 	tempRenderablen->SetModel("../res/models/Constructor.obj");
 	tempRenderablen->SetTexture("ConstructorUV");
 	tempRenderablen->SetShader("Phong");
-	Material* mat1 = new Material();
-	mat1->diffuse = glm::vec4(1, 1, 1, 1);
-	mat1->emissive = glm::vec4(0, 1, 0, 1);
-	mat1->specular = glm::vec4(1, 1, 1, 1);
-	mat1->shininess = 0.6f;
-	tempRenderablen->SetMaterial(mat1);
+	tempRenderablen->SetMaterial(new Material());
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
 	auto tempStructuren = std::make_unique<Shipyard>();
@@ -99,17 +78,12 @@ void Game::Initialise()
 
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
+	tempRenderable2->SetMaterial(new Material());
 	tempRenderable2->SetPlane(1, 100, 100);
 	tempRenderable2->SetTexture("debug");
 	tempRenderable2->SetShader("Phong");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
-	Material* mat2 = new Material();
-	mat2->diffuse = glm::vec4(1, 1, 1, 1);
-	mat2->emissive = glm::vec4(0, 0, 1, 1);
-	mat2->specular = glm::vec4(1, 1, 1, 1);
-	mat2->shininess = 0.6f;
-	tempRenderable2->SetMaterial(mat2);
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 

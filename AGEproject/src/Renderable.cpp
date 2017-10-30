@@ -4,7 +4,7 @@ void Renderable::from_json(const nlohmann::json & j)
 {
 }
 
-Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rendererable")
+Renderable::Renderable() : model(nullptr),effect(new Effect()), Component("Rendererable")
 {
 }
 

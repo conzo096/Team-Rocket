@@ -20,7 +20,7 @@ protected:
 	// Is the unit currently controller by the player?
 	bool isControlled = false;
 	// Previous effect.
-	Material* tempMaterial;
+	glm::vec4 tempCol;
 	void from_json(const nlohmann::json &j) {};
 public:
 
@@ -34,36 +34,23 @@ public:
 		action = act;
 	}
 
+	// Change value for being controlled by player or not.
 	void IsController(bool act)
 	{	
 		isControlled = act;
-		if (act == true)
+		// If it is being selected.
+		if (act)
 		{
-			if (GetParent()->GetComponent<Renderable>().GetEffect()->material == NULL)
-			{
-				Material* mat = new Material;
-				mat->diffuse = glm::vec4(0.3, 0.3, 0.3, 1);
-				mat->specular = glm::vec4(0.7, 0.5, 0.8, 1);
-				mat->emissive = glm::vec4(0.5, 0.2, 0.3, 1);
-				GetParent()->GetComponent<Renderable>().SetMaterial(mat);
-				Material* temp = new Material;
-				temp->diffuse = mat->diffuse;
-				temp->emissive = mat->emissive;
-				temp->specular = mat->specular;
-				temp->shininess = mat->shininess;
-				tempMaterial = temp;
-			}
-			else
-				tempMaterial = &GetParent()->GetComponent<Renderable>().GetMaterial();
-			
-				GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 1, 0, 1);
+			// Hold current emissive value.
+			tempCol = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
+			// Set objects emissive value to blue (for now). 
+			GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
 		}
-		else if(act == false)
+		else
 		{
-			if (GetParent()->GetComponent<Renderable>().GetEffect()->material != NULL)
-			{
-				GetParent()->GetComponent<Renderable>().SetMaterial(tempMaterial);
-			}
+			// Return the emissive colour back to its original value.
+			GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(tempCol);
+			tempCol = glm::vec4();
 		}
 	}
 
