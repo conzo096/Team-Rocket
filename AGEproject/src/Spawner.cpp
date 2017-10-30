@@ -16,6 +16,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("../res/models/Flyer.obj");
 		tempRenderable->SetTexture("FlyerUV");
+		tempRenderable->SetShader("Phong");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempAirMovement = std::make_unique<AirMovement>();
@@ -40,7 +41,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Worker")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("../res/models/Torus.obj");
+		tempRenderable->SetModel("../res/models/Torus2.obj");
+		tempRenderable->SetShader("Phong");
 		tempRenderable->SetTexture("FlyerUV");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();

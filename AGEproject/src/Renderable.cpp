@@ -6,7 +6,6 @@ void Renderable::from_json(const nlohmann::json & j)
 
 Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rendererable")
 {
-
 }
 
 Renderable::~Renderable()
@@ -51,5 +50,8 @@ void Renderable::SetMaterial(Material Mat)
 
 void Renderable::Render()
 {
-	GameEngine::Get().Render(GetTransform(),*model, *effect);
+	//GameEngine::Get().Render(GetTransform(),*model, *effect);
+	renderInfo.m = GetParent()->GetTransform();
+	GameEngine::Get().AddToRenderList(renderInfo);
+
 }

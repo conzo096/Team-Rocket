@@ -50,7 +50,7 @@ void GameEngine::Initialise()
 
 void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
 {
-	const auto mvp = Get().cameraMVP * m;
+	const auto mvp = cameraMVP * m;
 //	Shader::Get().UseShader("Basic", effect, mvp);
 	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
 	model.Draw();
@@ -63,8 +63,20 @@ void GameEngine::Render()
 		// Bind shader.
 		glUseProgram(rl.shader);
 		// Bind Uniforms.
-		const auto mvp = Get().cameraMVP * rl.m;
-		glUniformMatrix4fv(glGetUniformLocation(rl.shader,"MVP"), 1, GL_FALSE, value_ptr(mvp));
+		const auto mvp = cameraMVP * rl.m;
+
+		GLint index;
+		index = glGetUniformLocation(rl.shader, "MVP");
+		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));
+		index = glGetUniformLocation(rl.shader, "M");
+		glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(rl.m));
+		index = glGetUniformLocation(rl.shader, "N");
+		glUniformMatrix3fv(index, 1, GL_FALSE, glm::value_ptr(glm::mat3(rl.m)));
+		//
+		index = glGetUniformLocation(rl.shader, "eye_pos");
+		glm::vec3 eyePos = glm::vec3(mvp[0][3],mvp[1][3],mvp[2][3]);
+		glUniform3fv(index, 1, glm::value_ptr(eyePos));
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, rl.texture);
 

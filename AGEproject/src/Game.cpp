@@ -42,6 +42,7 @@ void Game::Initialise()
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
 	tempRenderable->SetModel("../res/models/Constructor.obj");
+	tempRenderable->SetShader("Phong");
 	tempRenderable->SetTexture("ConstructorUV");
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
@@ -62,6 +63,7 @@ void Game::Initialise()
 	auto tempRenderablen = std::make_unique<Renderable>();
 	tempRenderablen->SetModel("../res/models/Constructor.obj");
 	tempRenderablen->SetTexture("ConstructorUV");
+	tempRenderablen->SetShader("Phong");
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
 	auto tempStructuren = std::make_unique<Shipyard>();
@@ -82,6 +84,7 @@ void Game::Initialise()
 	auto tempRenderable2 = std::make_unique<Renderable>();
 	tempRenderable2->SetPlane(1, 100, 100);
 	tempRenderable2->SetTexture("debug");
+	tempRenderable2->SetShader("Phong");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 
@@ -164,6 +167,9 @@ void Game::Render()
 		NPC->GetEntities()[n]->Render();
 		n++;
 	}
+
+	GameEngine::Get().Render();
+
 	// process events.
 	glfwPollEvents();
 	// Swap the window buffers.
