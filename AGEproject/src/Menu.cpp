@@ -34,7 +34,7 @@ int Menu::Draw(GLShader shader)
 {
 	int numberOfButtons = 3;
 	buttons.resize(numberOfButtons);
-	unsigned int tex = Texture("../res/textures/MainMenu_Button1.png").GetTextureId(); //Texture("../res/textures/debug.png").GetTextureId();
+	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId(); //Texture("../res/textures/MainMenu_Button1.png").GetTextureId(); 
 	//unsigned int normal_tex[3];
 	//unsigned int highlight_tex[3];
 
