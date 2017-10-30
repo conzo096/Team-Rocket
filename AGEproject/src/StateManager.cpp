@@ -11,11 +11,6 @@ void StateManager::StateLoop()
 
 	while (running)
 	{
-		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
-		{
-			state = Exiting;
-		}
-
 		switch (state)
 		{
 		case(Splash):
@@ -38,7 +33,7 @@ void StateManager::StateLoop()
 		case(Settings):
 			break;
 		case(Playing):
-			Game::Get().Update();
+			running = Game::Get().Update();
 			Game::Get().Render();
 			break;
 		case(Exiting):

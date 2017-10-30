@@ -28,7 +28,7 @@ private:
 	bool selectionMade;
 
 public:
-	Menu() 
+	Menu()
 	{
 		selectionMade = false;
 		menu_cam = new Entity;

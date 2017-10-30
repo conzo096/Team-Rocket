@@ -27,6 +27,6 @@ public:
 	void SpawnUnit(glm::vec3 position, glm::vec2 size);
 
 	void Initialise();
-	void Update();
+	bool Update();
 	void Render();
 };

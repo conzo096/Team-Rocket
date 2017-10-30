@@ -211,5 +211,29 @@
     <None Include="res\shaders\simple_texture.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\shaders\Colour.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Colour.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Menu.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Menu.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\point.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\point.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\tex.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\tex.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

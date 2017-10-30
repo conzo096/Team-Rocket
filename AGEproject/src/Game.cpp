@@ -91,7 +91,7 @@ void Game::Initialise()
 	lastTime = clock();
 }
 
-void Game::Update()
+bool Game::Update()
 {
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
 	GameEngine::Get().SetCamera(camMatrix);
@@ -105,6 +105,10 @@ void Game::Update()
 		n++;
 	}
 	//printf("%f.9\n", deltaTime);
+	if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+		return false;
+	else
+		return true;
 }
 
 void Game::Render()
