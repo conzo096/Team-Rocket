@@ -9,5 +9,6 @@ public:
 	int Draw(GLShader shader);
 
 private:
+	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId(); //Texture("../res/textures/MainMenu_Button1.png").GetTextureId(); 
 
 };
