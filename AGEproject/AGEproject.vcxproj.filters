@@ -108,9 +108,6 @@
     <ClCompile Include="src\RayCast.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>Source Files\Game Engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\StateManager.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\RayCast.h">
-      <Filter>Header Files\Game Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Shader.h">
       <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">

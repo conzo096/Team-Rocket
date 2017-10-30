@@ -42,9 +42,11 @@ void Renderable::SetShader(std::string texName)
 
 }
 
-void Renderable::SetMaterial(Material Mat)
+void Renderable::SetMaterial(Material* mat)
 {
-	std::cout << "Todo : material " << std::endl;
+	//std::cout << "Todo : material " << std::endl;
+	effect->material = mat;
+	renderInfo.mat = mat;
 }
 
 

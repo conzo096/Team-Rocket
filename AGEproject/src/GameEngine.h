@@ -34,6 +34,8 @@ struct RenderData
 	// **
 	// Model matrix;
 	glm::mat4 m;
+
+	Material* mat;
 };
 
 class GameEngine : public Singleton<GameEngine>
@@ -55,7 +57,7 @@ public:
 	GLFWwindow* GetWindow() { return window; }
 
 	void Initialise();
-	void Render(glm::mat4 mvp, Model model, Effect effect);
+	//void Render(glm::mat4 mvp, Model model, Effect effect);
 
 	// Getters for width and height
 	int GetScreenWidth() { return width; }
@@ -75,8 +77,7 @@ public:
 	void AddToRenderList(RenderData list);
 	void Render();
 
-
-
+	void BindMaterial(const Material* material, const int shaderID);
 	// Helper functions.
 	void PrintGlewInfo();
 	//void LoadShaders();

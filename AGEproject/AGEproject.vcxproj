@@ -46,7 +46,6 @@
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
     <ClInclude Include="src\ResourceHandler.h" />
-    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\ShipUnit.h" />
     <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
@@ -86,7 +85,6 @@
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\ResourceHandler.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />

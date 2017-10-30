@@ -16,6 +16,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("../res/models/Flyer.obj");
 		tempRenderable->SetTexture("FlyerUV");
+		
 		tempRenderable->SetShader("Phong");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();

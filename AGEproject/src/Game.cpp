@@ -8,6 +8,7 @@
 #include "ShipyardStructure.h"
 void Game::Initialise()
 {
+
 	player = new Player;
 	NPC = new AiPlayer;
 
@@ -18,6 +19,10 @@ void Game::Initialise()
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
+	
+	// todo Remove entity creation from this init method.
+
+	
 
 	// Add a red point light to 0, 0.5, 0
 	Entity* tempEntity3 = new Entity;
@@ -34,7 +39,7 @@ void Game::Initialise()
 	}*/
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetEffect("Phong");
-	tempLightComponent->setLightPosition(glm::vec3(50,20,50));
+	tempLightComponent->setLightPosition(glm::vec3(50,30,50));
 	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
 	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
@@ -44,6 +49,12 @@ void Game::Initialise()
 	tempRenderable->SetModel("../res/models/Constructor.obj");
 	tempRenderable->SetShader("Phong");
 	tempRenderable->SetTexture("ConstructorUV");
+	Material* mat = new Material();
+	mat->diffuse = glm::vec4(1, 1, 1, 1);
+	mat->emissive = glm::vec4(0, 0, 0, 1);
+	mat->specular = glm::vec4(1, 1, 1, 1);
+	mat->shininess = 0.6f;
+	tempRenderable->SetMaterial(mat);
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Shipyard>();
@@ -64,6 +75,12 @@ void Game::Initialise()
 	tempRenderablen->SetModel("../res/models/Constructor.obj");
 	tempRenderablen->SetTexture("ConstructorUV");
 	tempRenderablen->SetShader("Phong");
+	Material* mat1 = new Material();
+	mat1->diffuse = glm::vec4(1, 1, 1, 1);
+	mat1->emissive = glm::vec4(0, 1, 0, 1);
+	mat1->specular = glm::vec4(1, 1, 1, 1);
+	mat1->shininess = 0.6f;
+	tempRenderablen->SetMaterial(mat1);
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
 	auto tempStructuren = std::make_unique<Shipyard>();
@@ -87,7 +104,12 @@ void Game::Initialise()
 	tempRenderable2->SetShader("Phong");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
-
+	Material* mat2 = new Material();
+	mat2->diffuse = glm::vec4(1, 1, 1, 1);
+	mat2->emissive = glm::vec4(0, 0, 1, 1);
+	mat2->specular = glm::vec4(1, 1, 1, 1);
+	mat2->shininess = 0.6f;
+	tempRenderable2->SetMaterial(mat2);
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 
@@ -119,7 +141,6 @@ void Game::Update()
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
-				// Delete this.
 				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
 			}
 		e->Update(deltaTime);
