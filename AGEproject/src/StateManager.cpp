@@ -13,30 +13,30 @@ void StateManager::StateLoop()
 	{
 		switch (state)
 		{
-		case(Splash):
+		case(stateSplash):
 			//GameEngine::Instance()->Render();
-			state = MainMenu;
+			state = stateMainMenu;
 			break;
-		case(MainMenu):
+		case(stateMainMenu):
 			select = ShowMainMenu();
 			if (select == 0)
 			{
 				Game::Get().Initialise(); //This will need a new home later.
-				state = Playing;
+				state = statePlaying;
 			}
 			else if (select == 1)
 			{
 
 			}
-			else if (select == 2) { state = Exiting; }
+			else if (select == 2) { state = stateExiting; }
 			break;
-		case(Settings):
+		case(stateSettings):
 			break;
-		case(Playing):
+		case(statePlaying):
 			running = Game::Get().Update();
 			Game::Get().Render();
 			break;
-		case(Exiting):
+		case(stateExiting):
 			running = false;
 			break;
 		default:

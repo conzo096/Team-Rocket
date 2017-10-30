@@ -3,13 +3,12 @@
 #include <vector>
 #include <string>
 #include <glm\gtc\type_ptr.hpp>
-#include "Texture.h"
-#include "UserControls.h"
 #include <glm\gtc/matrix_transform.hpp>
-#include "Quad.h"
+#include "UserControls.h"
 #include "GLShader.h"
+#include "Texture.h"
+#include "Quad.h"
 #include "Menu_Camera.h"
-#include "Free_Camera.h"
 
 struct Button
 {
@@ -23,7 +22,7 @@ struct Button
 
 class Menu
 {
-private:
+protected:
 	Entity* menu_cam;
 	bool selectionMade;
 
@@ -40,18 +39,40 @@ public:
 
 		menu_cam->AddComponent(move(cam));
 	}
-	Menu(std::vector<char *> textureLocs);
+	//Menu(std::vector<char *> textureLocs);
+	virtual ~Menu() {}
 
 	std::vector<Button> buttons;
 	int currentSelection = 0;
 
 	// Move up
-	void SelectionUp();
+	void SelectionUp()
+	{
+		if (buttons.size() == 0)
+			return;
+		// If currentSelection is the first one, loop to end one. 
+		if (currentSelection == 0)
+			currentSelection = buttons.size() - 1;
+		currentSelection -= 1;
+	}
+
 	// Move down.
-	void SelectionDown();
+	void SelectionDown()
+	{
+		if (buttons.size() == 0)
+			return;
+		// If currentSelection is the last one one, loop to first one. 
+		if (currentSelection == buttons.size() - 1)
+			currentSelection = 0;
+		currentSelection += 1;
+	}
+
 	// Return selected button action.
-	int SelectionPicked();
+	int SelectionPicked()
+	{
+		return buttons.at(currentSelection).action;
+	}
 
 	// Draw the menu.
-	int Draw(GLShader shader);
+	virtual int Draw(GLShader shader) = 0;
 };

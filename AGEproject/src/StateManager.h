@@ -5,17 +5,17 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Menu.h"
+#include "MainMenu.h"
 
 class StateManager : public Singleton<StateManager>
 {
 	enum State
 	{
-		Splash,
-		MainMenu,
-		Settings, //May be a part of menu
-		Playing,
-		Exiting
+		stateSplash,
+		stateMainMenu,
+		stateSettings, //May be a part of menu
+		statePlaying,
+		stateExiting
 	};
 
 public:
@@ -26,8 +26,13 @@ public:
 
 	int ShowMainMenu()
 	{
-		Menu t;
-		return t.Draw(Shader::Get().GetShader("tex"));
+		MainMenu mm;
+		return mm.Draw(Shader::Get().GetShader("tex"));
+	}
+
+	int ShowSettings()
+	{
+
 	}
 
 private:

@@ -32,6 +32,7 @@
     <ClInclude Include="src\GeometryUtil.h" />
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\json.hpp" />
+    <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\Menu_Camera.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
+    <ClInclude Include="src\SettingsMenu.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Singleton.h" />
     <ClInclude Include="src\StateManager.h" />
@@ -63,14 +65,15 @@
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Material.cpp" />
-    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Menu_Camera.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
+    <ClCompile Include="src\SettingsMenu.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
