@@ -10,6 +10,14 @@
 #include "Quad.h"
 #include "Menu_Camera.h"
 
+struct Label
+{
+	// Texture of the label.
+	unsigned int texture;
+	// Quad that the label is rendered on.
+	Quad renderTarget;
+};
+
 struct Button
 {
 	// Texture of the button.
@@ -41,37 +49,6 @@ public:
 	}
 	//Menu(std::vector<char *> textureLocs);
 	virtual ~Menu() {}
-
-	std::vector<Button> buttons;
-	int currentSelection = 0;
-
-	// Move up
-	void SelectionUp()
-	{
-		if (buttons.size() == 0)
-			return;
-		// If currentSelection is the first one, loop to end one. 
-		if (currentSelection == 0)
-			currentSelection = buttons.size() - 1;
-		currentSelection -= 1;
-	}
-
-	// Move down.
-	void SelectionDown()
-	{
-		if (buttons.size() == 0)
-			return;
-		// If currentSelection is the last one one, loop to first one. 
-		if (currentSelection == buttons.size() - 1)
-			currentSelection = 0;
-		currentSelection += 1;
-	}
-
-	// Return selected button action.
-	int SelectionPicked()
-	{
-		return buttons.at(currentSelection).action;
-	}
 
 	// Draw the menu.
 	virtual int Draw(GLShader shader) = 0;

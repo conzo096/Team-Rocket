@@ -2,6 +2,34 @@
 #include "RayCast.h"
 #include "GeometryUtil.h"
 
+// Move up
+void MainMenu::SelectionUp()
+{
+	if (buttons.size() == 0)
+		return;
+	// If currentSelection is the first one, loop to end one. 
+	if (currentSelection == 0)
+		currentSelection = buttons.size() - 1;
+	currentSelection -= 1;
+}
+
+// Move down.
+void MainMenu::SelectionDown()
+{
+	if (buttons.size() == 0)
+		return;
+	// If currentSelection is the last one one, loop to first one. 
+	if (currentSelection == buttons.size() - 1)
+		currentSelection = 0;
+	currentSelection += 1;
+}
+
+// Return selected button action.
+int MainMenu::SelectionPicked()
+{
+	return buttons.at(currentSelection).action;
+}
+
 int MainMenu::Draw(GLShader shader)
 {
 	buttons.resize(numberOfButtons);
@@ -24,7 +52,7 @@ int MainMenu::Draw(GLShader shader)
 		newButton.action = i;
 		newButton.texture = tex;
 		newButton.renderTarget = Quad(glm::vec2(0 - (buttonWidth / 2.0f), (i + buttonOffset - 1) - (buttonHeight / 2.0f)),
-			glm::vec2(0 + (buttonWidth / 2.0f), (i + buttonOffset - 1) + (buttonHeight / 2.0f)));
+									  glm::vec2(0 + (buttonWidth / 2.0f), (i + buttonOffset - 1) + (buttonHeight / 2.0f)));
 		newButton.renderTarget.SetOpenGL();
 		buttonOffset -= offsetChange;
 	}
