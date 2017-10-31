@@ -1,5 +1,4 @@
 #include "GroundMovement.h"
-#include <random>
 #include <queue>
 
 void GroundMovement::from_json(const nlohmann::json & j)
@@ -12,11 +11,6 @@ GroundMovement::GroundMovement() : Movement("GroundMovement")
 
 GroundMovement::~GroundMovement()
 {
-}
-
-void GroundMovement::FindClosest(vec3 point)
-{
-	//do some modulus stuff here
 }
 
 bool GroundMovement::LineOfSight()
@@ -148,12 +142,7 @@ void GroundMovement::MoveTo(double delta)
 {
 	if (GetParent()->GetPosition() == destination)
 	{
-
-		destination.x = rand() % 200 - 100;
-		destination.z = rand() % 200 - 100;
-
 		currentSpeed = 0.0f;
-
 	}
 	else
 	{
@@ -230,10 +219,28 @@ void GroundMovement::TurnTo(double delta)
 
 void GroundMovement::Update(double delta)
 {
+	int xStart = floor(GetParent()->GetPosition().x + 0.5);//for grid of 1 spacing
+	int zStart = floor(GetParent()->GetPosition().z + 0.5);
 
-	Pathfind(1,1,1,1);
-	int j = directions[1][1];
-	destination = vec3((1 + dx[j]), 0.0, (1 + dz[j]));
+	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
+	int zFinish = floor(goal.z + 0.5);
+
+	Pathfind(xStart, zStart, xFinish, zFinish);
+	int j = directions[xStart][zStart];
+	float xDestination;
+	float zDestination;
+	if ((xStart += dx[j]) == xFinish && (zStart += dz[j]) == zFinish)
+	{
+		float xDestination = xStart += dx[j];//translate to world space
+		float zDestination = zStart += dz[j];
+	}
+	else
+	{
+		xDestination = goal.x;
+		zDestination = goal.z;
+	}
+
+	destination = vec3(xDestination, 0.0, zDestination);
 	MoveTo(delta);
 	TurnTo(delta);
 }

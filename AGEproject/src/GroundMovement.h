@@ -94,7 +94,6 @@ public:
 	~GroundMovement();
 
 	void SetGrid(int xSize, int zSize, int  **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
-	void FindClosest(vec3 point);
 	bool LineOfSight();
 	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);
 	void MoveTo(double delta);
