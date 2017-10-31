@@ -69,12 +69,10 @@ bool BoundingBox::CheckForMouseIntersection(RayCast ray, glm::vec3& poi)
 
 	// Information regarding parents position.
 	glm::mat4 ModelMatrix = GetParent()->GetTransform();
-	float intersection_distance;
-	
+
 	// Minumum and maximum distances.
 	float tMin = 0.0f;
 	float tMax = 100000.0f;
-
 
 	// Find direction?
 	glm::vec3 delta = GetParent()->GetPosition() - glm::dvec3(ray.origin);

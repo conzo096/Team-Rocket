@@ -1,6 +1,6 @@
 #include "PointLight.h"
 #include "Material.h"
-
+#include <glm\gtc\type_ptr.hpp>
 int PointLight::id_counter = 0;
 int PointLight::_id;
 
@@ -41,21 +41,21 @@ void PointLight::bind(const PointLight& pointLight, const std::string& name, con
 {
 	GLint idx;
 	char* s_name = const_cast<char*>(shaderName.c_str());
-	auto shader = Shader::Get().GetShader(s_name);
+	auto shader = *ResourceHandler::Get().GetShader(s_name);
 	// Colours
 	idx = shader.GetUniformLocation(name + ".ambient");
 	if (idx != -1)
-		glUniform4fv(idx, 1, value_ptr(pointLight.ambient));
+		glUniform4fv(idx, 1, glm::value_ptr(pointLight.ambient));
 	idx = shader.GetUniformLocation(name + ".diffuse");
 	if (idx != -1)
-		glUniform4fv(idx, 1, value_ptr(pointLight.diffuse));
+		glUniform4fv(idx, 1, glm::value_ptr(pointLight.diffuse));
 	idx = shader.GetUniformLocation(name + ".specular");
 	if (idx != -1)
-		glUniform4fv(idx, 1, value_ptr(pointLight.specular));
+		glUniform4fv(idx, 1, glm::value_ptr(pointLight.specular));
 	// Position
 	idx = shader.GetUniformLocation(name + ".position");
 	if (idx != -1)
-		glUniform3fv(idx, 1, value_ptr(pointLight.position));
+		glUniform3fv(idx, 1, glm::value_ptr(pointLight.position));
 	// Range
 	idx = shader.GetUniformLocation(name + ".range");
 	if (idx != -1)
@@ -84,7 +84,7 @@ void PointLight::bindMaterial(const Material& material, const std::string& name,
 {
 	GLint idx;
 	char* s_name = const_cast<char*>(shaderName.c_str());
-	auto shader = Shader::Get().GetShader(s_name);
+	auto shader = *ResourceHandler::Get().GetShader(s_name);
 	idx = shader.GetUniformLocation(name + ".emissive");
 	if (idx != -1)
 		glUniform4fv(idx, 1, value_ptr(material.emissive));
@@ -132,13 +132,13 @@ void PointLight::initialise()
 	this->range = 128;
 	this->SetPosition(this->position);
 
-	Material* basic_material = new Material();
-	basic_material->diffuse = glm::vec4(1, 1, 1, 1);
-	basic_material->emissive = glm::vec4(0, 0, 0, 1);
-	basic_material->specular = glm::vec4(1, 1, 1, 1);
-	basic_material->shininess = 0.6f;
+	//Material* basic_material = new Material();
+	//basic_material->diffuse = glm::vec4(1, 1, 1, 1);
+	//basic_material->emissive = glm::vec4(0, 0, 0, 1);
+	//basic_material->specular = glm::vec4(1, 1, 1, 1);
+	//basic_material->shininess = 0.6f;
 
-	effect->material = basic_material;
+	//effect->material = basic_material;
 }
 
 
@@ -149,7 +149,7 @@ PointLight::~PointLight()
 void PointLight::SetEffect(const std::string shaderName)
 {
 	effect->shader = shaderName;
-	Shader::Get().AddShader(effect->shader);
+	//Shader::Get().AddShader(effect->shader);
 }
 
 void PointLight::setLightPosition(const glm::vec3 position)
@@ -165,6 +165,6 @@ void PointLight::Render()
 	// Use renderer, bind.
 	bind(*this, "point_light[" + s.str() + ']', effect->shader);
 //	bind(*this, "obvious_name", effect->shader);
-	bindMaterial(*this->effect->material, "mat", effect->shader);
-//	GameEngine::Instance()->Render(GetTransform(), *model, *effect);
+//	bindMaterial(*this->effect->material, "mat", effect->shader);
+
 }
