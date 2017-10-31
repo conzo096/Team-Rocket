@@ -3,7 +3,7 @@ void ResourceHandler::LoadModels()
 {
 	std::cout << "Convert to file loading!" << std::endl;
 	models.insert(std::pair<std::string, Model*>(std::string("Ship"), new Model("../res/models/Flyer.obj")));
-	models.insert(std::pair<std::string, Model*>(std::string("ShipYard"), new Model("../res/models/Constructor.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("Shipyard"), new Model("../res/models/Constructor.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Torus"), new Model("../res/models/Torus2.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 100, 100)));
 }

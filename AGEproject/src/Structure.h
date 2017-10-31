@@ -1,22 +1,17 @@
 #pragma once
-#include "Spawner.h"
+#include "Game.h"
 #include "Entity.h"
 #include <queue>
 
-class Spawner;
-struct Product
-{
-	std::string productName;
-	float buildTime;
-};
 class Structure : public Component
 {
+	struct Product
+	{
+		std::string productName;
+		float buildTime;
+	};
 
-protected:
-
-	// How much value is stored in the building.
-	float worth;
-
+private:
 	bool building;
 	float constructionTime;
 	float ammountBuilt;
@@ -36,11 +31,10 @@ public:
 	void Collect(std::vector<Entity*>& ents);
 	void Build(double delta);
 	void AddProduct(std::string productName, float buildTime);
-	virtual void AddProduct(int value,int deposit);
 	void Produce(double delta);
 	void Update(double delta) override;
-
 	int GetQueueSize() { return  (int)productQueue.size(); }
+
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
 	

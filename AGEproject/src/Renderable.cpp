@@ -14,7 +14,8 @@ Renderable::~Renderable()
 
 void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
-	model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
+	//model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
+	model = ResourceHandler::Get().GetModel("Plane");
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
 	renderInfo.indices = model->GetIndices();
@@ -22,7 +23,7 @@ void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 
 void Renderable::SetModel(std::string location)
 {
-	model = new Model(location);
+	model =  ResourceHandler::Get().GetModel((location));
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
 	renderInfo.indices = model->GetIndices();

@@ -1,11 +1,13 @@
 #include "Structure.h"
-
+#include "Spawner.h"
 void Structure::from_json(const nlohmann::json & j)
 {
 }
 
 Structure::Structure() : building(true), constructionTime(0.0f), Component("Structure")
 {
+	//for(int i = 0; i < 100; i++)
+	//	AddProduct("TEMP", 1.0f);
 }
 
 Structure::~Structure()
@@ -30,21 +32,13 @@ void Structure::AddProduct(std::string productName, float buildTime)
 	productQueue.push(tempProduct);
 }
 
-void Structure::AddProduct(int value, int deposit)
-{
-
-
-}
-
 void Structure::Produce(double delta)
 {	
 	ammountBuilt += delta;
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
-		// Get the next object from the queue.
-		Product product = productQueue.front();
 		// Spawn unit should be from factory pattern class, not game!
-		collectionQueue.push_back(Spawner::Get().CreateEntity(product.productName,GetParent()->GetPosition(),team));
+		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName,GetParent()->GetPosition(),team));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}

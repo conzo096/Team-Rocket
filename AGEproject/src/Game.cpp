@@ -5,10 +5,9 @@
 #include "ShipUnit.h"
 #include "Targetable.h"
 #include "AiPlayer.h"
-#include "ShipyardStructure.h"
+
 void Game::Initialise()
 {
-
 	player = new Player;
 	NPC = new AiPlayer;
 
@@ -35,13 +34,13 @@ void Game::Initialise()
 
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
-	tempRenderable->SetModel("../res/models/Constructor.obj");
+	tempRenderable->SetModel("Shipyard");
 	tempRenderable->SetShader("Phong");
 	tempRenderable->SetMaterial(new Material());
 	tempRenderable->SetTexture("ConstructorUV");
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
-	auto tempStructure = std::make_unique<Shipyard>();
+	auto tempStructure = std::make_unique<Structure>();
 	tempStructure->SetTeam(player->GetTeam());
 	auto tempBoundSphere = std::make_unique<BoundingSphere>();
 	tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
@@ -56,13 +55,13 @@ void Game::Initialise()
 
 	Entity* tempEntityn = new Entity;
 	auto tempRenderablen = std::make_unique<Renderable>();
-	tempRenderablen->SetModel("../res/models/Constructor.obj");
+	tempRenderablen->SetModel("Shipyard");
 	tempRenderablen->SetTexture("ConstructorUV");
 	tempRenderablen->SetShader("Phong");
 	tempRenderablen->SetMaterial(new Material());
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
-	auto tempStructuren = std::make_unique<Shipyard>();
+	auto tempStructuren = std::make_unique<Structure>();
 	tempStructuren->SetTeam(player->GetTeam());
 	auto tempBoundSpheren = std::make_unique<BoundingSphere>();
 	tempBoundSpheren->SetUpBoundingSphere(tempRenderablen->GetModel().GetVertexPositions());
@@ -74,6 +73,7 @@ void Game::Initialise()
 	tempEntityn->AddComponent(move(targetn));
 
 	NPC->GetEntities().push_back(tempEntityn);
+
 
 
 	Entity* tempEntity2 = new Entity;

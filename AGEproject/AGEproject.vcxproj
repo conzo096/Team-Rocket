@@ -34,6 +34,7 @@
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GeometryUtil.h" />
     <ClInclude Include="src\GLShader.h" />
+    <ClInclude Include="src\GroundMovement.h" />
     <ClInclude Include="src\json.hpp" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
+    <ClCompile Include="src\GroundMovement.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Menu.cpp" />

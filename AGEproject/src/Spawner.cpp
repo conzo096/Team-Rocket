@@ -14,7 +14,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Ship")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("../res/models/Flyer.obj");
+		tempRenderable->SetModel("Ship");
 		tempRenderable->SetTexture("FlyerUV");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetShader("Phong");
@@ -42,7 +42,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Worker")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("../res/models/Torus2.obj");
+		tempRenderable->SetModel("Torus");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetTexture("FlyerUV");
 		tempEntity->SetPosition(spawnPosition);
