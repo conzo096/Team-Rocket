@@ -1,0 +1,10 @@
+version: 1.0.{build}
+branches:
+  only:
+  - Development
+configuration: Debug, Release
+platform: x64
+build:
+  project: AGEproject.vcxproj
+  parallel: true
+  verbosity: minimal
