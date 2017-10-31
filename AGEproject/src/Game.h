@@ -30,7 +30,6 @@ public:
 	Entity *free_cam = new Entity;
 
 	std::vector<Entity*> entities; //Figure out how to split this.
-	Entity* SpawnUnit(glm::vec3 position, glm::vec2 size,int team);
 
 	void Initialise();
 	void Update();

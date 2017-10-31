@@ -16,4 +16,28 @@ public:
 
 	//void Update(double delta);
 
+	void AddProduct(int val, int deposit)
+	{
+		worth += deposit;
+		Product tempProduct;
+		if (val == 0)
+		{
+			tempProduct.productName = "Ship";
+			tempProduct.buildTime = 5;
+		}
+		if (val == 1)
+		{
+			tempProduct.productName = "Ship";
+			tempProduct.buildTime = 5;
+
+		}
+		if (val == 2)
+		{
+			tempProduct.productName = "Ship";
+			tempProduct.buildTime = 5;
+
+		}
+		productQueue.push(tempProduct);
+	
+	}
 };

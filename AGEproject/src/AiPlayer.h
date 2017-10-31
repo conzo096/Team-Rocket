@@ -16,7 +16,7 @@ public:
 		for (Entity*&e : entities)
 		{
 			if (e->GetCompatibleComponent<Structure>() != NULL)
-				e->GetComponent<Structure>().Collect(temp);
+				e->GetCompatibleComponent<Structure>()->Collect(temp);
 		}
 		for (Entity*&e : temp)
 			entities.push_back(e);
@@ -26,11 +26,13 @@ public:
 	// Ai decisions are handled here.
 	void HandleAiLogic(std::vector<Entity*>& enemyList)
 	{
-		if (entities.size() < 2)
+		// If structure is still around.
+		if (entities.size() >0 && entities.size() < 3)
 		{
 			// Spawn an entity.
-			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
-				entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 1);
+		/*	if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
+				if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+					entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 3);*/
 		}
 		for (Entity*& e : entities)
 		{
