@@ -108,9 +108,6 @@
     <ClCompile Include="src\RayCast.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>Source Files\Game Engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\StateManager.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
@@ -132,8 +129,14 @@
     <ClCompile Include="src\Structure.cpp">
       <Filter>Source Files\Components\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="src\ResourceHandler.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Spawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\GroundMovement.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +183,6 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\RayCast.h">
-      <Filter>Header Files\Game Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Shader.h">
       <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">
@@ -263,8 +263,14 @@
     <ClInclude Include="src\Menu_Camera.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\ResourceHandler.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Spawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\GroundMovement.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -289,5 +295,9 @@
     <None Include="res\shaders\simple_texture.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\shaders\Colour.frag" />
+    <None Include="res\shaders\Colour.vert" />
+    <None Include="res\shaders\point.frag" />
+    <None Include="res\shaders\point.vert" />
   </ItemGroup>
 </Project>
