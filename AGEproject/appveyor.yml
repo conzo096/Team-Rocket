@@ -5,6 +5,6 @@ branches:
 configuration: Debug, Release
 platform: x64
 build:
-  project: AGEproject
+  project: AGEproject/AGEproject.vcxproj
   parallel: true
   verbosity: minimal
