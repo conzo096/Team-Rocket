@@ -10,7 +10,7 @@ void Player::Update(std::vector<Entity*>& enemyList)
 	for (Entity*&e : entities)
 	{
 		if (e->GetCompatibleComponent<Structure>() != NULL)
-			e->GetCompatibleComponent<Structure>()->Collect(temp);
+			e->GetComponent<Structure>().Collect(temp);
 	}
 	for (Entity*&e : temp)
 		entities.push_back(e);
@@ -106,26 +106,24 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 			if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
 			{
-				if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
+				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 				{
-					// AddProduct with an int instead. This will change what should spawn in the inherited structures.
-				//	selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(0,1);
+					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("TEMPAirShip", 2);
 				}
-				if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
+				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
 				{
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(1,1);
+
 				}
-				if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
+				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
 				{
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(2,1);
+
 				}
 				
 			}
 			else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
 			{
 
-		/*		if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 				{
 					selectedEntity->SetScale(glm::vec3(10, 10, 10));
 				}
@@ -136,13 +134,13 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
 				{
 
-				}*/
+				}
 			}
 		}
 	}
-
-
 	glfwPollEvents();
+
+
 
 }
 

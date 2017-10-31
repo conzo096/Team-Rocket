@@ -45,14 +45,6 @@ bool FileIO::CreateIniFile()
 	outputFile << "Up=32" << std::endl;
 	outputFile << "Down=341" << std::endl;
 	outputFile << "Enter=257" << std::endl;
-
-	outputFile << "HotKey1=49" << std::endl;
-	outputFile << "HotKey2=50" << std::endl;
-	outputFile << "HotKey3=51" << std::endl;
-	outputFile << "HotKey4=52" << std::endl;
-	outputFile << "HotKey5=53" << std::endl;
-
-
 	outputFile.close();
 
 	return true;
@@ -101,16 +93,6 @@ void FileIO::ConfigureGame(std::string para)
 		if (token == "Down")
 			UserControls::Get().BindKey(token, value);
 		if (token == "Enter")
-			UserControls::Get().BindKey(token, value);
-		if (token == "HotKey1")
-			UserControls::Get().BindKey(token, value);
-		if (token == "HotKey2")
-			UserControls::Get().BindKey(token, value);
-		if (token == "HotKey3")
-			UserControls::Get().BindKey(token, value);
-		if (token == "HotKey4")
-			UserControls::Get().BindKey(token, value);
-		if (token == "HotKey5")
 			UserControls::Get().BindKey(token, value);
 	}
 	else
