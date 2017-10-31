@@ -45,7 +45,7 @@
     <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
-    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ResourceHandler.h" />
     <ClInclude Include="src\ShipUnit.h" />
     <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
@@ -84,7 +84,7 @@
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ResourceHandler.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
@@ -110,7 +110,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,15 +129,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>Visual Studio 2017 (v141)</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>Visual Studio 2017 (v141)</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -193,7 +193,8 @@
       <Command>XCOPY "$(SolutionDir)res" "$(TargetDir)\res\" /S /Y</Command>
     </PreBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /s  "$(ProjectDir)res" "$(OutDir)..\res\"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -233,7 +234,8 @@
       <Command>xcopy /d /y "$(ProjectDir)bin\*.*" "$(OutDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /s  "$(ProjectDir)res" "$(OutDir)..\res\"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

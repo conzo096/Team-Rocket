@@ -1,7 +1,6 @@
 #pragma once
 #include "Entity.h"
-#include "Shader.h"
-
+#include "ResourceHandler.h"
 class PointLight : public Component
 {
 protected:

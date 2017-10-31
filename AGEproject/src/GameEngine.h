@@ -18,29 +18,50 @@ struct Effect
 	Material* material;
 };
 
+struct RenderData
+{
+	// Shader object.
+	unsigned int shader;
+	// Change to vector later?
+	unsigned int texture;
+	// Model information.
+	int modelVao;
+	GLenum drawType;
+	int indices;
+
+	// Lighting info to do.
+	// **
+	// **
+	// Model matrix;
+	glm::mat4 m;
+
+	Material* mat;
+};
+
 class GameEngine : public Singleton<GameEngine>
 {
 private:
 
 	// The window that is to be rendered too.
 	GLFWwindow* window;
-	float width;
-	float height;
+	int width;
+	int height;
 	bool fullScreen;
 	glm::mat4 cameraMVP;
 	glm::vec3 cameraPos;
 
+	std::vector<RenderData> renderList;
 public:
 
 	// The render window.
 	GLFWwindow* GetWindow() { return window; }
 
 	void Initialise();
-	void Render(glm::mat4 mvp, Model model, Effect effect);
+	//void Render(glm::mat4 mvp, Model model, Effect effect);
 
 	// Getters for width and height
-	float GetScreenWidth() { return width; }
-	float GetScreenHeight() { return height; }
+	int GetScreenWidth() { return width; }
+	int GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
 	void SetFullScreen(int val) { fullScreen = val; }
 	void SetScreenWidth(int val) { width = val; }
@@ -53,9 +74,12 @@ public:
 	// Cleans up game engine resources.
 	void CleanUp();
 
+	void AddToRenderList(RenderData list);
+	void Render();
 
+	void BindMaterial(const Material* material, const int shaderID);
 	// Helper functions.
 	void PrintGlewInfo();
-	void LoadShaders();
+	//void LoadShaders();
 
 };

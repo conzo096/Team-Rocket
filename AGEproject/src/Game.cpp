@@ -8,6 +8,7 @@
 #include "ShipyardStructure.h"
 void Game::Initialise()
 {
+
 	player = new Player;
 	NPC = new AiPlayer;
 
@@ -16,25 +17,18 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->SetProjection(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight(), 2.414f, 1000);
+	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
+	
+	// todo Remove entity creation from this init method.
+
+	
 
 	// Add a red point light to 0, 0.5, 0
 	Entity* tempEntity3 = new Entity;
-	/*for(int i = 1; i < 5; i++)
-	{
-		for(int j = 1; j < 5; j++)
-		{
-			auto tempLightComponent = std::make_unique<PointLight>();
-			tempLightComponent->SetEffect("Phong");
-			tempLightComponent->setLightPosition(glm::vec3(i * 30 - 30, 10, j * 30 - 30));
-			tempLightComponent->diffuse = glm::vec4(i / 4, j / 4, i % j / 8, 1);
-			tempEntity3->AddComponent(move(tempLightComponent));
-		}
-	}*/
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetEffect("Phong");
-	tempLightComponent->setLightPosition(glm::vec3(50,20,50));
+	tempLightComponent->setLightPosition(glm::vec3(50,30,50));
 	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
 	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
@@ -42,7 +36,9 @@ void Game::Initialise()
 	Entity* tempEntity = new Entity;
 	auto tempRenderable = std::make_unique<Renderable>();
 	tempRenderable->SetModel("../res/models/Constructor.obj");
-	tempRenderable->SetEffect("ConstructorUV");
+	tempRenderable->SetShader("Phong");
+	tempRenderable->SetMaterial(new Material());
+	tempRenderable->SetTexture("ConstructorUV");
 	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
 	tempRenderable->UpdateTransforms();
 	auto tempStructure = std::make_unique<Shipyard>();
@@ -61,7 +57,9 @@ void Game::Initialise()
 	Entity* tempEntityn = new Entity;
 	auto tempRenderablen = std::make_unique<Renderable>();
 	tempRenderablen->SetModel("../res/models/Constructor.obj");
-	tempRenderablen->SetEffect("ConstructorUV");
+	tempRenderablen->SetTexture("ConstructorUV");
+	tempRenderablen->SetShader("Phong");
+	tempRenderablen->SetMaterial(new Material());
 	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
 	tempRenderablen->UpdateTransforms();
 	auto tempStructuren = std::make_unique<Shipyard>();
@@ -80,11 +78,12 @@ void Game::Initialise()
 
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
+	tempRenderable2->SetMaterial(new Material());
 	tempRenderable2->SetPlane(1, 100, 100);
-	tempRenderable2->SetEffect("debug");
+	tempRenderable2->SetTexture("debug");
+	tempRenderable2->SetShader("Phong");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
-
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 
@@ -116,7 +115,6 @@ void Game::Update()
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
-				// Delete this.
 				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
 			}
 		e->Update(deltaTime);
@@ -141,7 +139,7 @@ void Game::Update()
 void Game::Render()
 {
 	// Clear the opengl buffer.
-	glClearColor(0.1, 0.0, 0.4, 1);
+	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glDisable(GL_CULL_FACE);
 
@@ -164,6 +162,9 @@ void Game::Render()
 		NPC->GetEntities()[n]->Render();
 		n++;
 	}
+
+	GameEngine::Get().Render();
+
 	// process events.
 	glfwPollEvents();
 	// Swap the window buffers.

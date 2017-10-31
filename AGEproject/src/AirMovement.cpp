@@ -69,7 +69,7 @@ void AirMovement::TurnTo(double delta)
 
 		glm::vec3 distantPoint = thisPos + (distance * 2 * currentVec);
 
-		float determinant = ((destination.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((destination.z - thisPos.z)*(distantPoint.x - thisPos.x));
+		double determinant = ((destination.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((destination.z - thisPos.z)*(distantPoint.x - thisPos.x));
 
 		if (determinant != 0 && !glm::isnan(angle))
 		{

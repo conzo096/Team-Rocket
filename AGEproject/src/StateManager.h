@@ -27,7 +27,7 @@ public:
 	void ShowMainMenu()
 	{
 		TMenu t;
-		t.Draw(Shader::Get().GetShader("Phong"));
+		t.Draw(*ResourceHandler::Get().GetShader("Phong"));
 	}
 private:
 

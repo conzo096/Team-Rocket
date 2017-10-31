@@ -33,7 +33,7 @@ public:
 
 		for(glm::vec3 &v : vertices)
 		{
-			float length = (modelCenter - v).length();
+			float length = float((modelCenter - v).length());
 			radius = std::max(radius,length);
 		}
 		radius += 2;
