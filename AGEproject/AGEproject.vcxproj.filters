@@ -1,175 +1,303 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\GameEngine.cpp" />
-    <ClCompile Include="src\GLShader.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Model.cpp" />
-    <ClCompile Include="src\PointLight.cpp" />
-    <ClCompile Include="src\Renderable.cpp" />
-    <ClCompile Include="src\StateManager.cpp" />
-    <ClCompile Include="src\stb_image.cpp" />
-    <ClCompile Include="src\Material.cpp" />
-    <ClCompile Include="src\Free_Camera.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{9adbc607-be5c-4e85-b1dc-2b24faf1fcf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Engine">
+      <UniqueIdentifier>{f2e61412-fbbf-4076-a082-e2384f5fbf58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{69c81a41-121c-45ab-aa81-2033e721df43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{384a739e-3d4c-4b7a-a9b4-243e8755a88a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Engine">
+      <UniqueIdentifier>{e62061fa-f182-4e6e-8327-92153d80ac5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{f76e7a4f-9af9-4495-8365-9edd0d0a6463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Units">
+      <UniqueIdentifier>{8739e507-291f-4eb3-a62e-cc70cdbfcf62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Structures">
+      <UniqueIdentifier>{06ed2833-83d7-431e-877f-b1a266b435df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Units">
+      <UniqueIdentifier>{2778276a-21da-4c03-a0fd-129f23cba465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Structures">
+      <UniqueIdentifier>{75c0280f-e4b9-482a-8e23-2969eb818695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Movement">
+      <UniqueIdentifier>{f0c8bd01-3bd6-4256-bd6a-7aae36062838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Renderer">
+      <UniqueIdentifier>{e02f3ab1-6f02-4fea-a8e5-242555329347}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GLShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Free_Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Structure.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\AirMovement.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\BoundingBox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileIO.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\BoundingSphere.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\FrameBuffer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Free_Camera.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\UserControls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Movement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AirMovement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Menu.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Menu_Camera.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Movement.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PointLight.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderable.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Targetable.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileIO.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLShader.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RayCast.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StateManager.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UserControls.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Structure.cpp">
+      <Filter>Source Files\Components\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceHandler.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Spawner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GroundMovement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\StateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GLShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Free_Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Structure.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\AiPlayer.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="src\BoundingBox.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingSphere.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\FileIO.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\FrameBuffer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\Singleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\UserControls.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Movement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AirMovement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Menu_Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Quad.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\GameEngine.h">
+      <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\GeometryUtil.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLShader.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.hpp">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Menu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RayCast.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Singleton.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StateManager.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UserControls.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stb_image.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShipUnit.h">
+      <Filter>Header Files\Components\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Structure.h">
+      <Filter>Header Files\Components\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AirMovement.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Movement.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>Header Files\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PointLight.h">
+      <Filter>Header Files\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Quad.h">
+      <Filter>Header Files\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderable.h">
+      <Filter>Header Files\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>Header Files\Components\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Unit.h">
+      <Filter>Header Files\Components\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WorkerUnit.h">
+      <Filter>Header Files\Components\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TroopUnit.h">
+      <Filter>Header Files\Components\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TankUnit.h">
+      <Filter>Header Files\Components\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseStructure.h">
+      <Filter>Header Files\Components\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShipyardStructure.h">
+      <Filter>Header Files\Components\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Barracks.h">
+      <Filter>Header Files\Components\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VehicleDepotStructure.h">
+      <Filter>Header Files\Components\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Targetable.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Free_Camera.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Menu_Camera.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceHandler.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Spawner.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GroundMovement.h">
+      <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\Basic.frag" />
-    <None Include="res\shaders\Basic.vert" />
-    <None Include="res\shaders\bloom-blend.frag" />
-    <None Include="res\shaders\gaussian-blur.frag" />
-    <None Include="res\shaders\phong.frag" />
-    <None Include="res\shaders\phong.vert" />
-    <None Include="res\shaders\simple_texture.vert" />
+    <None Include="res\shaders\Basic.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Basic.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\bloom-blend.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\gaussian-blur.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\phong.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\phong.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\simple_texture.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Colour.frag" />
+    <None Include="res\shaders\Colour.vert" />
+    <None Include="res\shaders\point.frag" />
+    <None Include="res\shaders\point.vert" />
   </ItemGroup>
 </Project>

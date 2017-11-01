@@ -38,6 +38,20 @@ bool UserControls::IsKeyPressed(std::string &action)
 }
 
 
+bool UserControls::IsMouseButtonPressed(std::string &action)
+{
+	auto val = buttonOptions.find(action);
+	if (val == buttonOptions.end())
+		return false;
+	else
+	{
+		if (glfwGetMouseButton(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
+			return true;
+	}
+	// Should never enter here but just in case.
+	return false;
+}
+
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
 	// clear the current map of keys.
@@ -94,7 +108,6 @@ int UserControls::GetPickedColourIndexUnderMouse()
 		GLdouble modelview[16]; //var to hold the modelview info
 		GLdouble projection[16]; //var to hold the projection matrix info
 		GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
-		GLdouble worldX, worldY, worldZ; //variables to hold world x,y,z coordinates
 
 		glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
 		glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
@@ -117,7 +130,11 @@ void UserControls::Update()
 	}
 }
 
-
+void UserControls::Update(Free_Camera& cam)
+{
+	Update();
+	mouseRay.UpdateRay(cam);
+}
 void UserControls::HandleConsoleInput()
 {
 	std::cout << "Still to be implemented!" << std::endl;

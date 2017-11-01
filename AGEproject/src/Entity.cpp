@@ -13,7 +13,7 @@ using namespace std;
 Component::Component(const string &token) : token(token)
 {
 	entity = nullptr;
-	active = false;
+	active = true;
 }
 
 Component *Component::MakeGeneric(const json &j) {

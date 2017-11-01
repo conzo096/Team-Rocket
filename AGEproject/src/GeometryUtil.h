@@ -10,9 +10,9 @@ public:
 	{
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-		for (int i = 0; i < ySize; i++)
+		for (unsigned int i = 0; i < ySize; i++)
 		{
-			for (int j = 0; j < xSize; j++)
+			for (unsigned int j = 0; j < xSize; j++)
 			{
 				Vertex v;
 				v.position = glm::vec3(j*spacing, 0.0f, i*spacing);
@@ -22,11 +22,11 @@ public:
 				vertices.push_back(v);
 			}
 		}
-		for (int i = 0; i < ySize - 1; i++)
+		for (unsigned int i = 0; i < ySize - 1; i++)
 		{
 			if ((i & 1) == 0)
 			{ // even rows
-				for (int j = 0; j < xSize; j++)
+				for (unsigned int j = 0; j < xSize; j++)
 				{
 					indices.push_back(j + (i*xSize));
 					indices.push_back(j + ((i + 1) * xSize));
@@ -34,7 +34,7 @@ public:
 			}
 			else
 			{ // odd rows
-				for (int j = xSize - 1; j > 0; j--)
+				for (unsigned int j = xSize - 1; j > 0; j--)
 				{
 					indices.push_back(j + ((i + 1) * xSize));
 					indices.push_back(j - 1 + (i * xSize));
@@ -48,9 +48,20 @@ public:
 	}
 
 
-	static Model BuildLine()
+	static Model* BuildLine(std::vector<glm::vec3> p)
 	{
-		std::cout << "Not Implemented!" << std::endl;
+		std::vector<Vertex> vertex;
+		for (glm::vec3 pi : p)
+		{
+			Vertex v;
+			v.position = pi;
+			vertex.push_back(v);
+		}
+		std::vector<unsigned int> i;
+		i.push_back(0);
+		i.push_back(1);
+		Model* temp = new Model(vertex, i);
+		temp->SetType(GL_LINES);
+		return temp;
 	}
-
 };

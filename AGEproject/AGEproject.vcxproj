@@ -19,8 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AiPlayer.h" />
     <ClInclude Include="src\AirMovement.h" />
+    <ClInclude Include="src\Barracks.h" />
+    <ClInclude Include="src\BaseStructure.h" />
     <ClInclude Include="src\BoundingBox.h" />
+    <ClInclude Include="src\BoundingSphere.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\FileIO.h" />
@@ -30,27 +34,40 @@
     <ClInclude Include="src\GameEngine.h" />
     <ClInclude Include="src\GeometryUtil.h" />
     <ClInclude Include="src\GLShader.h" />
+    <ClInclude Include="src\GroundMovement.h" />
     <ClInclude Include="src\json.hpp" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\Menu_Camera.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
-	<ClInclude Include="src\PointLight.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\PointLight.h" />
     <ClInclude Include="src\Quad.h" />
+    <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
-    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ResourceHandler.h" />
+    <ClInclude Include="src\ShipUnit.h" />
+    <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
+    <ClInclude Include="src\Spawner.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Structure.h" />
+    <ClInclude Include="src\TankUnit.h" />
+    <ClInclude Include="src\Targetable.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\TroopUnit.h" />
+    <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
+    <ClInclude Include="src\VehicleDepotStructure.h" />
+    <ClInclude Include="src\WorkerUnit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AirMovement.cpp" />
     <ClCompile Include="src\BoundingBox.cpp" />
+    <ClCompile Include="src\BoundingSphere.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\FileIO.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
@@ -58,18 +75,23 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
+    <ClCompile Include="src\GroundMovement.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Menu_Camera.cpp" />
-	<ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
-	<ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ResourceHandler.cpp" />
+    <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Structure.cpp" />
+    <ClCompile Include="src\Targetable.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
@@ -77,9 +99,13 @@
     <None Include="res\shaders\Basic.frag" />
     <None Include="res\shaders\Basic.vert" />
     <None Include="res\shaders\bloom-blend.frag" />
+    <None Include="res\shaders\Colour.frag" />
+    <None Include="res\shaders\Colour.vert" />
     <None Include="res\shaders\gaussian-blur.frag" />
     <None Include="res\shaders\phong.frag" />
     <None Include="res\shaders\phong.vert" />
+    <None Include="res\shaders\point.frag" />
+    <None Include="res\shaders\point.vert" />
     <None Include="res\shaders\simple_texture.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -135,6 +161,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(VC_SourcePath)/src;</SourcePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath); </IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -161,6 +188,16 @@
       <AdditionalDependencies>assimp.lib;glew32s.lib;opengl32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /y "$(ProjectDir)bin\*.*" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)res" "$(TargetDir)\res\" /S /Y</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -195,6 +232,13 @@
       <AdditionalDependencies>assimp.lib;glew32s.lib;opengl32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /y "$(ProjectDir)bin\*.*" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

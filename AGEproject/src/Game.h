@@ -9,20 +9,26 @@
 #include "Menu_Camera.h"
 #include "Renderable.h"
 #include "Structure.h"
+#include "BoundingBox.h"
+#include "BoundingSphere.h"
 #include "AirMovement.h"
-
+#include "ResourceHandler.h"
+#include "Unit.h"
 class Entity;
-
+class Player;
+class AiPlayer;
 class Game : public Singleton<Game>
 {
 private:
-	Entity *free_cam = new Entity;
-	static std::vector<Entity*> entities;//Figure out how to split this.
-	static double lastTime;
+	double lastTime;
 
 public:
-
-	void SpawnUnit(glm::vec3 position, glm::vec2 size);
+	// User.
+	Player* player;
+	// Ai player.
+	AiPlayer* NPC;
+	Entity *free_cam = new Entity;
+	std::vector<Entity*> entities; //Figure out how to split this.
 
 	void Initialise();
 	void Update();

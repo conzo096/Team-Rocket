@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
-#include "Shader.h"
 #include "FileIO.h"
 
 void GameEngine::Initialise()
@@ -39,7 +38,7 @@ void GameEngine::Initialise()
 	// glExperimental throws junk errors, Ignore.
 	glGetError();
 	PrintGlewInfo();
-	LoadShaders();
+	//LoadShaders();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -48,13 +47,87 @@ void GameEngine::Initialise()
 	glfwSwapInterval(1.0f);
 }
 
-void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
+//void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
+//{
+//	const auto mvp = cameraMVP * m;
+////	Shader::Get().UseShader("Basic", effect, mvp);
+////	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
+//	model.Draw();
+//}
+
+void GameEngine::Render()
 {
-	const auto mvp = Get().cameraMVP * m;
-//	Shader::Get().UseShader("Basic", effect, mvp);
-	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
-	model.Draw();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	for (RenderData rl : renderList)
+	{
+		// Bind shader.
+		glUseProgram(rl.shader);
+		// Bind Uniforms.
+		const auto mvp = cameraMVP * rl.m;
+
+		GLint index;
+		index = glGetUniformLocation(rl.shader, "MVP");
+		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));
+		index = glGetUniformLocation(rl.shader, "M");
+		glUniformMatrix4fv(index, 1, GL_FALSE, glm::value_ptr(rl.m));
+		index = glGetUniformLocation(rl.shader, "N");
+		glUniformMatrix3fv(index, 1, GL_FALSE, glm::value_ptr(glm::mat3(rl.m)));
+		index = glGetUniformLocation(rl.shader, "eye_pos");
+		glm::vec3 eyePos = glm::vec3(mvp[0][3],mvp[1][3],mvp[2][3]);
+		glUniform3fv(index, 1, glm::value_ptr(eyePos));
+
+		// Bind material.
+		BindMaterial(rl.mat, rl.shader);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, rl.texture);
+		
+
+		// Bind and draw model.
+		glBindVertexArray(rl.modelVao);
+		glDrawElements(rl.drawType, rl.indices, GL_UNSIGNED_INT, 0);
+	}
+	// clear list.
+	renderList.clear();
 }
+
+
+void GameEngine::BindMaterial(const Material* material, const int shaderID)
+{
+	if(material != NULL)
+	{ 
+		GLint idx;
+		idx = glGetUniformLocation(shaderID,"mat.emissive");
+		glUniform4fv(idx, 1, value_ptr(material->emissive));
+		idx = idx = glGetUniformLocation(shaderID, "mat.diffuse_reflection");
+		glUniform4fv(idx, 1, value_ptr(material->diffuse));
+		idx = idx = glGetUniformLocation(shaderID, "mat.specular_reflection");
+		glUniform4fv(idx, 1, value_ptr(material->specular));
+		idx = glGetUniformLocation(shaderID, "mat.shininess");
+		glUniform1f(idx, material->shininess * 128);
+	}
+	else
+	{
+		GLint idx;
+		idx = glGetUniformLocation(shaderID, "mat.emissive");
+		glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7,1)));
+		idx = idx = glGetUniformLocation(shaderID, "mat.diffuse_reflection");
+		glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7, 1)));
+		idx = idx = glGetUniformLocation(shaderID, "mat.specular_reflection");
+		glUniform4fv(idx, 1, value_ptr(glm::vec4(1, 1, 1, 1)));
+		idx = glGetUniformLocation(shaderID, "mat.shininess");
+		glUniform1f(idx,1);
+	}
+}
+
+
+
+void GameEngine::AddToRenderList(RenderData data)
+{
+	// Sort vector here.
+	renderList.push_back(data);
+}
+
 
 void GameEngine::SetCamera(glm::mat4 camera)
 {
@@ -85,7 +158,7 @@ void GameEngine::PrintGlewInfo()
 	printf("-------------------------------------------------------\n");
 }
 
-void GameEngine::LoadShaders()
-{
-	Shader::Get().AddShader("Phong");
-}
+//void GameEngine::LoadShaders()
+//{
+//	Shader::Get().AddShader("Phong");
+//}

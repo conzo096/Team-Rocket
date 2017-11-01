@@ -1,5 +1,6 @@
 #include "Menu.h"
-
+#include "RayCast.h"
+#include "GeometryUtil.h"
 TMenu::TMenu(std::vector<char *> textureLocs)
 {
 
@@ -21,7 +22,7 @@ void TMenu::SelectionUp()
 		return;
 	// If currentSelection is the first one, loop to end one. 
 	if (currentSelection == 0)
-		currentSelection = buttons.size()-1;
+		currentSelection = (int)buttons.size()-1;
 	currentSelection -= 1;
 }
 
@@ -45,7 +46,7 @@ int TMenu::Draw(GLShader shader)
 	buttons.resize(3);
 	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId();
 	
-
+	RayCast ray;
 	for (int i = 0; i < 3; i++)
 	{
 		Button& newButton = buttons[i];
@@ -53,13 +54,15 @@ int TMenu::Draw(GLShader shader)
 		newButton.texture = tex; 
 		newButton.renderTarget.SetPosition(glm::vec3(0, (i*-60) + 57, 0));
 		newButton.renderTarget.SetScale(glm::vec3(20, 20, 20));
-		buttons[i].renderTarget.UpdateTransforms();
+		newButton.renderTarget.UpdateTransforms();
 	}
-
+	Model* m = NULL;
 	// Change while condition.
 	while (!UserControls::Get().IsKeyPressed(std::string("Enter")))
 	{
 		menu_cam->GetComponent<Menu_Camera>().Update(0);
+		ray.UpdateRay(menu_cam->GetComponent<Menu_Camera>());
+
 		glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
 		
 		buttons[0].renderTarget.Rotate(glm::vec3(1,1,1));
@@ -72,6 +75,18 @@ int TMenu::Draw(GLShader shader)
 			SelectionUp();
 		if (UserControls::Get().IsKeyPressed(std::string("Backward")))
 			SelectionDown();
+		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+		{
+			std::vector<glm::vec3> p;
+			p.push_back(ray.near);
+			p.push_back(ray.far);
+			m = GeometryUtil::BuildLine(p);
+		}
+
+		
+		glm::mat4 mvp = camMatrix* glm::dmat4(1);
+		if(m != NULL)
+			m->Draw();
 		// Bind texture.
 		glUniform1i(shader.GetUniformLocation("tex"), 0);
 		glActiveTexture(GL_TEXTURE0);
@@ -80,7 +95,9 @@ int TMenu::Draw(GLShader shader)
 
 		for (int i = 0; i < 3; i++)
 		{		
-			glm::mat4 mvp = camMatrix * buttons[i].renderTarget.GetTransform();
+			if (buttons[i].renderTarget.RayIntersection(ray))
+				std::cout << i << std::endl;
+			mvp = camMatrix * buttons[i].renderTarget.GetTransform();
 			glUniformMatrix4fv(shader.GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
 			buttons[i].renderTarget.Draw();
 		}
