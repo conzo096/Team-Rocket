@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "MainMenu.h"
+#include "SettingsMenu.h"
 
 class StateManager : public Singleton<StateManager>
 {
@@ -30,9 +31,10 @@ public:
 		return mm.Draw(Shader::Get().GetShader("tex"));
 	}
 
-	int ShowSettings()
+	int ShowSettingsMenu()
 	{
-
+		SettingsMenu sm;
+		return sm.Draw(Shader::Get().GetShader("tex"));
 	}
 
 private:

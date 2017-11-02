@@ -105,11 +105,13 @@ int MainMenu::Draw(GLShader shader)
 				selectionMade = true;
 				currentSelection = 0;
 			}
+			// "Options" is clicked
 			else if (buttons[1].renderTarget.IsMouseInBounds())
 			{
 				selectionMade = true;
 				currentSelection = 1;
 			}
+			// "Exit Game" is clicked
 			else if (buttons[2].renderTarget.IsMouseInBounds())
 			{
 				selectionMade = true;

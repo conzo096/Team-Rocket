@@ -26,11 +26,13 @@ void StateManager::StateLoop()
 			}
 			else if (select == 1)
 			{
-
+				state = stateSettings;
 			}
 			else if (select == 2) { state = stateExiting; }
 			break;
 		case(stateSettings):
+			select = ShowSettingsMenu();
+			if (select == 8) { state = stateExiting; }
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

@@ -22,34 +22,33 @@ public:
 private:
 	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId(); //Texture("../res/textures/MainMenu_Button1.png").GetTextureId(); 
 
-	const int numOfTitles;
-	const int numOfOptions;
-	const int numOfSmallButtons;
-	const int numOfLargeButtons;
+	const int numOfTitles = 1;
+	const int numOfOptions = 0;
+	const int numOfSmallButtons = 0;
+	const int numOfLargeButtons = 0;
 
-	const float titleWidth;
-	const float titleHeight;
-	float titleOffsetX;
-	float titleOffsetY;
-	const float changeOffset_Title;
+	const float titleWidth = 1.0f;
+	const float titleHeight = 0.6f;
+	const float optionWidth = 0;
+	const float optionHeight = 0;
+	const float buttonWidth_Small = 0;
+	const float buttonHeight_Small = 0;
+	const float buttonWidth_Large = 0;
+	const float buttonHeight_Large = 0;
 
-	const float optionWidth;
-	const float optionHeight;
+	float titleOffsetX = 1.0f;
+	float titleOffsetY = 0.8f;
 	float optionOffsetX;
 	float optionOffsetY;
-	const float changeOffset_Option;
-	
-	const float buttonWidth_Small;
-	const float buttonHeight_Small;
 	float buttonOffsetX_Small;
 	float buttonOffsetY_Small;
-	const float changeOffset_ButtonX_Small;
-	const float changeOffset_ButtonY_Small;
-
-	const float buttonWidth_Large;
-	const float buttonHeight_Large;
 	float buttonOffsetX_Large;
 	float buttonOffsetY_Large;
-	const float changeOffset_ButtonX_Large;
-	const float changeOffset_ButtonY_Large;
+
+	const float changeOffset_Title = 0;
+	const float changeOffset_Option = 0;
+	const float changeOffset_ButtonX_Small = 0;
+	const float changeOffset_ButtonY_Small = 0;
+	const float changeOffset_ButtonX_Large = 0;
+	const float changeOffset_ButtonY_Large = 0;
 };
