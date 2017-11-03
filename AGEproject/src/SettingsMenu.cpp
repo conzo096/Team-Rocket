@@ -77,7 +77,7 @@ int SettingsMenu::Draw(GLShader shader)
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		glClearColor(0, 1, 0, 1);
+		glClearColor(0, 0, 1, 1);
 		shader.Use();
 
 		// Draw the quads.

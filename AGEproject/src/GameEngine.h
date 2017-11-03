@@ -47,6 +47,9 @@ public:
 	void SetScreenHeight(int val) { height = val; }
 	void SetCameraPos(glm::vec3 pos) { cameraPos = pos; }
 
+
+
+
 	void SetCamera(glm::mat4 camera);
 	// Execute the game engine.
 	void Start();

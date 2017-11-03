@@ -209,32 +209,34 @@ public:
 					return false;
 			}
 		}
-
 		return true;
 	}
 
 	bool IsMouseInBounds()
 	{
+		int w, h;
 		glm::vec2 mousePos = UserControls::Get().GetMousePos();
+		glfwGetWindowSize(GameEngine::Get().GetWindow(), &w, &h);
+		//glfwGetFramebufferSize(GameEngine::Get().GetWindow(), &w, &h);
 
 		// Check mouse x is within % range of quad.
-		mousePos.x /= GameEngine::Get().GetScreenWidth();
-		mousePos.x = (mousePos.x * 2.0f) - 1;
+		mousePos.x /= w;
+		mousePos.x = (mousePos.x * 2.0f) - 1.0f;
 
 		// Here's the problem
 		float bottomLeftX = vertices[2].position.x;
 		float topRightX = vertices[0].position.x;
 
 		// Check mouse y is within % range of quad.
-		mousePos.y /= GameEngine::Get().GetScreenHeight();
-		mousePos.y = (mousePos.y * 2.0f) - 1;
+		mousePos.y /= h;
+		mousePos.y = 1.0f - (mousePos.y * 2.0f);
 
 		// Here's the problem
 		float bottomLeftY = vertices[2].position.y;
 		float topRightY = vertices[0].position.y;
 
-		if ( (mousePos.x > bottomLeftX) && (mousePos.x < topRightX) &&
-			 (mousePos.y > bottomLeftY) && (mousePos.y < topRightY) )
+		if ( (mousePos.x >= bottomLeftX) && (mousePos.x <= topRightX) &&
+			 (mousePos.y >= bottomLeftY) && (mousePos.y <= topRightY) )
 		{
 			return true;
 		}

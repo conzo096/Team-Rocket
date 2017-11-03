@@ -4,7 +4,15 @@
 class MainMenu : public Menu
 {
 public:
-	MainMenu() {}
+	MainMenu() 
+	{
+		numberOfButtons = 3;
+
+		buttonWidth = 0.6f;
+		buttonHeight = 0.3f;
+		buttonOffset = 0.4f;
+		offsetChange = buttonHeight + 0.2f;
+	}
 	~MainMenu() {}
 
 	std::vector<Button> buttons;
@@ -17,12 +25,10 @@ public:
 	int SelectionPicked();
 
 private:
-	const int numberOfButtons = 3;
+	int numberOfButtons;
 
-	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId(); //Texture("../res/textures/MainMenu_Button1.png").GetTextureId(); 
-
-	const float buttonWidth = 0.6f;
-	const float buttonHeight = 0.3f;
-	float buttonOffset = 0.5f;
-	const float offsetChange = 0.5f;
+	float buttonWidth;
+	float buttonHeight;
+	float buttonOffset;
+	float offsetChange;
 };
