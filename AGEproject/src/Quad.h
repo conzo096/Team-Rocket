@@ -79,7 +79,7 @@ public:
 		glm::vec3 normal = glm::cross(temp[1] - temp[0], temp[0] - temp[2]);
 		normal = glm::normalize(normal);
 		// Distance from offset.
-		float offset = GetPosition().length();
+		float offset = (float)GetPosition().length();
 	
 
 		//// Get local bounds.
@@ -88,7 +88,6 @@ public:
 
 		// Information regarding parents position.
 		glm::mat4 ModelMatrix = GetTransform();
-		float intersection_distance;
 
 		// Minumum and maximum distances.
 		float tMin = 0.0f;
@@ -173,6 +172,6 @@ public:
 	void Draw()
 	{
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_QUADS, 0, vertices.size());
+		glDrawArrays(GL_QUADS, 0, (GLsizei)vertices.size());
 	}
 };

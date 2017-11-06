@@ -19,7 +19,10 @@ public:
 				e->GetComponent<Structure>().Collect(temp);
 		}
 		for (Entity*&e : temp)
+		{
+			e->SetScale(glm::vec3(3, 3, 3));
 			entities.push_back(e);
+		}
 	}
 
 
@@ -29,8 +32,10 @@ public:
 		if (entities.size() < 2)
 		{
 			// Spawn an entity.
-			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
-				entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 1);
+			//if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
+			//	if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+			//		entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 3);
+
 		}
 		for (Entity*& e : entities)
 		{

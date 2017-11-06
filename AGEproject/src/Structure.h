@@ -33,6 +33,7 @@ public:
 	void AddProduct(std::string productName, float buildTime);
 	void Produce(double delta);
 	void Update(double delta) override;
+	int GetQueueSize() { return  (int)productQueue.size(); }
 
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }

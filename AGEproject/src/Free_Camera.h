@@ -38,11 +38,11 @@ public:
 	void Update(double deltaTime) override;
 
 	// Get camera's current rotations
-	float GetPitch() const
+	double GetPitch() const
 	{
 		return GetPosition().x;
 	}
-	float GetYaw() const
+	double GetYaw() const
 	{
 		return GetPosition().y;
 	}
