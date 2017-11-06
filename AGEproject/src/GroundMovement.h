@@ -93,6 +93,7 @@ public:
 	GroundMovement();
 	~GroundMovement();
 
+	void SetGoal(vec3 goal) { this->goal = goal; };
 	void SetGrid(int xSize, int zSize, int  **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
 	bool LineOfSight();
 	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);

@@ -140,9 +140,10 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 
 void GroundMovement::MoveTo(double delta)
 {
-	if (GetParent()->GetPosition() == destination)
+	if (GetParent()->GetPosition() == goal)
 	{
 		currentSpeed = 0.0f;
+		goal = -goal;
 	}
 	else
 	{
@@ -231,8 +232,8 @@ void GroundMovement::Update(double delta)
 	float zDestination;
 	if ((xStart += dx[j]) == xFinish && (zStart += dz[j]) == zFinish)
 	{
-		float xDestination = xStart += dx[j];//translate to world space
-		float zDestination = zStart += dz[j];
+		float xDestination = (xStart + dx[j]);//translate to world space
+		float zDestination = (zStart + dz[j]);
 	}
 	else
 	{

@@ -12,6 +12,7 @@
 #include "BoundingBox.h"
 #include "BoundingSphere.h"
 #include "AirMovement.h"
+#include "GroundMovement.h"
 
 #include "Unit.h"
 class Entity;
