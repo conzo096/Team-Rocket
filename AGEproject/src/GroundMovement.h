@@ -67,7 +67,7 @@ public:
 	}
 };
 
-bool operator<(const Node & a, const Node & b)
+inline bool operator<(const Node & a, const Node & b)
 {
 	return a.GetPriority() > b.GetPriority();
 }
