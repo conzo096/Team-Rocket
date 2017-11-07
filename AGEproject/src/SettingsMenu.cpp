@@ -16,7 +16,7 @@ int SettingsMenu::Draw(GLShader shader)
 	for (int i = 0; i < numOfTitles; i++)
 	{
 		Label& newTitle = labels[i];
-		newTitle.texture = tex;
+		newTitle.texture = title_tex[i];
 		newTitle.renderTarget = Quad(glm::vec2(titleOffsetX - 1, 1 - titleOffsetY - titleHeight),
 									 glm::vec2(titleOffsetX - 1 + titleWidth, 1 - titleOffsetY));
 		newTitle.renderTarget.SetOpenGL();
@@ -28,7 +28,7 @@ int SettingsMenu::Draw(GLShader shader)
 	for (int i = 0; i < numOfOptions; i++)
 	{
 		Label& newOption = labels[i + numOfTitles];
-		newOption.texture = tex;
+		newOption.texture = option_tex[i][0];
 		newOption.renderTarget = Quad(glm::vec2(1 - optionOffsetX - optionWidth, 1 - optionOffsetY - optionHeight),
 									  glm::vec2(1 - optionOffsetX, 1 - optionOffsetY));
 		newOption.renderTarget.SetOpenGL();
@@ -39,7 +39,7 @@ int SettingsMenu::Draw(GLShader shader)
 	for (int i = 0; i < numOfLargeButtons; i++)
 	{
 		Button& newLargeButton = buttons[i];
-		newLargeButton.texture = tex;
+		newLargeButton.texture = large_button_tex[i];
 		newLargeButton.action = i;
 		// Create a wider button on the first loop
 		if (i == 0)
@@ -56,18 +56,22 @@ int SettingsMenu::Draw(GLShader shader)
 	for (int i = 0; i < numOfSmallButtons; i++)
 	{
 		Button& newSmallButton = buttons[i + numOfLargeButtons];
-		newSmallButton.texture = tex;
-		newSmallButton.action = i;
 		newSmallButton.renderTarget = Quad(glm::vec2(1 - buttonOffsetX_Small - buttonWidth_Small, 1 - buttonOffsetY_Small - buttonHeight_Small),
 										   glm::vec2(1 - buttonOffsetX_Small, 1 - buttonOffsetY_Small));
 		newSmallButton.renderTarget.SetOpenGL();
-		if (i % 2 != 0)
+		if (i % 2 == 0)
 		{
+			newSmallButton.texture = small_button_tex[1];
+			newSmallButton.action = i;
 			buttonOffsetX_Small += (buttonWidth_Small + changeOffset_ButtonX_Small);
-			buttonOffsetY_Small -= (buttonHeight_Small + changeOffset_ButtonY_Small);
 		}
 		else
+		{
+			newSmallButton.texture = small_button_tex[0];
+			newSmallButton.action = i;
+			buttonOffsetX_Small -= (buttonWidth_Small + changeOffset_ButtonX_Small);
 			buttonOffsetY_Small += (buttonHeight_Small + changeOffset_ButtonY_Small);
+		}
 	}
 
 	while (!selectionMade)

@@ -6,6 +6,16 @@ class SettingsMenu : public Menu
 public:
 	SettingsMenu()
 	{
+		title_tex[0] = Texture("../res/textures/SettingsMenu_Title1.png").GetTextureId();
+		title_tex[1] = Texture("../res/textures/SettingsMenu_Title2.png").GetTextureId();
+		option_tex[0][0] = Texture("../res/textures/SettingsMenu_Option1-1.png").GetTextureId();
+		option_tex[1][0] = Texture("../res/textures/SettingsMenu_Option2-1.png").GetTextureId();
+		small_button_tex[0] = Texture("../res/textures/SettingsMenu_SmallButton1.png").GetTextureId();
+		small_button_tex[1] = Texture("../res/textures/SettingsMenu_SmallButton2.png").GetTextureId();
+		large_button_tex[0] = Texture("../res/textures/SettingsMenu_LargeButton1.png").GetTextureId();
+		large_button_tex[1] = Texture("../res/textures/SettingsMenu_LargeButton2.png").GetTextureId();
+		large_button_tex[2] = Texture("../res/textures/SettingsMenu_LargeButton3.png").GetTextureId();
+		
 		numOfTitles = 2;
 		numOfOptions = 2;
 		numOfLargeButtons = 3;
@@ -51,6 +61,11 @@ public:
 private:
 	unsigned int tex = Texture("../res/textures/debug.png").GetTextureId(); //Texture("../res/textures/MainMenu_Button1.png").GetTextureId(); 
 
+	unsigned int title_tex[2];
+	unsigned int option_tex[2][1];
+	unsigned int small_button_tex[2];
+	unsigned int large_button_tex[3];
+	
 	int numOfTitles;
 	int numOfOptions;
 	int numOfSmallButtons;
