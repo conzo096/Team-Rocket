@@ -56,7 +56,7 @@ void Free_Camera::Update(double deltaTime)
 	forward = glm::normalize(forward);
 
 	// Create standard right vector and rotate it by the yaw
-	glm::dvec3 right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
+	right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
 	// Normalise right
 	right = glm::normalize(right);
 

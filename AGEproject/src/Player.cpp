@@ -28,6 +28,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if(e->GetCompatibleComponent<Unit>()!=NULL)
 					e->GetCompatibleComponent<Unit>()->IsController(false);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(false);
 			}
 			selectedEntities.clear();
 		}
@@ -41,6 +43,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (e->GetCompatibleComponent<Unit>() != NULL)
 					e->GetCompatibleComponent<Unit>()->IsController(true);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(true);
 				selectedEntities.push_back(e);
 				return;
 			}
@@ -52,6 +56,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (e->GetCompatibleComponent<Unit>() != NULL)
 					e->GetCompatibleComponent<Unit>()->IsController(false);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(false);
 			}
 			selectedEntities.clear();
 		}
@@ -72,6 +78,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
 					e->GetCompatibleComponent<Movement>()->SetDestination(poi);
+					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
 				}
 			}
 		}
