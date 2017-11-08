@@ -39,7 +39,6 @@ int SettingsMenu::Draw(GLShader shader)
 	for (int i = 0; i < numOfLargeButtons; i++)
 	{
 		Button& newLargeButton = buttons[i];
-		newLargeButton.texture = large_button_tex[i];
 		newLargeButton.action = i;
 		// Create a wider button on the first loop
 		if (i == 0)
@@ -61,13 +60,11 @@ int SettingsMenu::Draw(GLShader shader)
 		newSmallButton.renderTarget.SetOpenGL();
 		if (i % 2 == 0)
 		{
-			newSmallButton.texture = small_button_tex[1];
 			newSmallButton.action = i;
 			buttonOffsetX_Small += (buttonWidth_Small + changeOffset_ButtonX_Small);
 		}
 		else
 		{
-			newSmallButton.texture = small_button_tex[0];
 			newSmallButton.action = i;
 			buttonOffsetX_Small -= (buttonWidth_Small + changeOffset_ButtonX_Small);
 			buttonOffsetY_Small += (buttonHeight_Small + changeOffset_ButtonY_Small);
@@ -83,6 +80,27 @@ int SettingsMenu::Draw(GLShader shader)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
+
+		// If cursor is over a button, highlight it
+		for (int i = 0; i < numOfButtons; i++)
+		{
+			if (buttons[i].renderTarget.IsMouseInBounds())
+			{
+				if (i > 4)
+				{
+					buttons[i].texture = highlight_tex[i - 2];
+				}
+				else
+					buttons[i].texture = highlight_tex[i];
+			}
+			else
+			{
+				if (i > 4)
+					buttons[i].texture = button_tex[i - 2];
+				else
+					buttons[i].texture = button_tex[i];
+			}
+		}
 
 		// Draw the quads.
 		for (int i = 0; i < numOfLabels; i++)
@@ -103,6 +121,48 @@ int SettingsMenu::Draw(GLShader shader)
 		}
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 
+		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+		{
+			// "Customise controls" is clicked
+			if (buttons[0].renderTarget.IsMouseInBounds())
+			{
+				selectionMade = true;
+				currentSelection = 0;
+			}
+			// "Save changes" is clicked
+			else if (buttons[1].renderTarget.IsMouseInBounds())
+			{
+				selectionMade = true;
+				currentSelection = 2;	// Change this when saving/loading is implemented!
+			}
+			// "Cancel" is clicked
+			else if (buttons[2].renderTarget.IsMouseInBounds())
+			{
+				selectionMade = true;
+				currentSelection = 2;
+			}
+			// Top-right arrow is clicked
+			else if (buttons[3].renderTarget.IsMouseInBounds())
+			{
+
+			}
+			// Top-left arrow is clicked
+			else if (buttons[4].renderTarget.IsMouseInBounds())
+			{
+
+			}
+			// Bottom-right arrow is clicked
+			else if (buttons[5].renderTarget.IsMouseInBounds())
+			{
+
+			}
+			// Bottom-left arrow is clicked
+			else if (buttons[6].renderTarget.IsMouseInBounds())
+			{
+
+			}
+		}
+
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{
 			selectionMade = true;
@@ -112,7 +172,7 @@ int SettingsMenu::Draw(GLShader shader)
 		glfwPollEvents();
 
 	}
-	return SelectionPicked();
+	return currentSelection;
 }
 
 void SettingsMenu::SelectionUp()

@@ -10,11 +10,18 @@ public:
 		title_tex[1] = Texture("../res/textures/SettingsMenu_Title2.png").GetTextureId();
 		option_tex[0][0] = Texture("../res/textures/SettingsMenu_Option1-1.png").GetTextureId();
 		option_tex[1][0] = Texture("../res/textures/SettingsMenu_Option2-1.png").GetTextureId();
-		small_button_tex[0] = Texture("../res/textures/SettingsMenu_SmallButton1.png").GetTextureId();
-		small_button_tex[1] = Texture("../res/textures/SettingsMenu_SmallButton2.png").GetTextureId();
-		large_button_tex[0] = Texture("../res/textures/SettingsMenu_LargeButton1.png").GetTextureId();
-		large_button_tex[1] = Texture("../res/textures/SettingsMenu_LargeButton2.png").GetTextureId();
-		large_button_tex[2] = Texture("../res/textures/SettingsMenu_LargeButton3.png").GetTextureId();
+
+		button_tex[0] = Texture("../res/textures/SettingsMenu_LargeButton1.png").GetTextureId();
+		button_tex[1] = Texture("../res/textures/SettingsMenu_LargeButton2.png").GetTextureId();
+		button_tex[2] = Texture("../res/textures/SettingsMenu_LargeButton3.png").GetTextureId();
+		button_tex[3] = Texture("../res/textures/SettingsMenu_SmallButton2.png").GetTextureId(); 
+		button_tex[4] = Texture("../res/textures/SettingsMenu_SmallButton1.png").GetTextureId();
+
+		highlight_tex[0] = Texture("../res/textures/SettingsMenu_LargeButton1_Highlighted.png").GetTextureId();
+		highlight_tex[1] = Texture("../res/textures/SettingsMenu_LargeButton2_Highlighted.png").GetTextureId();
+		highlight_tex[2] = Texture("../res/textures/SettingsMenu_LargeButton3_Highlighted.png").GetTextureId();
+		highlight_tex[3] = Texture("../res/textures/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId(); 
+		highlight_tex[4] = Texture("../res/textures/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId();
 		
 		numOfTitles = 2;
 		numOfOptions = 2;
@@ -63,8 +70,8 @@ private:
 
 	unsigned int title_tex[2];
 	unsigned int option_tex[2][1];
-	unsigned int small_button_tex[2];
-	unsigned int large_button_tex[3];
+	unsigned int button_tex[5];
+	unsigned int highlight_tex[5];
 	
 	int numOfTitles;
 	int numOfOptions;

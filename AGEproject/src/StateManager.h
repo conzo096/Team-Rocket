@@ -36,8 +36,4 @@ public:
 		SettingsMenu sm;
 		return sm.Draw(Shader::Get().GetShader("tex"));
 	}
-
-private:
-	int select;
-	bool running;
 };

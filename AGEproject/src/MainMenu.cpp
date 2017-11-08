@@ -125,5 +125,5 @@ int MainMenu::Draw(GLShader shader)
 
 		glfwPollEvents();
 	}
-	return SelectionPicked();
+	return currentSelection;
 }
