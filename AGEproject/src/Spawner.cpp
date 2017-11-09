@@ -20,8 +20,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempRenderable->SetShader("Phong");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
+		auto tempAirMovement = std::make_unique<GroundMovement>();
+		tempAirMovement->SetGoal(glm::dvec3(50, 0, 50));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
 		tempAirMovement->SetTurnSpeed(200.0);

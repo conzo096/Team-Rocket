@@ -1,5 +1,6 @@
 #include "GroundMovement.h"
 #include <queue>
+#include "Game.h"
 
 void GroundMovement::from_json(const nlohmann::json & j)
 {
@@ -220,6 +221,10 @@ void GroundMovement::TurnTo(double delta)
 
 void GroundMovement::Update(double delta)
 {
+	nodeMap = Game::Get().GetGrid();
+	openNodes = nodeMap;
+	//closedNodes= new int[100][100];
+
 	int xStart = floor(GetParent()->GetPosition().x + 0.5);//for grid of 1 spacing
 	int zStart = floor(GetParent()->GetPosition().z + 0.5);
 

@@ -8,6 +8,7 @@
 
 void Game::Initialise()
 {
+	grid[100][100];
 	player = new Player;
 	NPC = new AiPlayer;
 

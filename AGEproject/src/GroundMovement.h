@@ -75,8 +75,8 @@ inline bool operator<(const Node & a, const Node & b)
 class GroundMovement : public Movement
 {
 private:
-	int xSize = 60; // horizontal size of the map
-	int zSize = 60; // vertical size size of the map
+	int xSize = 100; // horizontal size of the map
+	int zSize = 100; // vertical size size of the map
 	int **nodeMap;
 	int **closedNodes; // map of closed (tried-out) nodes
 	int **openNodes; // map of open (not-yet-tried) nodes
@@ -94,7 +94,7 @@ public:
 	~GroundMovement();
 
 	void SetGoal(vec3 goal) { this->goal = goal; };
-	void SetGrid(int xSize, int zSize, int  **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
+	void SetGrid(int xSize, int zSize, int **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
 	bool LineOfSight();
 	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);
 	void MoveTo(double delta);
