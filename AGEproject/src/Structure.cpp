@@ -26,10 +26,13 @@ void Structure::Build(double delta)
 
 void Structure::AddProduct(std::string productName, float buildTime)
 {
+
 	Product tempProduct;
 	tempProduct.productName = productName;
 	tempProduct.buildTime = buildTime;
+	std::cout << "Before: " << productQueue.size() << std::endl;
 	productQueue.push(tempProduct);
+	std::cout << "After: " << productQueue.size() << std::endl;
 }
 
 void Structure::Produce(double delta)

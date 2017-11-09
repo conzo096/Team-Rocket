@@ -122,51 +122,50 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 				{
 					if (e->GetCompatibleComponent<Movement>() != NULL)
 					{
-						e->GetCompatibleComponent<Movement>()->SetActive( (e->GetCompatibleComponent<Movement>()->IsActive()) ? false: true);
+						e->GetCompatibleComponent<Movement>()->SetActive((e->GetCompatibleComponent<Movement>()->IsActive()) ? false : true);
 					}
+				}
 			}
+		}
 
-
-			}
-
-			if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
+		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
+		{
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 			{
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
-				{
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
-				{
+				glfwPollEvents();
+				if(glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_RELEASE)
+					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);;
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+			{
 
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
-				{
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+			{
 
-				}
+			}
 				
+		}
+		else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
+		{
+
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+			{
+				glfwPollEvents();
+				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_RELEASE)
+					selectedEntity->SetScale(glm::vec3(10, 10, 10));
 			}
-			else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
 			{
 
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
-				{
-					selectedEntity->SetScale(glm::vec3(10, 10, 10));
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
-				{
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+			{
 
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
-				{
-
-				}
 			}
 		}
 	}
 	glfwPollEvents();
-
-
-
 }
 
 void Player::Render()

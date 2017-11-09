@@ -76,9 +76,9 @@ void Game::Initialise()
 
 
 
+	// This is the floor.
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
-	tempRenderable2->SetMaterial(new Material());
 	tempRenderable2->SetPlane(1, 100, 100);
 	tempRenderable2->SetTexture("debug");
 	tempRenderable2->SetShader("Phong");
@@ -86,10 +86,14 @@ void Game::Initialise()
 	tempRenderable2->UpdateTransforms();
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
-
+	Material* mat = new Material();
+	mat->emissive = glm::vec4(0.03,0,0.07,1);
+	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
+
+
 	lastTime = clock();
 }
 
