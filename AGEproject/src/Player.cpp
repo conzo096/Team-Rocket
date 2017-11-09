@@ -62,8 +62,11 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			selectedEntities.clear();
 		}
 	}
+	
+	
+	
 	// if it is a move action, move selected entity.
-	else if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+	if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
 	{
 		glm::vec3 poi;
 		// Check for point of intersection.
@@ -132,9 +135,9 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		{
 			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 			{
-				glfwPollEvents();
-				if(glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_RELEASE)
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);;
+				//glfwPollEvents();
+				//if(glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) != GLFW_PRESS)
+					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
 			}
 			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
 			{
@@ -165,6 +168,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 		}
 	}
+
+
 	glfwPollEvents();
 }
 

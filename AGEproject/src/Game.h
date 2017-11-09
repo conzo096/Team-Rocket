@@ -31,6 +31,6 @@ public:
 	std::vector<Entity*> entities; //Figure out how to split this.
 
 	void Initialise();
-	void Update();
+	bool Update();
 	void Render();
 };

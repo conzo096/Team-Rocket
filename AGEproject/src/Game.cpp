@@ -97,7 +97,7 @@ void Game::Initialise()
 	lastTime = clock();
 }
 
-void Game::Update()
+bool Game::Update()
 {
 	player->Update(NPC->GetEntities());
 	NPC->Update(player->GetEntities());
@@ -138,6 +138,10 @@ void Game::Update()
 		n++;
 	}
 	//printf("%f.9\n", deltaTime);
+	if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+		return false;
+	else
+		return true;
 }
 
 void Game::Render()

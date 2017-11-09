@@ -45,7 +45,6 @@ void GameEngine::Initialise()
 	glCullFace(GL_BACK);
 	// V-Sync, does not run without it
 	glfwSwapInterval(1.0f);
-
 }
 
 //void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
@@ -202,5 +201,6 @@ void GameEngine::PrintGlewInfo()
 
 //void GameEngine::LoadShaders()
 //{
-//	Shader::Get().AddShader("Phong");
+//	ResourceHandler::Get().AddShader("Phong");
+//	ResourceHandler::Get().AddShader("tex");
 //}

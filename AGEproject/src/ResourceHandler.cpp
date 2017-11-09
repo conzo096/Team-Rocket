@@ -48,6 +48,14 @@ void ResourceHandler::LoadShaders()
 			printf("Frag failed to compile.\n");
 		shader3->Link();
 		shaders.insert(std::pair<std::string, GLShader*>("Particle", shader3));
+
+		//GLShader* shader4 = new GLShader();
+		//if (!shader3->AddShaderFromFile("../res/shaders/Particle.vert", GLShader::VERTEX))
+		//	printf("Vert failed to compile.\n");
+		//if (!shader3->AddShaderFromFile("../res/shaders/Particle.frag", GLShader::FRAGMENT))
+		//	printf("Frag failed to compile.\n");
+		//shader3->Link();
+		//shaders.insert(std::pair<std::string, GLShader*>("Tex", shader4));
 }
 
 

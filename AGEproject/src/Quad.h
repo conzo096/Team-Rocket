@@ -6,6 +6,8 @@
 #include <GL\GL.h>
 #include <GLFW\glfw3.h>
 #include "RayCast.h"
+#include "UserControls.h"
+
 class Quad : public Transform
 {
 public:
@@ -61,12 +63,55 @@ public:
 
 	}
 
+	Quad(glm::vec2 bottomLeft, glm::vec2 topRight)
+	{
+		std::vector<glm::vec3> positions
+		{
+			glm::vec3(topRight.x, topRight.y, 0.0f),
+			glm::vec3(bottomLeft.x, topRight.y, 0.0f),
+			glm::vec3(bottomLeft.x, bottomLeft.y, 0.0f),
+			glm::vec3(topRight.x, bottomLeft.y, 0.0f)
+		};
+
+		std::vector<glm::vec2> tex_coords
+		{
+			glm::vec2(1.0f, 1.0f),
+			glm::vec2(0.0f, 1.0f),
+			glm::vec2(0.0f, 0.0f),
+			glm::vec2(1.0f, 0.0f)
+		};
+
+		for (int i = 0; i < 4; i++)
+		{
+			Vertex v;
+			v.position = positions.at(i);
+			v.texCoords = tex_coords.at(i);
+			vertices.push_back(v);
+		}	
+	
+	}
 	~Quad()
 	{
 		glDeleteBuffers(1, &VAO);
 		glDeleteBuffers(1, &VBO);
 	}
 
+	void SetOpenGL()
+	{
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
+
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+		// vertex positions
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+	}
 
 	bool RayIntersection(RayCast ray)
 	{
@@ -164,10 +209,40 @@ public:
 					return false;
 			}
 		}
-
 		return true;
 	}
 
+	bool IsMouseInBounds()
+	{
+		int w, h;
+		glm::vec2 mousePos = UserControls::Get().GetMousePos();
+		glfwGetWindowSize(GameEngine::Get().GetWindow(), &w, &h);
+		//glfwGetFramebufferSize(GameEngine::Get().GetWindow(), &w, &h);
+
+		// Check mouse x is within % range of quad.
+		mousePos.x /= w;
+		mousePos.x = (mousePos.x * 2.0f) - 1.0f;
+
+		// Here's the problem
+		float bottomLeftX = vertices[2].position.x;
+		float topRightX = vertices[0].position.x;
+
+		// Check mouse y is within % range of quad.
+		mousePos.y /= h;
+		mousePos.y = 1.0f - (mousePos.y * 2.0f);
+
+		// Here's the problem
+		float bottomLeftY = vertices[2].position.y;
+		float topRightY = vertices[0].position.y;
+
+		if ( (mousePos.x >= bottomLeftX) && (mousePos.x <= topRightX) &&
+			 (mousePos.y >= bottomLeftY) && (mousePos.y <= topRightY) )
+		{
+			return true;
+		}
+		else
+			return false;
+	}
 
 	void Draw()
 	{

@@ -3,13 +3,21 @@
 #include <vector>
 #include <string>
 #include <glm\gtc\type_ptr.hpp>
-#include "Texture.h"
-#include "UserControls.h"
 #include <glm\gtc/matrix_transform.hpp>
-#include "Quad.h"
+#include "UserControls.h"
 #include "GLShader.h"
+#include "Texture.h"
+#include "Quad.h"
 #include "Menu_Camera.h"
-#include "Free_Camera.h"
+
+struct Label
+{
+	// Texture of the label.
+	unsigned int texture;
+	// Quad that the label is rendered on.
+	Quad renderTarget;
+};
+
 struct Button
 {
 	// Texture of the button.
@@ -20,15 +28,16 @@ struct Button
 	Quad renderTarget;
 };
 
-class TMenu
+class Menu
 {
-private:
-	// Camera that views menu (hopefully this will be shared in future)
+protected:
 	Entity* menu_cam;
+	bool selectionMade;
 
 public:
-	TMenu() 
+	Menu()
 	{
+		selectionMade = false;
 		menu_cam = new Entity;
 
 		auto cam = std::make_unique<Menu_Camera>();
@@ -38,18 +47,9 @@ public:
 
 		menu_cam->AddComponent(move(cam));
 	}
-	TMenu(std::vector<char *> textureLocs);
-
-	std::vector<Button> buttons;
-	int currentSelection = 0;
-
-	// Move up
-	void SelectionUp();
-	// Move down.
-	void SelectionDown();
-	// Return selected button action.
-	int SelectionPicked();
+	//Menu(std::vector<char *> textureLocs);
+	virtual ~Menu() {}
 
 	// Draw the menu.
-	int Draw(GLShader shader);
+	virtual int Draw(GLShader shader) = 0;
 };
