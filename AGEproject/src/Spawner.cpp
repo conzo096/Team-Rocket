@@ -21,7 +21,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempAirMovement = std::make_unique<GroundMovement>();
-		tempAirMovement->SetGoal(glm::dvec3(99, 0, 99));
+		tempAirMovement->SetGoal(glm::dvec3(90, 0, 90));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
 		tempAirMovement->SetTurnSpeed(200.0);

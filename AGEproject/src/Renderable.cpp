@@ -14,8 +14,8 @@ Renderable::~Renderable()
 
 void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
-	//model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
-	model = ResourceHandler::Get().GetModel("Plane");
+	model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
+	//model = ResourceHandler::Get().GetModel("Plane");
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
 	renderInfo.indices = model->GetIndices();

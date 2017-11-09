@@ -29,17 +29,17 @@ void Game::Initialise()
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
-	
+
 	// todo Remove entity creation from this init method.
 
-	
+
 
 	// Add a red point light to 0, 0.5, 0
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetEffect("Phong");
-	tempLightComponent->setLightPosition(glm::vec3(50,30,50));
-	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
+	tempLightComponent->setLightPosition(glm::vec3(50, 30, 50));
+	tempLightComponent->diffuse = glm::vec4(0.7, 0.2, 0.4, 1);
 	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
 
@@ -101,6 +101,19 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
+
+	Entity* tempEntity77 = new Entity;
+	auto tempRenderable77 = std::make_unique<Renderable>();
+	tempRenderable77->SetMaterial(new Material());
+	tempRenderable77->SetPlane(1, 25, 25);
+	tempRenderable77->SetTexture("ConstructorUV");
+	tempRenderable77->SetShader("Phong");
+	tempEntity77->SetPosition(glm::vec3(50.0f, 1.0f, 50.0f));
+
+	tempRenderable77->UpdateTransforms();
+	tempEntity77->AddComponent(move(tempRenderable77));
+	entities.push_back(tempEntity77);
+
 	lastTime = clock();
 }
 

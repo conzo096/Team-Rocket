@@ -82,8 +82,8 @@ private:
 	int **openNodes; // map of open (not-yet-tried) nodes
 	int **directions; // map of directions
 	int dir = 8;
-	int dx[8] = { 1, 1, 0, -1, -1, -1, 0, 1 }; //The x coordinate of the posible directions
-	int dz[8] = { 0, 1, 1, 1, 0, -1, -1, -1 }; //The z coordinate of the posible directions
+	int dx[9] = { 1, 1, 0, -1, -1, -1, 0, 1, 0 }; //The x coordinate of the posible directions
+	int dz[9] = { 0, 1, 1, 1, 0, -1, -1, -1, 0 }; //The z coordinate of the posible directions
 	bool needPath;
 
 protected:
@@ -94,7 +94,7 @@ public:
 	GroundMovement();
 	~GroundMovement();
 
-	void SetGoal(vec3 goal) { this->goal = goal; };
+	void SetGoal(vec3 goal) { this->goal = goal; needPath = true; };
 	void SetGrid(int xSize, int zSize, int **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
 	bool LineOfSight();
 	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);
