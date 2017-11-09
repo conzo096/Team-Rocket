@@ -1,6 +1,7 @@
 #include "GroundMovement.h"
 #include <queue>
 #include "Game.h"
+#include <random>
 
 void GroundMovement::from_json(const nlohmann::json & j)
 {
@@ -8,6 +9,26 @@ void GroundMovement::from_json(const nlohmann::json & j)
 
 GroundMovement::GroundMovement() : Movement("GroundMovement")
 {
+	nodeMap = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		nodeMap[i] = new int[zSize];
+
+	openNodes = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		openNodes[i] = new int[zSize];
+
+	closedNodes = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		closedNodes[i] = new int[zSize];
+
+	directions = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		directions[i] = new int[zSize];
+	for (int i = 0; i < xSize; i++)
+		for (int j = 0; j < zSize; j++)
+			directions[i][j] = 0;
+
+	needPath = true;
 }
 
 GroundMovement::~GroundMovement()
@@ -30,9 +51,9 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 		zdz; //The Current z plus a direction
 
 	// reset the node maps
-	for (z = 0; z < zSize; z++)
+	for (z = 0; z < zSize; ++z)
 	{
-		for (x = 0; x < xSize; x++)
+		for (x = 0; x < xSize; ++x)
 		{
 			closedNodes[x][z] = 0;
 			openNodes[x][z] = 0;
@@ -43,7 +64,7 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 	x0 = new Node(xStart, zStart, 0, 0);
 	x0->UpdatePriority(xFinish, zFinish);
 	untriedNodes[nodeIndex].push(*x0);
-	openNodes[x][z] = x0->GetPriority(); // mark it on the open nodes map
+	//openNodes[x][z] = x0->GetPriority(); // mark it on the open nodes map
 
 											  // A* search
 	while (!untriedNodes[nodeIndex].empty())
@@ -144,7 +165,9 @@ void GroundMovement::MoveTo(double delta)
 	if (GetParent()->GetPosition() == goal)
 	{
 		currentSpeed = 0.0f;
-		goal = -goal;
+		goal.x = 0 + (std::rand() % (100));
+		goal.z = 0 + (std::rand() % (100));
+		needPath = true;
 	}
 	else
 	{
@@ -222,7 +245,9 @@ void GroundMovement::TurnTo(double delta)
 void GroundMovement::Update(double delta)
 {
 	nodeMap = Game::Get().GetGrid();
-	openNodes = nodeMap;
+	int a = nodeMap[60][60];
+	a += 1;
+	//openNodes = nodeMap;
 	//closedNodes= new int[100][100];
 
 	int xStart = floor(GetParent()->GetPosition().x + 0.5);//for grid of 1 spacing
@@ -231,7 +256,18 @@ void GroundMovement::Update(double delta)
 	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
 	int zFinish = floor(goal.z + 0.5);
 
-	Pathfind(xStart, zStart, xFinish, zFinish);
+	if (needPath)
+	{
+		Pathfind(xStart, zStart, xFinish, zFinish);
+		needPath = false;
+	}
+	/*std::ofstream out("test.csv");
+
+	for (int i = 0; i < xSize; i++) {
+		for (int j = 0; j < zSize; j++)
+			out << directions[i][j] << ',';
+		out << '\n';
+	}*/
 	int j = directions[xStart][zStart];
 	float xDestination;
 	float zDestination;

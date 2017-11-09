@@ -82,8 +82,9 @@ private:
 	int **openNodes; // map of open (not-yet-tried) nodes
 	int **directions; // map of directions
 	int dir = 8;
-	int *dx; //The x coordinate of the posible directions
-	int *dz; //The z coordinate of the posible directions
+	int dx[8] = { 1, 1, 0, -1, -1, -1, 0, 1 }; //The x coordinate of the posible directions
+	int dz[8] = { 0, 1, 1, 1, 0, -1, -1, -1 }; //The z coordinate of the posible directions
+	bool needPath;
 
 protected:
 	dvec3 goal;

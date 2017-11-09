@@ -8,7 +8,17 @@
 
 void Game::Initialise()
 {
-	grid[100][100];
+	grid = new int*[100];
+	for (int i = 0; i < 100; i++)
+		grid[i] = new int[100];
+	for (int i = 0; i < 100; i++)
+		for (int j = 0; j < 100; j++)
+		{
+			if (i > 50 && i < 75 && j>50 && j < 75)
+				grid[i][j] = 1;
+			else
+				grid[i][j] = 0;
+		}
 	player = new Player;
 	NPC = new AiPlayer;
 
