@@ -138,13 +138,11 @@ void Game::Update()
 
 void Game::Render()
 {
-	// Clear the opengl buffer.
-	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glDisable(GL_CULL_FACE);
 
 //	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
+	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
+	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		entities[n]->Render();

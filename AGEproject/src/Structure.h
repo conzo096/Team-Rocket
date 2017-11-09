@@ -12,6 +12,12 @@ class Structure : public Component
 	};
 
 private:
+
+	// Is the unit currently controller by the player?
+	bool isControlled = false;
+	// Previous effect.
+	glm::vec4 tempCol;
+
 	bool building;
 	float constructionTime;
 	float ammountBuilt;
@@ -38,4 +44,26 @@ public:
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
 	
+
+	// Change value for being controlled by player or not.
+	void IsController(bool act)
+	{
+		isControlled = act;
+		// If it is being selected.
+		if (act)
+		{
+			// Hold current emissive value.
+			tempCol = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
+			// Set objects emissive value to blue (for now). 
+			GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
+		}
+		else
+		{
+			// Return the emissive colour back to its original value.
+			GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(tempCol);
+			tempCol = glm::vec4();
+		}
+	}
+
+
 };

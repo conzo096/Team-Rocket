@@ -138,6 +138,9 @@
     <ClCompile Include="src\GroundMovement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Particle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">
@@ -272,6 +275,9 @@
     <ClInclude Include="src\GroundMovement.h">
       <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
+    <ClInclude Include="src\Particle.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">
@@ -295,9 +301,17 @@
     <None Include="res\shaders\simple_texture.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\shaders\Colour.frag" />
-    <None Include="res\shaders\Colour.vert" />
-    <None Include="res\shaders\point.frag" />
-    <None Include="res\shaders\point.vert" />
+    <None Include="res\shaders\point.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\point.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Particle.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Particle.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

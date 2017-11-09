@@ -15,6 +15,8 @@ protected:
 	glm::mat4 view;
 	// The currently built projection matrix since the last call to set_projection
 	glm::mat4 projection;
+	glm::dvec3 right;
+
 public:
 	// Create a new camera (called by sub-classes)
 	Camera(std::string camType) : 
@@ -55,6 +57,7 @@ public:
 		return projection;
 	}
 
+	glm::dvec3& GetRight() { return right; }
 	// Updates the camera (pure virtual function)
 	 virtual void Update(double deltaTime) override = 0 ;
 };

@@ -4,7 +4,7 @@
 class Movement : public Component
 {
 private:
-	
+
 protected:
 	double speed;
 	double accelerationTime;
@@ -22,5 +22,6 @@ public:
 	void SetTurnSpeed(double turnSpeed) { this->turnSpeed = turnSpeed; };
 	void SetAcceleration(double accelerationTime) { this->accelerationTime = accelerationTime; };
 	void SetDestination(glm::dvec3 destination) { this->destination = destination; };
+	glm::dvec3 GetDestination() { return destination; }
 	void Update(double delta) override;
 };

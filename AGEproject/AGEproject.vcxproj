@@ -41,6 +41,7 @@
     <ClInclude Include="src\Menu_Camera.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
+    <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\PointLight.h" />
     <ClInclude Include="src\Quad.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="src\Menu_Camera.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
+    <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\RayCast.cpp" />
@@ -99,8 +101,8 @@
     <None Include="res\shaders\Basic.frag" />
     <None Include="res\shaders\Basic.vert" />
     <None Include="res\shaders\bloom-blend.frag" />
-    <None Include="res\shaders\Colour.frag" />
-    <None Include="res\shaders\Colour.vert" />
+    <None Include="res\shaders\Particle.frag" />
+    <None Include="res\shaders\Particle.vert" />
     <None Include="res\shaders\gaussian-blur.frag" />
     <None Include="res\shaders\phong.frag" />
     <None Include="res\shaders\phong.vert" />

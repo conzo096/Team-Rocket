@@ -6,6 +6,7 @@ void ResourceHandler::LoadModels()
 	models.insert(std::pair<std::string, Model*>(std::string("Shipyard"), new Model("../res/models/Constructor.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Torus"), new Model("../res/models/Torus2.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 100, 100)));
+	models.insert(std::pair<std::string, Model*>(std::string("BillBoard"), GeometryUtil::BuildPlane(0.5, 4,4)));
 }
 void ResourceHandler::LoadTextures()
 {
@@ -41,12 +42,12 @@ void ResourceHandler::LoadShaders()
 		shader->Link();
 		shaders.insert(std::pair<std::string, GLShader*>("Point", shader2));
 		GLShader* shader3 = new GLShader();
-		if (!shader3->AddShaderFromFile("../res/shaders/Colour.vert", GLShader::VERTEX))
+		if (!shader3->AddShaderFromFile("../res/shaders/Particle.vert", GLShader::VERTEX))
 			printf("Vert failed to compile.\n");
-		if (!shader3->AddShaderFromFile("../res/shaders/Colour.frag", GLShader::FRAGMENT))
+		if (!shader3->AddShaderFromFile("../res/shaders/Particle.frag", GLShader::FRAGMENT))
 			printf("Frag failed to compile.\n");
 		shader3->Link();
-		shaders.insert(std::pair<std::string, GLShader*>("Colour", shader3));
+		shaders.insert(std::pair<std::string, GLShader*>("Particle", shader3));
 }
 
 
