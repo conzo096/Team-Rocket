@@ -132,12 +132,12 @@ public:
 		// Update all the bullets.
 		for (BulletParticle & b : projectiles)
 			b.Update(deltaTime);
-		//// Remove bullets no longer used.
-		//projectiles.erase(std::remove_if
-		//(projectiles.begin(), projectiles.end(),[](const BulletParticle& x)
-		//	{
-		//		return !x.isActive;
-		//	}), projectiles.end());
+		// Remove bullets no longer used.
+		projectiles.erase(std::remove_if
+		(projectiles.begin(), projectiles.end(),[](const BulletParticle& x)
+			{
+				return !x.isActive;
+			}), projectiles.end());
 
 
 	}
