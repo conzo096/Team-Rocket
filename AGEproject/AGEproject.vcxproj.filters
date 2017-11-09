@@ -272,6 +272,9 @@
     <ClInclude Include="src\GroundMovement.h">
       <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
+    <ClInclude Include="src\minijson_reader.hpp">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">

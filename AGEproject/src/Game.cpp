@@ -23,12 +23,10 @@ void Game::Initialise()
 
 	
 
-	// Add a red point light to 0, 0.5, 0
+	// Add point light to the scene
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
-	tempLightComponent->SetEffect("Phong");
-	tempLightComponent->setLightPosition(glm::vec3(50,30,50));
-	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
+	tempLightComponent->SetProperties("./json/PointLight.json");
 	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
 
