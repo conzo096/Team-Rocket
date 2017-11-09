@@ -1,21 +1,16 @@
 #pragma once
+#define GLEW_STATIC
 #include <string>
-#include <GL\glew.h>
-#include <GL\GL.h>
-
-#include <GLFW\glfw3.h>
-#include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <GL/GL.h>
 class GLShader
 {
-	
-
-private: 
 	GLint program;
 	bool linked;
 	std::string logString;
 	
 	// MOVE THIS TO IO class.
-	static bool FileExists(const std::string& fileName);
+	bool FileExists(const std::string& fileName);
 
 public:
 
@@ -41,4 +36,5 @@ public:
 	void SetUniform(const char* name, const int val);
 
 	GLuint GetUniformLocation(const char* name);
+	GLuint GLShader::GetUniformLocation(std::string name);
 };

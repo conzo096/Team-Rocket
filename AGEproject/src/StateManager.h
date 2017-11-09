@@ -1,37 +1,56 @@
 #pragma once
+#define GLEW_STATIC
 #include "GameEngine.h"
+#include "Singleton.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "MainMenu.h"
+#include "SettingsMenu.h"
 
-class StateManager
+// Remove soon!!
+#include <chrono>
+#include <thread>
+using namespace std::chrono_literals;
+
+class StateManager : public Singleton<StateManager>
 {
 	enum State
 	{
-		Splash,
-		Menu,
-		Settings, //May be a part of menu
-		Playing,
-		Exiting
+		stateSplash,
+		stateMainMenu,
+		stateSettings,
+		statePlaying,
+		stateExiting
 	};
 
-	static StateManager *instance;
-
 public:
-	static StateManager *Instance()
-	{
-		if (!instance)
-		{
-			instance = new StateManager();
-		}
-		return instance;
-	}
 
 	State state;
 
 	void StateLoop();
 
+	int ShowMainMenu()
+	{
+		MainMenu mm;
+		return mm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	}
 
-private:
+	int ShowSettingsMenu()
+	{
+		SettingsMenu sm;
+		int val = sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		std::this_thread::sleep_for(0.15s);
+		return val;
+	}
 
+	int ShowSplashScreen()
+	{
+		
+		/*while(!UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+		{
+			
+		}*/
+		return stateMainMenu;
+	}
 };
