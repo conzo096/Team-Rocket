@@ -87,9 +87,9 @@ void Game::Initialise()
 
 
 
+	// This is the floor.
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
-	tempRenderable2->SetMaterial(new Material());
 	tempRenderable2->SetPlane(1, 100, 100);
 	tempRenderable2->SetTexture("debug");
 	tempRenderable2->SetShader("Phong");
@@ -97,7 +97,9 @@ void Game::Initialise()
 	tempRenderable2->UpdateTransforms();
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
-
+	Material* mat = new Material();
+	mat->emissive = glm::vec4(0.03,0,0.07,1);
+	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
@@ -117,7 +119,7 @@ void Game::Initialise()
 	lastTime = clock();
 }
 
-void Game::Update()
+bool Game::Update()
 {
 	player->Update(NPC->GetEntities());
 	NPC->Update(player->GetEntities());
@@ -158,17 +160,19 @@ void Game::Update()
 		n++;
 	}
 	//printf("%f.9\n", deltaTime);
+	if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+		return false;
+	else
+		return true;
 }
 
 void Game::Render()
 {
-	// Clear the opengl buffer.
-	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glDisable(GL_CULL_FACE);
 
 //	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
+	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
+	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		entities[n]->Render();

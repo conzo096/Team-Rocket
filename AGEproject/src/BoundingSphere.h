@@ -8,6 +8,7 @@ class BoundingSphere : public Component
 {
 private:
 	float radius;
+	glm::vec3 center;
 	glm::vec3 poi;
 public:
 
@@ -38,11 +39,23 @@ public:
 		}
 		radius += 2;
 	}
+	
+
+	glm::vec3 GetCenter() { return center; }
+	void SetCenter(glm::vec3 c) { center = c; }
+
+
+	void SetUpBoundingSphere(float rad,glm::vec3 c)
+	{
+		radius = rad;
+		center = c;
+	}
+	
 	void from_json(const nlohmann::json &j) {};
 
 	bool TestIntersection(RayCast& ray, glm::vec3& poi = glm::vec3(0))
 	{
-		glm::vec3 origin_position = GetParent()->GetPosition() - glm::dvec3(ray.origin);
+		glm::vec3 origin_position = center - glm::vec3(ray.origin);
 		double b = glm::dot(origin_position,ray.direction);
 		double determinant = b * b - glm::dot(origin_position,origin_position) + radius * radius;
 		if (determinant < 0)
@@ -70,6 +83,17 @@ public:
 				return false;
 			}
 		}
+	}
+
+	bool DetectSphereSphereIntersection(BoundingSphere &other)
+	{
+		float val = glm::distance(center, other.center);
+		float r = radius + other.radius;
+		if (val <= r)
+			return true;
+		return false;
+				
+
 	}
 
 

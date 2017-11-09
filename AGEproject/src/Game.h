@@ -35,6 +35,6 @@ public:
 
 	int** GetGrid() { return grid; };
 	void Initialise();
-	void Update();
+	bool Update();
 	void Render();
 };

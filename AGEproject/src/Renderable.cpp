@@ -46,6 +46,10 @@ void Renderable::SetShader(std::string texName)
 void Renderable::SetMaterial(Material* mat)
 {
 	//std::cout << "Todo : material " << std::endl;
+
+	// Free current material.
+	if (effect->material != NULL)
+		free(effect->material);
 	effect->material = mat;
 	renderInfo.mat = mat;
 }
