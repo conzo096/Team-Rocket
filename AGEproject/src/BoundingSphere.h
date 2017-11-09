@@ -88,8 +88,8 @@ public:
 	bool DetectSphereSphereIntersection(BoundingSphere &other)
 	{
 		float val = glm::distance(center, other.center);
-		float r = std::pow(radius + other.radius, 2);
-		if (val < r)
+		float r = radius + other.radius;
+		if (val <= r)
 			return true;
 		return false;
 				

@@ -119,14 +119,10 @@ void GameEngine::Render()
 		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));
 
 
-		auto t = ResourceHandler::Get().GetModel("Ship");
+		auto t = ResourceHandler::Get().GetModel("BillBoard");
 		glBindVertexArray(t->GetVAO());
 		glDrawElements(t->GetType(), t->GetIndices(), GL_UNSIGNED_INT, 0);
 	}
-
-
-
-
 	// clear list.
 	renderList.clear();
 	particles.clear();

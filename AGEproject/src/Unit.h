@@ -76,8 +76,6 @@ public:
 		// if it is within distance.
 		if (targetEntity != NULL)
 		{
-			// Move towards entity.
-			GetParent()->GetCompatibleComponent<Movement>()->SetDestination(glm::vec3(targetEntity->GetPosition().x,GetParent()->GetPosition().y, targetEntity->GetPosition().z));
 			// If within range, fire a projectile. - This value should not be hard coded.
 			if (glm::distance(GetParent()->GetPosition(),targetEntity->GetPosition()) < 200 && canShoot)
 			{
@@ -119,18 +117,27 @@ public:
 		}
 		if (action == Attack)
 		{
+			// Move towards entity.
+			if (targetEntity != NULL)
+			{
+				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
+			}
+			AttackEntity();
+		}
+		if (action == AttackMove)
+		{
 			AttackEntity();
 		}
 
 		// Update all the bullets.
 		for (BulletParticle & b : projectiles)
 			b.Update(deltaTime);
-		// Remove bullets no longer used.
-		projectiles.erase(std::remove_if
-		(projectiles.begin(), projectiles.end(),[](const BulletParticle& x)
-			{
-				return !x.isActive;
-			}), projectiles.end());
+		//// Remove bullets no longer used.
+		//projectiles.erase(std::remove_if
+		//(projectiles.begin(), projectiles.end(),[](const BulletParticle& x)
+		//	{
+		//		return !x.isActive;
+		//	}), projectiles.end());
 
 
 	}

@@ -26,15 +26,15 @@ void BulletParticle::Update(double delta)
 	{
 		// Set the target to target destination.
 		glm::dvec3 moveVec = target->GetPosition() - glm::dvec3(position);
-		double distance = glm::length(moveVec);
+		//double distance = glm::length(moveVec);
 		moveVec = glm::normalize(moveVec);
-		moveVec = moveVec *delta;
+		moveVec = moveVec *delta * 75.0;
 		position += moveVec;
-		sphere->SetUpBoundingSphere(0.8, position);
+		sphere->SetUpBoundingSphere(3, position);
 		// Check collisions.
 		if (target->GetCompatibleComponent<BoundingSphere>() != NULL)
 		{
-			if(!sphere->DetectSphereSphereIntersection(target->GetComponent<BoundingSphere>()))
+			if(sphere->DetectSphereSphereIntersection(target->GetComponent<BoundingSphere>()))
 			{
 				// Damage target then deactivate this bullet.
 				target->GetComponent<Targetable>().TakeDamage(damage);
