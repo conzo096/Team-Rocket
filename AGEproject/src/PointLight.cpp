@@ -117,7 +117,7 @@ void PointLight::SetProperties(const std::string& filename)
 	std::ifstream ifs(filename);
 	json j = json::parse(ifs);
 
-	this->SetEffect(j["Effect"]);
+	this->SetEffect(j["Shader"]);
 
 	json pos = j["Position"];
 	std::vector<float> p;

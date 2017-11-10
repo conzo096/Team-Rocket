@@ -24,4 +24,5 @@ public:
 	void SetShader(std::string shader);
 	Effect* GetEffect() { return effect; }
 	void Render();
+	void SetProperties(const std::string jsonFile);
 };

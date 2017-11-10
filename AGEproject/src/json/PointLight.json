@@ -1,5 +1,5 @@
 {
-	"Effect" : "Phong",
+	"Shader" : "Phong",
 	"Position" : [50, 30, 50],
 	"Colour" : [0.7, 0.2, 0.4, 1.0]
 }
