@@ -37,7 +37,6 @@ bool UserControls::IsKeyPressed(std::string &action)
 	return false;
 }
 
-
 bool UserControls::IsMouseButtonPressed(std::string &action)
 {
 	auto val = buttonOptions.find(action);
@@ -49,6 +48,40 @@ bool UserControls::IsMouseButtonPressed(std::string &action)
 			return true;
 	}
 	// Should never enter here but just in case.
+	return false;
+}
+
+bool UserControls::MouseSelection(std::string action, std::vector<Button>& buttons, bool& mouseButtonHeld, int& currentSelection)
+{
+	if (IsMouseButtonPressed(action)
+	{
+		if (!mouseButtonHeld)
+		{
+			for (int i = 0; i < buttons.size(); i++)
+			{
+				if (buttons[i].renderTarget.IsMouseInBounds())
+				{
+					currentSelection = i;
+					break;
+				}
+			}
+			mouseButtonHeld = true;
+		}
+	}
+	else
+	{
+		if (mouseButtonHeld)
+		{
+			mouseButtonHeld = false;
+			if (currentSelection > -1)
+			{
+				if (buttons[currentSelection].renderTarget.IsMouseInBounds())
+					return true;
+				else
+					currentSelection = -1;
+			}
+		}
+	}
 	return false;
 }
 

@@ -5,6 +5,8 @@
 #include <GLFW\glfw3.h>
 #include <iostream>
 #include "RayCast.h"
+#include "Menu.h"
+
 class UserControls : public Singleton<UserControls>
 {
 private:
@@ -37,6 +39,8 @@ public:
 	bool IsKeyPressed(std::string &action);
 
 	bool IsMouseButtonPressed(std::string &action);
+
+	bool MouseSelection(std::string action, std::vector<Button>& buttons, bool& mouseButtonHeld, int& currentSelection);
 
 	// Returns the key value of an action.
 	unsigned int GetKeyValue(std::string &name)

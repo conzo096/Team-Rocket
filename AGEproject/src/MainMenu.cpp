@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include "RayCast.h"
 #include "GeometryUtil.h"
+#include "UserControls.h"
 
 // Move up
 void MainMenu::SelectionUp()
@@ -33,18 +34,6 @@ int MainMenu::SelectionPicked()
 int MainMenu::Draw(GLShader shader)
 {
 	buttons.resize(numberOfButtons);
-	unsigned int normal_tex[3];
-	unsigned int highlight_tex[3];
-
-	normal_tex[0] = Texture("../res/textures/MainMenu_Button1.png").GetTextureId();
-	normal_tex[1] = Texture("../res/textures/MainMenu_Button2.png").GetTextureId();
-	normal_tex[2] = Texture("../res/textures/MainMenu_Button3.png").GetTextureId();
-
-	highlight_tex[0] = Texture("../res/textures/MainMenu_Button1_Highlighted.png").GetTextureId();
-	highlight_tex[1] = Texture("../res/textures/MainMenu_Button2_Highlighted.png").GetTextureId();
-	highlight_tex[2] = Texture("../res/textures/MainMenu_Button3_Highlighted.png").GetTextureId();
-
-	// 3 buttons have to fit in a screen space of two (-1 to 1).
 
 	for (int i = 0; i < numberOfButtons; i++)
 	{
@@ -60,23 +49,23 @@ int MainMenu::Draw(GLShader shader)
 
 	while (!selectionMade)
 	{
-		menu_cam->GetComponent<Menu_Camera>().Update(0);
-		glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
-
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
 		// If cursor is over a button, highlight it
-		for (int i = 0; i < numberOfButtons; i++)
+		if (!mouseButtonHeld)
 		{
-			if (buttons[i].renderTarget.IsMouseInBounds())
+			for (int i = 0; i < numberOfButtons; i++)
 			{
-				buttons[i].texture = highlight_tex[i];
-				break;
+				if (buttons[i].renderTarget.IsMouseInBounds())
+				{
+					buttons[i].texture = highlight_tex[i];
+					break;
+				}
+				else
+					buttons[i].texture = normal_tex[i];
 			}
-			else
-				buttons[i].texture = normal_tex[i];
 		}
 
 		// Draw the quad.
@@ -95,27 +84,44 @@ int MainMenu::Draw(GLShader shader)
 		if (UserControls::Get().IsKeyPressed(std::string("Backward")))
 			SelectionDown();
 
-		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
-		{
-			// "Start Game" is clicked
-			if (buttons[0].renderTarget.IsMouseInBounds())
-			{
-				selectionMade = true;
-				currentSelection = 0;
-			}
-			// "Options" is clicked
-			else if (buttons[1].renderTarget.IsMouseInBounds())
-			{
-				selectionMade = true;
-				currentSelection = 1;
-			}
-			// "Exit Game" is clicked
-			else if (buttons[2].renderTarget.IsMouseInBounds())
-			{
-				selectionMade = true;
-				currentSelection = 2;
-			}
-		}
+		//if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+		//{
+		//	if (!mouseButtonHeld)
+		//	{
+		//		// "Start Game" is clicked
+		//		if (buttons[0].renderTarget.IsMouseInBounds())
+		//		{
+		//			currentSelection = 0;
+		//		}
+		//		// "Options" is clicked
+		//		else if (buttons[1].renderTarget.IsMouseInBounds())
+		//		{
+		//			currentSelection = 1;
+		//		}
+		//		// "Exit Game" is clicked
+		//		else if (buttons[2].renderTarget.IsMouseInBounds())
+		//		{
+		//			currentSelection = 2;
+		//		}
+		//		mouseButtonHeld = true;
+		//	}
+		//}
+		//else
+		//{
+		//	if (mouseButtonHeld)
+		//	{
+		//		mouseButtonHeld = false;
+		//		if (currentSelection > -1)
+		//		{
+		//			if (buttons[currentSelection].renderTarget.IsMouseInBounds())
+		//				selectionMade = true;
+		//			else
+		//				currentSelection = -1;
+		//		}
+		//	}
+		//}
+
+		selectionMade = UserControls::Get().MouseSelection(buttons, mouseButtonHeld, currentSelection);
 
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{
