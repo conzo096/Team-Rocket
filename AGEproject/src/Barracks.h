@@ -7,7 +7,7 @@ private:
 protected:
 	void from_json(const nlohmann::json &j) {};
 public:
-	Barracks() : Structure("Barracks")
+	Barracks() : Structure("Barracks","Troop",100)
 	{
 
 	};

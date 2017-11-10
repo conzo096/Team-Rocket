@@ -2,10 +2,11 @@
 #include "Entity.h"
 #include "PointLight.h"
 #include "UserControls.h"
-#include "ShipUnit.h"
+//#include "ShipUnit.h"
 #include "Targetable.h"
 #include "AiPlayer.h"
-
+#include "Barracks.h"
+#include "Spawner.h"
 void Game::Initialise()
 {
 	player = new Player;
@@ -18,12 +19,10 @@ void Game::Initialise()
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
-	
-	// todo Remove entity creation from this init method.
 
 	
 
-	// Add a red point light to 0, 0.5, 0
+	// Add light entity.
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetEffect("Phong");
@@ -31,50 +30,6 @@ void Game::Initialise()
 	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
 	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
-
-	Entity* tempEntity = new Entity;
-	auto tempRenderable = std::make_unique<Renderable>();
-	tempRenderable->SetModel("Shipyard");
-	tempRenderable->SetShader("Phong");
-	tempRenderable->SetMaterial(new Material());
-	tempRenderable->SetTexture("ConstructorUV");
-	tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
-	tempRenderable->UpdateTransforms();
-	auto tempStructure = std::make_unique<Structure>();
-	tempStructure->SetTeam(player->GetTeam());
-	auto tempBoundSphere = std::make_unique<BoundingSphere>();
-	tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-	tempEntity->AddComponent(move(tempBoundSphere));
-	tempEntity->AddComponent(move(tempRenderable));
-	tempEntity->AddComponent(move(tempStructure));
-	auto target = std::make_unique<Targetable>();
-	target->SetHealth(100);
-	tempEntity->AddComponent(move(target));
-	player->GetEntities().push_back(tempEntity);
-
-
-	Entity* tempEntityn = new Entity;
-	auto tempRenderablen = std::make_unique<Renderable>();
-	tempRenderablen->SetModel("Shipyard");
-	tempRenderablen->SetTexture("ConstructorUV");
-	tempRenderablen->SetShader("Phong");
-	tempRenderablen->SetMaterial(new Material());
-	tempEntityn->SetPosition(glm::vec3(30.5f, 2.5f, 30.5f));
-	tempRenderablen->UpdateTransforms();
-	auto tempStructuren = std::make_unique<Structure>();
-	tempStructuren->SetTeam(player->GetTeam());
-	auto tempBoundSpheren = std::make_unique<BoundingSphere>();
-	tempBoundSpheren->SetUpBoundingSphere(tempRenderablen->GetModel().GetVertexPositions());
-	tempEntityn->AddComponent(move(tempBoundSpheren));
-	tempEntityn->AddComponent(move(tempRenderablen));
-	tempEntityn->AddComponent(move(tempStructuren));
-	auto targetn = std::make_unique<Targetable>();
-	targetn->SetHealth(100);
-	tempEntityn->AddComponent(move(targetn));
-
-	NPC->GetEntities().push_back(tempEntityn);
-
-
 
 	// This is the floor.
 	Entity* tempEntity2 = new Entity;
@@ -86,6 +41,7 @@ void Game::Initialise()
 	tempRenderable2->UpdateTransforms();
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
+	// Set custom material.
 	Material* mat = new Material();
 	mat->emissive = glm::vec4(0.03,0,0.07,1);
 	tempRenderable2->SetMaterial(mat);
@@ -93,6 +49,10 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
 
+	// Add starting structures.
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Barracks", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
 
 	lastTime = clock();
 }

@@ -6,8 +6,7 @@ void Structure::from_json(const nlohmann::json & j)
 
 Structure::Structure() : building(true), constructionTime(0.0f), Component("Structure")
 {
-	//for(int i = 0; i < 100; i++)
-	//	AddProduct("TEMP", 1.0f);
+
 }
 
 Structure::~Structure()
@@ -24,12 +23,18 @@ void Structure::Build(double delta)
 	}
 }
 
-void Structure::AddProduct(std::string productName, float buildTime)
+void Structure::AddProduct(int& bal,int hotkey)
 {
-
+	if (hotkey > spawnData.size() - 1)
+		return;
+	int newBalance = bal - spawnData[hotkey].cost;
+	// If the balance is invalid, do not allow object to be queued.
+	if (newBalance < 0)
+		return;
+	bal = newBalance;
 	Product tempProduct;
-	tempProduct.productName = productName;
-	tempProduct.buildTime = buildTime;
+	tempProduct.productName = spawnData[hotkey].unitType;
+	tempProduct.buildTime = spawnData[hotkey].buildTime;
 	std::cout << "Before: " << productQueue.size() << std::endl;
 	productQueue.push(tempProduct);
 	std::cout << "After: " << productQueue.size() << std::endl;

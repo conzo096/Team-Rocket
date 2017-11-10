@@ -3,6 +3,16 @@
 #include "Entity.h"
 #include <queue>
 
+struct SpawnInfo
+{
+	// The type of unit that this unit spawns.
+	std::string unitType;
+	// How long it takes to build said unit.
+	float buildTime;
+	// How much it costs to build this unit.
+	int cost;
+};
+
 class Structure : public Component
 {
 	struct Product
@@ -18,6 +28,7 @@ private:
 	// Previous effect.
 	glm::vec4 tempCol;
 
+	// Is it currently building a unit?
 	bool building;
 	float constructionTime;
 	float ammountBuilt;
@@ -25,6 +36,8 @@ private:
 	// Holds items that are created.
 	std::vector<Entity*> collectionQueue;
 	
+	std::vector<SpawnInfo> spawnData;
+
 	// What team this structure belongs to.
 	int team;
 protected:
@@ -32,11 +45,12 @@ protected:
 public:
 	Structure();
 	Structure(std::string type) : Component(type) {};
+	Structure(std::string type,std::string unitType,int cost) : Structure(type) {};
 	~Structure();
 
 	void Collect(std::vector<Entity*>& ents);
 	void Build(double delta);
-	void AddProduct(std::string productName, float buildTime);
+	void AddProduct(int& bal, int hotkey);
 	void Produce(double delta);
 	void Update(double delta) override;
 	int GetQueueSize() { return  (int)productQueue.size(); }
@@ -44,7 +58,7 @@ public:
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
 	
-
+	void AddSpawnInfo(SpawnInfo info) { spawnData.push_back(info); }
 	// Change value for being controlled by player or not.
 	void IsController(bool act)
 	{

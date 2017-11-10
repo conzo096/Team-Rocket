@@ -63,7 +63,8 @@ public:
 
 	void SetEntityToTarget(Entity*& target)
 	{
-		targetEntity = target;
+		if(target != NULL)
+			targetEntity = target;
 	}
 
 	void SetTeam(int t) { team = t; }

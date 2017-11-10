@@ -10,7 +10,7 @@ void Player::Update(std::vector<Entity*>& enemyList)
 	for (Entity*&e : entities)
 	{
 		if (e->GetCompatibleComponent<Structure>() != NULL)
-			e->GetComponent<Structure>().Collect(temp);
+			e->GetCompatibleComponent<Structure>()->Collect(temp);
 	}
 	for (Entity*&e : temp)
 		entities.push_back(e);
@@ -135,17 +135,15 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		{
 			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 			{
-				//glfwPollEvents();
-				//if(glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) != GLFW_PRESS)
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
+				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
 			}
 			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
 			{
-
+				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 			}
 			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
 			{
-
+				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 			}
 				
 		}
