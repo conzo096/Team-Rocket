@@ -36,8 +36,10 @@ private:
 	// Holds items that are created.
 	std::vector<Entity*> collectionQueue;
 	
+	// Types of entities it can spawn.
 	std::vector<SpawnInfo> spawnData;
-
+	// The current stored value of this building (how much money has been invested into producing units/other structures.)
+	int value;
 	// What team this structure belongs to.
 	int team;
 protected:

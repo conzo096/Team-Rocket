@@ -12,6 +12,7 @@
 #include "ShipyardStructure.h"
 #include "Barracks.h"
 #include "BaseStructure.h"
+#include "Resource.h"
 // Creates a predefined entity.
 Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 {
@@ -139,7 +140,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
-		auto tempUnit = std::make_unique<Troop>();
+		auto tempUnit = std::make_unique<Worker>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
@@ -162,20 +163,27 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("../res/models/Constructor.obj");
+		tempRenderable->SetModel("Torus");
 		tempRenderable->SetTexture("ConstructorUV");
-		tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
+		tempRenderable->SetShader("Phong");
+		tempRenderable->SetMaterial(new Material());
+		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
-		auto tempStructure = std::make_unique<Base>();
+		auto tempStructure = std::make_unique<Shipyard>();
+		SpawnInfo si;
+		si.buildTime = 3.0f;
+		si.cost = 300;
+		si.unitType = "Worker";
+		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
-		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
-		tempEntity->AddComponent(move(target));
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
+		auto target = std::make_unique<Targetable>();
+		target->SetHealth(100);
+		tempEntity->AddComponent(move(target));
 
 		return tempEntity;
 	}
@@ -210,6 +218,32 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		return tempEntity;
 	}
 
+	if (name == "Resource")
+	{
+		std::cout << "Incomplete" << std::endl;
+		auto tempRenderable = std::make_unique<Renderable>();
+		tempEntity->SetPosition(position);
+		tempRenderable->SetModel("Shipyard");
+		tempRenderable->SetTexture("ConstructorUV");
+		tempRenderable->SetShader("Phong");
+		tempRenderable->SetMaterial(new Material());
+		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);
+		tempEntity->SetPosition(position);
+		tempRenderable->UpdateTransforms();
+
+		auto tempResource = std::make_unique<Resource>();
+		tempEntity->AddComponent(move(tempResource));
+		auto tempBoundSphere = std::make_unique<BoundingSphere>();
+		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		tempEntity->AddComponent(move(tempBoundSphere));
+		tempEntity->AddComponent(move(tempRenderable));
+		auto target = std::make_unique<Targetable>();
+		target->SetHealth(100);
+		tempEntity->AddComponent(move(target));
+		return tempEntity;
+	}
+
+
 	if (name == "Barracks")
 	{
 		std::cout << "Incomplete" << std::endl;
@@ -217,7 +251,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempEntity->SetPosition(position);
 
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("Shipyard");
+		tempRenderable->SetModel("Torus");
 		tempRenderable->SetTexture("ConstructorUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
@@ -247,26 +281,28 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	{
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("../res/models/Constructor.obj");
+		tempEntity->SetPosition(position);
+		tempRenderable->SetModel("Torus");
 		tempRenderable->SetTexture("ConstructorUV");
-		tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
+		tempRenderable->SetShader("Phong");
+		tempRenderable->SetMaterial(new Material());
+		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
-		auto tempStructure = std::make_unique<VehicleDepot>();
+		auto tempStructure = std::make_unique<Shipyard>();
 		SpawnInfo si;
-		si.buildTime = 10.0f;
-		si.cost = 500;
+		si.buildTime = 3.0f;
+		si.cost = 300;
 		si.unitType = "Tank";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
-		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
-		tempEntity->AddComponent(move(target));
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
-
+		auto target = std::make_unique<Targetable>();
+		target->SetHealth(100);
+		tempEntity->AddComponent(move(target));
 		return tempEntity;
 	}
 

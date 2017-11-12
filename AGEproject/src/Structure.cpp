@@ -31,6 +31,8 @@ void Structure::AddProduct(int& bal,int hotkey)
 	// If the balance is invalid, do not allow object to be queued.
 	if (newBalance < 0)
 		return;
+	value += spawnData[hotkey].cost;
+	std::cout << GetTeam() << " balance is now: " << newBalance << std::endl;
 	bal = newBalance;
 	Product tempProduct;
 	tempProduct.productName = spawnData[hotkey].unitType;
@@ -46,7 +48,7 @@ void Structure::Produce(double delta)
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
 		// Spawn unit should be from factory pattern class, not game!
-		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName,GetParent()->GetPosition(),team));
+		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName,glm::vec3(GetParent()->GetPosition().x,2.5f, GetParent()->GetPosition().y),team));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}

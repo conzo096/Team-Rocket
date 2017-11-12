@@ -49,10 +49,14 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
 
-	// Add starting structures.
+	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Barracks", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(70, 2.5, 70), NPC->GetTeam()));
+
+	// This will be added to a neutral list later.
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30,30,30), NPC->GetTeam()));
 
 	lastTime = clock();
 }

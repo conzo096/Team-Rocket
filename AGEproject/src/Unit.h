@@ -21,7 +21,7 @@ protected:
 	// Previous effect.
 	glm::vec4 tempCol;
 	double fireRate = 0.5;
-	double timeSinceLastFire;
+	double timeSinceLastFire = 0;
 
 	// Disable shooting.
 	bool canShoot = true;
@@ -69,11 +69,10 @@ public:
 
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
-	
+	int GetFireRate() { return fireRate; }
+	void SetFireRate(float fr) { fireRate = fr; }
 	virtual void AttackEntity()
 	{
-		if (timeSinceLastFire > fireRate)
-			canShoot = true;
 		// if it is within distance.
 		if (targetEntity != NULL)
 		{
@@ -87,9 +86,6 @@ public:
 				bullet.SetTarget(targetEntity);
 				projectiles.push_back(bullet);
 			}
-
-
-
 			// Check if enemy is dead and if it is, remove from target.
 			if (targetEntity->GetCompatibleComponent<Targetable>()->IsDead())
 			{
@@ -98,18 +94,18 @@ public:
 				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
 				action = Hold;
 			}
-
-
-
 		}
 	}
 	
-	void Update(double deltaTime) override
+	virtual void Update(double deltaTime)
 	{
 		timeSinceLastFire += deltaTime;
+		if (timeSinceLastFire > fireRate)
+			canShoot = true;
 		// If hold, do nothing.
 		if (action == Hold)
 		{
+			return;
 		}
 		// If move, keep moving the unit to destination.
 		if (action == Move)
@@ -123,6 +119,7 @@ public:
 			{
 				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
 			}
+			// Attack Entity.
 			AttackEntity();
 		}
 		if (action == AttackMove)

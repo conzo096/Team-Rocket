@@ -287,6 +287,9 @@
     <ClInclude Include="src\SettingsMenu.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="src\Resource.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">

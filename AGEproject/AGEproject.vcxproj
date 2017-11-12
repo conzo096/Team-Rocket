@@ -48,6 +48,7 @@
     <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
+    <ClInclude Include="src\Resource.h" />
     <ClInclude Include="src\ResourceHandler.h" />
     <ClInclude Include="src\SettingsMenu.h" />
     <ClInclude Include="src\ShipUnit.h" />
@@ -117,7 +118,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

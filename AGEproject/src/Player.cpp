@@ -2,6 +2,7 @@
 #include "UserControls.h"
 #include "BoundingSphere.h"
 #include "Game.h"
+#include "WorkerUnit.h"
 void Player::Update(std::vector<Entity*>& enemyList)
 {
 	HandleInput(enemyList);
@@ -11,6 +12,8 @@ void Player::Update(std::vector<Entity*>& enemyList)
 	{
 		if (e->GetCompatibleComponent<Structure>() != NULL)
 			e->GetCompatibleComponent<Structure>()->Collect(temp);
+		if (e->GetCompatibleComponent<Worker>() != NULL)
+			balance += e->GetCompatibleComponent<Worker>()->Collect();
 	}
 	for (Entity*&e : temp)
 		entities.push_back(e);
