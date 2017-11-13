@@ -155,7 +155,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
 			{
-				glfwPollEvents();
+				//glfwPollEvents();
 				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_RELEASE)
 					selectedEntity->SetScale(glm::vec3(10, 10, 10));
 			}
@@ -171,7 +171,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 	}
 
 
-	glfwPollEvents();
+	//glfwPollEvents();
 }
 
 void Player::Render()

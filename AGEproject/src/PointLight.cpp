@@ -163,7 +163,7 @@ void PointLight::Render()
 	std::stringstream s;
 	s << this->_id;
 	// Use renderer, bind.
-	bind(*this, "point_light[" + s.str() + ']', effect->shader);
+//	bind(*this, "point_light[" + s.str() + ']', effect->shader);
 //	bind(*this, "obvious_name", effect->shader);
 //	bindMaterial(*this->effect->material, "mat", effect->shader);
 

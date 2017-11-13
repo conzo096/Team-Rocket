@@ -39,10 +39,11 @@ public:
 					timeSinceLastFire = 0;
 					// Take some of the resource from the targetEntity.
 					resourcesHeld += targetEntity->GetCompatibleComponent<Resource>()->RetrieveResource();
-					if (resourcesHeld >= 500)
+					if (resourcesHeld >= 1000)
 					{
 						walkToBase = true;
 						returnToResource = false;
+						std::cout << "Returning to base." << std::endl;
 					}
 				}
 			}
@@ -54,10 +55,12 @@ public:
 				// If it close enough to destination, give resource to team.
 				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 2)
 				{
-					std::cout << "Deposit money" << std::endl;
+					std::cout << "Depositing resource." << std::endl;
 					waitingForCollection = true;
 					walkToBase = false;
 					returnToResource = true;
+					std::cout << "Returning to resource." << std::endl;
+
 				}
 			}
 

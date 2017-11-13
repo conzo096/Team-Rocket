@@ -17,7 +17,7 @@ void AirMovement::MoveTo(double delta)
 {
 	if (IsActive())
 	{
-		if (GetParent()->GetPosition() == destination)
+		/*if (GetParent()->GetPosition() == destination)
 		{
 
 			destination.x = rand() % 200 - 100;
@@ -26,7 +26,7 @@ void AirMovement::MoveTo(double delta)
 			currentSpeed = 0.0f;
 
 		}
-		else
+		else*/
 		{
 			if (currentSpeed < speed)
 				currentSpeed += speed*delta / accelerationTime;

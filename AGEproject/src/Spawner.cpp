@@ -13,9 +13,11 @@
 #include "Barracks.h"
 #include "BaseStructure.h"
 #include "Resource.h"
+
 // Creates a predefined entity.
 Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 {
+	 std::lock_guard<std::mutex> lock(mut);
 	glm::vec3 spawnPosition = position;
 	Entity* tempEntity = new Entity;
 	if (name == "Ship")

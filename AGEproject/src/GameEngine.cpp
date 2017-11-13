@@ -44,7 +44,7 @@ void GameEngine::Initialise()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	// V-Sync, does not run without it
-	glfwSwapInterval(1.0f);
+	glfwSwapInterval(1.0);
 }
 
 //void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
@@ -161,13 +161,17 @@ void GameEngine::BindMaterial(const Material* material, const int shaderID)
 void GameEngine::AddToRenderList(RenderData data)
 {
 	// Sort vector here.
+	mut.lock();
 	renderList.push_back(data);
+	mut.unlock();
 }
 
 void GameEngine::AddToParticleList(ParticleData particle)
 {
 	// Sort vector here.
+	mut.lock();
 	particles.push_back(particle);
+	mut.unlock();
 }
 
 void GameEngine::SetCamera(glm::mat4 camera)

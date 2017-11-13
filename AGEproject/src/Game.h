@@ -33,4 +33,7 @@ public:
 	void Initialise();
 	bool Update();
 	void Render();
+
+
+	//void UpdateEntityList(int start, int end, double deltaTime);
 };

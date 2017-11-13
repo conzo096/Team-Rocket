@@ -1,12 +1,27 @@
 #include "Game.h"
 #include "Entity.h"
 #include "PointLight.h"
-#include "UserControls.h"
-//#include "ShipUnit.h"
-#include "Targetable.h"
 #include "AiPlayer.h"
-#include "Barracks.h"
 #include "Spawner.h"
+
+#include <thread>
+
+
+void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
+{
+	//return;
+	for (int i = start; i < end; i++)
+	{
+		Entity*& e = entities[i];
+	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
+		//if (e->GetCompatibleComponent<Targetable>()->IsDead())
+		{
+		//	entities.erase(std::remove(entities.begin(), entities.end(), e), entities.end());
+		}
+		e->Update(deltaTime);
+	}
+}
+
 void Game::Initialise()
 {
 	player = new Player;
@@ -52,6 +67,28 @@ void Game::Initialise()
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
+
+	
+	
+	
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(70, 2.5, 70), NPC->GetTeam()));
 
@@ -61,34 +98,64 @@ void Game::Initialise()
 	lastTime = clock();
 }
 
+std::thread threads[1];
+
 bool Game::Update()
 {
+	// Get user and ai actions.
 	player->Update(NPC->GetEntities());
 	NPC->Update(player->GetEntities());
+	// Set camera matrix.
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
 	GameEngine::Get().SetCamera(camMatrix);
+	// Update mouse ray.
 	UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
+	// Calculate time since last frame. (deltaTime)
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
+	// Update camera.
 	free_cam->Update(deltaTime);
-	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
-	{
 
+	// Update neutral entities.
+	for (std::vector<Entity*>::size_type n = 0; n < entities.size();n++)
+	{
 		entities[n]->Update(deltaTime);
-		n++;
-	}
-	for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
-	{
-		Entity*& e = player->GetEntities()[n];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
-			}
-		e->Update(deltaTime);
-		n++;
 	}
 
+	// Update user entities.
+	// Spread this around several threads. - Find a better approach later.
+	int range = player->GetEntities().size()/2;
+	int start, end;
+	// Delegate work around threads.
+	for (int i = 0; i < 1; i++)
+	{
+		start = i*range;
+		end = (i+1)*range;
+		// this works but is very bad on performance!
+		threads[i] = (std::thread(UpdateEntityList,start,end,deltaTime,std::ref(player->GetEntities())));
+	}
+	
+	// Calculate final range on main thread.
+	UpdateEntityList(1*range, 2*range, deltaTime, player->GetEntities());
+
+	// wait and join on all threads.
+	for (std::thread &t : threads)
+		t.join();
+
+	//for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
+	//{
+	//	Entity*& e = player->GetEntities()[n];
+	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
+	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
+	//		{
+	//			player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
+	//		}
+	//	e->Update(deltaTime);
+	//	n++;
+	//}
+
+
+	// Update enemy entities.
 	for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
 	{
 		Entity*& e = NPC->GetEntities()[n];
@@ -101,7 +168,32 @@ bool Game::Update()
 		e->Update(deltaTime);
 		n++;
 	}
-	//printf("%f.9\n", deltaTime);
+
+
+
+	// hacky approach to approximating framerate, causes application to crash on closing.
+	static double dts[255];
+	static unsigned char dti =0;
+	dts[dti] = deltaTime;
+	if (dti == 0)
+	{
+		double avg = 0;
+		double min = dts[0];
+		double max = dts[0];
+		for (auto f : dts){
+			avg += f;
+			min = (f < min ? f : min);
+			max = (f > max ? f : max);
+		}
+		avg /= 255.0f;
+		printf("fps:%f, avg:%f, min: %f, max:%f\n",1.0/avg, avg, min, max);
+	}
+	++dti;
+
+
+	// process events.
+	glfwPollEvents();
+	// Close the window if it has been asked too.
 	if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		return false;
 	else
@@ -111,7 +203,6 @@ bool Game::Update()
 void Game::Render()
 {
 
-//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
 	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
 	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
@@ -135,8 +226,6 @@ void Game::Render()
 
 	GameEngine::Get().Render();
 
-	// process events.
-	glfwPollEvents();
 	// Swap the window buffers.
 	glfwSwapBuffers(GameEngine::Get().GetWindow());
 }

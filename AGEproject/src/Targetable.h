@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-
+#include <mutex>
 class Targetable : public Component
 {
 private:
@@ -9,6 +9,9 @@ private:
 	float health;
 	float thresholdArmour;
 	float resistanceArmour;
+
+	// Safe memory, replace with atomic?
+	std::mutex mut;
 
 protected:
 	void from_json(const nlohmann::json &j);

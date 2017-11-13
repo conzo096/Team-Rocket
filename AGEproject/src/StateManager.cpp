@@ -48,7 +48,6 @@ void StateManager::StateLoop()
 				throw std::invalid_argument("Error: No behavior has been set for state" + state);
 				break;
 			}
-		glfwPollEvents();
 	}
 	GameEngine::Get().CleanUp();
 }
