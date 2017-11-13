@@ -262,7 +262,7 @@ void GroundMovement::Update(double delta)
 	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
 	int zFinish = floor(goal.z + 0.5);
 
-	if (true)
+	if (needPath)
 	{
 		Pathfind(xFinish, zFinish, xStart, zStart);
 		needPath = false;
