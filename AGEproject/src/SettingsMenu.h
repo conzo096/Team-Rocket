@@ -5,24 +5,7 @@ class SettingsMenu : public Menu
 {
 public:
 	SettingsMenu()
-	{
-		//title_tex[0] = Texture("../res/textures/SettingsMenu_Title1.png").GetTextureId();
-		//title_tex[1] = Texture("../res/textures/SettingsMenu_Title2.png").GetTextureId();
-		//option_tex[0][0] = Texture("../res/textures/SettingsMenu_Option1-1.png").GetTextureId();
-		//option_tex[1][0] = Texture("../res/textures/SettingsMenu_Option2-1.png").GetTextureId();
-
-		//button_tex[0] = Texture("../res/textures/SettingsMenu_LargeButton1.png").GetTextureId();
-		//button_tex[1] = Texture("../res/textures/SettingsMenu_LargeButton2.png").GetTextureId();
-		//button_tex[2] = Texture("../res/textures/SettingsMenu_LargeButton3.png").GetTextureId();
-		//button_tex[3] = Texture("../res/textures/SettingsMenu_SmallButton2.png").GetTextureId(); 
-		//button_tex[4] = Texture("../res/textures/SettingsMenu_SmallButton1.png").GetTextureId();
-
-		//highlight_tex[0] = Texture("../res/textures/SettingsMenu_LargeButton1_Highlighted.png").GetTextureId();
-		//highlight_tex[1] = Texture("../res/textures/SettingsMenu_LargeButton2_Highlighted.png").GetTextureId();
-		//highlight_tex[2] = Texture("../res/textures/SettingsMenu_LargeButton3_Highlighted.png").GetTextureId();
-		//highlight_tex[3] = Texture("../res/textures/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId(); 
-		//highlight_tex[4] = Texture("../res/textures/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId();
-		
+	{	
 		title_tex[0] = ResourceHandler::Get().GetTexture("Resolution");
 		title_tex[1] = ResourceHandler::Get().GetTexture("Screen_mode");
 		option_tex[0][0] = ResourceHandler::Get().GetTexture("1920x1080");

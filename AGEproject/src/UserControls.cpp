@@ -53,7 +53,7 @@ bool UserControls::IsMouseButtonPressed(std::string &action)
 
 bool UserControls::MouseSelection(std::string action, std::vector<Button>& buttons, bool& mouseButtonHeld, int& currentSelection)
 {
-	if (IsMouseButtonPressed(action)
+	if (IsMouseButtonPressed(action))
 	{
 		if (!mouseButtonHeld)
 		{

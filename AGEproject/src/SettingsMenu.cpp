@@ -164,7 +164,7 @@ int SettingsMenu::Draw(GLShader shader)
 		//	}
 		//}
 
-		selectionMade = UserControls::Get().MouseSelection(buttons, mouseButtonHeld, currentSelection);
+		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
 
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{
