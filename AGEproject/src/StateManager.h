@@ -8,6 +8,11 @@
 #include "MainMenu.h"
 #include "SettingsMenu.h"
 
+// Remove soon!!
+#include <chrono>
+#include <thread>
+using namespace std::chrono_literals;
+
 class StateManager : public Singleton<StateManager>
 {
 	enum State
@@ -34,7 +39,9 @@ public:
 	int ShowSettingsMenu()
 	{
 		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		int val = sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		std::this_thread::sleep_for(0.15s);
+		return val;
 	}
 
 	int ShowSplashScreen()

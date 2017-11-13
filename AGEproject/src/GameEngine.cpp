@@ -198,9 +198,3 @@ void GameEngine::PrintGlewInfo()
 	std::clog << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 	printf("-------------------------------------------------------\n");
 }
-
-//void GameEngine::LoadShaders()
-//{
-//	ResourceHandler::Get().AddShader("Phong");
-//	ResourceHandler::Get().AddShader("tex");
-//}
