@@ -5,7 +5,7 @@
 #include "Spawner.h"
 
 #include <thread>
-
+#include <omp.h>
 
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
@@ -13,11 +13,6 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 	for (int i = start; i < end; i++)
 	{
 		Entity*& e = entities[i];
-	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
-		//if (e->GetCompatibleComponent<Targetable>()->IsDead())
-		{
-		//	entities.erase(std::remove(entities.begin(), entities.end(), e), entities.end());
-		}
 		e->Update(deltaTime);
 	}
 }
@@ -67,24 +62,6 @@ void Game::Initialise()
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
 
 	
 	
@@ -117,9 +94,11 @@ bool Game::Update()
 	free_cam->Update(deltaTime);
 
 	// Update neutral entities.
-	for (std::vector<Entity*>::size_type n = 0; n < entities.size();n++)
+	int i = 0;
+	#pragma omp parallel for private(i)
+	for (i = 0; i < entities.size();i++)
 	{
-		entities[n]->Update(deltaTime);
+		entities[i]->Update(deltaTime);
 	}
 
 	// Update user entities.
@@ -132,43 +111,46 @@ bool Game::Update()
 		start = i*range;
 		end = (i+1)*range;
 		// this works but is very bad on performance!
-		threads[i] = (std::thread(UpdateEntityList,start,end,deltaTime,std::ref(player->GetEntities())));
+	//	threads[i] = (std::thread(UpdateEntityList,start,end,deltaTime,std::ref(player->GetEntities())));
 	}
 	
-	// Calculate final range on main thread.
-	UpdateEntityList(1*range, 2*range, deltaTime, player->GetEntities());
+	//// Calculate final range on main thread.
+	//UpdateEntityList(1*range, 2*range, deltaTime, player->GetEntities());
 
-	// wait and join on all threads.
-	for (std::thread &t : threads)
-		t.join();
+	//// wait and join on all threads.
+	//for (std::thread &t : threads)
+	//	t.join();
 
-	//for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
-	//{
-	//	Entity*& e = player->GetEntities()[n];
-	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
-	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
-	//		{
-	//			player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
-	//		}
-	//	e->Update(deltaTime);
-	//	n++;
-	//}
+	#pragma omp parallel for private(i)
+	for (i = 0; i < player->GetEntities().size();i++)
+	{
+		Entity*& e = player->GetEntities()[i];
+		/*if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
+			}*/
+		e->Update(deltaTime);
+	}
 
 
 	// Update enemy entities.
-	for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
+	#pragma omp parallel for private(i)
+	for (i = 0; i < NPC->GetEntities().size();i++)
 	{
-		Entity*& e = NPC->GetEntities()[n];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				// Delete this.
-				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
-			}
+		Entity*& e = NPC->GetEntities()[i];
+		//if (e->GetCompatibleComponent<Targetable>() != NULL)
+		//	if (e->GetCompatibleComponent<Targetable>()->IsDead())
+		//	{
+		//		// Delete this.
+		//		NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
+		//	}
 		e->Update(deltaTime);
-		n++;
 	}
 
+
+
+	// Need to delete dead entities at some time - serial.
 
 
 	// hacky approach to approximating framerate, causes application to crash on closing.
