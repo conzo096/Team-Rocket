@@ -14,14 +14,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Ship")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("Ship");
-		tempRenderable->SetTexture("FlyerUV");
+		tempRenderable->SetModel("Worker");
+		tempRenderable->SetTexture("WorkerUV");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetShader("Phong");
+		tempRenderable->SetPosition(dvec3(0, 0.5, 0));
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
+		auto tempAirMovement = std::make_unique<GroundMovement>();
+		tempAirMovement->SetGoal(glm::dvec3(90, 0, 90));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
 		tempAirMovement->SetTurnSpeed(200.0);

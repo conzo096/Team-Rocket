@@ -12,7 +12,9 @@
 #include "BoundingBox.h"
 #include "BoundingSphere.h"
 #include "AirMovement.h"
+#include "GroundMovement.h"
 #include "ResourceHandler.h"
+
 #include "Unit.h"
 class Entity;
 class Player;
@@ -21,6 +23,7 @@ class Game : public Singleton<Game>
 {
 private:
 	double lastTime;
+	int** grid;
 
 public:
 	// User.
@@ -30,6 +33,7 @@ public:
 	Entity *free_cam = new Entity;
 	std::vector<Entity*> entities; //Figure out how to split this.
 
+	int** GetGrid() { return grid; };
 	void Initialise();
 	bool Update();
 	void Render();
