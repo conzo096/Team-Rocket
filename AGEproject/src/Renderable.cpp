@@ -58,7 +58,7 @@ void Renderable::SetMaterial(Material* mat)
 void Renderable::Render()
 {
 	//GameEngine::Get().Render(GetTransform(),*model, *effect);
-	renderInfo.m = GetParent()->GetTransform();
+	renderInfo.m = GetTransform();
 	GameEngine::Get().AddToRenderList(renderInfo);
 
 }

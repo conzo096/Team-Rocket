@@ -18,7 +18,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempRenderable->SetTexture("WorkerUV");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetShader("Phong");
-		tempRenderable->SetPosition(dvec3(0, 1, 0));
+		tempRenderable->SetPosition(dvec3(0, 0.5, 0));
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempAirMovement = std::make_unique<GroundMovement>();
