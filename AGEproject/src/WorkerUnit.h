@@ -1,6 +1,7 @@
 #pragma once
 #include "Unit.h"
 #include "Resource.h"
+#include "GroundMovement.h"
 class Worker : public Unit
 {
 private:
@@ -12,7 +13,7 @@ private:
 	bool waitingForCollection = false;
 
 	// Location is needs to head towards to drop of resource.
-	glm::dvec3 collectionPoint = glm::vec3(50,50,50);
+	glm::dvec3 collectionPoint = glm::vec3(30,0,10);
 
 protected:
 	void from_json(const nlohmann::json &j) {};
@@ -31,7 +32,7 @@ public:
 		{
 			if  (returnToResource)
 			{
-				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(targetEntity->GetPosition());
+				GetParent()->GetCompatibleComponent<GroundMovement>()->SetGoal(targetEntity->GetPosition());
 				// If within range, Collect some of the resource.
 				if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 16 && canShoot)
 				{
@@ -51,10 +52,11 @@ public:
 			if (walkToBase)
 			{
 				// Get it to walk to base.
- 				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(collectionPoint);
+ 				GetParent()->GetCompatibleComponent<GroundMovement>()->SetGoal(collectionPoint);
 				// If it close enough to destination, give resource to team.
-				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 2)
+				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 0.5)
 				{
+					GetParent()->GetCompatibleComponent<GroundMovement>()->SetCurrentSpeed(0);
 					std::cout << "Depositing resource." << std::endl;
 					waitingForCollection = true;
 					walkToBase = false;

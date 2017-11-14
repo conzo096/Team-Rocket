@@ -10,10 +10,10 @@ bool FileIO::FileExists(std::string &filePath)
 
 bool FileIO::LoadIniFile()
 {
-	if (!FileExists(std::string("test.ini")))
+	if (!FileExists(std::string("../res/config.ini")))
 		CreateIniFile();
 	// Start reading and setting parameters//
-	std::ifstream file("test.ini");
+	std::ifstream file("../res/config.ini");
 	std::string para;
 	while (std::getline(file, para))
 	{
@@ -26,7 +26,7 @@ bool FileIO::LoadIniFile()
 bool FileIO::CreateIniFile()
 {
 	std::ofstream outputFile;
-	outputFile.open("test.ini");
+	outputFile.open("../res/config.ini");
 	outputFile << "Window options" << std::endl;
 	outputFile << "FullScreen=0" << std::endl;
 	outputFile << "Width=1920" << std::endl;

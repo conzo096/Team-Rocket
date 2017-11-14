@@ -14,8 +14,8 @@ Renderable::~Renderable()
 
 void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
-	//model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
-	model = ResourceHandler::Get().GetModel("Plane");
+	model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
+	//model = ResourceHandler::Get().GetModel("Plane");
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
 	renderInfo.indices = model->GetIndices();
@@ -58,7 +58,7 @@ void Renderable::SetMaterial(Material* mat)
 void Renderable::Render()
 {
 	//GameEngine::Get().Render(GetTransform(),*model, *effect);
-	renderInfo.m = GetParent()->GetTransform();
+	renderInfo.m = GetTransform();
 	GameEngine::Get().AddToRenderList(renderInfo);
 
 }

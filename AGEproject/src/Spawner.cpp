@@ -13,11 +13,11 @@
 #include "Barracks.h"
 #include "BaseStructure.h"
 #include "Resource.h"
-
+#include "GroundMovement.h"
 // Creates a predefined entity.
 Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 {
-	 std::lock_guard<std::mutex> lock(mut);
+	std::lock_guard<std::mutex> lock(mut);
 	glm::vec3 spawnPosition = position;
 	Entity* tempEntity = new Entity;
 	if (name == "Ship")
@@ -27,10 +27,11 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempRenderable->SetTexture("FlyerUV");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetShader("Phong");
+		tempRenderable->SetPosition(dvec3(0, 0.5, 0));
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
+		tempAirMovement->SetDestination(glm::dvec3(90, 0, 90));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
 		tempAirMovement->SetTurnSpeed(200.0);
@@ -114,16 +115,16 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	{
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("BillBoard");
+		tempRenderable->SetModel("Worker");
 		tempRenderable->SetShader("Phong");
-		tempRenderable->SetTexture("FlyerUV");
+		tempRenderable->SetTexture("WorkerUV");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
+		auto tempAirMovement = std::make_unique<GroundMovement>();
+		tempAirMovement->SetGoal(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.5);
+		tempAirMovement->SetAcceleration(0.1);
 		tempAirMovement->SetTurnSpeed(200.0);
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());

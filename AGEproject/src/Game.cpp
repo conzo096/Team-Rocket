@@ -19,6 +19,19 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 
 void Game::Initialise()
 {
+	grid = new int*[100];
+	for (int i = 0; i < 100; i++)
+		grid[i] = new int[100];
+	for (int i = 0; i < 100; i++)
+		for (int j = 0; j < 100; j++)
+		{
+			if (i > 50 && i < 75 && j>50 && j < 75)
+				grid[i][j] = 1;
+			else
+				grid[i][j] = 0;
+		}
+
+
 	player = new Player;
 	NPC = new AiPlayer;
 
@@ -29,15 +42,12 @@ void Game::Initialise()
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
-
-	
-
 	// Add light entity.
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetEffect("Phong");
-	tempLightComponent->setLightPosition(glm::vec3(50,30,50));
-	tempLightComponent->diffuse = glm::vec4(0.7,0.2,0.4,1);
+	tempLightComponent->setLightPosition(glm::vec3(50, 30, 50));
+	tempLightComponent->diffuse = glm::vec4(0.7, 0.2, 0.4, 1);
 	tempEntity3->AddComponent(move(tempLightComponent));
 	entities.push_back(tempEntity3);
 
@@ -58,7 +68,6 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
-
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(20, 2.5, 20), player->GetTeam()));
@@ -67,11 +76,22 @@ void Game::Initialise()
 	
 	
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Shipyard", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(70, 2.5, 70), NPC->GetTeam()));
+//	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Worker", glm::vec3(70, 2.5, 70), NPC->GetTeam()));
 
 	// This will be added to a neutral list later.
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30,30,30), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30,2.5,30), NPC->GetTeam()));
 
+	/*Entity* tempEntity77 = new Entity;
+	auto tempRenderable77 = std::make_unique<Renderable>();
+	tempRenderable77->SetMaterial(new Material());
+	tempRenderable77->SetPlane(1, 25, 25);
+	tempRenderable77->SetTexture("ConstructorUV");
+	tempRenderable77->SetShader("Phong");
+	tempEntity77->SetPosition(glm::vec3(50.0f, 1.0f, 50.0f));
+
+	tempRenderable77->UpdateTransforms();
+	tempEntity77->AddComponent(move(tempRenderable77));
+	entities.push_back(tempEntity77);*/
 	lastTime = clock();
 }
 
@@ -95,7 +115,7 @@ bool Game::Update()
 
 	// Update neutral entities.
 	int i = 0;
-	#pragma omp parallel for private(i)
+//	#pragma omp parallel for private(i)
 	for (i = 0; i < entities.size();i++)
 	{
 		entities[i]->Update(deltaTime);
@@ -121,7 +141,7 @@ bool Game::Update()
 	//for (std::thread &t : threads)
 	//	t.join();
 
-	#pragma omp parallel for private(i)
+	//#pragma omp parallel for private(i)
 	for (i = 0; i < player->GetEntities().size();i++)
 	{
 		Entity*& e = player->GetEntities()[i];
@@ -135,7 +155,7 @@ bool Game::Update()
 
 
 	// Update enemy entities.
-	#pragma omp parallel for private(i)
+//	#pragma omp parallel for private(i)
 	for (i = 0; i < NPC->GetEntities().size();i++)
 	{
 		Entity*& e = NPC->GetEntities()[i];

@@ -19,6 +19,7 @@ public:
 	~Movement();
 
 	void SetSpeed(double speed) { this->speed = speed; };
+	void SetCurrentSpeed(double currentSpeed) { this->currentSpeed = currentSpeed; };
 	void SetTurnSpeed(double turnSpeed) { this->turnSpeed = turnSpeed; };
 	void SetAcceleration(double accelerationTime) { this->accelerationTime = accelerationTime; };
 	void SetDestination(glm::dvec3 destination) { this->destination = destination; };

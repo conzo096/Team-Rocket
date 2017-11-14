@@ -83,7 +83,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
-					e->GetCompatibleComponent<Movement>()->SetDestination(poi);
+					e->GetCompatibleComponent<GroundMovement>()->SetGoal(poi);
 					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
 				}
 			}
