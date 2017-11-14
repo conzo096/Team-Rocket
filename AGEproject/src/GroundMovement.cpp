@@ -29,9 +29,14 @@ GroundMovement::GroundMovement() : Movement("GroundMovement")
 	directions = new int*[xSize];
 	for (int i = 0; i < xSize; i++)
 		directions[i] = new int[zSize];
+
 	/*for (int i = 0; i < xSize; i++)
 		for (int j = 0; j < zSize; j++)
 			directions[i][j] = 0;*/
+
+	terrainGrid = new dvec3*[xSize];
+	for (int i = 0; i < xSize; i++)
+		terrainGrid[i] = new dvec3[zSize];
 
 	needPath = true;
 }
@@ -89,6 +94,7 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 		// quit searching when the goal state is reached
 		if (x == xFinish && z == zFinish)
 		{
+			waypoints.clear();
 			// generate the path from finish to start
 			// by following the directions
 			while (!(x == xStart && z == zStart))
@@ -96,6 +102,7 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 				int j = directions[x][z];
 				x += dx[j];
 				z += dz[j];
+				waypoints.push_front(ivec2(x, z));
 			}
 
 			delete node1;
@@ -252,9 +259,8 @@ void GroundMovement::TurnTo(double delta)
 
 void GroundMovement::Update(double delta)
 {
-	nodeMap = Game::Get().GetGrid();
-	//openNodes = nodeMap;
-	//closedNodes= new int[100][100];
+	nodeMap = Game::Get().GetNavGrid();
+	terrainGrid = Game::Get().GetTerrainGrid();
 
 	int xStart = floor(GetParent()->GetPosition().x + 0.5);//for grid of 1 spacing
 	int zStart = floor(GetParent()->GetPosition().z + 0.5);
@@ -262,12 +268,19 @@ void GroundMovement::Update(double delta)
 	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
 	int zFinish = floor(goal.z + 0.5);
 
+	for (int i = 0; i < waypoints.size(); i++)
+	{
+		if (nodeMap[waypoints[i].x][waypoints[i].y] == 1)
+			needPath = true;
+	}
+
 	if (needPath)
 	{
-		Pathfind(xFinish, zFinish, xStart, zStart);
+		Pathfind(xStart, zStart, xFinish, zFinish);
 		needPath = false;
 	}
 	directions[xFinish][zFinish] = 9;
+
 	/*std::ofstream out("test.csv");
 
 	for (int i = 0; i < xSize; i++) {
@@ -275,21 +288,27 @@ void GroundMovement::Update(double delta)
 			out << directions[i][j] << ',';
 		out << '\n';
 	}*/
-	int j = directions[xStart][zStart];
-	float xDestination;
-	float zDestination;
-	if ((xStart + dx[j] == xFinish) && (zStart + dz[j] == zFinish))
+	//int j = directions[xStart][zStart];
+	//float xDestination;
+	//float zDestination;
+	//if ((xStart + dx[j] == xFinish) && (zStart + dz[j] == zFinish))
+	//{
+	//	xDestination = goal.x;
+	//	zDestination = goal.z;
+	//}
+	//else
+	//{
+	//	xDestination = (xStart + dx[j]);//translate to world space
+	//	zDestination = (zStart + dz[j]);
+	//}
+	if (waypoints.size() != 0)
 	{
-		xDestination = goal.x;
-		zDestination = goal.z;
+		destination = terrainGrid[waypoints.front().x][waypoints.front().y];
+		if (GetParent()->GetPosition() == terrainGrid[waypoints.front().x][waypoints.front().y])
+		{
+			waypoints.pop_front();
+		}
 	}
-	else
-	{
-		xDestination = (xStart + dx[j]);//translate to world space
-		zDestination = (zStart + dz[j]);
-	}
-
-	destination = vec3(xDestination, 0.0, zDestination);
 	MoveTo(delta);
 	TurnTo(delta);
 }

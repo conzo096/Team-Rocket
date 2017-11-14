@@ -8,17 +8,28 @@
 
 void Game::Initialise()
 {
-	grid = new int*[100];
+	navGrid = new int*[100];
 	for (int i = 0; i < 100; i++)
-		grid[i] = new int[100];
+		navGrid[i] = new int[100];
 	for (int i = 0; i < 100; i++)
 		for (int j = 0; j < 100; j++)
 		{
 			if (i > 50 && i < 75 && j>50 && j < 75)
-				grid[i][j] = 1;
+				navGrid[i][j] = 1;
 			else
-				grid[i][j] = 0;
+				navGrid[i][j] = 0;
 		}
+
+	terrainGrid = new dvec3*[100];
+	for (int i = 0; i < 100; i++)
+	{
+		terrainGrid[i] = new dvec3[100];
+		for (int j = 0; j < 100; j++)
+		{
+			terrainGrid[i][j] = vec3(i, 0, j);
+		}
+	}
+
 	player = new Player;
 	NPC = new AiPlayer;
 
@@ -104,6 +115,7 @@ void Game::Initialise()
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
 
+	//This is a "wall"
 	Entity* tempEntity77 = new Entity;
 	auto tempRenderable77 = std::make_unique<Renderable>();
 	tempRenderable77->SetMaterial(new Material());
