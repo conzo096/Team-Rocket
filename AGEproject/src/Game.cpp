@@ -3,7 +3,7 @@
 #include "PointLight.h"
 #include "AiPlayer.h"
 #include "Spawner.h"
-
+#include "UserControls.h"
 #include <thread>
 #include <omp.h>
 
@@ -81,17 +81,6 @@ void Game::Initialise()
 	// This will be added to a neutral list later.
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30,2.5,30), NPC->GetTeam()));
 
-	/*Entity* tempEntity77 = new Entity;
-	auto tempRenderable77 = std::make_unique<Renderable>();
-	tempRenderable77->SetMaterial(new Material());
-	tempRenderable77->SetPlane(1, 25, 25);
-	tempRenderable77->SetTexture("ConstructorUV");
-	tempRenderable77->SetShader("Phong");
-	tempEntity77->SetPosition(glm::vec3(50.0f, 1.0f, 50.0f));
-
-	tempRenderable77->UpdateTransforms();
-	tempEntity77->AddComponent(move(tempRenderable77));
-	entities.push_back(tempEntity77);*/
 	lastTime = clock();
 }
 
@@ -159,12 +148,12 @@ bool Game::Update()
 	for (i = 0; i < NPC->GetEntities().size();i++)
 	{
 		Entity*& e = NPC->GetEntities()[i];
-		//if (e->GetCompatibleComponent<Targetable>() != NULL)
-		//	if (e->GetCompatibleComponent<Targetable>()->IsDead())
-		//	{
-		//		// Delete this.
-		//		NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
-		//	}
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+				// Delete this.
+				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
+			}
 		e->Update(deltaTime);
 	}
 

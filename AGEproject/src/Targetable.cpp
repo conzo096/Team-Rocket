@@ -23,7 +23,7 @@ void Targetable::TakeDamage(float damage)
 
 void Targetable::Update(double delta)
 {
-	if (health < 0.0f)
+	if (health <= 0.0f)
 	{
 		dead = true;
 	}

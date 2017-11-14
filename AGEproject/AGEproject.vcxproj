@@ -89,6 +89,7 @@
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\Quad.cpp" />
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\ResourceHandler.cpp" />

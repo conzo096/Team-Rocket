@@ -1,6 +1,7 @@
 #include "SettingsMenu.h"
 #include "RayCast.h"
 #include "GeometryUtil.h"
+#include "UserControls.h"
 
 #define CLOSE 8
 
@@ -73,32 +74,32 @@ int SettingsMenu::Draw(GLShader shader)
 
 	while (!selectionMade)
 	{
-		menu_cam->GetComponent<Menu_Camera>().Update(0);
-		glm::dmat4 camMatrix = menu_cam->GetComponent<Menu_Camera>().GetProjection() * menu_cam->GetComponent<Menu_Camera>().GetView();
-
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
 
-		// If cursor is over a button, highlight it
-		for (int i = 0; i < numOfButtons; i++)
+		if (!mouseButtonHeld)
 		{
-			if (buttons[i].renderTarget.IsMouseInBounds())
+			// If cursor is over a button, highlight it
+			for (int i = 0; i < numOfButtons; i++)
 			{
-				if (i > 4)
+				if (buttons[i].renderTarget.IsMouseInBounds())
 				{
-					buttons[i].texture = highlight_tex[i - 2];
+					if (i > 4)
+					{
+						buttons[i].texture = highlight_tex[i - 2];
+					}
+					else
+						buttons[i].texture = highlight_tex[i];
 				}
 				else
-					buttons[i].texture = highlight_tex[i];
-			}
-			else
-			{
-				if (i > 4)
-					buttons[i].texture = button_tex[i - 2];
-				else
-					buttons[i].texture = button_tex[i];
+				{
+					if (i > 4)
+						buttons[i].texture = button_tex[i - 2];
+					else
+						buttons[i].texture = button_tex[i];
+				}
 			}
 		}
 
@@ -121,47 +122,49 @@ int SettingsMenu::Draw(GLShader shader)
 		}
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 
-		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
-		{
-			// "Customise controls" is clicked
-			if (buttons[0].renderTarget.IsMouseInBounds())
-			{
-				selectionMade = true;
-				currentSelection = 0;
-			}
-			// "Save changes" is clicked
-			else if (buttons[1].renderTarget.IsMouseInBounds())
-			{
-				selectionMade = true;
-				currentSelection = 2;	// Change this when saving/loading is implemented!
-			}
-			// "Cancel" is clicked
-			else if (buttons[2].renderTarget.IsMouseInBounds())
-			{
-				selectionMade = true;
-				currentSelection = 2;
-			}
-			// Top-right arrow is clicked
-			else if (buttons[3].renderTarget.IsMouseInBounds())
-			{
+		//if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+		//{
+		//	// "Customise controls" is clicked
+		//	if (buttons[0].renderTarget.IsMouseInBounds())
+		//	{
+		//		selectionMade = true;
+		//		currentSelection = 0;
+		//	}
+		//	// "Save changes" is clicked
+		//	else if (buttons[1].renderTarget.IsMouseInBounds())
+		//	{
+		//		selectionMade = true;
+		//		currentSelection = 2;	// Change this when saving/loading is implemented!
+		//	}
+		//	// "Cancel" is clicked
+		//	else if (buttons[2].renderTarget.IsMouseInBounds())
+		//	{
+		//		selectionMade = true;
+		//		currentSelection = 2;
+		//	}
+		//	// Top-right arrow is clicked
+		//	else if (buttons[3].renderTarget.IsMouseInBounds())
+		//	{
 
-			}
-			// Top-left arrow is clicked
-			else if (buttons[4].renderTarget.IsMouseInBounds())
-			{
+		//	}
+		//	// Top-left arrow is clicked
+		//	else if (buttons[4].renderTarget.IsMouseInBounds())
+		//	{
 
-			}
-			// Bottom-right arrow is clicked
-			else if (buttons[5].renderTarget.IsMouseInBounds())
-			{
+		//	}
+		//	// Bottom-right arrow is clicked
+		//	else if (buttons[5].renderTarget.IsMouseInBounds())
+		//	{
 
-			}
-			// Bottom-left arrow is clicked
-			else if (buttons[6].renderTarget.IsMouseInBounds())
-			{
+		//	}
+		//	// Bottom-left arrow is clicked
+		//	else if (buttons[6].renderTarget.IsMouseInBounds())
+		//	{
 
-			}
-		}
+		//	}
+		//}
+
+		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
 
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{
