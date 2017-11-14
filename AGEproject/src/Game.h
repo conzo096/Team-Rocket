@@ -23,7 +23,8 @@ class Game : public Singleton<Game>
 {
 private:
 	double lastTime;
-	int** grid;
+	int** navGrid;
+	dvec3** terrainGrid;
 
 public:
 	// User.
@@ -33,7 +34,8 @@ public:
 	Entity *free_cam = new Entity;
 	std::vector<Entity*> entities; //Figure out how to split this.
 
-	int** GetGrid() { return grid; };
+	int** GetNavGrid() { return navGrid; };
+	dvec3** GetTerrainGrid() { return terrainGrid; };
 	void Initialise();
 	bool Update();
 	void Render();
