@@ -61,7 +61,6 @@ int MainMenu::Draw(GLShader shader)
 				if (buttons[i].renderTarget.IsMouseInBounds())
 				{
 					buttons[i].texture = highlight_tex[i];
-					break;
 				}
 				else
 					buttons[i].texture = normal_tex[i];

@@ -36,7 +36,7 @@ void StateManager::StateLoop()
 		case(stateSettings):
 			select = ShowSettingsMenu();
 			if (select == 2) { state = stateMainMenu; }
-			else if (select == 8) { state = stateExiting; }
+			else if (select == 7) { state = stateExiting; }
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

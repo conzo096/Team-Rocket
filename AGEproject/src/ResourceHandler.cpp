@@ -30,7 +30,9 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Resolution"), Texture("../res/textures/SettingsMenu_Title1.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Screen_mode"), Texture("../res/textures/SettingsMenu_Title2.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("1920x1080"), Texture("../res/textures/SettingsMenu_Option1-1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("1920x1080_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_Option1-1_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Fullscreen"), Texture("../res/textures/SettingsMenu_Option2-1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Fullscreen_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_Option2-1_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Customise_controls"), Texture("../res/textures/SettingsMenu_LargeButton1.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_changes"), Texture("../res/textures/SettingsMenu_LargeButton2.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel"), Texture("../res/textures/SettingsMenu_LargeButton3.png").GetTextureId()));
