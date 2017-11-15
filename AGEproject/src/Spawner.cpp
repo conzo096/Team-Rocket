@@ -15,7 +15,7 @@
 #include "Resource.h"
 #include "GroundMovement.h"
 // Creates a predefined entity.
-Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
+Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 {
 	std::lock_guard<std::mutex> lock(mut);
 	glm::vec3 spawnPosition = position;
@@ -50,7 +50,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		return tempEntity;
 	}
 
-
 	if (name == "Troop")
 	{
 		std::cout << "Incomplete" << std::endl;
@@ -61,7 +60,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempRenderable->SetShader("Phong");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
+		auto tempAirMovement = std::make_unique<GroundMovement>();
 		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
@@ -91,7 +90,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 		tempRenderable->SetShader("Phong");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
+		auto tempAirMovement = std::make_unique<GroundMovement>();
 		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
@@ -113,7 +112,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 
 	if (name == "Worker")
 	{
-		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("Worker");
 		tempRenderable->SetShader("Phong");
@@ -163,10 +161,9 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 
 	if (name == "Base")
 	{
-		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Torus");
+		tempRenderable->SetModel("Base");
 		tempRenderable->SetTexture("ConstructorUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());

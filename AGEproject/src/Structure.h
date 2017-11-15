@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Entity.h"
 #include <queue>
-
+#include "Player.h"
 struct SpawnInfo
 {
 	// The type of unit that this unit spawns.
@@ -41,7 +41,7 @@ private:
 	// The current stored value of this building (how much money has been invested into producing units/other structures.)
 	int value;
 	// What team this structure belongs to.
-	int team;
+	Team team;
 protected:
 	void from_json(const nlohmann::json &j);
 public:
@@ -57,8 +57,8 @@ public:
 	void Update(double delta) override;
 	int GetQueueSize() { return  (int)productQueue.size(); }
 
-	void SetTeam(int t) { team = t; }
-	int GetTeam() { return team; }
+	void SetTeam(Team t) { team = t; }
+	Team GetTeam() { return team; }
 	
 	void AddSpawnInfo(SpawnInfo info) { spawnData.push_back(info); }
 	// Change value for being controlled by player or not.

@@ -91,7 +91,7 @@ public:
 			{
 				targetEntity = NULL;
 				// Stop moving.
-				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 				action = Hold;
 			}
 		}
@@ -117,7 +117,7 @@ public:
 			// Move towards entity.
 			if (targetEntity != NULL)
 			{
-				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
 			}
 			// Attack Entity.
 			AttackEntity();

@@ -15,6 +15,7 @@ void Player::Update(std::vector<Entity*>& enemyList)
 		if (e->GetCompatibleComponent<Worker>() != NULL)
 			balance += e->GetCompatibleComponent<Worker>()->Collect();
 	}
+	// Push the collect entities back to the player.
 	for (Entity*&e : temp)
 		entities.push_back(e);
 }
@@ -83,8 +84,11 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
-					e->GetCompatibleComponent<GroundMovement>()->SetGoal(poi);
+					e->GetCompatibleComponent<Movement>()->SetDestination(poi);
 					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
+					// Particle that appears when the user selects a location.
+					Game::Get().location = poi;
+					Game::Get().duration = 3.0;
 				}
 			}
 		}

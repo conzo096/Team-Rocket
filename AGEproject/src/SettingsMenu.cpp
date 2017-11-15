@@ -3,12 +3,13 @@
 #include "GeometryUtil.h"
 #include "UserControls.h"
 
-#define CLOSE 8
+#define CLOSE 7
 
 int SettingsMenu::Draw(GLShader shader)
 {
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
+	int currentOption = 0;
 
 	labels.resize(numOfLabels);
 	buttons.resize(numOfButtons);
@@ -29,7 +30,7 @@ int SettingsMenu::Draw(GLShader shader)
 	for (int i = 0; i < numOfOptions; i++)
 	{
 		Label& newOption = labels[i + numOfTitles];
-		newOption.texture = option_tex[i][0];
+		newOption.texture = option_tex[i][currentOption];
 		newOption.renderTarget = Quad(glm::vec2(1 - optionOffsetX - optionWidth, 1 - optionOffsetY - optionHeight),
 									  glm::vec2(1 - optionOffsetX, 1 - optionOffsetY));
 		newOption.renderTarget.SetOpenGL();
@@ -142,22 +143,18 @@ int SettingsMenu::Draw(GLShader shader)
 		//		selectionMade = true;
 		//		currentSelection = 2;
 		//	}
-		//	// Top-right arrow is clicked
 		//	else if (buttons[3].renderTarget.IsMouseInBounds())
 		//	{
 
 		//	}
-		//	// Top-left arrow is clicked
 		//	else if (buttons[4].renderTarget.IsMouseInBounds())
 		//	{
 
 		//	}
-		//	// Bottom-right arrow is clicked
 		//	else if (buttons[5].renderTarget.IsMouseInBounds())
 		//	{
 
 		//	}
-		//	// Bottom-left arrow is clicked
 		//	else if (buttons[6].renderTarget.IsMouseInBounds())
 		//	{
 
@@ -165,6 +162,46 @@ int SettingsMenu::Draw(GLShader shader)
 		//}
 
 		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
+
+		if (selectionMade)
+		{
+			if (currentSelection >= 3)
+			{
+				selectionMade = false;
+				// Top-right arrow has been clicked
+				if (currentSelection == 3)
+				{
+					currentOption++;
+					if (currentOption > 1)
+						currentOption = 0;
+					labels[2].texture = option_tex[0][currentOption];
+				}
+				// Top-left arrow is clicked
+				else if (currentSelection == 4)
+				{
+					currentOption--;
+					if (currentOption < 0)
+						currentOption = 1;
+					labels[2].texture = option_tex[0][currentOption];
+				}
+				// Bottom-right arrow is clicked
+				else if (currentSelection == 5)
+				{
+					currentOption++;
+					if (currentOption > 1)
+						currentOption = 0;
+					labels[3].texture = option_tex[1][currentOption];
+				}
+				// Bottom-left arrow is clicked
+				else if (currentSelection == 6)
+				{
+					currentOption--;
+					if (currentOption < 0)
+						currentOption = 1;
+					labels[3].texture = option_tex[1][currentOption];
+				}
+			}
+		}
 
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{

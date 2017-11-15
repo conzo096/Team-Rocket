@@ -41,19 +41,15 @@ void GameEngine::Initialise()
 	//LoadShaders();
 
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	// V-Sync, does not run without it
-	glfwSwapInterval(1.0);
+	glfwSwapInterval(1.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-//void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
-//{
-//	const auto mvp = cameraMVP * m;
-////	Shader::Get().UseShader("Basic", effect, mvp);
-////	Shader::Get().UseShader("Phong", effect, mvp, m, m, cameraPos);
-//	model.Draw();
-//}
 
 void GameEngine::Render()
 {
@@ -142,18 +138,18 @@ void GameEngine::BindMaterial(const Material* material, const int shaderID)
 		idx = glGetUniformLocation(shaderID, "mat.shininess");
 		glUniform1f(idx, material->shininess * 128);
 	}
-	else
-	{
-		GLint idx;
-		idx = glGetUniformLocation(shaderID, "mat.emissive");
-		glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7,1)));
-		idx = idx = glGetUniformLocation(shaderID, "mat.diffuse_reflection");
-		glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7, 1)));
-		idx = idx = glGetUniformLocation(shaderID, "mat.specular_reflection");
-		glUniform4fv(idx, 1, value_ptr(glm::vec4(1, 1, 1, 1)));
-		idx = glGetUniformLocation(shaderID, "mat.shininess");
-		glUniform1f(idx,1);
-	}
+	//else
+	//{
+	//	GLint idx;
+	//	idx = glGetUniformLocation(shaderID, "mat.emissive");
+	//	glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7,1)));
+	//	idx = idx = glGetUniformLocation(shaderID, "mat.diffuse_reflection");
+	//	glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7, 1)));
+	//	idx = idx = glGetUniformLocation(shaderID, "mat.specular_reflection");
+	//	glUniform4fv(idx, 1, value_ptr(glm::vec4(1, 1, 1, 1)));
+	//	idx = glGetUniformLocation(shaderID, "mat.shininess");
+	//	glUniform1f(idx,1);
+	//}
 }
 
 

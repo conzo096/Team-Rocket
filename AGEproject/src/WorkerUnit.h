@@ -32,7 +32,7 @@ public:
 		{
 			if  (returnToResource)
 			{
-				GetParent()->GetCompatibleComponent<GroundMovement>()->SetGoal(targetEntity->GetPosition());
+				GetParent()->GetComponent<GroundMovement>().SetDestination(targetEntity->GetPosition());
 				// If within range, Collect some of the resource.
 				if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 16 && canShoot)
 				{
@@ -52,11 +52,11 @@ public:
 			if (walkToBase)
 			{
 				// Get it to walk to base.
- 				GetParent()->GetCompatibleComponent<GroundMovement>()->SetGoal(collectionPoint);
+ 				GetParent()->GetComponent<GroundMovement>().SetDestination(collectionPoint);
 				// If it close enough to destination, give resource to team.
 				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 0.5)
 				{
-					GetParent()->GetCompatibleComponent<GroundMovement>()->SetCurrentSpeed(0);
+					GetParent()->GetComponent<GroundMovement>().SetCurrentSpeed(0);
 					std::cout << "Depositing resource." << std::endl;
 					waitingForCollection = true;
 					walkToBase = false;

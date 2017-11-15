@@ -23,8 +23,8 @@ class Game : public Singleton<Game>
 {
 private:
 	double lastTime;
-	int** grid;
-
+	int** navGrid;
+	dvec3** terrainGrid;
 public:
 	// User.
 	Player* player;
@@ -32,8 +32,12 @@ public:
 	AiPlayer* NPC;
 	Entity *free_cam = new Entity;
 	std::vector<Entity*> entities; //Figure out how to split this.
-
-	int** GetGrid() { return grid; };
+	// Particle that appears when the user selects a location.
+	BulletParticle location;
+	// How long the particle will last for before stop being rendered.
+	double duration = 3.0;
+	int** GetNavGrid() { return navGrid; };
+	dvec3** GetTerrainGrid() { return terrainGrid; };
 	void Initialise();
 	bool Update();
 	void Render();

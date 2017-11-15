@@ -3,13 +3,17 @@
 #include <vector>
 #include "Entity.h"
 
+enum Team
+{
+	player, ai, neutral
+};
 
 class Player
 {
 
 protected:
 	// Team the player is on.
-	int team;
+	Team team;
 	// List of entities that this player contains.
 	std::vector<Entity*>entities;
 	// The units that the player is controlling.
@@ -19,8 +23,8 @@ protected:
 public:
 	
 
-	int GetTeam() { return team; }
-	void SetTeam(int t) { team = t; }
+	Team GetTeam() { return team; }
+	void SetTeam(Team t) { team = t; }
 	std::vector<Entity*>& GetEntities() { return entities; }
 
 	void Update(std::vector<Entity*>& enemyList);
