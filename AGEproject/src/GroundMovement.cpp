@@ -30,10 +30,6 @@ GroundMovement::GroundMovement() : Movement("GroundMovement")
 	for (int i = 0; i < xSize; i++)
 		directions[i] = new int[zSize];
 
-	/*for (int i = 0; i < xSize; i++)
-		for (int j = 0; j < zSize; j++)
-			directions[i][j] = 0;*/
-
 	terrainGrid = new dvec3*[xSize];
 	for (int i = 0; i < xSize; i++)
 		terrainGrid[i] = new dvec3[zSize];
@@ -279,28 +275,7 @@ void GroundMovement::Update(double delta)
 		Pathfind(xStart, zStart, xFinish, zFinish);
 		needPath = false;
 	}
-	directions[xFinish][zFinish] = 9;
 
-	/*std::ofstream out("test.csv");
-
-	for (int i = 0; i < xSize; i++) {
-		for (int j = 0; j < zSize; j++)
-			out << directions[i][j] << ',';
-		out << '\n';
-	}*/
-	//int j = directions[xStart][zStart];
-	//float xDestination;
-	//float zDestination;
-	//if ((xStart + dx[j] == xFinish) && (zStart + dz[j] == zFinish))
-	//{
-	//	xDestination = goal.x;
-	//	zDestination = goal.z;
-	//}
-	//else
-	//{
-	//	xDestination = (xStart + dx[j]);//translate to world space
-	//	zDestination = (zStart + dz[j]);
-	//}
 	if (waypoints.size() != 0)
 	{
 		destination = terrainGrid[waypoints.front().x][waypoints.front().y];

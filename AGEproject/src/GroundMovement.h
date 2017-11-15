@@ -90,14 +90,13 @@ private:
 	deque<ivec2> waypoints; //The series of waypoins to be followed
 
 protected:
-	dvec3 goal;
 
 	void from_json(const nlohmann::json &j);
 public:
 	GroundMovement();
 	~GroundMovement();
 
-	void SetGoal(vec3 goal) { this->goal = goal; needPath = true; };
+	void SetGoal(dvec3 goal) { this->goal = goal; needPath = true; };
 	void SetGrid(int xSize, int zSize, int **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
 	bool LineOfSight();
 	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);
