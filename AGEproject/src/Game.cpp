@@ -38,6 +38,8 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
+	cam->Rotate(-4 / pi<float>(), -4 / pi<float>());
+	//cam->Rotate(4 / pi<float>(), -3 / pi<float>());
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
 
@@ -109,7 +111,7 @@ void Game::Initialise()
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 	Material* mat = new Material();
-	mat->emissive = glm::vec4(0.03,0,0.07,1);
+	mat->emissive = glm::vec4(0.03, 0, 0.07, 1);
 	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
@@ -140,6 +142,7 @@ bool Game::Update()
 	UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
+	//free_cam->GetComponent<Free_Camera>().Rotate(45,45);
 	free_cam->Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
@@ -181,7 +184,7 @@ bool Game::Update()
 void Game::Render()
 {
 
-//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
+	//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
 	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
 	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
