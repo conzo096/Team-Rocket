@@ -17,11 +17,11 @@ void AirMovement::MoveTo(double delta)
 {
 	if (IsActive())
 	{
-		if (GetParent()->GetPosition() == destination)
+		if (GetParent()->GetPosition() == goal)
 		{
 
-			destination.x = rand() % 200 - 100;
-			destination.z = rand() % 200 - 100;
+			goal.x = rand() % 200 - 100;
+			goal.z = rand() % 200 - 100;
 
 			currentSpeed = 0.0f;
 

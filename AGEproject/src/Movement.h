@@ -6,6 +6,7 @@ class Movement : public Component
 private:
 
 protected:
+	glm::dvec3 goal;
 	double speed;
 	double accelerationTime;
 	double currentSpeed;
@@ -18,6 +19,7 @@ public:
 	Movement(std::string type);
 	~Movement();
 
+	void SetGoal(glm::dvec3 goal) { this->goal = goal; };
 	void SetSpeed(double speed) { this->speed = speed; };
 	void SetTurnSpeed(double turnSpeed) { this->turnSpeed = turnSpeed; };
 	void SetAcceleration(double accelerationTime) { this->accelerationTime = accelerationTime; };
