@@ -97,15 +97,16 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		for (Entity*& e : enemyList)
 		{
 			// If clicking on an enemy.
-			if (e->GetCompatibleComponent<BoundingSphere>()->TestIntersection(UserControls::Get().GetRay(), poi))
-			{
-				// Attack the enemy. 
-				for (Entity*& m : selectedEntities)
+			if (e->GetCompatibleComponent<BoundingSphere>() != NULL)
+				if(e->GetCompatibleComponent<BoundingSphere>()->TestIntersection(UserControls::Get().GetRay(), poi))
 				{
-					m->GetCompatibleComponent<Unit>()->SetEntityToTarget(e);
-					m->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
+					// Attack the enemy. 
+					for (Entity*& m : selectedEntities)
+					{
+						m->GetCompatibleComponent<Unit>()->SetEntityToTarget(e);
+						m->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
+					}
 				}
-			}
 		}
 	}
 

@@ -84,7 +84,7 @@ void Game::Initialise()
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
 	// This will be added to a neutral list later.
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30, 2.5, 30), NPC->GetTeam()));
+	entities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30, 2.5, 30), Team::neutral));
 
 	//This is a "wall"
 	Entity* tempEntity77 = new Entity;
@@ -101,8 +101,13 @@ void Game::Initialise()
 
 bool Game::Update()
 {
+	std::vector<Entity*> allOthers;
+	allOthers.insert(allOthers.end(), entities.begin(), entities.end());
+	allOthers.insert(allOthers.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+
+
 	// Get user and ai actions.
-	player->Update(NPC->GetEntities());
+	player->Update(allOthers);
 	NPC->Update(player->GetEntities());
 	// Set camera matrix.
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
@@ -138,6 +143,10 @@ bool Game::Update()
 		Entity*& e = NPC->GetEntities()[i];
 		e->Update(deltaTime);
 	}
+
+
+
+
 	// Handle deletion of entities.
 	for (i = 0; i < entities.size(); i++)
 	{
