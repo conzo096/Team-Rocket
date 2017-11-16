@@ -35,6 +35,7 @@ public:
 			value = 0;
 			// if it false delete - even better give it a targetable component.
 			GetParent()->GetComponent<Targetable>().SetHealth(0);
+			GetParent()->GetComponent<Targetable>().Update(0);
 		}
 		mut.unlock();
 		return takeAmount;

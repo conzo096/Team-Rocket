@@ -13,7 +13,7 @@ private:
 	bool waitingForCollection = false;
 
 	// Location is needs to head towards to drop of resource.
-	glm::dvec3 collectionPoint = glm::vec3(30,0,10);
+	glm::dvec3 collectionPoint = glm::vec3(0,2.5,0);
 
 protected:
 	void from_json(const nlohmann::json &j) {};
@@ -40,12 +40,14 @@ public:
 					timeSinceLastFire = 0;
 					// Take some of the resource from the targetEntity.
 					resourcesHeld += targetEntity->GetCompatibleComponent<Resource>()->RetrieveResource();
-					if (resourcesHeld >= 1000)
+					if (resourcesHeld >= 1000 || targetEntity->GetComponent<Targetable>().IsDead())
 					{
 						walkToBase = true;
 						returnToResource = false;
 						std::cout << "Returning to base." << std::endl;
 					}
+					if (targetEntity->GetComponent<Targetable>().IsDead())
+						targetEntity = NULL;
 				}
 			}
 			// If the resource contained in this unit is within a certain amount, empty at base, then return.
@@ -67,7 +69,9 @@ public:
 			}
 
 		}
-	}
+	
+	
+}
 
 	// Players collect resource from worker once it is in correct area.
 	int Collect()
