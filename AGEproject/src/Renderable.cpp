@@ -4,7 +4,7 @@ void Renderable::from_json(const nlohmann::json & j)
 {
 }
 
-Renderable::Renderable() : model(nullptr),effect(new Effect()), Component("Rendererable")
+Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rendererable")
 {
 }
 
@@ -14,7 +14,7 @@ Renderable::~Renderable()
 
 void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
-	model = GeometryUtil::BuildPlane(spacing,xSize,ySize);
+	model = GeometryUtil::BuildPlane(spacing, xSize, ySize);
 	//model = ResourceHandler::Get().GetModel("Plane");
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
@@ -23,7 +23,7 @@ void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 
 void Renderable::SetModel(std::string location)
 {
-	model =  ResourceHandler::Get().GetModel((location));
+	model = ResourceHandler::Get().GetModel((location));
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
 	renderInfo.indices = model->GetIndices();

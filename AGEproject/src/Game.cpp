@@ -38,7 +38,7 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->Rotate(-4 / pi<float>(), -4 / pi<float>());
+	cam->Rotate(3 / pi<float>(), -3 / pi<float>());
 	//cam->Rotate(4 / pi<float>(), -3 / pi<float>());
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
@@ -103,15 +103,15 @@ void Game::Initialise()
 	// This is the floor.
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
-	tempRenderable2->SetPlane(1, 100, 100);
-	tempRenderable2->SetTexture("debug");
+	tempRenderable2->SetPlane(10, 10, 10);
+	tempRenderable2->SetTexture("Rock");
 	tempRenderable2->SetShader("Phong");
 	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 	tempRenderable2->UpdateTransforms();
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 	Material* mat = new Material();
-	mat->emissive = glm::vec4(0.03, 0, 0.07, 1);
+	mat->emissive = glm::vec4(0.02, 0.02, 0.02, 1);
 	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
