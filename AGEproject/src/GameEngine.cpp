@@ -13,11 +13,8 @@ void GameEngine::Initialise()
 	}
 	FileIO io = FileIO::Get();
 	io.LoadIniFile();
-	// Create a windowed mode window with hard coded parameters.
-	if(fullScreen == false)
-		window = glfwCreateWindow(GetScreenWidth(), GetScreenHeight(), "Team Rocket", NULL, NULL);
-	else
-		window = glfwCreateWindow(GetScreenWidth(),GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
+
+	GameEngine::CreateWindow();
 	
 	// Window is now initalised, now make it the current context.
 	glfwMakeContextCurrent(Get().window);
@@ -156,7 +153,27 @@ void GameEngine::BindMaterial(const Material* material, const int shaderID)
 	}
 }
 
+void GameEngine::CreateWindow()
+{
+	if (GameEngine::Get().GetFullScreen())
+		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
+	else
+		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Team Rocket", NULL, NULL);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwMakeContextCurrent(window);
+}
 
+void GameEngine::UpdateWindow()
+{
+	if (!fullScreen)
+		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+	else
+		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+	int w, h;
+	glfwGetWindowSize(window, &w, &h);
+	glViewport(0, 0, w, h);
+	glfwMakeContextCurrent(window);
+}
 
 void GameEngine::AddToRenderList(RenderData data)
 {

@@ -45,7 +45,6 @@ struct ParticleData
 
 };
 
-
 class GameEngine : public Singleton<GameEngine>
 {
 private:
@@ -61,11 +60,12 @@ private:
 	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
 	std::vector<ParticleData> particles;
-public:
 
+public:
 	// The render window.
 	GLFWwindow* GetWindow() { return window; }
-
+	void CreateWindow();
+	void UpdateWindow();
 	void Initialise();
 	//void Render(glm::mat4 mvp, Model model, Effect effect);
 

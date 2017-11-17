@@ -9,9 +9,11 @@ public:
 		title_tex[0] = ResourceHandler::Get().GetTexture("Resolution");
 		title_tex[1] = ResourceHandler::Get().GetTexture("Screen_mode");
 		option_tex[0][0] = ResourceHandler::Get().GetTexture("1920x1080");
-		option_tex[0][1] = ResourceHandler::Get().GetTexture("1920x1080_HIGHLIGHTED");
-		option_tex[1][0] = ResourceHandler::Get().GetTexture("Fullscreen");
-		option_tex[1][1] = ResourceHandler::Get().GetTexture("Fullscreen_HIGHLIGHTED");
+		option_tex[0][1] = ResourceHandler::Get().GetTexture("1600x900");
+		option_tex[0][2] = ResourceHandler::Get().GetTexture("1280x720");
+		option_tex[0][3] = ResourceHandler::Get().GetTexture("1024x576");
+		option_tex[1][0] = ResourceHandler::Get().GetTexture("Windowed");
+		option_tex[1][1] = ResourceHandler::Get().GetTexture("Fullscreen");
 
 		button_tex[0] = ResourceHandler::Get().GetTexture("Customise_controls");
 		button_tex[1] = ResourceHandler::Get().GetTexture("Save_changes");
@@ -69,7 +71,7 @@ public:
 
 private:
 	unsigned int title_tex[2];
-	unsigned int option_tex[2][2];
+	unsigned int option_tex[2][4];
 	unsigned int button_tex[5];
 	unsigned int highlight_tex[5];
 	
