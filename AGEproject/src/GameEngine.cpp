@@ -159,7 +159,6 @@ void GameEngine::CreateWindow()
 		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
 	else
 		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Team Rocket", NULL, NULL);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwMakeContextCurrent(window);
 }
 
