@@ -42,6 +42,6 @@ public:
 	bool Update();
 	void Render();
 
-
+	void HandleInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 	//void UpdateEntityList(int start, int end, double deltaTime);
 };

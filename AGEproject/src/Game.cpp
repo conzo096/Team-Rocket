@@ -17,8 +17,19 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 	}
 }
 
+void Game::HandleInput(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	
+
+
+}
+
+
 void Game::Initialise()
 {
+
+	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
+
 	navGrid = new int*[100];
 	for (int i = 0; i < 100; i++)
 		navGrid[i] = new int[100];
@@ -93,7 +104,9 @@ void Game::Initialise()
 	tempRenderable77->SetPlane(1, 25, 25);
 	tempRenderable77->SetTexture("ConstructorUV");
 	tempRenderable77->SetShader("Phong");
-	tempEntity77->SetPosition(glm::vec3(50.0f, 1.0f, 50.0f));
+	tempEntity77->SetPosition(glm::vec3(50.0f, 2.5f, 50.0f));
+
+	entities.push_back(move(tempEntity77));
 
 	lastTime = clock();
 }
@@ -101,13 +114,13 @@ void Game::Initialise()
 
 bool Game::Update()
 {
-	std::vector<Entity*> allOthers;
-	allOthers.insert(allOthers.end(), entities.begin(), entities.end());
-	allOthers.insert(allOthers.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+	//std::vector<Entity*> allOthers;
+	//allOthers.insert(allOthers.end(), entities.begin(), entities.end());
+	//allOthers.insert(allOthers.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
 
 
 	// Get user and ai actions.
-	player->Update(allOthers);
+	player->Update(NPC->GetEntities());
 	NPC->Update(player->GetEntities());
 	// Set camera matrix.
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
@@ -152,11 +165,11 @@ bool Game::Update()
 	{
 		Entity*& e = entities[i];
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
-		if (e->GetCompatibleComponent<Targetable>()->IsDead())
-		{
-		//	e->~Entity();
-			entities.erase(std::remove(entities.begin(), entities.end(), e), entities.end());
-		}
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+			//	e->~Entity();
+				entities.erase(std::remove(entities.begin(), entities.end(), e), entities.end());
+			}
 	}
 	for (i = 0; i < player->GetEntities().size(); i++)
 	{
@@ -175,11 +188,8 @@ bool Game::Update()
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
 				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
-				i--;
 			}
 	}
-
-
 
 
 	// hacky approach to approximating framerate, causes application to crash on closing.

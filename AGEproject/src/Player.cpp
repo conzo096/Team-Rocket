@@ -22,6 +22,9 @@ void Player::Update(std::vector<Entity*>& enemyList)
 
 void Player::HandleInput(std::vector<Entity*>& enemyList)
 {
+	updateCalled++;
+
+
 	// Select unit or units.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
 	{
@@ -70,7 +73,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 	
 	
 	// if it is a move action, move selected entity.
-	if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+	if (UserControls::Get().IsMouseButtonPressed(std::string("Move")))
 	{
 		glm::vec3 poi;
 		// Check for point of intersection.
@@ -126,7 +129,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 
 			// Pause all movement components of selected units.
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_X) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("Hold")))
 			{
 				// Pause all units.
 				for (Entity*& e : selectedEntities)
@@ -139,44 +142,43 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 		}
 
-		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
+		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL && updateCalled >= 4)
 		{
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
 			}
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 			}
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 			}
-				
+			updateCalled = 0;
 		}
-		else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
+		else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL && updateCalled >= 4)
 		{
 
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
-				//glfwPollEvents();
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_RELEASE)
-					selectedEntity->SetScale(glm::vec3(10, 10, 10));
+				selectedEntity->SetScale(glm::vec3(10, 10, 10));
 			}
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
 
 			}
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
 			{
 
 			}
+			updateCalled = 0;
 		}
 	}
 
-
-	//glfwPollEvents();
+	glfwPollEvents();
 }
 
 void Player::Render()

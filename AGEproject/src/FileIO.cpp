@@ -34,6 +34,7 @@ bool FileIO::CreateIniFile()
 
 	outputFile << "Controller bindings" << std::endl;
 	outputFile << "Action=0" << std::endl;
+	outputFile << "Move=1" << std::endl;
 	outputFile << "Forward=87" << std::endl;
 	outputFile << "Backward=83" << std::endl;
 	outputFile << "Left=65" << std::endl;
@@ -45,6 +46,10 @@ bool FileIO::CreateIniFile()
 	outputFile << "Up=32" << std::endl;
 	outputFile << "Down=341" << std::endl;
 	outputFile << "Enter=257" << std::endl;
+	outputFile << "Hold=88" << std::endl;
+	outputFile << "HotKey1=49" << std::endl;
+	outputFile << "HotKey2=50" << std::endl;
+	outputFile << "HotKey3=51" << std::endl;
 	outputFile.close();
 
 	return true;
@@ -69,8 +74,10 @@ void FileIO::ConfigureGame(std::string para)
 		if (token == "Height")
 			GameEngine::Get().SetScreenHeight(value);
 
-		
+		// Simplier way of approaching this?
 		if (token == "Action")
+			UserControls::Get().BindKey(token, value);
+		if (token == "Move")
 			UserControls::Get().BindKey(token, value);
 		if (token == "Forward")
 			UserControls::Get().BindKey(token, value);
@@ -94,6 +101,15 @@ void FileIO::ConfigureGame(std::string para)
 			UserControls::Get().BindKey(token, value);
 		if (token == "Enter")
 			UserControls::Get().BindKey(token, value);
+		if (token == "Hold")
+			UserControls::Get().BindKey(token, value);
+		if (token == "HotKey1")
+			UserControls::Get().BindKey(token, value);
+		if (token == "HotKey2")
+			UserControls::Get().BindKey(token, value);
+		if (token == "HotKey3")
+			UserControls::Get().BindKey(token, value);
+
 	}
 	else
 		std::cout << "Error" << std::endl;

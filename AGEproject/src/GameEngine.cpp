@@ -18,9 +18,10 @@ void GameEngine::Initialise()
 		window = glfwCreateWindow(GetScreenWidth(), GetScreenHeight(), "Team Rocket", NULL, NULL);
 	else
 		window = glfwCreateWindow(GetScreenWidth(),GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
-	
+
 	// Window is now initalised, now make it the current context.
-	glfwMakeContextCurrent(Get().window);
+	glfwMakeContextCurrent(window);
+
 	if (!Get().window)
 	{
 		assert(Get().window != NULL);

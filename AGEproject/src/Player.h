@@ -20,6 +20,10 @@ protected:
 	std::vector<Entity*> selectedEntities;
 	// How much $$$$ the player has, used for unit spawning.
 	int balance = 10000;
+
+	// Used to limit key calls.
+	int updateCalled;
+
 public:
 	
 
@@ -30,8 +34,6 @@ public:
 	void Update(std::vector<Entity*>& enemyList);
 	void HandleInput(std::vector<Entity*>& enemyList);
 	void Render();
-
-
 
 };
 
