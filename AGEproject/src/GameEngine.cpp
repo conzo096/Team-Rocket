@@ -3,7 +3,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include "FileIO.h"
-
+#include <tuple>
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
@@ -154,12 +154,18 @@ void GameEngine::BindMaterial(const Material* material, const int shaderID)
 }
 
 
-
 void GameEngine::AddToRenderList(RenderData data)
 {
 	// Sort vector here.
 	mut.lock();
 	renderList.push_back(data);
+	// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
+	// it should be inserted to first.
+
+	std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
+	{
+		return std::tie(lhs.shader, lhs.modelVao) < std::tie(rhs.shader, rhs.modelVao);	
+	});
 	mut.unlock();
 }
 

@@ -24,7 +24,6 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 {
 	updateCalled++;
 
-
 	// Select unit or units.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
 	{
@@ -83,7 +82,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			for (Entity*&e : selectedEntities)
 			{
 				if (e != NULL && e->GetCompatibleComponent<Unit>() != NULL)
-				{
+				{		
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
@@ -101,7 +100,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		{
 			// If clicking on an enemy.
 			if (e->GetCompatibleComponent<BoundingSphere>() != NULL)
-				if(e->GetCompatibleComponent<BoundingSphere>()->TestIntersection(UserControls::Get().GetRay(), poi))
+			{
+				if (e->GetCompatibleComponent<BoundingSphere>()->TestIntersection(UserControls::Get().GetRay(), poi))
 				{
 					// Attack the enemy. 
 					for (Entity*& m : selectedEntities)
@@ -110,6 +110,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 						m->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
 					}
 				}
+			}
 		}
 	}
 

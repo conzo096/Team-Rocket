@@ -188,35 +188,35 @@ bool Game::Update()
 
 	
 	//// Handle deletion of entities.
-	//for (i = 0; i <neutralEntities.size(); i++)
-	//{
-	//	Entity*& e = neutralEntities[i];
-	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
-	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
-	//		{
-	//		//	e->~Entity();
-	//			neutralEntities.erase(std::remove(neutralEntities.begin(), neutralEntities.end(), e), neutralEntities.end());
-	//		}
-	//}
-	//for (i = 0; i < player->GetEntities().size(); i++)
-	//{
-	//	Entity*& e = player->GetEntities()[i];
-	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
-	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
-	//		{
-	//		//	e->~Entity();
-	//			player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
-	//		}
-	//}
-	//for (i = 0; i < NPC->GetEntities().size(); i++)
-	//{
-	//	Entity* e = NPC->GetEntities()[i];
-	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
-	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
-	//		{
-	//			NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
-	//		}
-	//}
+	for (i = 0; i <neutralEntities.size(); i++)
+	{
+		Entity*& e = neutralEntities[i];
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+			//	e->~Entity();
+				neutralEntities.erase(std::remove(neutralEntities.begin(), neutralEntities.end(), e), neutralEntities.end());
+			}
+	}
+	for (i = 0; i < player->GetEntities().size(); i++)
+	{
+		Entity*& e = player->GetEntities()[i];
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+			//	e->~Entity();
+				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
+			}
+	}
+	for (i = 0; i < NPC->GetEntities().size(); i++)
+	{
+		Entity* e = NPC->GetEntities()[i];
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
+			}
+	}
 
 
 	// hacky approach to approximating framerate, causes application to crash on closing.

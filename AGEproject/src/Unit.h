@@ -118,6 +118,7 @@ public:
 		}
 		if (action == AttackMove)
 		{
+
 			AttackEntity();
 		}
 
