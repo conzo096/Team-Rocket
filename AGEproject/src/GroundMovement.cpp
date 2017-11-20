@@ -1,6 +1,12 @@
 #include "GroundMovement.h"
-#include <random>
 #include <queue>
+#include "Game.h"
+#include <random>
+
+struct s_dir {
+	int x = 0;
+	int z = 0;
+};
 
 void GroundMovement::from_json(const nlohmann::json & j)
 {
@@ -8,15 +14,31 @@ void GroundMovement::from_json(const nlohmann::json & j)
 
 GroundMovement::GroundMovement() : Movement("GroundMovement")
 {
+	nodeMap = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		nodeMap[i] = new int[zSize];
+
+	openNodes = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		openNodes[i] = new int[zSize];
+
+	closedNodes = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		closedNodes[i] = new int[zSize];
+
+	directions = new int*[xSize];
+	for (int i = 0; i < xSize; i++)
+		directions[i] = new int[zSize];
+
+	terrainGrid = new dvec3*[xSize];
+	for (int i = 0; i < xSize; i++)
+		terrainGrid[i] = new dvec3[zSize];
+
+	needPath = true;
 }
 
 GroundMovement::~GroundMovement()
 {
-}
-
-void GroundMovement::FindClosest(vec3 point)
-{
-	//do some modulus stuff here
 }
 
 bool GroundMovement::LineOfSight()
@@ -28,16 +50,16 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 {
 	static priority_queue<Node> untriedNodes[2]; // list of open (not-yet-tried) nodes
 	static int nodeIndex = 0;
-	static Node* x0;
-	static Node* z0;
+	static Node* node1;
+	static Node* node2;
 	static int x, z,
 		xdx, //The Current x plus a direction
 		zdz; //The Current z plus a direction
 
 	// reset the node maps
-	for (z = 0; z < zSize; z++)
+	for (z = 0; z < zSize; ++z)
 	{
-		for (x = 0; x < xSize; x++)
+		for (x = 0; x < xSize; ++x)
 		{
 			closedNodes[x][z] = 0;
 			openNodes[x][z] = 0;
@@ -45,20 +67,20 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 	}
 
 	// create the start node and push into list of open nodes
-	x0 = new Node(xStart, zStart, 0, 0);
-	x0->UpdatePriority(xFinish, zFinish);
-	untriedNodes[nodeIndex].push(*x0);
-	openNodes[x][z] = x0->GetPriority(); // mark it on the open nodes map
+	node1 = new Node(xStart, zStart, 0, 0);
+	node1->UpdatePriority(xFinish, zFinish);
+	untriedNodes[nodeIndex].push(*node1);
+	//openNodes[x][z] = x0->GetPriority(); // mark it on the open nodes map
 
 											  // A* search
 	while (!untriedNodes[nodeIndex].empty())
 	{
 		// get the current node w/ the highest priority
 		// from the list of open nodes
-		x0 = new Node(untriedNodes[nodeIndex].top().GetxPos(), untriedNodes[nodeIndex].top().GetzPos(),
-			untriedNodes[nodeIndex].top().GetDistance(), untriedNodes[nodeIndex].top().GetPriority());
+		node1 = new Node(untriedNodes[nodeIndex].top().GetxPos(), untriedNodes[nodeIndex].top().GetzPos(), untriedNodes[nodeIndex].top().GetDistance(), untriedNodes[nodeIndex].top().GetPriority());
 
-		x = x0->GetxPos(); z = x0->GetzPos();
+		x = node1->GetxPos();
+		z = node1->GetzPos();
 
 		untriedNodes[nodeIndex].pop(); // remove the node from the open list
 		openNodes[x][z] = 0;
@@ -68,6 +90,7 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 		// quit searching when the goal state is reached
 		if (x == xFinish && z == zFinish)
 		{
+			waypoints.clear();
 			// generate the path from finish to start
 			// by following the directions
 			while (!(x == xStart && z == zStart))
@@ -75,9 +98,10 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 				int j = directions[x][z];
 				x += dx[j];
 				z += dz[j];
+				waypoints.push_front(ivec2(x, z));
 			}
 
-			delete x0;
+			delete node1;
 			// empty the leftover nodes
 			while (!untriedNodes[nodeIndex].empty())
 				untriedNodes[nodeIndex].pop();
@@ -90,27 +114,26 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 			xdx = x + dx[i];
 			zdz = z + dz[i];
 
-			if (!(xdx<0 || xdx>xSize - 1 || zdz<0 || zdz>zSize - 1 || nodeMap[xdx][zdz] == 1
-				|| closedNodes[xdx][zdz] == 1))
+			if (!(xdx<0 || xdx>xSize - 1 || zdz<0 || zdz>zSize - 1 || nodeMap[xdx][zdz] == 1 || closedNodes[xdx][zdz] == 1))
 			{
 				// generate a child node
-				z0 = new Node(xdx, zdz, x0->GetDistance(),
-					x0->GetPriority());
-				z0->NextDistance(i);
-				z0->UpdatePriority(xFinish, zFinish);
+				node2 = new Node(xdx, zdz, node1->GetDistance(),
+					node1->GetPriority());
+				node2->NextDistance(i);
+				node2->UpdatePriority(xFinish, zFinish);
 
 				// if it is not in the open list then add into that
 				if (openNodes[xdx][zdz] == 0)
 				{
-					openNodes[xdx][zdz] = z0->GetPriority();
-					untriedNodes[nodeIndex].push(*z0);
+					openNodes[xdx][zdz] = node2->GetPriority();
+					untriedNodes[nodeIndex].push(*node2);
 					// mark its parent node direction
 					directions[xdx][zdz] = (i + dir / 2) % dir;
 				}
-				else if (openNodes[xdx][zdz] > z0->GetPriority())
+				else if (openNodes[xdx][zdz] > node2->GetPriority())
 				{
 					// update the priority info
-					openNodes[xdx][zdz] = z0->GetPriority();
+					openNodes[xdx][zdz] = node2->GetPriority();
 					// update the parent direction info
 					directions[xdx][zdz] = (i + dir / 2) % dir;
 
@@ -134,26 +157,28 @@ bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int 
 						untriedNodes[nodeIndex].pop();
 					}
 					nodeIndex = 1 - nodeIndex;
-					untriedNodes[nodeIndex].push(*z0); // add the better node instead
+					untriedNodes[nodeIndex].push(*node2); // add the better node instead
 				}
-				else delete z0;
+				else delete node2;
 			}
 		}
-		delete x0;
+		delete node1;
 	}
 	return false; // no route found
 }
 
 void GroundMovement::MoveTo(double delta)
 {
-	if (GetParent()->GetPosition() == destination)
+	if (GetParent()->GetPosition() == goal)
 	{
-
-		destination.x = rand() % 200 - 100;
-		destination.z = rand() % 200 - 100;
-
 		currentSpeed = 0.0f;
-
+		/*goal.x = (std::rand() % (99));
+		goal.z = (std::rand() % (99));
+		while((goal.x < 50 || goal.x >75))
+			goal.x = (std::rand() % (99));
+		while((goal.z < 50 || goal.z >75))
+			goal.z = (std::rand() % (99));*/
+		needPath = true;
 	}
 	else
 	{
@@ -230,10 +255,35 @@ void GroundMovement::TurnTo(double delta)
 
 void GroundMovement::Update(double delta)
 {
+	nodeMap = Game::Get().GetNavGrid();
+	terrainGrid = Game::Get().GetTerrainGrid();
 
-	Pathfind(1,1,1,1);
-	int j = directions[1][1];
-	destination = vec3((1 + dx[j]), 0.0, (1 + dz[j]));
+	int xStart = floor(GetParent()->GetPosition().x + 0.5);//for grid of 1 spacing
+	int zStart = floor(GetParent()->GetPosition().z + 0.5);
+
+	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
+	int zFinish = floor(goal.z + 0.5);
+
+	for (int i = 0; i < waypoints.size(); i++)
+	{
+		if (nodeMap[waypoints[i].x][waypoints[i].y] == 1)
+			needPath = true;
+	}
+
+	if (needPath)
+	{
+		Pathfind(xStart, zStart, xFinish, zFinish);
+		needPath = false;
+	}
+
+	if (waypoints.size() != 0)
+	{
+		destination = terrainGrid[waypoints.front().x][waypoints.front().y];
+		if (GetParent()->GetPosition() == terrainGrid[waypoints.front().x][waypoints.front().y])
+		{
+			waypoints.pop_front();
+		}
+	}
 	MoveTo(delta);
 	TurnTo(delta);
 }

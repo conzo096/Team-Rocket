@@ -108,9 +108,6 @@
     <ClCompile Include="src\RayCast.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\StateManager.cpp">
-      <Filter>Source Files\Game Engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\stb_image.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\Player.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Menu.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\Game.cpp">
@@ -135,8 +129,23 @@
     <ClCompile Include="src\Spawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GroundMovement.cpp">
+    <ClCompile Include="src\Particle.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainMenu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SettingsMenu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StateManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Quad.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GroundMovement.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +195,6 @@
       <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">
-      <Filter>Header Files\Game Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\StateManager.h">
       <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.h">
@@ -272,8 +278,17 @@
     <ClInclude Include="src\GroundMovement.h">
       <Filter>Header Files\Components\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="src\minijson_reader.hpp">
+    <ClInclude Include="src\Particle.h">
       <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MainMenu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SettingsMenu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StateManager.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -298,9 +313,17 @@
     <None Include="res\shaders\simple_texture.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\shaders\Colour.frag" />
-    <None Include="res\shaders\Colour.vert" />
-    <None Include="res\shaders\point.frag" />
-    <None Include="res\shaders\point.vert" />
+    <None Include="res\shaders\point.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\point.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Particle.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\Particle.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -2,32 +2,48 @@
 #include "Game.h"
 #include "Entity.h"
 #include "Renderable.h"
+#include "UserControls.h"
 #include <memory>
 
 void StateManager::StateLoop()
 {
 	GameEngine::Get().Initialise();
+	bool running = true;
+	int select;
 
-	while (!glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+	while (running)
 	{
+		glfwPollEvents();
 		switch (state)
 		{
-		case(Splash):
-			//GameEngine::Instance()->Render();
-			state = Menu;
+		case(stateSplash):
+			ShowSplashScreen();
+			state = stateMainMenu;
 			break;
-		case(Menu):
-			ShowMainMenu();
-			Game::Get().Initialise(); //This will need a new home later.
-			state = Playing;
+		case(stateMainMenu):
+			select = ShowMainMenu();
+			if (select == 0)
+			{
+				Game::Get().Initialise(); //This will need a new home later.
+				state = statePlaying;
+			}
+			else if (select == 1)
+			{
+				state = stateSettings;
+			}
+			else if (select == 2) { state = stateExiting; }
 			break;
-		case(Settings):
+		case(stateSettings):
+			select = ShowSettingsMenu();
+			if (select == 2) { state = stateMainMenu; }
+			else if (select == 7) { state = stateExiting; }
 			break;
-		case(Playing):
-			Game::Get().Update();
+		case(statePlaying):
+			running = Game::Get().Update();
 			Game::Get().Render();
 			break;
-		case(Exiting):
+		case(stateExiting):
+			running = false;
 			break;
 		default:
 			throw std::invalid_argument("Error: No behavior has been set for state" + state);

@@ -45,6 +45,9 @@ void GameEngine::Initialise()
 	glCullFace(GL_BACK);
 	// V-Sync, does not run without it
 	glfwSwapInterval(1.0f);
+	//glDepthFunc(GL_LESS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 //void GameEngine::Render(glm::mat4 m, Model model, Effect effect)
@@ -57,6 +60,7 @@ void GameEngine::Initialise()
 
 void GameEngine::Render()
 {
+	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	for (RenderData rl : renderList)
 	{
@@ -87,8 +91,43 @@ void GameEngine::Render()
 		glBindVertexArray(rl.modelVao);
 		glDrawElements(rl.drawType, rl.indices, GL_UNSIGNED_INT, 0);
 	}
+
+
+	unsigned int shaderId = ResourceHandler::Get().GetShader("Particle")->GetId();
+	// Now render particles.
+	glUseProgram(shaderId);
+	// Now render all particles.
+	for (ParticleData &p : particles)
+	{
+		// Bind uniforms.
+		GLint index;
+		index = glGetUniformLocation(shaderId, "VP");
+		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(cameraMVP));
+		index = glGetUniformLocation(shaderId, "up");
+		glUniform3fv(index, 1, glm::value_ptr(cameraUp));
+		index = glGetUniformLocation(shaderId, "right");
+		glUniform3fv(index, 1, glm::value_ptr(cameraRight));
+
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, p.tex);
+		
+		index = glGetUniformLocation(shaderId, "pos");
+		glUniform3fv(index, 1, glm::value_ptr(p.pos));
+
+		const auto mvp = cameraMVP * glm::mat4(1.0);
+
+		index = glGetUniformLocation(shaderId, "MVP");
+		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));
+
+
+		auto t = ResourceHandler::Get().GetModel("BillBoard");
+		glBindVertexArray(t->GetVAO());
+		glDrawElements(t->GetType(), t->GetIndices(), GL_UNSIGNED_INT, 0);
+	}
 	// clear list.
 	renderList.clear();
+	particles.clear();
 }
 
 
@@ -128,6 +167,11 @@ void GameEngine::AddToRenderList(RenderData data)
 	renderList.push_back(data);
 }
 
+void GameEngine::AddToParticleList(ParticleData particle)
+{
+	// Sort vector here.
+	particles.push_back(particle);
+}
 
 void GameEngine::SetCamera(glm::mat4 camera)
 {
@@ -157,8 +201,3 @@ void GameEngine::PrintGlewInfo()
 	std::clog << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 	printf("-------------------------------------------------------\n");
 }
-
-//void GameEngine::LoadShaders()
-//{
-//	Shader::Get().AddShader("Phong");
-//}

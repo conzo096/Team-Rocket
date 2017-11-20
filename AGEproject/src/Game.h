@@ -12,7 +12,9 @@
 #include "BoundingBox.h"
 #include "BoundingSphere.h"
 #include "AirMovement.h"
+#include "GroundMovement.h"
 #include "ResourceHandler.h"
+
 #include "Unit.h"
 class Entity;
 class Player;
@@ -21,6 +23,8 @@ class Game : public Singleton<Game>
 {
 private:
 	double lastTime;
+	int** navGrid;
+	dvec3** terrainGrid;
 
 public:
 	// User.
@@ -30,7 +34,9 @@ public:
 	Entity *free_cam = new Entity;
 	std::vector<Entity*> entities; //Figure out how to split this.
 
+	int** GetNavGrid() { return navGrid; };
+	dvec3** GetTerrainGrid() { return terrainGrid; };
 	void Initialise();
-	void Update();
+	bool Update();
 	void Render();
 };

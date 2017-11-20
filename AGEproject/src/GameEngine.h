@@ -38,6 +38,14 @@ struct RenderData
 	Material* mat;
 };
 
+struct ParticleData
+{
+	glm::vec3 pos;
+	unsigned int tex;
+
+};
+
+
 class GameEngine : public Singleton<GameEngine>
 {
 private:
@@ -49,8 +57,10 @@ private:
 	bool fullScreen;
 	glm::mat4 cameraMVP;
 	glm::vec3 cameraPos;
-
+	glm::vec3 cameraUp;
+	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
+	std::vector<ParticleData> particles;
 public:
 
 	// The render window.
@@ -67,7 +77,8 @@ public:
 	void SetScreenWidth(int val) { width = val; }
 	void SetScreenHeight(int val) { height = val; }
 	void SetCameraPos(glm::vec3 pos) { cameraPos = pos; }
-
+	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
+	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
 	// Execute the game engine.
 	void Start();
@@ -75,6 +86,7 @@ public:
 	void CleanUp();
 
 	void AddToRenderList(RenderData list);
+	void AddToParticleList(ParticleData particle);
 	void Render();
 
 	void BindMaterial(const Material* material, const int shaderID);

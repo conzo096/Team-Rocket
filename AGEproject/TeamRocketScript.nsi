@@ -1,7 +1,7 @@
 # All the other settings can be tweaked by editing the !defines at the top of this script
-!define APPNAME "Team Rocket RTS V1"
+!define APPNAME "Team Rocket RTS V2"
 !define COMPANYNAME "Team Rocket (Team D)"
-!define DESCRIPTION "Version 1 of the untitled RTS game."
+!define DESCRIPTION "Version 2 of the untitled RTS game."
 # These three must be integers
 !define VERSIONMAJOR 1
 !define VERSIONMINOR 1
@@ -20,7 +20,7 @@ InstallDir "$DESKTOP\${COMPANYNAME}\${APPNAME}"
  
 # This will be in the installer/uninstaller's title bar
 Name "${COMPANYNAME} - ${APPNAME}"
-outFile "rtsV1.exe"
+outFile "rtsV2.exe"
  
 !include LogicLib.nsh
  
@@ -58,7 +58,7 @@ section "install"
 	File /r "res\shaders"
 	File /r "res\textures"
 	# Uninstaller - See function un.onInit and section "uninstall" for configuration
-	writeUninstaller "$INSTDIR\rtsV1Uninstall.exe" 
+	writeUninstaller "$INSTDIR\rtsV2Uninstall.exe" 
 	# Start Menu
 	createDirectory "$SMPROGRAMS\${COMPANYNAME}"
 	createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\rtsV1.exe"

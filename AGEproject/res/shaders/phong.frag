@@ -120,4 +120,6 @@ void main()
 		colour += calculate_point(point_light[i], mat, position, normal, view_dir, tex_colour);
 	//	for(int i = 0; i < num_spot_lights; i++)
 	//	do_directional_light(light);
+
+	//colour.a = tex_colour.a; //Allows transparency, but right now I'm just using UVs as textures so the models only have solid edges -ru
 }

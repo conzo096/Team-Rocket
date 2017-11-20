@@ -3,13 +3,19 @@
 #include <vector>
 #include <string>
 #include <glm\gtc\type_ptr.hpp>
-#include "Texture.h"
-#include "UserControls.h"
 #include <glm\gtc/matrix_transform.hpp>
-#include "Quad.h"
 #include "GLShader.h"
-#include "Menu_Camera.h"
-#include "Free_Camera.h"
+#include "Texture.h"
+#include "Quad.h"
+
+struct Label
+{
+	// Texture of the label.
+	unsigned int texture;
+	// Quad that the label is rendered on.
+	Quad renderTarget;
+};
+
 struct Button
 {
 	// Texture of the button.
@@ -20,36 +26,21 @@ struct Button
 	Quad renderTarget;
 };
 
-class TMenu
+class Menu
 {
-private:
-	// Camera that views menu (hopefully this will be shared in future)
-	Entity* menu_cam;
+protected:
+	bool mouseButtonHeld;
+	bool selectionMade;
 
 public:
-	TMenu() 
+	Menu()
 	{
-		menu_cam = new Entity;
-
-		auto cam = std::make_unique<Menu_Camera>();
-		cam->SetPosition(glm::dvec3(0.0, 0.0, 100.0));
-		cam->SetTarget(glm::vec3(0, 0, 0));
-		cam->SetProjection(glm::half_pi<float>(), (float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
-
-		menu_cam->AddComponent(move(cam));
+		mouseButtonHeld = false;
+		selectionMade = false;
 	}
-	TMenu(std::vector<char *> textureLocs);
-
-	std::vector<Button> buttons;
-	int currentSelection = 0;
-
-	// Move up
-	void SelectionUp();
-	// Move down.
-	void SelectionDown();
-	// Return selected button action.
-	int SelectionPicked();
+	//Menu(std::vector<char *> textureLocs);
+	virtual ~Menu() {}
 
 	// Draw the menu.
-	int Draw(GLShader shader);
+	virtual int Draw(GLShader shader) = 0;
 };

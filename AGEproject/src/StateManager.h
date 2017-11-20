@@ -5,17 +5,18 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Menu.h"
+#include "MainMenu.h"
+#include "SettingsMenu.h"
 
 class StateManager : public Singleton<StateManager>
 {
 	enum State
 	{
-		Splash,
-		Menu,
-		Settings, //May be a part of menu
-		Playing,
-		Exiting
+		stateSplash,
+		stateMainMenu,
+		stateSettings,
+		statePlaying,
+		stateExiting
 	};
 
 public:
@@ -24,12 +25,24 @@ public:
 
 	void StateLoop();
 
-	void ShowMainMenu()
+	int ShowMainMenu()
 	{
-		TMenu t;
-		t.Draw(*ResourceHandler::Get().GetShader("Phong"));
+		MainMenu mm;
+		return mm.Draw(*ResourceHandler::Get().GetShader("Basic"));
 	}
-private:
 
+	int ShowSettingsMenu()
+	{
+		SettingsMenu sm;
+		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	}
 
+	int ShowSplashScreen()
+	{
+		/*while(!UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+		{
+			
+		}*/
+		return stateMainMenu;
+	}
 };

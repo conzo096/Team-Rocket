@@ -8,6 +8,28 @@
 
 void Game::Initialise()
 {
+	navGrid = new int*[100];
+	for (int i = 0; i < 100; i++)
+		navGrid[i] = new int[100];
+	for (int i = 0; i < 100; i++)
+		for (int j = 0; j < 100; j++)
+		{
+			if (i > 50 && i < 75 && j>50 && j < 75)
+				navGrid[i][j] = 1;
+			else
+				navGrid[i][j] = 0;
+		}
+
+	terrainGrid = new dvec3*[100];
+	for (int i = 0; i < 100; i++)
+	{
+		terrainGrid[i] = new dvec3[100];
+		for (int j = 0; j < 100; j++)
+		{
+			terrainGrid[i][j] = vec3(i, 0, j);
+		}
+	}
+
 	player = new Player;
 	NPC = new AiPlayer;
 
@@ -16,12 +38,13 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
+	cam->Rotate(3 / pi<float>(), -3 / pi<float>());
+	//cam->Rotate(4 / pi<float>(), -3 / pi<float>());
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
-	
+
 	// todo Remove entity creation from this init method.
 
-	
 
 	// Add point light to the scene
 	Entity* tempEntity3 = new Entity;
@@ -69,7 +92,9 @@ void Game::Initialise()
 
 	NPC->GetEntities().push_back(tempEntityn);
 
-	// Plane
+
+
+	// This is the floor.
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
 	tempRenderable2->SetMaterial(new Material());
@@ -79,14 +104,30 @@ void Game::Initialise()
 	tempRenderable2->UpdateTransforms();
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
-
+	Material* mat = new Material();
+	mat->emissive = glm::vec4(0.02, 0.02, 0.02, 1);
+	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
 	entities.push_back(tempEntity2);
+
+	//This is a "wall"
+	Entity* tempEntity77 = new Entity;
+	auto tempRenderable77 = std::make_unique<Renderable>();
+	tempRenderable77->SetMaterial(new Material());
+	tempRenderable77->SetPlane(1, 25, 25);
+	tempRenderable77->SetTexture("ConstructorUV");
+	tempRenderable77->SetShader("Phong");
+	tempEntity77->SetPosition(glm::vec3(50.0f, 1.0f, 50.0f));
+
+	tempRenderable77->UpdateTransforms();
+	tempEntity77->AddComponent(move(tempRenderable77));
+	entities.push_back(tempEntity77);
+
 	lastTime = clock();
 }
 
-void Game::Update()
+bool Game::Update()
 {
 	player->Update(NPC->GetEntities());
 	NPC->Update(player->GetEntities());
@@ -95,6 +136,7 @@ void Game::Update()
 	UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
+	//free_cam->GetComponent<Free_Camera>().Rotate(45,45);
 	free_cam->Update(deltaTime);
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
@@ -127,17 +169,19 @@ void Game::Update()
 		n++;
 	}
 	//printf("%f.9\n", deltaTime);
+	if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+		return false;
+	else
+		return true;
 }
 
 void Game::Render()
 {
-	// Clear the opengl buffer.
-	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glDisable(GL_CULL_FACE);
 
-//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
+	//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
+	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
+	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		entities[n]->Render();

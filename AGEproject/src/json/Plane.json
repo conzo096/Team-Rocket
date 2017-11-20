@@ -1,7 +1,7 @@
 {
 	"Model" : "",
 	"Shader" : "Phong",
-	"Texture" : "debug",
+	"Texture" : "Rock",
 	"Position" : [0, 0, 0],
-	"Plane" : [1, 100, 100]
+	"Plane" : [10, 10, 10]
 }

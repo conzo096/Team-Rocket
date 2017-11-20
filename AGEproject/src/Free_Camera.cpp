@@ -3,6 +3,9 @@
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
+	/*if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_X))
+		projection = glm::ortho(0.0f, static_cast<float>(GameEngine::Get().GetScreenWidth()) / 10, 0.0f, static_cast<float>(GameEngine::Get().GetScreenHeight()) / 10, -1000.0f, 1000.0f);*/
+
 	//glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// The ratio of pixels to rotation
@@ -56,7 +59,7 @@ void Free_Camera::Update(double deltaTime)
 	forward = glm::normalize(forward);
 
 	// Create standard right vector and rotate it by the yaw
-	glm::dvec3 right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
+	right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
 	// Normalise right
 	right = glm::normalize(right);
 

@@ -28,6 +28,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if(e->GetCompatibleComponent<Unit>()!=NULL)
 					e->GetCompatibleComponent<Unit>()->IsController(false);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(false);
 			}
 			selectedEntities.clear();
 		}
@@ -41,6 +43,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (e->GetCompatibleComponent<Unit>() != NULL)
 					e->GetCompatibleComponent<Unit>()->IsController(true);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(true);
 				selectedEntities.push_back(e);
 				return;
 			}
@@ -52,12 +56,17 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (e->GetCompatibleComponent<Unit>() != NULL)
 					e->GetCompatibleComponent<Unit>()->IsController(false);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(false);
 			}
 			selectedEntities.clear();
 		}
 	}
+	
+	
+	
 	// if it is a move action, move selected entity.
-	else if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
+	if (glfwGetMouseButton(GameEngine::Get().GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS)
 	{
 		glm::vec3 poi;
 		// Check for point of intersection.
@@ -71,7 +80,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
-					e->GetCompatibleComponent<Movement>()->SetDestination(poi);
+					e->GetCompatibleComponent<GroundMovement>()->SetGoal(poi);
+					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
 				}
 			}
 		}
@@ -115,51 +125,52 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 				{
 					if (e->GetCompatibleComponent<Movement>() != NULL)
 					{
-						e->GetCompatibleComponent<Movement>()->SetActive( (e->GetCompatibleComponent<Movement>()->IsActive()) ? false: true);
+						e->GetCompatibleComponent<Movement>()->SetActive((e->GetCompatibleComponent<Movement>()->IsActive()) ? false : true);
 					}
-			}
-
-
-			}
-
-			if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
-			{
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
-				{
-					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
-				{
-
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
-				{
-
-				}
-				
-			}
-			else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
-			{
-
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
-				{
-					selectedEntity->SetScale(glm::vec3(10, 10, 10));
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
-				{
-
-				}
-				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
-				{
-
 				}
 			}
 		}
+
+		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL)
+		{
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+			{
+				//glfwPollEvents();
+				//if(glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) != GLFW_PRESS)
+					selectedEntity->GetCompatibleComponent<Structure>()->AddProduct("Ship", 2);
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+			{
+
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+			{
+
+			}
+				
+		}
+		else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL)
+		{
+
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+			{
+				glfwPollEvents();
+				if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_1) == GLFW_RELEASE)
+					selectedEntity->SetScale(glm::vec3(10, 10, 10));
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+			{
+
+			}
+			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+			{
+
+			}
+		}
 	}
+
+
 	glfwPollEvents();
-
-
-
 }
 
 void Player::Render()
