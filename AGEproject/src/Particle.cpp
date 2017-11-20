@@ -44,7 +44,7 @@ void BulletParticle::Update(double delta)
 		}
 	}
 
-	if(target == NULL)
+	else if(target == NULL)
 		isActive = false;
 
 }

@@ -31,7 +31,14 @@ public:
 	// Ai player.
 	AiPlayer* NPC;
 	Entity *free_cam = new Entity;
-	std::vector<Entity*> entities; //Figure out how to split this.
+
+
+	// Contains a list of just the neutral entities in the scene.
+	std::vector <Entity*> neutralEntities;
+	
+	// Contains a list of all entities in the scene.
+	std::vector <Entity*> allEntities;
+
 	// Particle that appears when the user selects a location.
 	BulletParticle location;
 	// How long the particle will last for before stop being rendered.

@@ -77,7 +77,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 	{
 		glm::vec3 poi;
 		// Check for point of intersection.
-		if (Game::Get().entities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
 		{
 			// Do not move structures.
 			for (Entity*&e : selectedEntities)
@@ -177,8 +177,6 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			updateCalled = 0;
 		}
 	}
-
-	glfwPollEvents();
 }
 
 void Player::Render()

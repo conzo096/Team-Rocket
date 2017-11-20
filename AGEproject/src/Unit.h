@@ -114,12 +114,6 @@ public:
 		}
 		if (action == Attack)
 		{
-			// Move towards entity.
-			if (targetEntity != NULL)
-			{
-			//	GetParent()->GetCompatibleComponent<Movement>()->SetDestination(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
-			}
-			// Attack Entity.
 			AttackEntity();
 		}
 		if (action == AttackMove)

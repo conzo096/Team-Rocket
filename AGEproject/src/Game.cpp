@@ -20,8 +20,6 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 void Game::HandleInput(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	
-
-
 }
 
 
@@ -29,7 +27,6 @@ void Game::Initialise()
 {
 
 	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
-
 	navGrid = new int*[100];
 	for (int i = 0; i < 100; i++)
 		navGrid[i] = new int[100];
@@ -69,7 +66,7 @@ void Game::Initialise()
 	tempLightComponent->setLightPosition(glm::vec3(50, 30, 50));
 	tempLightComponent->diffuse = glm::vec4(0.7, 0.2, 0.4, 1);
 	tempEntity3->AddComponent(move(tempLightComponent));
-	entities.push_back(tempEntity3);
+	neutralEntities.push_back(tempEntity3);
 
 	// This is the floor.
 	Entity* tempEntity2 = new Entity;
@@ -87,7 +84,7 @@ void Game::Initialise()
 	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
-	entities.push_back(tempEntity2);
+	neutralEntities.push_back(tempEntity2);
 
 
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
@@ -95,7 +92,7 @@ void Game::Initialise()
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
 	// This will be added to a neutral list later.
-	entities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30, 2.5, 30), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30, 2.5, 30), Team::neutral));
 
 	//This is a "wall"
 	Entity* tempEntity77 = new Entity;
@@ -106,7 +103,7 @@ void Game::Initialise()
 	tempRenderable77->SetShader("Phong");
 	tempEntity77->SetPosition(glm::vec3(50.0f, 2.5f, 50.0f));
 
-	entities.push_back(move(tempEntity77));
+	neutralEntities.push_back(move(tempEntity77));
 
 	lastTime = clock();
 }
@@ -114,14 +111,18 @@ void Game::Initialise()
 
 bool Game::Update()
 {
-	//std::vector<Entity*> allOthers;
-	//allOthers.insert(allOthers.end(), entities.begin(), entities.end());
-	//allOthers.insert(allOthers.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+	// Populate the all entity list.
+	allEntities.clear();
+	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
+	
+	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());	
+	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+	// all entities now contains all the entities in the game.
 
-
-	// Get user and ai actions.
-	player->Update(NPC->GetEntities());
-	NPC->Update(player->GetEntities());
+	// Let user and update their actions. 
+	player->Update(allEntities);
+	NPC->Update(allEntities);
 	// Set camera matrix.
 	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
 	GameEngine::Get().SetCamera(camMatrix);
@@ -134,62 +135,88 @@ bool Game::Update()
 	free_cam->Update(deltaTime);
 	// reduce duration.
 	duration -= deltaTime;
-	// Update neutral entities.
-	int i = 0;
+	//// Update neutral entities.
+	//int i = 0;
+	//#pragma omp parallel for private(i)
+	//for (i = 0; i < neutralEntities.size();i++)
+	//{
+	//	neutralEntities[i]->Update(deltaTime);
+	//}
+	//// Update user entities.
+	//#pragma omp parallel for private(i)
+	//for (i = 0; i < player->GetEntities().size();i++)
+	//{
+	//	Entity*& e = player->GetEntities()[i];
+	//	e->Update(deltaTime);
+	//}
+
+	//// Update enemy entities.
+	//#pragma omp parallel for private(i)
+	//for (i = 0; i < NPC->GetEntities().size();i++)
+	//{
+	//	Entity*& e = NPC->GetEntities()[i];
+	//	e->Update(deltaTime);
+	//}
+
+	// Update all the entities in the scene.
+	int i;
 	#pragma omp parallel for private(i)
-	for (i = 0; i < entities.size();i++)
+	for (i = 0; i < allEntities.size();i++)
 	{
-		entities[i]->Update(deltaTime);
-	}
-	// Update user entities.
-	#pragma omp parallel for private(i)
-	for (i = 0; i < player->GetEntities().size();i++)
-	{
-		Entity*& e = player->GetEntities()[i];
-		e->Update(deltaTime);
+		allEntities[i]->Update(deltaTime);
 	}
 
-	// Update enemy entities.
-	#pragma omp parallel for private(i)
-	for (i = 0; i < NPC->GetEntities().size();i++)
-	{
-		Entity*& e = NPC->GetEntities()[i];
-		e->Update(deltaTime);
-	}
+	//// Delete any entities in the scene that are required to be removed.
+	//for (i = 0; i <allEntities.size(); i++)
+	//{
+	//	Entity*& e = allEntities[i];
+	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
+	//	{
+	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
+	//		{
+	//			allEntities.erase(std::remove(allEntities.begin(), allEntities.end(), e), allEntities.end());
+	//		}
+	//	}
+	//}
+	//// Remove bullets no longer used.
+	//projectiles.erase(std::remove_if
+	//(projectiles.begin(), projectiles.end(), [](const BulletParticle& x)
+	//{
+	//	return !x.isActive;
+	//}), projectiles.end());
 
 
-
-
-	// Handle deletion of entities.
-	for (i = 0; i < entities.size(); i++)
-	{
-		Entity*& e = entities[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-			//	e->~Entity();
-				entities.erase(std::remove(entities.begin(), entities.end(), e), entities.end());
-			}
-	}
-	for (i = 0; i < player->GetEntities().size(); i++)
-	{
-		Entity*& e = player->GetEntities()[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-			//	e->~Entity();
-				entities.erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
-			}
-	}
-	for (i = 0; i < NPC->GetEntities().size(); i++)
-	{
-		Entity* e = NPC->GetEntities()[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
-			}
-	}
+	
+	//// Handle deletion of entities.
+	//for (i = 0; i <neutralEntities.size(); i++)
+	//{
+	//	Entity*& e = neutralEntities[i];
+	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
+	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
+	//		{
+	//		//	e->~Entity();
+	//			neutralEntities.erase(std::remove(neutralEntities.begin(), neutralEntities.end(), e), neutralEntities.end());
+	//		}
+	//}
+	//for (i = 0; i < player->GetEntities().size(); i++)
+	//{
+	//	Entity*& e = player->GetEntities()[i];
+	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
+	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
+	//		{
+	//		//	e->~Entity();
+	//			player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
+	//		}
+	//}
+	//for (i = 0; i < NPC->GetEntities().size(); i++)
+	//{
+	//	Entity* e = NPC->GetEntities()[i];
+	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
+	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
+	//		{
+	//			NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
+	//		}
+	//}
 
 
 	// hacky approach to approximating framerate, causes application to crash on closing.
@@ -229,9 +256,9 @@ void Game::Render()
 	
 	int n;
 	#pragma omp parallel for private(n)
-	for (n = 0; n < entities.size();n++)
+	for (n = 0; n < neutralEntities.size();n++)
 	{
-		entities[n]->Render();
+		neutralEntities[n]->Render();
 	}
 	#pragma omp parallel for private(n)
 	for (n = 0; n < player->GetEntities().size();n++)
