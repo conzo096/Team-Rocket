@@ -9,8 +9,8 @@ int SettingsMenu::Draw(GLShader shader)
 {
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
-	int currentOption1 = 0;
-	int currentOption2 = 0;
+	int currentOption1;
+	int currentOption2;
 
 	labels.resize(numOfLabels);
 	buttons.resize(numOfButtons);
@@ -37,7 +37,39 @@ int SettingsMenu::Draw(GLShader shader)
 		newOption.renderTarget.SetOpenGL();
 		optionOffsetY += (optionHeight + changeOffset_Option);
 	}
-	
+
+	// Change option textures depending on current settings
+	switch (GameEngine::Get().GetScreenHeight())
+	{
+	case 1080:
+		labels[numOfTitles].texture = option_tex[0][0];
+		currentOption1 = 0;
+		break;
+	case 900:
+		labels[numOfTitles].texture = option_tex[0][1];
+		currentOption1 = 1;
+		break;
+	case 720:
+		labels[numOfTitles].texture = option_tex[0][2];
+		currentOption1 = 2;
+		break;
+	case 576:
+		labels[numOfTitles].texture = option_tex[0][3];
+		currentOption1 = 3;
+		break;
+	}
+
+	if (GameEngine::Get().GetFullScreen())
+	{
+		labels[numOfTitles + 1].texture = option_tex[1][1];
+		currentOption2 = 1;
+	}
+	else
+	{
+		labels[numOfTitles + 1].texture = option_tex[1][0];
+		currentOption2 = 0;
+	}
+
 	// Render large buttons
 	for (int i = 0; i < numOfLargeButtons; i++)
 	{
@@ -128,6 +160,7 @@ int SettingsMenu::Draw(GLShader shader)
 
 		if (selectionMade)
 		{
+			// "Save changes" was clicked
 			if (currentSelection == 1)
 			{
 				GameEngine::Get().SetFullScreen(currentOption2);
@@ -152,40 +185,41 @@ int SettingsMenu::Draw(GLShader shader)
 				}
 			}
 			
+			// One of the option arrows was clicked
 			if (currentSelection >= 3)
 			{
 				selectionMade = false;
-				// Top-right arrow has been clicked
+				// Top-right arrow was clicked
 				if (currentSelection == 3)
 				{
 					currentOption1++;
 					if (currentOption1 > 3)
 						currentOption1 = 0;
-					labels[2].texture = option_tex[0][currentOption1];
+					labels[numOfTitles].texture = option_tex[0][currentOption1];
 				}
-				// Top-left arrow is clicked
+				// Top-left arrow was clicked
 				else if (currentSelection == 4)
 				{
 					currentOption1--;
 					if (currentOption1 < 0)
 						currentOption1 = 3;
-					labels[2].texture = option_tex[0][currentOption1];
+					labels[numOfTitles].texture = option_tex[0][currentOption1];
 				}
-				// Bottom-right arrow is clicked
+				// Bottom-right arrow was clicked
 				else if (currentSelection == 5)
 				{
 					currentOption2++;
 					if (currentOption2 > 1)
 						currentOption2 = 0;
-					labels[3].texture = option_tex[1][currentOption2];
+					labels[numOfTitles + 1].texture = option_tex[1][currentOption2];
 				}
-				// Bottom-left arrow is clicked
+				// Bottom-left arrow was clicked
 				else if (currentSelection == 6)
 				{
 					currentOption2--;
 					if (currentOption2 < 0)
 						currentOption2 = 1;
-					labels[3].texture = option_tex[1][currentOption2];
+					labels[numOfTitles + 1].texture = option_tex[1][currentOption2];
 				}
 			}
 		}

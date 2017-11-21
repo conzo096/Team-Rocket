@@ -169,7 +169,7 @@ void GameEngine::CreateWindow()
 void GameEngine::UpdateWindow()
 {
 	if (!fullScreen)
-		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 20, 40, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 20, 50, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
 	else
 		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
 	int w, h;

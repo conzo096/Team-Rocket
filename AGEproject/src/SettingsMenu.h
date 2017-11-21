@@ -42,11 +42,11 @@ public:
 
 		titleOffsetX = 0.5f;
 		titleOffsetY = 0.33f;
-		optionOffsetX = 0.55f;
+		optionOffsetX = 0.65f;
 		optionOffsetY = titleOffsetY + 0.015f;
 		buttonOffsetX_Large = 0.25f;
 		buttonOffsetY_Large = 0.0f;
-		buttonOffsetX_Small = 0.5f;
+		buttonOffsetX_Small = 0.6f;
 		buttonOffsetY_Small = optionOffsetY + (optionHeight / 2.0f) - (buttonHeight_Small / 2.0f);
 
 		changeOffset_Title = 0.11f;
