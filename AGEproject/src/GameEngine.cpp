@@ -25,6 +25,7 @@ void GameEngine::Initialise()
 	if (!Get().window)
 	{
 		assert(Get().window != NULL);
+		fprintf(stderr, "Window could not be initialised!");
 		CleanUp();
 		return;
 	}
@@ -54,6 +55,9 @@ void GameEngine::Initialise()
 
 void GameEngine::Render()
 {
+
+	std::cout << "Number of renderable objects:";
+	std::cout << renderList.size() << std::endl;
 	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	for (RenderData rl : renderList)
@@ -158,14 +162,18 @@ void GameEngine::AddToRenderList(RenderData data)
 {
 	// Sort vector here.
 	mut.lock();
-	renderList.push_back(data);
-	// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
-	// it should be inserted to first.
-
-	std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
+	
+	if (IsInCameraFrustum(data) || data.sphereRadius == 0)
 	{
-		return std::tie(lhs.shader, lhs.modelVao) < std::tie(rhs.shader, rhs.modelVao);	
-	});
+		renderList.push_back(data);
+		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
+		// it should be inserted to first.
+
+		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
+		{
+			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
+		});
+	}
 	mut.unlock();
 }
 
@@ -180,6 +188,7 @@ void GameEngine::AddToParticleList(ParticleData particle)
 void GameEngine::SetCamera(glm::mat4 camera)
 {
 	cameraMVP = camera;
+	GenerateFrustumPlanes();
 }
 
 void GameEngine::Start()
@@ -205,3 +214,64 @@ void GameEngine::PrintGlewInfo()
 	std::clog << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 	printf("-------------------------------------------------------\n");
 }
+
+void GameEngine::GenerateFrustumPlanes()
+{
+	// Left plane
+	frustumPlanes[0].x = cameraMVP[0][3] + cameraMVP[0][0];
+	frustumPlanes[0].y = cameraMVP[1][3] + cameraMVP[1][0];
+	frustumPlanes[0].z = cameraMVP[2][3] + cameraMVP[2][0];
+	frustumPlanes[0].w = cameraMVP[3][3] + cameraMVP[3][0];
+
+	// Right plane
+	frustumPlanes[1].x = cameraMVP[0][3] - cameraMVP[0][0];
+	frustumPlanes[1].y = cameraMVP[1][3] - cameraMVP[1][0];
+	frustumPlanes[1].z = cameraMVP[2][3] - cameraMVP[2][0];
+	frustumPlanes[1].w = cameraMVP[3][3] - cameraMVP[3][0];
+
+	// Top plane
+	frustumPlanes[2].x = cameraMVP[0][3] - cameraMVP[0][1];
+	frustumPlanes[2].y = cameraMVP[1][3] - cameraMVP[1][1];
+	frustumPlanes[2].z = cameraMVP[2][3] - cameraMVP[2][1];
+	frustumPlanes[2].w = cameraMVP[3][3] - cameraMVP[3][1];
+
+	// Bottom plane
+	frustumPlanes[3].x = cameraMVP[0][0] + cameraMVP[0][1];
+	frustumPlanes[3].y = cameraMVP[1][0] + cameraMVP[1][1];
+	frustumPlanes[3].z = cameraMVP[2][0] + cameraMVP[2][1];
+	frustumPlanes[3].w = cameraMVP[3][0] + cameraMVP[3][1];
+
+	// Near plane
+	frustumPlanes[4].x = cameraMVP[0][2];
+	frustumPlanes[4].y = cameraMVP[1][2];
+	frustumPlanes[4].z = cameraMVP[2][2];
+	frustumPlanes[4].w = cameraMVP[3][2];
+
+	// Far plane
+	frustumPlanes[5].x = cameraMVP[0][3] - cameraMVP[0][2];
+	frustumPlanes[5].y = cameraMVP[1][3] - cameraMVP[1][2];
+	frustumPlanes[5].z = cameraMVP[2][3] - cameraMVP[2][2];
+	frustumPlanes[5].w = cameraMVP[3][3] - cameraMVP[3][2];
+
+
+	// Normalize planes
+	for (int i = 0; i < 6; i++)
+	{	
+		frustumPlanes[i] =	glm::vec4(glm::normalize(glm::vec3(frustumPlanes[i])),frustumPlanes[i].w);
+	}
+
+}
+
+
+bool GameEngine::IsInCameraFrustum(RenderData& rd)
+{
+	// Not fully tested.
+	for (int i = 0; i < 6; i++)
+	{
+		if ((glm::dot(glm::vec3(frustumPlanes[i]), rd.boundingPoint) + frustumPlanes[i].w) + rd.sphereRadius < 0)
+			return false;
+	}
+	return true;
+}
+
+

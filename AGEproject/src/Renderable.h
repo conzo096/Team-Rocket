@@ -23,5 +23,7 @@ public:
 	void SetMaterial(Material* mat);
 	void SetShader(std::string shader);
 	Effect* GetEffect() { return effect; }
+	
+
 	void Render();
 };

@@ -36,6 +36,9 @@ struct RenderData
 	glm::mat4 m;
 
 	Material* mat;
+
+	glm::vec3 boundingPoint;
+	float sphereRadius;
 };
 
 struct ParticleData
@@ -61,7 +64,7 @@ private:
 	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
 	std::vector<ParticleData> particles;
-
+	glm::vec4 frustumPlanes[6];
 	std::mutex mut;
 	
 public:
@@ -97,4 +100,7 @@ public:
 	void PrintGlewInfo();
 	//void LoadShaders();
 
+	void GenerateFrustumPlanes();
+
+	bool IsInCameraFrustum(RenderData& rd);
 };

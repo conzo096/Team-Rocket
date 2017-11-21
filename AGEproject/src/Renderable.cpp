@@ -1,5 +1,6 @@
 #include "Renderable.h"
 #include "GeometryUtil.h"
+#include "BoundingSphere.h"
 void Renderable::from_json(const nlohmann::json & j)
 {
 }
@@ -59,6 +60,15 @@ void Renderable::Render()
 {
 	//GameEngine::Get().Render(GetTransform(),*model, *effect);
 	renderInfo.m = GetTransform();
+
+	// Move later.
+	if (GetParent()->GetCompatibleComponent<BoundingSphere>() != NULL)
+	{
+		renderInfo.sphereRadius = GetParent()->GetComponent<BoundingSphere>().GetRadius();
+		renderInfo.boundingPoint = GetParent()->GetComponent<BoundingSphere>().GetCenter();
+	}
+
+
 	GameEngine::Get().AddToRenderList(renderInfo);
 
 }
