@@ -155,17 +155,18 @@ void GameEngine::BindMaterial(const Material* material, const int shaderID)
 
 void GameEngine::CreateWindow()
 {
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	if (GameEngine::Get().GetFullScreen())
-		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Team Rocket", glfwGetPrimaryMonitor(), NULL);
+		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Scrapitalism!", glfwGetPrimaryMonitor(), NULL);
 	else
-		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Team Rocket", NULL, NULL);
+		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Scrapitalism!", NULL, NULL);
 	glfwMakeContextCurrent(window);
 }
 
 void GameEngine::UpdateWindow()
 {
 	if (!fullScreen)
-		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 20, 40, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
 	else
 		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
 	int w, h;
