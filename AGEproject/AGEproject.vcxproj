@@ -99,6 +99,7 @@
     <ClCompile Include="src\Structure.cpp" />
     <ClCompile Include="src\Targetable.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
   <ItemGroup>
