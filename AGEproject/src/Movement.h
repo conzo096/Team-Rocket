@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "ResourceHandler.h"
 
 class Movement : public Component
 {
@@ -24,6 +25,7 @@ public:
 	void SetTurnSpeed(double turnSpeed) { this->turnSpeed = turnSpeed; };
 	void SetAcceleration(double accelerationTime) { this->accelerationTime = accelerationTime; };
 	void SetDestination(glm::dvec3 destination) { this->destination = destination; };
+	void SetProperties(std::string jsonFile);
 	glm::dvec3 GetDestination() { return destination; }
 	void Update(double delta) override;
 };

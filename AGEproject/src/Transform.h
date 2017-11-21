@@ -24,7 +24,7 @@ public:
 		changed = true;
 	}
 
-	~Transform() {}
+	virtual ~Transform() {}
 
 	void UpdateTransforms()
 	{

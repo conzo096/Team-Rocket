@@ -14,18 +14,12 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Ship")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("Worker");
-		tempRenderable->SetTexture("WorkerUV");
 		tempRenderable->SetMaterial(new Material());
-		tempRenderable->SetShader("Phong");
-		tempRenderable->SetPosition(dvec3(0, 0.5, 0));
+		tempRenderable->SetProperties("./json/Ship.json");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempAirMovement = std::make_unique<GroundMovement>();
-		tempAirMovement->SetGoal(glm::dvec3(90, 0, 90));
-		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.5);
-		tempAirMovement->SetTurnSpeed(200.0);
+		tempAirMovement->SetProperties("./json/ShipMovement.json");
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -43,16 +37,11 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Worker")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("Torus");
-		tempRenderable->SetShader("Phong");
-		tempRenderable->SetTexture("FlyerUV");
+		tempRenderable->SetProperties("./json/Worker.json");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
-		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.5);
-		tempAirMovement->SetTurnSpeed(200.0);
+		tempAirMovement->SetProperties("./json/WorkerMovement.json");
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -81,9 +70,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, int team)
 	if (name == "Shipyard")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("../res/models/Constructor.obj");
-		tempRenderable->SetTexture("ConstructorUV");
-		tempEntity->SetPosition(glm::vec3(3.5f, 2.5f, 3.5f));
+		tempRenderable->SetProperties("./json/Shipyard.json");
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Structure>();
 		tempStructure->SetTeam(team);

@@ -62,3 +62,37 @@ void Renderable::Render()
 	GameEngine::Get().AddToRenderList(renderInfo);
 
 }
+
+void Renderable::SetProperties(const std::string jsonFile)
+{
+	std::ifstream ifs(jsonFile);
+	json j = json::parse(ifs);
+
+	if(j["Model"] != "") // Models, Shaders and Textures can be empty strings but must exist in the file
+		this->SetModel(j["Model"]);
+	if(j["Shader"] != "")
+		this->SetShader(j["Shader"]);
+	if(j["Texture"] != "")
+		this->SetTexture(j["Texture"]);
+
+	if(j["Plane"] != nullptr) // If json file contains key "Plane" then...
+	{
+		json pl = j["Plane"];
+		std::vector<float> pls;
+		for(const auto elem : pl)
+		{
+			pls.push_back(elem);
+		}
+		this->SetPlane(pls[0], pls[1], pls[2]);
+	}
+
+	json pos = j["Position"]; // All things have a position so no error checking
+	std::vector<float> p;
+	for (const auto elem : pos)
+	{
+		p.push_back(elem);
+	}
+
+	this->SetPosition(glm::vec3(p[0], p[1], p[2]));
+}
+
