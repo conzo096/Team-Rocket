@@ -42,6 +42,9 @@ void GameEngine::Initialise()
 	glCullFace(GL_BACK);
 	// V-Sync, does not run without it
 	glfwSwapInterval(1.0f);
+	//glDepthFunc(GL_LESS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 //void GameEngine::Render(glm::mat4 m, Model model, Effect effect)

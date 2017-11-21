@@ -1,0 +1,7 @@
+{
+	"Model" : "",
+	"Shader" : "Phong",
+	"Texture" : "Rock",
+	"Position" : [0, 0, 0],
+	"Plane" : [10, 10, 10]
+}

@@ -1,0 +1,5 @@
+{
+    "Model": "Torus",
+    "Shader": "Phong",
+    "Texture": "FlyerUV"
+}
