@@ -15,7 +15,7 @@ public:
 	Renderable();
 	~Renderable();
 
-	Model GetModel() { return *model; }
+	Model& GetModel() { return *model; }
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
 	void SetTexture(std::string texName);

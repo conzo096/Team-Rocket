@@ -275,6 +275,9 @@ void Game::Render()
 	// If there is still duration, render the particle.
 	if (duration > 0)
 		location.Render();
+
+	// render ghost building.
+	player->Render();
 	GameEngine::Get().Render();
 
 	// Swap the window buffers.

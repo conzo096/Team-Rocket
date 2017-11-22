@@ -163,7 +163,7 @@ void GameEngine::AddToRenderList(RenderData data)
 	// Sort vector here.
 	mut.lock();
 	
-	if (IsInCameraFrustum(data) || data.sphereRadius == 0)
+	//if (IsInCameraFrustum(data) || data.sphereRadius == 0)
 	{
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 

@@ -24,6 +24,11 @@ protected:
 	// Used to limit key calls.
 	int updateCalled;
 
+	// should a ghost building be displayed?
+	bool showGhostBuilding = false;
+	// Ghost building.
+	Entity ghostBuilding;
+
 public:
 	
 
@@ -31,9 +36,16 @@ public:
 	void SetTeam(Team t) { team = t; }
 	std::vector<Entity*>& GetEntities() { return entities; }
 
+
+	// Change from int type.
+	void UpdateGhostBuilding(int type);
+
+
 	void Update(std::vector<Entity*>& enemyList);
 	void HandleInput(std::vector<Entity*>& enemyList);
 	void Render();
+
+
 
 };
 

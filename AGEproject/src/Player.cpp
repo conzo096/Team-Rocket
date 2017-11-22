@@ -18,6 +18,19 @@ void Player::Update(std::vector<Entity*>& enemyList)
 	// Push the collect entities back to the player.
 	for (Entity*&e : temp)
 		entities.push_back(e);
+
+
+	// If ghost building is active, update location.
+	if (showGhostBuilding)
+	{
+		glm::vec3 poi;
+		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+		{
+			ghostBuilding.SetPosition(glm::dvec3(poi.x, ghostBuilding.GetPosition().y, poi.z));
+			ghostBuilding.Update(0);
+		}
+	}
+
 }
 
 void Player::HandleInput(std::vector<Entity*>& enemyList)
@@ -149,14 +162,20 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
+				showGhostBuilding = true;
+				UpdateGhostBuilding(0);
 			}
-			if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
+			else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
+				showGhostBuilding = true;
+				UpdateGhostBuilding(1);
 			}
-			if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
+			else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
+				showGhostBuilding = true;
+				UpdateGhostBuilding(2);
 			}
 			updateCalled = 0;
 		}
@@ -180,8 +199,39 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 	}
 }
 
+// Render ghost block if there is one.
 void Player::Render()
 {
-	
+	if (showGhostBuilding)
+		ghostBuilding.Render();
+}
 
+
+// Update ghost block visual.
+void Player:: UpdateGhostBuilding(int type)
+{
+	if (ghostBuilding.GetCompatibleComponent<Renderable>() == NULL)
+	{
+		auto renderable = std::make_unique<Renderable>();
+		renderable->SetShader("Phong");
+		//renderable->SetMaterial(new Material());
+		//renderable->GetModel().SetType(GL_LINE_STRIP);
+		ghostBuilding.AddComponent(move(renderable));
+		auto sphere = std::make_unique<BoundingSphere>();
+		ghostBuilding.AddComponent(move(sphere));
+	}
+
+	if (type == 0)
+	{
+		ghostBuilding.GetComponent<Renderable>().SetModel("Shipyard");
+	}
+	else if (type == 1)
+	{
+		ghostBuilding.GetComponent<Renderable>().SetModel("Shipyard");
+	}
+	else if (type == 2)
+	{
+		ghostBuilding.GetComponent<Renderable>().SetModel("Shipyard");
+	}
+	ghostBuilding.GetComponent<BoundingSphere>().SetUpBoundingSphere(ghostBuilding.GetComponent<Renderable>().GetModel().GetVertexPositions());
 }
