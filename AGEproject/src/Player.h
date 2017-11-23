@@ -26,6 +26,8 @@ protected:
 
 	// should a ghost building be displayed?
 	bool showGhostBuilding = false;
+	// Is this area valid for the player to request a building?
+	bool validSpawn = false;
 	int buildingType; 
 	// Ghost building.
 	Entity ghostBuilding;

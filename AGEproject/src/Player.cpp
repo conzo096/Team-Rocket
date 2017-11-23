@@ -27,7 +27,10 @@ void Player::Update(std::vector<Entity*>& enemyList)
 		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
 		{
 			ghostBuilding.SetPosition(glm::dvec3(poi.x, 2.5f, poi.z));
+			// Check if the position is valid.
 			ghostBuilding.Update(0);
+			if (Game::Get().GetNavGrid()[(int)poi.x][(int)poi.z] == 0)
+				validSpawn = true;
 		}
 	}
 
@@ -88,10 +91,11 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (selectedEntities.size() >0)
 			if (showGhostBuilding)
 			{
-				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi) && validSpawn)
 				{
 					poi.y = 2.5;
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, buildingType, poi);
+					validSpawn = false;
 					showGhostBuilding = false;
 				}
 			}
