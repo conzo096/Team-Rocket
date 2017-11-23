@@ -112,6 +112,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 	if (name == "Worker")
 	{
+		tempEntity->SetName("Worker");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("Worker");
 		tempRenderable->SetShader("Phong");

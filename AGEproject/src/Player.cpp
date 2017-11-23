@@ -87,6 +87,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 	// if it is a move action, move selected entity.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Move")))
 	{
+		showGhostBuilding = false;
 		glm::vec3 poi;
 		// Check for point of intersection.
 		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
@@ -162,20 +163,30 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
-				showGhostBuilding = true;
-				UpdateGhostBuilding(0);
+				if (selectedEntity->GetName() == "Worker")
+				{
+					showGhostBuilding = true;
+					UpdateGhostBuilding(0);
+				}
 			}
 			else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 				showGhostBuilding = true;
-				UpdateGhostBuilding(1);
+				if (selectedEntity->GetName() == "Worker")
+				{
+					showGhostBuilding = true;
+					UpdateGhostBuilding(1);
+				}
 			}
 			else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
 			{
 				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
-				showGhostBuilding = true;
-				UpdateGhostBuilding(2);
+				if (selectedEntity->GetName() == "Worker")
+				{
+					showGhostBuilding = true;
+					UpdateGhostBuilding(2);
+				}
 			}
 			updateCalled = 0;
 		}
