@@ -1,4 +1,5 @@
 #include "Unit.h"
+#include "Game.h"
 
 void Unit::IsController(bool act)
 {
@@ -7,16 +8,41 @@ void Unit::IsController(bool act)
 	if (act)
 	{
 		// Hold current emissive value.
-		tempCol = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
+		originalColour = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
 		// Set objects emissive value to blue (for now). 
 		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
 	}
 	else
 	{
 		// Return the emissive colour back to its original value.
-		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(tempCol);
-		tempCol = glm::vec4();
+		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(originalColour);
+		originalColour = glm::vec4();
 	}
+}
+
+void Unit::AcquireTarget()
+{
+	vector<Entity*> localUnits = Game::Get().FindLocalUnits(team ,GetParent()->GetPosition(), sightRange);
+	if (localUnits.size() == 0)
+	{
+		targetAcquired = false;
+		targetEntity = NULL;
+		return;
+	}
+	int min, n = 0;
+	for (Entity*& e : localUnits)
+	{
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+		{
+			if (distance(GetParent()->GetPosition(), e->GetPosition()) < distance(GetParent()->GetPosition(), localUnits[min]->GetPosition()))
+			{
+				min = n;
+			}
+		}
+		n++;
+	}
+	targetAcquired = true;
+	targetEntity = localUnits[min];
 }
 
 void Unit::AttackEntity()
@@ -68,6 +94,7 @@ void Unit::Update(double deltaTime)
 	}
 	if (action == Attack)
 	{
+		AcquireTarget();
 		// Move towards entity.
 		if (targetEntity != NULL)
 		{

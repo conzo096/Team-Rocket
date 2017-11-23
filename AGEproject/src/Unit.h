@@ -20,10 +20,10 @@ protected:
 	// Is the unit currently controller by the player?
 	bool isControlled = false;
 	// Previous effect.
-	glm::vec4 tempCol;
+	glm::vec4 originalColour;
 
-	double weaponRange;
-	double sightRange;
+	double weaponRange=3;
+	double sightRange=6;
 
 	double fireRate = 0.5;
 	double timeSinceLastFire;
@@ -57,7 +57,8 @@ public:
 
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
-	
+
+	void AcquireTarget();
 	virtual void AttackEntity();
 	
 	void Update(double deltaTime) override;
