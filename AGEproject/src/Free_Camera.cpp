@@ -3,10 +3,7 @@
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
-	/*if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_X))
-		projection = glm::ortho(0.0f, static_cast<float>(GameEngine::Get().GetScreenWidth()) / 10, 0.0f, static_cast<float>(GameEngine::Get().GetScreenHeight()) / 10, -1000.0f, 1000.0f);*/
-
-	//glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// The ratio of pixels to rotation
 	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Get().GetScreenWidth());
@@ -18,7 +15,7 @@ void Free_Camera::Update(double deltaTime)
 	double currentY;
 
 	// The camera's movement speed
-	float moveSpeed = 20.0f;
+	float moveSpeed = 25.0f;
 
 	// Get current cursor position
 	glfwGetCursorPos(GameEngine::Get().GetWindow(), &currentX, &currentY);
@@ -31,10 +28,12 @@ void Free_Camera::Update(double deltaTime)
 	deltaX *= ratioWidth;
 	deltaY *= ratioHeight;
 
-	if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
-		Rotate(-2*deltaTime,0);
-	if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
-		Rotate(2*deltaTime,0);
+	Rotate(deltaX, deltaY);
+
+	//if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
+	//	Rotate(-2*deltaTime,0);
+	//if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
+	//	Rotate(2*deltaTime,0);
 
 	// Move camera with user controls.
 	if (UserControls::Get().IsKeyPressed(std::string("Forward")))

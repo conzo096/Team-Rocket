@@ -45,8 +45,8 @@ void Game::Initialise()
 
 	free_cam = new Entity;
 	auto cam2 = std::make_unique<Free_Camera>(glm::half_pi<float>());
-	cam2->Rotate(pi<float>() / -4.0f, -3.0f / pi<float>());
-	cam2->SetPosition(glm::dvec3(85.0, 60.0, 85.0));
+	cam2->Rotate(0.0f, -3.0f / pi<float>());
+	cam2->SetPosition(glm::dvec3(40.0, 40.0, 70.0));
 	cam2->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam2));
 

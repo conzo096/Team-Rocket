@@ -14,7 +14,7 @@ void Game_Camera::SetYaw(double value)
 void Game_Camera::Update(double deltaTime)
 {
 	// The camera's movement speed
-	float moveSpeed = 20.0f;
+	float moveSpeed = 30.0f;
 
 	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
