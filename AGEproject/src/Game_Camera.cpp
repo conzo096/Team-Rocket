@@ -1,0 +1,89 @@
+#include "Game_Camera.h"
+#include "UserControls.h"
+
+// Get camera's current rotation
+double Game_Camera::GetYaw() const { return yaw; }
+
+// Set camera's current rotation
+void Game_Camera::SetYaw(double value)
+{
+	SetPosition(glm::dvec3(pitch, value, 0.0));
+}
+
+// Update camera for this frame
+void Game_Camera::Update(double deltaTime)
+{
+	// The camera's movement speed
+	float moveSpeed = 20.0f;
+
+	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+	// Get current cursor position
+	glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
+
+	// Move camera with user controls.
+	if (UserControls::Get().IsKeyPressed(std::string("Escape")))
+		glfwSetWindowShouldClose(GameEngine::Get().GetWindow(), true);
+
+	if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
+		Rotate(-2 * deltaTime);
+	else if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
+		Rotate(2 * deltaTime);
+
+	if (UserControls::Get().IsKeyPressed(std::string("Forward")))
+		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Left")))
+		translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Backward")))
+		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Right")))
+		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Up")))
+		translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Down")))
+		translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed);
+
+	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
+	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
+	// Normalise forward direction
+	forward = glm::normalize(forward);
+
+	// Create standard right vector and rotate it by the yaw
+	right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
+	// Normalise right
+	right = glm::normalize(right);
+
+	// Calculate (perpendicular) up vector using cross product
+	orientation = glm::cross(right, forward);
+	// Normalise up
+	orientation = glm::normalize(orientation);
+
+	// Update position by multiplying translation elements by forward, up and right
+	glm::dvec3 trans = translation.x * right;
+	trans += translation.y * forward;
+	trans += translation.z * glm::dvec3(forward.x, translation.y, forward.z);
+	Move(trans);
+
+	// Target vector is position vector plus forward
+	target = GetPosition() + forward;
+
+	// Reset the translation vector for the next frame
+	translation = glm::vec3(0.0f, 0.0f, 0.0f);
+
+	// Calculate view matrix
+	view = glm::lookAt(GetPosition(), target, orientation);
+}
+
+// Rotates the camera by the change in yaw
+void Game_Camera::Rotate(double deltaYaw)
+{
+	yaw -= deltaYaw;
+}
+
+// Build projection matrix
+void Game_Camera::SetProjection(float fov, float aspect, float near, float far)
+{
+	projection = glm::perspective(fov, aspect, near, far);
+}
+
+void Game_Camera::from_json(const json &j) {}

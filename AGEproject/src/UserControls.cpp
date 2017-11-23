@@ -37,6 +37,25 @@ bool UserControls::IsKeyPressed(std::string &action)
 	return false;
 }
 
+bool UserControls::KeyBuffer(std::string action, bool& keyHeld)
+{
+	if (IsKeyPressed(action))
+	{
+		if (!keyHeld)
+		{
+			keyHeld = true;
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+	{
+		keyHeld = false;
+		return false;
+	}
+}
+
 bool UserControls::IsMouseButtonPressed(std::string &action)
 {
 	auto val = buttonOptions.find(action);
@@ -163,11 +182,18 @@ void UserControls::Update()
 	}
 }
 
+void UserControls::Update(Game_Camera& cam)
+{
+	Update();
+	mouseRay.UpdateRay(cam);
+}
+
 void UserControls::Update(Free_Camera& cam)
 {
 	Update();
 	mouseRay.UpdateRay(cam);
 }
+
 void UserControls::HandleConsoleInput()
 {
 	std::cout << "Still to be implemented!" << std::endl;

@@ -35,15 +35,25 @@ void Game::Initialise()
 
 	player->SetTeam(0);
 	NPC->SetTeam(1);
-	free_cam = new Entity;
-	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
-	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->Rotate(3 / pi<float>(), -3 / pi<float>());
-	//cam->Rotate(4 / pi<float>(), -3 / pi<float>());
-	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
-	free_cam->AddComponent(move(cam));
 
-	// todo Remove entity creation from this init method.
+	game_cam = new Entity;
+	auto cam1 = std::make_unique<Game_Camera>();
+	cam1->Rotate(pi<float>() / -4.0f);
+	cam1->SetPosition(glm::dvec3(85.0, 60.0, 85.0));
+	cam1->SetProjection(glm::half_pi<float>(), (float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
+	game_cam->AddComponent(move(cam1));
+
+	free_cam = new Entity;
+	auto cam2 = std::make_unique<Free_Camera>(glm::half_pi<float>());
+	cam2->Rotate(pi<float>() / -4.0f, -3.0f / pi<float>());
+	cam2->SetPosition(glm::dvec3(85.0, 60.0, 85.0));
+	cam2->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
+	free_cam->AddComponent(move(cam2));
+
+	freeCamEnabled = false;
+	keyHeld = false;
+
+	// todo: Remove entity creation from this init method.
 
 
 	// Add point light to the scene
@@ -131,19 +141,37 @@ bool Game::Update()
 {
 	player->Update(NPC->GetEntities());
 	NPC->Update(player->GetEntities());
-	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
-	GameEngine::Get().SetCamera(camMatrix);
-	UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
+
+	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
+	{
+		freeCamEnabled = !freeCamEnabled;
+	}
+
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
 	//free_cam->GetComponent<Free_Camera>().Rotate(45,45);
-	free_cam->Update(deltaTime);
+
+	if (freeCamEnabled)
+	{
+		glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
+		GameEngine::Get().SetCamera(camMatrix);
+		UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
+		free_cam->Update(deltaTime);
+	}
+	else
+	{
+		glm::mat4 camMatrix = game_cam->GetComponent<Game_Camera>().GetProjection() * game_cam->GetComponent<Game_Camera>().GetView();
+		GameEngine::Get().SetCamera(camMatrix);
+		UserControls::Get().Update(game_cam->GetComponent<Game_Camera>());
+		game_cam->Update(deltaTime);
+	}
+
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
-
 		entities[n]->Update(deltaTime);
 		n++;
 	}
+
 	for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
 	{
 		Entity*& e = player->GetEntities()[n];
@@ -177,11 +205,20 @@ bool Game::Update()
 
 void Game::Render()
 {
-
 	//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
-	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
-	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
-	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
+	if (freeCamEnabled)
+	{
+		GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
+		GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
+		GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
+	}
+	else
+	{
+		GameEngine::Get().SetCameraPos(game_cam->GetComponent<Game_Camera>().GetPosition());
+		GameEngine::Get().SetCameraUp(game_cam->GetComponent<Game_Camera>().GetOrientation());
+		GameEngine::Get().SetCameraRight(game_cam->GetComponent<Game_Camera>().GetRight());
+	}
+
 	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
 	{
 		entities[n]->Render();

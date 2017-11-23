@@ -32,6 +32,7 @@
     <ClInclude Include="src\Free_Camera.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\Game_Camera.h" />
     <ClInclude Include="src\GeometryUtil.h" />
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\GroundMovement.h" />
@@ -39,7 +40,6 @@
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
-    <ClInclude Include="src\Menu_Camera.h" />
     <ClInclude Include="src\minijson_reader.hpp" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
@@ -78,12 +78,12 @@
     <ClCompile Include="src\Free_Camera.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\Game_Camera.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\GroundMovement.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Material.cpp" />
-    <ClCompile Include="src\Menu_Camera.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Movement.cpp" />
     <ClCompile Include="src\Particle.cpp" />

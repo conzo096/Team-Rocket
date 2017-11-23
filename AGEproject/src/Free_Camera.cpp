@@ -36,7 +36,6 @@ void Free_Camera::Update(double deltaTime)
 	if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
 		Rotate(2*deltaTime,0);
 
-
 	// Move camera with user controls.
 	if (UserControls::Get().IsKeyPressed(std::string("Forward")))
 		(translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed));
