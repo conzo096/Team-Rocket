@@ -21,11 +21,16 @@ protected:
 	bool isControlled = false;
 	// Previous effect.
 	glm::vec4 tempCol;
+
+	double weaponRange;
+	double sightRange;
+
 	double fireRate = 0.5;
 	double timeSinceLastFire;
 
-	// Disable shooting.
+	bool targetAcquired = false;
 	bool canShoot = true;
+
 	// Bullet container.
 	std::vector<BulletParticle> projectiles;
 

@@ -24,10 +24,10 @@ void Unit::AttackEntity()
 	if (timeSinceLastFire > fireRate)
 		canShoot = true;
 	// if it is within distance.
-	if (targetEntity != NULL)
+	if (targetAcquired)
 	{
-		// If within range, fire a projectile. - This value should not be hard coded.
-		if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 200 && canShoot)
+		// If within range, fire a projectile
+		if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < weaponRange && canShoot)
 		{
 			timeSinceLastFire = 0;
 			canShoot = false;
@@ -43,6 +43,7 @@ void Unit::AttackEntity()
 		if (targetEntity->GetCompatibleComponent<Targetable>()->IsDead())
 		{
 			targetEntity = NULL;
+			targetAcquired = false;
 			// Stop moving.
 			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 			action = Hold;
