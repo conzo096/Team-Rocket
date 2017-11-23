@@ -19,6 +19,7 @@ class Structure : public Component
 	{
 		std::string productName;
 		float buildTime;
+		glm::vec3 destination;
 	};
 
 private:
@@ -52,7 +53,7 @@ public:
 
 	void Collect(std::vector<Entity*>& ents);
 	void Build(double delta);
-	void AddProduct(int& bal, int hotkey);
+	void AddProduct(int& bal, int hotkey, glm::vec3 destination);
 	void Produce(double delta);
 	void Update(double delta) override;
 	int GetQueueSize() { return  (int)productQueue.size(); }

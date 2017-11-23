@@ -26,6 +26,7 @@ protected:
 
 	// should a ghost building be displayed?
 	bool showGhostBuilding = false;
+	int buildingType; 
 	// Ghost building.
 	Entity ghostBuilding;
 

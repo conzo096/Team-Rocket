@@ -26,7 +26,7 @@ void Player::Update(std::vector<Entity*>& enemyList)
 		glm::vec3 poi;
 		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
 		{
-			ghostBuilding.SetPosition(glm::dvec3(poi.x, ghostBuilding.GetPosition().y, poi.z));
+			ghostBuilding.SetPosition(glm::dvec3(poi.x, 2.5f, poi.z));
 			ghostBuilding.Update(0);
 		}
 	}
@@ -37,58 +37,11 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 {
 	updateCalled++;
 
-	// Select unit or units.
-	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
-	{
-		// If only wanting one entity, remove everything from the current list.
-		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		{
-			for (Entity* &e : selectedEntities)
-			{
-				if(e->GetCompatibleComponent<Unit>()!=NULL)
-					e->GetCompatibleComponent<Unit>()->IsController(false);
-				if (e->GetCompatibleComponent<Structure>() != NULL)
-					e->GetCompatibleComponent<Structure>()->IsController(false);
-			}
-			selectedEntities.clear();
-		}
-
-		bool objectSelected = false;
-		// Now iterate through player units and check if mouse ray intersects with their bounding sphere.
-		for (Entity* &e : entities)
-		{
-			// If a ray intersects with the bounding sphere.
-			if (e->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
-			{
-				if (e->GetCompatibleComponent<Unit>() != NULL)
-					e->GetCompatibleComponent<Unit>()->IsController(true);
-				if (e->GetCompatibleComponent<Structure>() != NULL)
-					e->GetCompatibleComponent<Structure>()->IsController(true);
-				selectedEntities.push_back(e);
-				return;
-			}
-		}
-		if (!objectSelected)
-		{
-			// If no suitable object has been selected, clear selected list.
-			for (Entity* &e : selectedEntities)
-			{
-				if (e->GetCompatibleComponent<Unit>() != NULL)
-					e->GetCompatibleComponent<Unit>()->IsController(false);
-				if (e->GetCompatibleComponent<Structure>() != NULL)
-					e->GetCompatibleComponent<Structure>()->IsController(false);
-			}
-			selectedEntities.clear();
-		}
-	}
-	
-	
-	
+	glm::vec3 poi;
 	// if it is a move action, move selected entity.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Move")))
 	{
 		showGhostBuilding = false;
-		glm::vec3 poi;
 		// Check for point of intersection.
 		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
 		{
@@ -128,6 +81,70 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		}
 	}
 
+	// Select unit or units.
+	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+	{
+		// If you are to spawn a building. Create it.
+		if (selectedEntities.size() >0)
+			if (showGhostBuilding)
+			{
+				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+				{
+					poi.y = 2.5;
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, buildingType, poi);
+					showGhostBuilding = false;
+				}
+			}
+
+
+		// If only wanting one entity, remove everything from the current list.
+		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			for (Entity* &e : selectedEntities)
+			{
+				if (e->GetCompatibleComponent<Unit>() != NULL)
+					e->GetCompatibleComponent<Unit>()->IsController(false);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(false);
+			}
+			selectedEntities.clear();
+		}
+
+		bool objectSelected = false;
+		// Now iterate through player units and check if mouse ray intersects with their bounding sphere.
+		for (Entity* &e : entities)
+		{
+			// If a ray intersects with the bounding sphere.
+			if (e->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
+			{
+				if (e->GetCompatibleComponent<Unit>() != NULL)
+					e->GetCompatibleComponent<Unit>()->IsController(true);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(true);
+				selectedEntities.push_back(e);
+				return;
+			}
+		}
+		if (!objectSelected)
+		{
+			// If no suitable object has been selected, clear selected list.
+			for (Entity* &e : selectedEntities)
+			{
+				if (e->GetCompatibleComponent<Unit>() != NULL)
+					e->GetCompatibleComponent<Unit>()->IsController(false);
+				if (e->GetCompatibleComponent<Structure>() != NULL)
+					e->GetCompatibleComponent<Structure>()->IsController(false);
+			}
+			selectedEntities.clear();
+		}
+	}
+
+
+
+
+
+
+
 	//Handle shortkeys for units/structures.
 	if(selectedEntities.size() != 0)
 	{ 
@@ -162,31 +179,38 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
-				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
+				//selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
 				if (selectedEntity->GetName() == "Worker")
 				{
 					showGhostBuilding = true;
 					UpdateGhostBuilding(0);
+					buildingType = 0;
 				}
+				else
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(20, 2.5, 0));
 			}
 			else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
-				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
-				showGhostBuilding = true;
 				if (selectedEntity->GetName() == "Worker")
 				{
 					showGhostBuilding = true;
 					UpdateGhostBuilding(1);
+					buildingType = 1;
 				}
+				else
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(20, 2.5, 0));
 			}
 			else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
 			{
-				selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
+				//selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 				if (selectedEntity->GetName() == "Worker")
 				{
 					showGhostBuilding = true;
 					UpdateGhostBuilding(2);
+					buildingType = 2;
 				}
+				else
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2,glm::vec3(20,2.5,0));
 			}
 			updateCalled = 0;
 		}
@@ -225,11 +249,21 @@ void Player:: UpdateGhostBuilding(int type)
 	{
 		auto renderable = std::make_unique<Renderable>();
 		renderable->SetShader("Phong");
+		renderable->SetTexture("debug");
+		Material* mat = new Material();
+		mat->emissive.a = 0;
+		mat->diffuse.a = 0;
+		mat->specular.a = 0;
+		renderable->SetMaterial(mat);
+
 		//renderable->SetMaterial(new Material());
 		//renderable->GetModel().SetType(GL_LINE_STRIP);
 		ghostBuilding.AddComponent(move(renderable));
 		auto sphere = std::make_unique<BoundingSphere>();
 		ghostBuilding.AddComponent(move(sphere));
+
+
+
 	}
 
 	if (type == 0)
