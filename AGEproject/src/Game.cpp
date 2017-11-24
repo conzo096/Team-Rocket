@@ -6,6 +6,45 @@
 #include "Targetable.h"
 #include "AiPlayer.h"
 
+vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange)
+{
+	vector<Entity*> localUnits;
+
+	if (team == 0)
+	{
+		for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
+		{
+			Entity*& e = player->GetEntities()[n];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+			{
+				if (distance(position, e->GetPosition()) <= sightRange)
+				{
+					localUnits.push_back(e);
+				}
+			}
+			n++;
+		}
+	}
+
+	if (team == 1)
+	{
+		for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
+		{
+			Entity*& e = NPC->GetEntities()[n];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+			{
+				if (distance(position, e->GetPosition()) <= sightRange)
+				{
+					localUnits.push_back(e);
+				}
+			}
+			n++;
+		}
+	}
+
+	return localUnits;
+}
+
 void Game::Initialise()
 {
 	navGrid = new int*[100];

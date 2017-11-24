@@ -201,7 +201,7 @@ void GroundMovement::MoveTo(double delta)
 
 void GroundMovement::TurnTo(double delta)
 {
-	if (GetParent()->GetPosition() != destination)
+	if (GetParent()->GetPosition() != goal)
 	{
 		vec3 thisPos = GetParent()->GetPosition();
 		vec2 targetVec = vec2(thisPos.x, thisPos.z) - vec2((float)destination.x, (float)destination.z);
