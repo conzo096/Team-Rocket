@@ -213,10 +213,10 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 
 		// Check by row.  
-		for (int i = -tempBoundSphere->GetRadius(); i <-tempBoundSphere->GetRadius(); i++)
+		for (int i = -tempBoundSphere->GetRadius(); i <tempBoundSphere->GetRadius(); i++)
 		{
 			// check by depth.
-			for (int j = -tempBoundSphere->GetRadius(); j < -tempBoundSphere->GetRadius(); j++)
+			for (int j = -tempBoundSphere->GetRadius(); j < tempBoundSphere->GetRadius(); j++)
 			{
 				// Get Point to check.
 				glm::ivec2 p = glm::ivec2(position.x,position.z) + glm::ivec2(i, j);

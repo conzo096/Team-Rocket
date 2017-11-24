@@ -60,11 +60,11 @@ void Structure::Update(double delta)
 	if (GetParent()->GetName() == "Worker" && productQueue.size() > 0)
 	{
 		// Make unit go to destination first.
-		GetParent()->GetCompatibleComponent<Movement>()->SetDestination(productQueue.front().destination);
+		GetParent()->GetCompatibleComponent<Movement>()->SetGoal(productQueue.front().destination);
 		if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 7)
 			return;
 		else
-			GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
+			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 		// If it is in range, allow construction.
 	}
 

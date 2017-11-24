@@ -32,7 +32,7 @@ public:
 		{
 			if  (returnToResource)
 			{
-				GetParent()->GetComponent<GroundMovement>().SetDestination(targetEntity->GetPosition());
+				GetParent()->GetComponent<GroundMovement>().SetGoal(targetEntity->GetPosition());
 				// If within range, Collect some of the resource.
 				if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 16 && canShoot)
 				{
@@ -54,7 +54,7 @@ public:
 			if (walkToBase)
 			{
 				// Get it to walk to base.
- 				GetParent()->GetComponent<GroundMovement>().SetDestination(collectionPoint);
+ 				GetParent()->GetComponent<GroundMovement>().SetGoal(collectionPoint);
 				// If it close enough to destination, give resource to team.
 				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 0.5)
 				{

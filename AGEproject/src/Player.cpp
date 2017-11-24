@@ -31,50 +31,8 @@ void Player::Update(std::vector<Entity*>& enemyList)
 			ghostBuilding.Update(0);
 			// Check square grid around radius.
 			glm::ivec2 sp = glm::ivec2(poi.x, poi.z);
-
-			// Check 8 potential areas within the object.
-			glm::ivec2 tl(-1, 1); glm::ivec2 tc(0, 1);  glm::ivec2 tr(1, 1);
-			glm::ivec2 cl(-1, 0); glm::ivec2 cr(1, 0);
-			glm::ivec2 bl(-1, -1); glm::ivec2 bc(0, -1); glm::ivec2 br(1, -1);
-
-			std::vector<glm::ivec2> grid;
-			grid.push_back(tl); grid.push_back(tc); grid.push_back(tr);
-			grid.push_back(cl); grid.push_back(cr);
-			grid.push_back(bl); grid.push_back(bc); grid.push_back(br);
-
 			// Space is valid. Prevent Units walking in this area.
 			validSpawn = true;
-			// Check origin.
-			//if (Game::Get().GetNavGrid()[sp.x][sp.y] == 1)
-			//{
-			//	validSpawn = false;
-			//	//return;
-			//}
-			//for (int i = 1; i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius()+2; i++)
-			//{
-			//	// Check each grid point around origin of spawn.
-			//	for (auto p : grid)
-			//	{
-			//		// Increment point.
-			//		p += i;
-			//		// Now add this to origin point;
-			//		p += sp;
-			//		// Check if valid. - Need to remove hard code values. 
-			//		if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
-			//		{
-			//			validSpawn = false;
-			//			//return;
-			//		}
-			//		// Check nav mesh.
-			//		else if (Game::Get().GetNavGridValue(p) == 1)
-			//		{
-			//			validSpawn = false;
-			//		//	return;
-			//		}
-			//	}
-			//}
-
-
 			// Check by row.  
 			for (int i = -ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
 			{
@@ -86,34 +44,19 @@ void Player::Update(std::vector<Entity*>& enemyList)
 					if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
 					{
 						validSpawn = false;
-						//return;
+						return;
 					}
 					// Check nav mesh.
-					else if (Game::Get().GetNavGridValue(p) == 1)
+					if (Game::Get().GetNavGridValue(p) == 1)
 					{
 						validSpawn = false;
-						//	return;
+						return;
 					}
 				}
 			}
 
 		
-			
-			
-			//std::cout << "Valid" << std::endl;
-			//Game::Get().GetNavGrid()[sp.x][sp.y] = 1;
-			//for (int i = 1; i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
-			//{
-			//	// Check each grid point around origin of spawn.
-			//	for (auto p : grid)
-			//	{
-			//		// Increment point.
-			//		p += i;
-			//		// Now add this to origin point;
-			//		p += sp;
-			//		Game::Get().GetNavGrid()[p.x][p.y] = 1;
-			//	}
-			//}
+
 		}
 	}
 
@@ -139,7 +82,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
-					e->GetCompatibleComponent<Movement>()->SetDestination(poi);
+					e->GetCompatibleComponent<Movement>()->SetGoal(poi);
 					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
 					// Particle that appears when the user selects a location.
 					Game::Get().location = poi;
@@ -225,11 +168,6 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			selectedEntities.clear();
 		}
 	}
-
-
-
-
-
 
 
 	//Handle shortkeys for units/structures.
@@ -325,7 +263,14 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 void Player::Render()
 {
 	if (showGhostBuilding)
+	{
+		if (validSpawn)
+			ghostBuilding.GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 1, 0, 1);
+		else
+			ghostBuilding.GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+
 		ghostBuilding.Render();
+	}
 }
 
 

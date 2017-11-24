@@ -105,7 +105,7 @@ public:
 		// If hold, do nothing.
 		if (action == Hold)
 		{
-			return;
+		//	return;
 		}
 		// If move, keep moving the unit to destination.
 		if (action == Move)
