@@ -29,8 +29,67 @@ void Player::Update(std::vector<Entity*>& enemyList)
 			ghostBuilding.SetPosition(glm::dvec3(poi.x, 2.5f, poi.z));
 			// Check if the position is valid.
 			ghostBuilding.Update(0);
-			if (Game::Get().GetNavGrid()[(int)poi.x][(int)poi.z] == 0)
-				validSpawn = true;
+			// Check square grid around radius.
+			glm::ivec2 sp = glm::ivec2(poi.x, poi.z);
+
+			// Check 8 potential areas within the object.
+			glm::ivec2 tl(-1, 1); glm::ivec2 tc(0, 1);  glm::ivec2 tr(1, 1);
+			glm::ivec2 cl(-1, 0); glm::ivec2 cr(1, 0);
+			glm::ivec2 bl(-1, -1); glm::ivec2 bc(0, -1); glm::ivec2 br(1, -1);
+
+			std::vector<glm::ivec2> grid;
+			grid.push_back(tl); grid.push_back(tc); grid.push_back(tr);
+			grid.push_back(cl); grid.push_back(cr);
+			grid.push_back(bl); grid.push_back(bc); grid.push_back(br);
+
+			// Space is valid. Prevent Units walking in this area.
+			validSpawn = true;
+			// Check origin.
+			if (Game::Get().GetNavGrid()[sp.x][sp.y] == 1)
+			{
+				validSpawn = false;
+				//return;
+			}
+			for (int i = 1; i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
+			{
+				// Check each grid point around origin of spawn.
+				for (auto p : grid)
+				{
+					// Increment point.
+					p += i;
+					// Now add this to origin point;
+					p += sp;
+					// Check if valid. - Need to remove hard code values. 
+					if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
+					{
+						validSpawn = false;
+						//return;
+					}
+					// Check nav mesh.
+					else if (Game::Get().GetNavGrid()[p.x][p.y] == 1)
+					{
+						validSpawn = false;
+					//	return;
+					}
+				}
+			}
+		
+			
+			
+			//std::cout << "Valid" << std::endl;
+			//Game::Get().GetNavGrid()[sp.x][sp.y] = 1;
+			//for (int i = 1; i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
+			//{
+			//	// Check each grid point around origin of spawn.
+			//	for (auto p : grid)
+			//	{
+			//		// Increment point.
+			//		p += i;
+			//		// Now add this to origin point;
+			//		p += sp;
+			//		Game::Get().GetNavGrid()[p.x][p.y] = 1;
+			//	}
+			//}
 		}
 	}
 
@@ -93,9 +152,9 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi) && validSpawn)
 				{
-					poi.y = 2.5;
+					poi.y = 2.5f;
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, buildingType, poi);
-					validSpawn = false;
+					//validSpawn = false;
 					showGhostBuilding = false;
 				}
 			}

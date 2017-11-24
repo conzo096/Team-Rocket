@@ -210,12 +210,45 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempStructure->SetTeam(team);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+
+
+		// Check 8 potential areas within the object.
+		glm::ivec2 tl(-1, 1); glm::ivec2 tc(0, 1);  glm::ivec2 tr(1, 1);
+		glm::ivec2 cl(-1, 0); glm::ivec2 cr(1, 0);
+		glm::ivec2 bl(-1, -1); glm::ivec2 bc(0, -1); glm::ivec2 br(1, -1);
+
+		std::vector<glm::ivec2> grid;
+		grid.push_back(tl); grid.push_back(tc); grid.push_back(tr);
+		grid.push_back(cl); grid.push_back(cr);
+		grid.push_back(bl); grid.push_back(bc); grid.push_back(br);
+
+		//std::cout << "Valid" << std::endl;
+		Game::Get().GetNavGrid()[(int)position.x][(int)position.z] = 1;
+		for (int i = 1; i < tempBoundSphere->GetRadius(); i++)
+		{
+			// Check each grid point around origin of spawn.
+			for (auto p : grid)
+			{
+				// Increment point.
+				p += i;
+				// Now add this to origin point;
+				p += glm::ivec2(position.x, position.z);
+				Game::Get().GetNavGrid()[p.x][p.y] = 1;
+			}
+		}
+
+
+
+
+
+
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
 		tempEntity->AddComponent(move(target));
+
 		return tempEntity;
 	}
 

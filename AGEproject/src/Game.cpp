@@ -33,9 +33,9 @@ void Game::Initialise()
 	for (int i = 0; i < 100; i++)
 		for (int j = 0; j < 100; j++)
 		{
-			if (i > 50 && i < 75 && j>50 && j < 75)
-				navGrid[i][j] = 1;
-			else
+			//if (i > 50 && i < 75 && j>50 && j < 75)
+			//	navGrid[i][j] = 1;
+			//else
 				navGrid[i][j] = 0;
 		}
 	terrainGrid = new dvec3*[100];
