@@ -1,6 +1,11 @@
 #include "Unit.h"
 #include "Game.h"
 
+void Unit::SetAction(Action act)
+{
+	action = act;
+}
+
 void Unit::IsController(bool act)
 {
 	isControlled = act;
@@ -20,16 +25,23 @@ void Unit::IsController(bool act)
 	}
 }
 
+void Unit::SetEntityToTarget(Entity *& target)
+{
+	targetEntity = target;
+	targetAcquired = true;
+}
+
 void Unit::AcquireTarget()
 {
-	vector<Entity*> localUnits = Game::Get().FindLocalUnits(team ,GetParent()->GetPosition(), sightRange);
+	vector<Entity*> localUnits = Game::Get().FindLocalUnits(team, GetParent()->GetPosition(), sightRange);
 	if (localUnits.size() == 0)
 	{
 		targetAcquired = false;
 		targetEntity = NULL;
 		return;
 	}
-	int min, n = 0;
+	int min = 0;
+	int n = 0;
 	for (Entity*& e : localUnits)
 	{
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
@@ -53,14 +65,23 @@ void Unit::AttackEntity()
 	if (targetAcquired)
 	{
 		// If within range, fire a projectile
-		if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < weaponRange && canShoot)
+		if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) <= weaponRange)
 		{
-			timeSinceLastFire = 0;
-			canShoot = false;
-			// Find an empty bullet and fire.
-			BulletParticle bullet(GetParent()->GetPosition());
-			bullet.SetTarget(targetEntity);
-			projectiles.push_back(bullet);
+			if (canShoot)
+			{
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+				timeSinceLastFire = 0;
+				canShoot = false;
+				// Find an empty bullet and fire.
+				BulletParticle bullet(GetParent()->GetPosition());
+				bullet.SetTarget(targetEntity);
+				projectiles.push_back(bullet);
+			}
+		}
+		else
+		{
+			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
+			//if(Get)
 		}
 
 
@@ -83,9 +104,11 @@ void Unit::AttackEntity()
 void Unit::Update(double deltaTime)
 {
 	timeSinceLastFire += deltaTime;
-	// If hold, do nothing.
+	// If hold, do nothing. Should be stop
 	if (action == Hold)
 	{
+		GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+		AcquireTarget();
 	}
 	// If move, keep moving the unit to destination.
 	if (action == Move)
@@ -94,19 +117,15 @@ void Unit::Update(double deltaTime)
 	}
 	if (action == Attack)
 	{
-		AcquireTarget();
-		// Move towards entity.
 		if (targetEntity != NULL)
 		{
-			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
+			AttackEntity();
 		}
-		AttackEntity();
 	}
 	if (action == AttackMove)
 	{
-		AttackEntity();
+		AcquireTarget();
 	}
-
 	// Update all the bullets.
 	for (BulletParticle & b : projectiles)
 		b.Update(deltaTime);

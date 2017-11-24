@@ -22,8 +22,8 @@ protected:
 	// Previous effect.
 	glm::vec4 originalColour;
 
-	double weaponRange=3;
-	double sightRange=6;
+	double weaponRange=10;
+	double sightRange=12;
 
 	double fireRate = 0.5;
 	double timeSinceLastFire;
@@ -42,18 +42,12 @@ public:
 	~Unit() {};
 
 
-	void SetAction(Action act)
-	{
-		action = act;
-	}
+	void SetAction(Action act);
 
 	// Change value for being controlled by player or not.
 	void IsController(bool act);
 
-	void SetEntityToTarget(Entity*& target)
-	{
-		targetEntity = target;
-	}
+	void SetEntityToTarget(Entity*& target);
 
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
