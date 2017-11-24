@@ -44,6 +44,10 @@ public:
 	// How long the particle will last for before stop being rendered.
 	double duration = 3.0;
 	int** GetNavGrid() { return navGrid; };
+	int GetNavGridValue(glm::ivec2 pos) { return navGrid[pos.x][pos.y]; }
+	void UpdateNavGrid(int val, glm::ivec2 pos);
+
+
 	dvec3** GetTerrainGrid() { return terrainGrid; };
 	void Initialise();
 	bool Update();

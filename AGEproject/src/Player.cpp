@@ -45,34 +45,58 @@ void Player::Update(std::vector<Entity*>& enemyList)
 			// Space is valid. Prevent Units walking in this area.
 			validSpawn = true;
 			// Check origin.
-			if (Game::Get().GetNavGrid()[sp.x][sp.y] == 1)
+			//if (Game::Get().GetNavGrid()[sp.x][sp.y] == 1)
+			//{
+			//	validSpawn = false;
+			//	//return;
+			//}
+			//for (int i = 1; i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius()+2; i++)
+			//{
+			//	// Check each grid point around origin of spawn.
+			//	for (auto p : grid)
+			//	{
+			//		// Increment point.
+			//		p += i;
+			//		// Now add this to origin point;
+			//		p += sp;
+			//		// Check if valid. - Need to remove hard code values. 
+			//		if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
+			//		{
+			//			validSpawn = false;
+			//			//return;
+			//		}
+			//		// Check nav mesh.
+			//		else if (Game::Get().GetNavGridValue(p) == 1)
+			//		{
+			//			validSpawn = false;
+			//		//	return;
+			//		}
+			//	}
+			//}
+
+
+			// Check by row.  
+			for (int i = -ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
 			{
-				validSpawn = false;
-				//return;
-			}
-			for (int i = 1; i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
-			{
-				// Check each grid point around origin of spawn.
-				for (auto p : grid)
+				// check by depth.
+				for (int j = -ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); j < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); j++)
 				{
-					// Increment point.
-					p += i;
-					// Now add this to origin point;
-					p += sp;
-					// Check if valid. - Need to remove hard code values. 
+					// Get Point to check.
+					glm::ivec2 p = sp + glm::ivec2(i, j);
 					if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
 					{
 						validSpawn = false;
 						//return;
 					}
 					// Check nav mesh.
-					else if (Game::Get().GetNavGrid()[p.x][p.y] == 1)
+					else if (Game::Get().GetNavGridValue(p) == 1)
 					{
 						validSpawn = false;
-					//	return;
+						//	return;
 					}
 				}
 			}
+
 		
 			
 			

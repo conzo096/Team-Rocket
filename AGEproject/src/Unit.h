@@ -91,7 +91,7 @@ public:
 			{
 				targetEntity = NULL;
 				// Stop moving.
-				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 				action = Hold;
 			}
 		}

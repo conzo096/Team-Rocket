@@ -283,3 +283,11 @@ void Game::Render()
 	// Swap the window buffers.
 	glfwSwapBuffers(GameEngine::Get().GetWindow());
 }
+
+
+void Game::UpdateNavGrid(int val, glm::ivec2 pos)
+{
+//	std::cout << "Pos:" << pos.x<< "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
+	navGrid[pos.x][pos.y] = val;
+	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
+}

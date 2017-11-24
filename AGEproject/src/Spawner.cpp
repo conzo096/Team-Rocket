@@ -212,28 +212,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
 
-		// Check 8 potential areas within the object.
-		glm::ivec2 tl(-1, 1); glm::ivec2 tc(0, 1);  glm::ivec2 tr(1, 1);
-		glm::ivec2 cl(-1, 0); glm::ivec2 cr(1, 0);
-		glm::ivec2 bl(-1, -1); glm::ivec2 bc(0, -1); glm::ivec2 br(1, -1);
-
-		std::vector<glm::ivec2> grid;
-		grid.push_back(tl); grid.push_back(tc); grid.push_back(tr);
-		grid.push_back(cl); grid.push_back(cr);
-		grid.push_back(bl); grid.push_back(bc); grid.push_back(br);
-
-		//std::cout << "Valid" << std::endl;
-		Game::Get().GetNavGrid()[(int)position.x][(int)position.z] = 1;
-		for (int i = 1; i < tempBoundSphere->GetRadius(); i++)
+		// Check by row.  
+		for (int i = -tempBoundSphere->GetRadius(); i <-tempBoundSphere->GetRadius(); i++)
 		{
-			// Check each grid point around origin of spawn.
-			for (auto p : grid)
+			// check by depth.
+			for (int j = -tempBoundSphere->GetRadius(); j < -tempBoundSphere->GetRadius(); j++)
 			{
-				// Increment point.
-				p += i;
-				// Now add this to origin point;
-				p += glm::ivec2(position.x, position.z);
-				Game::Get().GetNavGrid()[p.x][p.y] = 1;
+				// Get Point to check.
+				glm::ivec2 p = glm::ivec2(position.x,position.z) + glm::ivec2(i, j);
+				Game::Get().UpdateNavGrid(1, p);
 			}
 		}
 
