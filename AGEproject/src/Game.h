@@ -14,7 +14,7 @@
 #include "AirMovement.h"
 #include "GroundMovement.h"
 #include "ResourceHandler.h"
-
+#include "UIManager.h"
 #include "Unit.h"
 class Entity;
 class Player;
@@ -43,6 +43,11 @@ public:
 	BulletParticle location;
 	// How long the particle will last for before stop being rendered.
 	double duration = 3.0;
+
+	// UI class - contains screen data info, should be on a seperate frame buffer?
+	UIManager ui;
+
+
 	int** GetNavGrid() { return navGrid; };
 	int GetNavGridValue(glm::ivec2 pos) { return navGrid[pos.x][pos.y]; }
 	void UpdateNavGrid(int val, glm::ivec2 pos);

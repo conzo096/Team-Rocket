@@ -147,6 +147,12 @@
     <ClCompile Include="src\GroundMovement.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\UIQuad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">
@@ -293,6 +299,12 @@
     <ClInclude Include="src\Resource.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\UIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">
@@ -326,6 +338,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\Particle.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

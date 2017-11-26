@@ -280,6 +280,8 @@ void Game::Render()
 	player->Render();
 	GameEngine::Get().Render();
 
+	ui.Render();
+
 	// Swap the window buffers.
 	glfwSwapBuffers(GameEngine::Get().GetWindow());
 }
