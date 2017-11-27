@@ -23,6 +23,45 @@ void Game::HandleInput(GLFWwindow* window, int key, int scancode, int action, in
 }
 
 
+vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange)
+{
+	vector<Entity*> localUnits;
+
+	if (team == 0)
+	{
+		for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
+		{
+			Entity*& e = player->GetEntities()[n];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+			{
+				if (distance(position, e->GetPosition()) <= sightRange)
+				{
+					localUnits.push_back(e);
+				}
+			}
+			n++;
+		}
+	}
+
+	if (team == 1)
+	{
+		for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
+		{
+			Entity*& e = NPC->GetEntities()[n];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+			{
+				if (distance(position, e->GetPosition()) <= sightRange)
+				{
+					localUnits.push_back(e);
+				}
+			}
+			n++;
+		}
+	}
+
+	return localUnits;
+}
+
 void Game::Initialise()
 {
 
@@ -33,9 +72,6 @@ void Game::Initialise()
 	for (int i = 0; i < 100; i++)
 		for (int j = 0; j < 100; j++)
 		{
-			//if (i > 50 && i < 75 && j>50 && j < 75)
-			//	navGrid[i][j] = 1;
-			//else
 				navGrid[i][j] = 0;
 		}
 	terrainGrid = new dvec3*[100];
@@ -55,32 +91,30 @@ void Game::Initialise()
 	free_cam = new Entity;
 	auto cam = std::make_unique<Free_Camera>(glm::half_pi<float>());
 	cam->SetPosition(glm::dvec3(10.0, 5.0, 50.0));
-	cam->Rotate(-4 / pi<float>(), -4 / pi<float>());
+	cam->Rotate(3 / pi<float>(), -3 / pi<float>());
 	//cam->Rotate(4 / pi<float>(), -3 / pi<float>());
 	cam->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam));
-	// Add light entity.
+	// Add point light to the scene
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
-	tempLightComponent->SetEffect("Phong");
-	tempLightComponent->setLightPosition(glm::vec3(50, 30, 50));
-	tempLightComponent->diffuse = glm::vec4(0.7, 0.2, 0.4, 1);
+	tempLightComponent->SetProperties("./json/PointLight.json");
 	tempEntity3->AddComponent(move(tempLightComponent));
 	neutralEntities.push_back(tempEntity3);
 
 	// This is the floor.
 	Entity* tempEntity2 = new Entity;
 	auto tempRenderable2 = std::make_unique<Renderable>();
+	tempRenderable2->SetMaterial(new Material());
 	tempRenderable2->SetPlane(1, 100, 100);
-	tempRenderable2->SetTexture("debug");
-	tempRenderable2->SetShader("Phong");
-	tempEntity2->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	tempRenderable2->SetProperties("./json/Plane.json");
+	tempEntity2->SetPosition(tempRenderable2->GetPosition());
 	tempRenderable2->UpdateTransforms();
 	auto tempBoundingBox2 = std::make_unique<BoundingBox>();
 	tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
 	// Set custom material.
 	Material* mat = new Material();
-	mat->emissive = glm::vec4(0.03, 0, 0.07, 1);
+	mat->emissive = glm::vec4(0.02, 0.02, 0.02, 1);
 	tempRenderable2->SetMaterial(mat);
 	tempEntity2->AddComponent(move(tempRenderable2));
 	tempEntity2->AddComponent(move(tempBoundingBox2));
@@ -89,21 +123,23 @@ void Game::Initialise()
 
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
+
+//	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
+
+
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
-	// This will be added to a neutral list later.
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(30, 2.5, 30), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
 
-	//This is a "wall"
-	Entity* tempEntity77 = new Entity;
-	auto tempRenderable77 = std::make_unique<Renderable>();
-	tempRenderable77->SetMaterial(new Material());
-	tempRenderable77->SetPlane(1, 25, 25);
-	tempRenderable77->SetTexture("ConstructorUV");
-	tempRenderable77->SetShader("Phong");
-	tempEntity77->SetPosition(glm::vec3(50.0f, 2.5f, 50.0f));
+	////This is a "wall"
+	//Entity* tempEntity77 = new Entity;
+	//auto tempRenderable77 = std::make_unique<Renderable>();
+	//tempRenderable77->SetMaterial(new Material());
+	//tempRenderable77->SetPlane(1, 25, 25);
+	//tempRenderable77->SetTexture("ConstructorUV");
+	//tempRenderable77->SetShader("Phong");
+	//tempEntity77->SetPosition(glm::vec3(50.0f, 2.5f, 50.0f));
 
-	neutralEntities.push_back(move(tempEntity77));
+	//neutralEntities.push_back(move(tempEntity77));
 
 	lastTime = clock();
 }

@@ -20,11 +20,16 @@ void Player::Update(std::vector<Entity*>& enemyList)
 		entities.push_back(e);
 
 
-	// If ghost building is active, update location.
+	// If ghost building is active, update location and change boolean.
 	if (showGhostBuilding)
 	{
 		glm::vec3 poi;
-		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+		if (!Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+		{
+			validSpawn = false;
+
+		}
+		else
 		{
 			ghostBuilding.SetPosition(glm::dvec3(poi.x, 2.5f, poi.z));
 			// Check if the position is valid.

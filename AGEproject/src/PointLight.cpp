@@ -1,6 +1,7 @@
 #include "PointLight.h"
 #include "Material.h"
 #include <glm\gtc\type_ptr.hpp>
+#include <assert.h>
 int PointLight::id_counter = 0;
 int PointLight::_id;
 
@@ -45,17 +46,17 @@ void PointLight::bind(const PointLight& pointLight, const std::string& name, con
 	// Colours
 	idx = shader.GetUniformLocation(name + ".ambient");
 	if (idx != -1)
-		glUniform4fv(idx, 1, glm::value_ptr(pointLight.ambient));
+		glUniform4fv(idx, 1, value_ptr(pointLight.ambient));
 	idx = shader.GetUniformLocation(name + ".diffuse");
 	if (idx != -1)
-		glUniform4fv(idx, 1, glm::value_ptr(pointLight.diffuse));
+		glUniform4fv(idx, 1, value_ptr(pointLight.diffuse));
 	idx = shader.GetUniformLocation(name + ".specular");
 	if (idx != -1)
-		glUniform4fv(idx, 1, glm::value_ptr(pointLight.specular));
+		glUniform4fv(idx, 1, value_ptr(pointLight.specular));
 	// Position
 	idx = shader.GetUniformLocation(name + ".position");
 	if (idx != -1)
-		glUniform3fv(idx, 1, glm::value_ptr(pointLight.position));
+		glUniform3fv(idx, 1, value_ptr(pointLight.position));
 	// Range
 	idx = shader.GetUniformLocation(name + ".range");
 	if (idx != -1)
@@ -108,7 +109,34 @@ void PointLight::bindMaterial(const Material& material, const std::string& name,
 
 void PointLight::from_json(const nlohmann::json& j)
 {
+	// Leave this blank?
+}
 
+void PointLight::SetProperties(const std::string& filename)
+{
+	std::ifstream ifs(filename);
+	json j = json::parse(ifs);
+
+	this->SetEffect(j["Shader"]);
+
+	json pos = j["Position"];
+	std::vector<float> p;
+	for(const auto elem : pos)
+	{
+		p.push_back(elem);
+	}
+	this->position = glm::vec3(p[0], p[1], p[2]);
+
+	json dif = j["Colour"];
+	std::vector<float> d;
+	for(const auto elem : dif)
+	{
+		d.push_back(elem);
+	}
+	this->diffuse = glm::vec4(d[0], d[1], d[2], d[3]);
+
+	this->ambient = glm::vec4(0.05f, 0.05f, 0.05f, 1.00f);
+	this->specular = glm::vec4(1.00f, 1.00f, 1.00f, 1.00f);
 }
 
 /*
@@ -131,14 +159,6 @@ void PointLight::initialise()
 //	this->range = (-this->linear + sqrtf(this->linear * this->linear - 4 * this->quadratic * (this->constant - 256.0 / 5.0 * lightMax))) / (2 * this->quadratic);
 	this->range = 128;
 	this->SetPosition(this->position);
-
-	//Material* basic_material = new Material();
-	//basic_material->diffuse = glm::vec4(1, 1, 1, 1);
-	//basic_material->emissive = glm::vec4(0, 0, 0, 1);
-	//basic_material->specular = glm::vec4(1, 1, 1, 1);
-	//basic_material->shininess = 0.6f;
-
-	//effect->material = basic_material;
 }
 
 
@@ -149,7 +169,6 @@ PointLight::~PointLight()
 void PointLight::SetEffect(const std::string shaderName)
 {
 	effect->shader = shaderName;
-	//Shader::Get().AddShader(effect->shader);
 }
 
 void PointLight::setLightPosition(const glm::vec3 position)
@@ -163,8 +182,5 @@ void PointLight::Render()
 	std::stringstream s;
 	s << this->_id;
 	// Use renderer, bind.
-//	bind(*this, "point_light[" + s.str() + ']', effect->shader);
-//	bind(*this, "obvious_name", effect->shader);
-//	bindMaterial(*this->effect->material, "mat", effect->shader);
-
+	bind(*this, "point_light[" + s.str() + ']', effect->shader);
 }

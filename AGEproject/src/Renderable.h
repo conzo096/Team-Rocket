@@ -26,4 +26,5 @@ public:
 	
 
 	void Render();
+	void SetProperties(const std::string jsonFile);
 };

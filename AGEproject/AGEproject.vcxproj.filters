@@ -153,6 +153,9 @@
     <ClCompile Include="src\UIManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Unit.cpp">
+      <Filter>Source Files\Components\Units</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">

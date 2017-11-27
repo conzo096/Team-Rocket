@@ -23,18 +23,12 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	if (name == "Ship")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("Ship");
-		tempRenderable->SetTexture("FlyerUV");
 		tempRenderable->SetMaterial(new Material());
-		tempRenderable->SetShader("Phong");
-		tempRenderable->SetPosition(dvec3(0, 0.5, 0));
+		tempRenderable->SetProperties("./json/Ship.json");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<AirMovement>();
-		tempAirMovement->SetDestination(glm::dvec3(90, 0, 90));
-		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.5);
-		tempAirMovement->SetTurnSpeed(200.0);
+		auto tempMovement = std::make_unique<GroundMovement>();
+		tempMovement->SetProperties("./json/ShipMovement.json");
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -44,7 +38,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
-		tempEntity->AddComponent(move(tempAirMovement));
+		tempEntity->AddComponent(move(tempMovement));
 		tempEntity->AddComponent(move(tempBoundingSphere));
 		tempEntity->AddComponent(move(target));
 		return tempEntity;
@@ -67,7 +61,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempAirMovement->SetTurnSpeed(200.0);
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
 		auto tempUnit = std::make_unique<Troop>();
@@ -90,11 +83,17 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetShader("Phong");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<GroundMovement>();
+		/*auto tempAirMovement = std::make_unique<GroundMovement>();
 		tempAirMovement->SetDestination(glm::dvec3(20, 15, 20));
 		tempAirMovement->SetSpeed(15.0);
 		tempAirMovement->SetAcceleration(0.5);
-		tempAirMovement->SetTurnSpeed(200.0);
+		tempAirMovement->SetTurnSpeed(200.0);*/
+
+		tempRenderable->SetProperties("./json/Worker.json");
+		tempEntity->SetPosition(spawnPosition);
+		tempRenderable->UpdateTransforms();
+		auto tempAirMovement = std::make_unique<AirMovement>();
+		tempAirMovement->SetProperties("./json/WorkerMovement.json");
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -159,7 +158,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	}
 
 	// Structures...
-
 	if (name == "Base")
 	{
 		auto tempRenderable = std::make_unique<Renderable>();
@@ -200,6 +198,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);
+		//tempRenderable->SetProperties("./json/Shipyard.json");
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
 		SpawnInfo si;
@@ -210,7 +209,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempStructure->SetTeam(team);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-
 
 		// Check by row.  
 		for (int i = -tempBoundSphere->GetRadius(); i <tempBoundSphere->GetRadius(); i++)
@@ -223,11 +221,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 				Game::Get().UpdateNavGrid(1, p);
 			}
 		}
-
-
-
-
-
 
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));

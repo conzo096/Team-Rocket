@@ -56,6 +56,7 @@ public:
 
 
 	dvec3** GetTerrainGrid() { return terrainGrid; };
+	vector<Entity*> FindLocalUnits(int team, dvec3 position, double sightRange);
 	void Initialise();
 	bool Update();
 	void Render();

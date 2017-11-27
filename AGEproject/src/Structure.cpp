@@ -25,6 +25,8 @@ void Structure::Build(double delta)
 
 void Structure::AddProduct(int& bal,int hotkey, glm::vec3 destination)
 {
+	if (spawnData.size() == 0)
+		return;
 	if (hotkey > spawnData.size() - 1)
 		return;
 	int newBalance = bal - spawnData[hotkey].cost;
@@ -60,11 +62,11 @@ void Structure::Update(double delta)
 	if (GetParent()->GetName() == "Worker" && productQueue.size() > 0)
 	{
 		// Make unit go to destination first.
-		GetParent()->GetCompatibleComponent<Movement>()->SetGoal(productQueue.front().destination);
+		GetParent()->GetCompatibleComponent<Movement>()->SetDestination(productQueue.front().destination);
 		if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 7)
 			return;
 		else
-			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+			GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
 		// If it is in range, allow construction.
 	}
 
@@ -83,4 +85,23 @@ void Structure::Collect(std::vector<Entity*>& ents)
 		ents.push_back(e);
 	collectionQueue.clear();
 	
+}
+
+void Structure::IsController(bool act)
+{
+	isControlled = act;
+	// If it is being selected.
+	if (act)
+	{
+		// Hold current emissive value.
+		tempCol = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
+		// Set objects emissive value to blue (for now). 
+		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
+	}
+	else
+	{
+		// Return the emissive colour back to its original value.
+		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(tempCol);
+		tempCol = glm::vec4();
+	}
 }

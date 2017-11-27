@@ -104,6 +104,7 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\UIManager.cpp" />
     <ClCompile Include="src\UIQuad.cpp" />
+    <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
   <ItemGroup>

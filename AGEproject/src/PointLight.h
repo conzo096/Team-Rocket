@@ -24,7 +24,7 @@ public:
 
 	void SetEffect(const std::string shaderName);
 	void setLightPosition(const glm::vec3 position);
-	
+	void SetProperties(const std::string &jsonFile);
 
 	float constant  = 1.0f;
 	float linear    = 0.001f;
