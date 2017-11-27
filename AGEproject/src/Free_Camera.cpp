@@ -52,9 +52,9 @@ void Free_Camera::Update(double deltaTime)
 		glfwSetWindowShouldClose(GameEngine::Get().GetWindow(), true);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
-	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
+	glm::dvec3 temp_forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
 	// Normalise forward direction
-	forward = glm::normalize(forward);
+	forward = glm::normalize(temp_forward);
 
 	// Create standard right vector and rotate it by the yaw
 	right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -62,13 +62,13 @@ void Free_Camera::Update(double deltaTime)
 	right = glm::normalize(right);
 
 	// Calculate (perpendicular) up vector using cross product
-	orientation = glm::cross(right, forward);
+	up = glm::cross(right, forward);
 	// Normalise up
-	orientation = glm::normalize(orientation);
+	up = glm::normalize(up);
 
 	// Update position by multiplying translation elements by forward, up and right
 	glm::dvec3 trans = translation.x * right;
-	trans += translation.y * orientation;
+	trans += translation.y * up;
 	trans += translation.z * forward;
 	Move(trans);
 
@@ -79,7 +79,7 @@ void Free_Camera::Update(double deltaTime)
 	translation = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	// Calculate view matrix
-	view = glm::lookAt(GetPosition(), target, orientation); //glm::eulerAngles(GetRotation()));
+	view = glm::lookAt(GetPosition(), target, up); //glm::eulerAngles(GetRotation()));
 
 	// Update cursor position
 	glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);

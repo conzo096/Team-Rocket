@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h" />
     <ClInclude Include="src\AirMovement.h" />
-    <ClInclude Include="src\AudioEmitter.h" />
     <ClInclude Include="src\Barracks.h" />
     <ClInclude Include="src\BaseStructure.h" />
     <ClInclude Include="src\BoundingBox.h" />
@@ -55,6 +54,7 @@
     <ClInclude Include="src\ShipUnit.h" />
     <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
+    <ClInclude Include="src\SoundObject.h" />
     <ClInclude Include="src\Spawner.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AirMovement.cpp" />
-    <ClCompile Include="src\AudioEmitter.cpp" />
     <ClCompile Include="src\BoundingBox.cpp" />
     <ClCompile Include="src\BoundingSphere.cpp" />
     <ClCompile Include="src\Entity.cpp" />
@@ -96,6 +95,7 @@
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\ResourceHandler.cpp" />
     <ClCompile Include="src\SettingsMenu.cpp" />
+    <ClCompile Include="src\SoundObject.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />

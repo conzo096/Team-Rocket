@@ -42,13 +42,11 @@ struct ParticleData
 {
 	glm::vec3 pos;
 	unsigned int tex;
-
 };
 
 class GameEngine : public Singleton<GameEngine>
 {
 private:
-
 	// The window that is to be rendered too.
 	GLFWwindow* window;
 	int width;
@@ -80,8 +78,6 @@ public:
 	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
 	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
-	// Execute the game engine.
-	void Start();
 	// Cleans up game engine resources.
 	void CleanUp();
 
@@ -92,6 +88,5 @@ public:
 	void BindMaterial(const Material* material, const int shaderID);
 	// Helper functions.
 	void PrintGlewInfo();
-	//void LoadShaders();
-
+	//void LoadShaders()
 };

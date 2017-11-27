@@ -195,12 +195,6 @@ void GameEngine::SetCamera(glm::mat4 camera)
 	cameraMVP = camera;
 }
 
-void GameEngine::Start()
-{
-	// Application is over, handle resource cleaning.
-	//CleanUp();
-}
-
 void GameEngine::CleanUp()
 {
 	glfwTerminate();
