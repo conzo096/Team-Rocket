@@ -239,6 +239,9 @@ bool Game::Update()
 	//++dti;
 
 
+	// Update the Game UI.
+	ui.Update(deltaTime);
+
 	// process events.
 	glfwPollEvents();
 	// Close the window if it has been asked too.

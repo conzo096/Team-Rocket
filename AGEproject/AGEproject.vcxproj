@@ -63,6 +63,8 @@
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\TroopUnit.h" />
+    <ClInclude Include="src\UIManager.h" />
+    <ClInclude Include="src\UIQuad.h" />
     <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
     <ClInclude Include="src\VehicleDepotStructure.h" />
@@ -100,6 +102,8 @@
     <ClCompile Include="src\Structure.cpp" />
     <ClCompile Include="src\Targetable.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\UIManager.cpp" />
+    <ClCompile Include="src\UIQuad.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
   <ItemGroup>

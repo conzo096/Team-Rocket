@@ -299,10 +299,10 @@
     <ClInclude Include="src\Resource.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\UIManager.h">
+    <ClInclude Include="src\UIQuad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UIQuad.h">
+    <ClInclude Include="src\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -338,12 +338,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\Particle.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\font.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\shaders\font.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

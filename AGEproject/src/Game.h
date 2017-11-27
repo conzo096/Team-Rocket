@@ -47,6 +47,8 @@ public:
 	// UI class - contains screen data info, should be on a seperate frame buffer?
 	UIManager ui;
 
+	// Get player class.
+	Player& GetPlayer() { return *player; }
 
 	int** GetNavGrid() { return navGrid; };
 	int GetNavGridValue(glm::ivec2 pos) { return navGrid[pos.x][pos.y]; }

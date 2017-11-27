@@ -11,7 +11,8 @@ private:
 	// What shader the quad uses.
 	unsigned int shader;
 	// What the quad represents.
-	char* text;
+	//char* text;
+	std::string text;
 
 	// Render info.
 	unsigned int Text2DVertexBufferID;
@@ -27,7 +28,7 @@ public:
 		xPos = 10;
 		yPos = 500;
 		size = 60;
-		text = "Insert text";
+		text = "Insert Text";
 		shader = ResourceHandler::Get().GetShader("Font")->GetId();
 		Text2DUniformID = glGetUniformLocation(shader, "myTextureSampler");
 		// Initialize VBO
@@ -41,6 +42,7 @@ public:
 	{
 		text = newText;
 	}
+
 
 	void SetX(int x)
 	{

@@ -38,7 +38,7 @@ public:
 	Team GetTeam() { return team; }
 	void SetTeam(Team t) { team = t; }
 	std::vector<Entity*>& GetEntities() { return entities; }
-
+	int GetBalance() { return balance; }
 
 	// Change from int type.
 	void UpdateGhostBuilding(int type);
