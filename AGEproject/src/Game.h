@@ -6,7 +6,7 @@
 #include "Singleton.h"
 #include "GameEngine.h"
 #include "Free_Camera.h"
-#include "Menu_Camera.h"
+#include "Game_Camera.h"
 #include "Renderable.h"
 #include "Structure.h"
 #include "BoundingBox.h"
@@ -25,11 +25,15 @@ private:
 	double lastTime;
 	int** navGrid;
 	dvec3** terrainGrid;
+	bool freeCamEnabled;
+	bool keyHeld;
+
 public:
 	// User.
 	Player* player;
 	// Ai player.
 	AiPlayer* NPC;
+	Entity *game_cam = new Entity;
 	Entity *free_cam = new Entity;
 
 

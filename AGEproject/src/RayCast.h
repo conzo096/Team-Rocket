@@ -1,8 +1,9 @@
 #pragma once
 #include "glm\common.hpp"
 #include "glm\gtc\matrix_transform.hpp"
+#include "Game_Camera.h"
 #include "Free_Camera.h"
-#include "Menu_Camera.h"
+
 class RayCast
 {
 public:
@@ -13,6 +14,10 @@ public:
 	glm::vec3 far;
 	RayCast() {}
 
+	RayCast(Game_Camera& camera)
+	{
+		UpdateRay(camera);
+	}
 	RayCast(Free_Camera& camera)
 	{
 		UpdateRay(camera);
@@ -23,8 +28,7 @@ public:
 		direction = dir;
 	}
 
+	void UpdateRay(Game_Camera& camera);
 	void UpdateRay(Free_Camera& camera);
-
-	void UpdateRay(Menu_Camera& camera);
 
 };
