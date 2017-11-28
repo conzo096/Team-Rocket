@@ -156,6 +156,9 @@
     <ClCompile Include="src\Unit.cpp">
       <Filter>Source Files\Components\Units</Filter>
     </ClCompile>
+    <ClCompile Include="src\ControlsMenu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">
@@ -308,6 +311,9 @@
     <ClInclude Include="src\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ControlsMenu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.vert">
@@ -341,6 +347,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\Particle.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

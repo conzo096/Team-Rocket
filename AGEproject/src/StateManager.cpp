@@ -18,7 +18,7 @@ void StateManager::StateLoop()
 		{
 		case(stateSplash):
 			ShowSplashScreen();
-			state = stateMainMenu;
+			state = stateControls;
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
@@ -37,6 +37,10 @@ void StateManager::StateLoop()
 			select = ShowSettingsMenu();
 			if (select == 2) { state = stateMainMenu; }
 			else if (select == 7) { state = stateExiting; }
+			break;
+		case(stateControls):
+			select = ShowControlsMenu();
+			// Handle result.
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

@@ -7,7 +7,7 @@
 #include <iostream>
 #include "MainMenu.h"
 #include "SettingsMenu.h"
-
+#include "ControlsMenu.h"
 class StateManager : public Singleton<StateManager>
 {
 	enum State
@@ -15,6 +15,7 @@ class StateManager : public Singleton<StateManager>
 		stateSplash,
 		stateMainMenu,
 		stateSettings,
+		stateControls,
 		statePlaying,
 		stateExiting
 	};
@@ -37,12 +38,16 @@ public:
 		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
 	}
 
+
+	int ShowControlsMenu()
+	{
+		ControlsMenu sm;
+		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	}
+
+
 	int ShowSplashScreen()
 	{
-		/*while(!UserControls::Get().IsMouseButtonPressed(std::string("Action")))
-		{
-			
-		}*/
 		return stateMainMenu;
 	}
 };
