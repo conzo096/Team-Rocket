@@ -20,6 +20,7 @@ public:
 	std::map<std::string, Model*> models;
 	std::map<std::string, unsigned int> textures;
 	std::map<std::string, GLShader*> shaders;
+	std::map<std::string, char*> audio;
 
 	// Better way to handle this?
 	//std::vector<Component*> componentList;
@@ -29,33 +30,39 @@ public:
 		LoadModels();
 		LoadTextures();
 		LoadShaders();
+		LoadAudio();
 	}
 
-	~ResourceHandler()
-	{
-	
-	}
+	~ResourceHandler() {}
 
 	void LoadModels();
 	void LoadTextures();
 	void LoadShaders();
+	void LoadAudio();
 
-	// Find requested model. If it exists return its index location.
+	// Find requested model. If it exists, return its index location.
 	Model* GetModel(std::string model)
 	{
 		return models.find(model)->second;
 	}
 
+	// Find requested texture. If it exists, return its index location.
 	unsigned int GetTexture(std::string tex)
 	{
 		return textures.find(tex)->second;
 	}
 
+	// Find requested shader. If it exists, return its index location.
 	GLShader* GetShader(std::string shader)
 	{
 		return shaders.find(shader)->second;
 	}
 
+	// Find requested audio file. If it exists, return its index location.
+	char* GetAudio(std::string sound)
+	{
+		return audio.find(sound)->second;
+	}
 };
 
 

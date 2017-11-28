@@ -9,7 +9,7 @@ class Unit : public Component
 {
 
 public:
-	enum Action { Move, Attack, AttackMove, Hold };
+	enum Action { Stop, Move, Attack, AttackMove, Hold };
 protected:
 	// What action this unit is to perform.
 	Action action = Move;
@@ -26,7 +26,7 @@ protected:
 	double sightRange=12;
 
 	double fireRate = 0.5;
-	double timeSinceLastFire;
+	double timeSinceLastFire = 0;
 
 	bool targetAcquired = false;
 	bool canShoot = true;
@@ -47,10 +47,12 @@ public:
 	// Change value for being controlled by player or not.
 	void IsController(bool act);
 
-	void SetEntityToTarget(Entity*& target);
-
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
+	int GetFireRate() { return fireRate; }
+	void SetFireRate(float fr) { fireRate = fr; }
+
+	void SetEntityToTarget(Entity*& target);
 
 	void AcquireTarget();
 	virtual void AttackEntity();

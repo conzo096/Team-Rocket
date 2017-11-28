@@ -8,6 +8,7 @@
 #include "Singleton.h"
 #include "Material.h"
 #include "Model.h"
+#include <mutex>
 
 class Material;
 
@@ -36,20 +37,20 @@ struct RenderData
 	glm::mat4 m;
 
 	Material* mat;
+
+	glm::vec3 boundingPoint;
+	float sphereRadius;
 };
 
 struct ParticleData
 {
 	glm::vec3 pos;
 	unsigned int tex;
-
 };
-
 
 class GameEngine : public Singleton<GameEngine>
 {
 private:
-
 	// The window that is to be rendered too.
 	GLFWwindow* window;
 	int width;
@@ -61,11 +62,14 @@ private:
 	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
 	std::vector<ParticleData> particles;
-public:
+	glm::vec4 frustumPlanes[6];
+	std::mutex mut;
 
+public:
 	// The render window.
 	GLFWwindow* GetWindow() { return window; }
-
+	void CreateWindow();
+	void UpdateWindow();
 	void Initialise();
 	//void Render(glm::mat4 mvp, Model model, Effect effect);
 
@@ -73,15 +77,13 @@ public:
 	int GetScreenWidth() { return width; }
 	int GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
-	void SetFullScreen(int val) { fullScreen = val; }
+	void SetFullScreen(int val){ fullScreen = val; }
 	void SetScreenWidth(int val) { width = val; }
 	void SetScreenHeight(int val) { height = val; }
 	void SetCameraPos(glm::vec3 pos) { cameraPos = pos; }
 	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
 	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
-	// Execute the game engine.
-	void Start();
 	// Cleans up game engine resources.
 	void CleanUp();
 
@@ -94,4 +96,7 @@ public:
 	void PrintGlewInfo();
 	//void LoadShaders();
 
+	void GenerateFrustumPlanes();
+
+	bool IsInCameraFrustum(RenderData& rd);
 };

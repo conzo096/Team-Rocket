@@ -38,18 +38,20 @@ void BulletParticle::Update(double delta)
 			{
 				// Damage target then deactivate this bullet.
 				target->GetComponent<Targetable>().TakeDamage(damage);
+				target->GetComponent<Targetable>().Update(0);
 				isActive = false;
 			}
 		}
 	}
 
-
+	else if(target == NULL)
+		isActive = false;
 
 }
 
 void BulletParticle::Render()
 {
-	if (isActive)
+	if (isActive && target != NULL)
 	{
 		ParticleData particle;
 		particle.pos = position;

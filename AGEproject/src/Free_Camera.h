@@ -26,8 +26,6 @@ public:
 		fieldOfView(fov),
 		Camera("Free_Camera") 
 	{
-	//	glfwSetInputMode(GameEngine::Instance()->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 		// Update cursor position
 		glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
 	}

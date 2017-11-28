@@ -83,43 +83,6 @@ int MainMenu::Draw(GLShader shader)
 		if (UserControls::Get().IsKeyPressed(std::string("Backward")))
 			SelectionDown();
 
-		//if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
-		//{
-		//	if (!mouseButtonHeld)
-		//	{
-		//		// "Start Game" is clicked
-		//		if (buttons[0].renderTarget.IsMouseInBounds())
-		//		{
-		//			currentSelection = 0;
-		//		}
-		//		// "Options" is clicked
-		//		else if (buttons[1].renderTarget.IsMouseInBounds())
-		//		{
-		//			currentSelection = 1;
-		//		}
-		//		// "Exit Game" is clicked
-		//		else if (buttons[2].renderTarget.IsMouseInBounds())
-		//		{
-		//			currentSelection = 2;
-		//		}
-		//		mouseButtonHeld = true;
-		//	}
-		//}
-		//else
-		//{
-		//	if (mouseButtonHeld)
-		//	{
-		//		mouseButtonHeld = false;
-		//		if (currentSelection > -1)
-		//		{
-		//			if (buttons[currentSelection].renderTarget.IsMouseInBounds())
-		//				selectionMade = true;
-		//			else
-		//				currentSelection = -1;
-		//		}
-		//	}
-		//}
-
 		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
 
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
