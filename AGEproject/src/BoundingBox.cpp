@@ -177,7 +177,7 @@ bool BoundingBox::CheckForMouseIntersection(RayCast ray, glm::vec3& poi)
 		}
 	}
 	 poi = ray.origin + ray.direction*tMin;
-	 std::cout << glm::to_string(poi) << std::endl;
+	 //std::cout << glm::to_string(poi) << std::endl;
 	return true;
 }
 

@@ -3,34 +3,50 @@
 #include <vector>
 #include "Entity.h"
 
+enum Team
+{
+	player, ai, neutral
+};
 
 class Player
 {
 
 protected:
 	// Team the player is on.
-	int team;
+	Team team;
 	// List of entities that this player contains.
 	std::vector<Entity*>entities;
-
-	// This will be converted to a vector later.
+	// The units that the player is controlling.
 	std::vector<Entity*> selectedEntities;
+	// How much $$$$ the player has, used for unit spawning.
+	int balance = 10000;
+
+	// Used to limit key calls.
+	int updateCalled;
+
+	// should a ghost building be displayed?
+	bool showGhostBuilding = false;
+	// Is this area valid for the player to request a building?
+	bool validSpawn = false;
+	int buildingType; 
+	// Ghost building.
+	Entity ghostBuilding;
+
 public:
 	
 
-	int GetTeam() { return team; }
-	void SetTeam(int t) { team = t; }
+	Team GetTeam() { return team; }
+	void SetTeam(Team t) { team = t; }
 	std::vector<Entity*>& GetEntities() { return entities; }
+	int GetBalance() { return balance; }
+
+	// Change from int type.
+	void UpdateGhostBuilding(int type);
+
 
 	void Update(std::vector<Entity*>& enemyList);
 	void HandleInput(std::vector<Entity*>& enemyList);
 	void Render();
-
-
-
-
-
-
 
 
 

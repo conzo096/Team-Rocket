@@ -17,16 +17,14 @@ void AirMovement::MoveTo(double delta)
 {
 	if (IsActive())
 	{
+		/*if (GetParent()->GetPosition() == destination)
 		if (GetParent()->GetPosition() == goal)
 		{
-
 			goal.x = rand() % 200 - 100;
 			goal.z = rand() % 200 - 100;
-
 			currentSpeed = 0.0f;
-
 		}
-		else
+		else*/
 		{
 			if (currentSpeed < speed)
 				currentSpeed += speed*delta / accelerationTime;

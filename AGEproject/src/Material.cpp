@@ -10,7 +10,10 @@ Material::Material()
 	specular = glm::vec4(0.633, 0.727811, 0.633, 1.0);
 	shininess = 0.6f;
 	shininess *= 128;
+
+
 }
+
 
 Material::~Material()
 {

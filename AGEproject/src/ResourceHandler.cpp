@@ -4,6 +4,7 @@ void ResourceHandler::LoadModels()
 	std::cout << "Convert to file loading!" << std::endl;
 	models.insert(std::pair<std::string, Model*>(std::string("Worker"), new Model("../res/models/Worker.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Ship"), new Model("../res/models/Flyer.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("Base"), new Model("../res/models/Constructor.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Shipyard"), new Model("../res/models/Constructor.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Torus"), new Model("../res/models/Torus2.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 100, 100)));
@@ -44,6 +45,10 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_LargeButton3_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId()));
+
+	// UI Font.
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Font"), Texture("../res/textures/Holstein.png").GetTextureId()));
+
 }
 
 void ResourceHandler::LoadShaders()
@@ -80,13 +85,13 @@ void ResourceHandler::LoadShaders()
 		shader3->Link();
 		shaders.insert(std::pair<std::string, GLShader*>("Particle", shader3));
 
-		//GLShader* shader4 = new GLShader();
-		//if (!shader3->AddShaderFromFile("../res/shaders/Particle.vert", GLShader::VERTEX))
-		//	printf("Vert failed to compile.\n");
-		//if (!shader3->AddShaderFromFile("../res/shaders/Particle.frag", GLShader::FRAGMENT))
-		//	printf("Frag failed to compile.\n");
-		//shader3->Link();
-		//shaders.insert(std::pair<std::string, GLShader*>("Tex", shader4));
+		GLShader* shader4 = new GLShader();
+		if (!shader4->AddShaderFromFile("../res/shaders/font.vert", GLShader::VERTEX))
+			printf("Vert failed to compile.\n");
+		if (!shader4->AddShaderFromFile("../res/shaders/font.frag", GLShader::FRAGMENT))
+			printf("Frag failed to compile.\n");
+		shader4->Link();
+		shaders.insert(std::pair<std::string, GLShader*>("Font", shader4));
 }
 
 

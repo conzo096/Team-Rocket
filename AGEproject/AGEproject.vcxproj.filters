@@ -108,6 +108,9 @@
     <ClCompile Include="src\RayCast.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\StateManager.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
     <ClCompile Include="src\stb_image.cpp">
       <Filter>Source Files\Game Engine</Filter>
     </ClCompile>
@@ -138,14 +141,17 @@
     <ClCompile Include="src\SettingsMenu.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\StateManager.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="src\Quad.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GroundMovement.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIQuad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Unit.cpp">
       <Filter>Source Files\Components\Units</Filter>
@@ -198,6 +204,9 @@
       <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Singleton.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StateManager.h">
       <Filter>Header Files\Game Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.h">
@@ -290,8 +299,14 @@
     <ClInclude Include="src\SettingsMenu.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\StateManager.h">
-      <Filter>Header Files\Game</Filter>
+    <ClInclude Include="src\Resource.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,7 @@ public:
 	glm::vec3 GetCenter() { return center; }
 	void SetCenter(glm::vec3 c) { center = c; }
 
+	float GetRadius() { return radius; }
 
 	void SetUpBoundingSphere(float rad,glm::vec3 c)
 	{
@@ -101,7 +102,7 @@ public:
 
 
 	// Different render methods.
-	void Render() {};
+	void Render(){}
 };
 
 

@@ -14,14 +14,16 @@ Targetable::~Targetable()
 
 void Targetable::TakeDamage(float damage)
 {
+	mut.lock();
 	damage *= (1.0f - resistanceArmour);
 	damage -= thresholdArmour;
 	health -= damage;
+	mut.unlock();
 }
 
 void Targetable::Update(double delta)
 {
-	if (health < 0.0f)
+	if (health <= 0.0f)
 	{
 		dead = true;
 	}
