@@ -9,7 +9,7 @@ class Unit : public Component
 {
 
 public:
-	enum Action { Move, Attack, AttackMove, Hold };
+	enum Action { Stop, Move, Attack, AttackMove, Hold };
 protected:
 	// What action this unit is to perform.
 	Action action = Move;

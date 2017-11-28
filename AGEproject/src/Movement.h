@@ -20,6 +20,7 @@ public:
 	Movement(std::string type);
 	~Movement();
 
+	glm::dvec3 GetGoal() { return goal; };
 	void SetGoal(glm::dvec3 goal) { this->goal = goal; };
 	void SetSpeed(double speed) { this->speed = speed; };
 	void SetTurnSpeed(double turnSpeed) { this->turnSpeed = turnSpeed; };
