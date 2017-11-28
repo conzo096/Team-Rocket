@@ -69,7 +69,8 @@ public:
 	// Returns if a controller is connected or not.
 	bool isJoystickActive()
 	{
-		if (joyStickConnected == -1)
+		
+		if (glfwJoystickPresent(joyStickConnected) == false)
 			return false;
 		return true;
 	}

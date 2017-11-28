@@ -73,6 +73,9 @@ int SettingsMenu::Draw(GLShader shader)
 		}
 	}
 
+	UserControls::Get().FindConnectedJoystick();
+	if (UserControls::Get().isJoystickActive() == GL_TRUE)
+		currentSelection = 0;
 	while (!selectionMade)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -80,89 +83,77 @@ int SettingsMenu::Draw(GLShader shader)
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
 
-		if (!mouseButtonHeld)
+
+
+
+		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
-			// If cursor is over a button, highlight it
-			for (int i = 0; i < numOfButtons; i++)
+			timeElapsed += 1;
+			int axesCount, buttonCount;
+			const float * axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+			const unsigned char* keys = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
+			if (timeElapsed > cooldown)
 			{
-				if (buttons[i].renderTarget.IsMouseInBounds())
+				timeElapsed = 0;
+				// process our joystick info
+				if (GLFW_PRESS == keys[10])
 				{
-					if (i > 4)
-					{
-						buttons[i].texture = highlight_tex[i - 2];
-					}
-					else
-						buttons[i].texture = highlight_tex[i];
+					SelectionUp();
 				}
-				else
+				if (GLFW_PRESS == keys[12])
 				{
-					if (i > 4)
+					SelectionDown();
+				}
+				for (int i = 0; i < buttons.size(); i++)
+				{
+					if (i == currentSelection)
+					{
+						if (i > 4)
+						{
+							buttons[i].texture = highlight_tex[i - 2];
+						}
+						else
+							buttons[i].texture = highlight_tex[i];
+					}
+					else if (i > 4)
 						buttons[i].texture = button_tex[i - 2];
 					else
 						buttons[i].texture = button_tex[i];
 				}
+				if (GLFW_PRESS == keys[0])
+					selectionMade = true;
 			}
 		}
-
-		// Draw the quads.
-		for (int i = 0; i < numOfLabels; i++)
+		else
 		{
-			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
-			labels[i].renderTarget.Draw();
+			if (!mouseButtonHeld)
+			{
+				// If cursor is over a button, highlight it
+				for (int i = 0; i < numOfButtons; i++)
+				{
+					if (buttons[i].renderTarget.IsMouseInBounds())
+					{
+						if (i > 4)
+						{
+							buttons[i].texture = highlight_tex[i - 2];
+						}
+						else
+							buttons[i].texture = highlight_tex[i];
+					}
+					else
+					{
+						if (i > 4)
+							buttons[i].texture = button_tex[i - 2];
+						else
+							buttons[i].texture = button_tex[i];
+					}
+				}
+			}
+			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
+
 		}
-		for (int i = 0; i < numOfButtons; i++)
-		{
-			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
-			buttons[i].renderTarget.Draw();
-		}
-		glfwSwapBuffers(GameEngine::Get().GetWindow());
-
-		//if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
-		//{
-		//	// "Customise controls" is clicked
-		//	if (buttons[0].renderTarget.IsMouseInBounds())
-		//	{
-		//		selectionMade = true;
-		//		currentSelection = 0;
-		//	}
-		//	// "Save changes" is clicked
-		//	else if (buttons[1].renderTarget.IsMouseInBounds())
-		//	{
-		//		selectionMade = true;
-		//		currentSelection = 2;	// Change this when saving/loading is implemented!
-		//	}
-		//	// "Cancel" is clicked
-		//	else if (buttons[2].renderTarget.IsMouseInBounds())
-		//	{
-		//		selectionMade = true;
-		//		currentSelection = 2;
-		//	}
-		//	else if (buttons[3].renderTarget.IsMouseInBounds())
-		//	{
-
-		//	}
-		//	else if (buttons[4].renderTarget.IsMouseInBounds())
-		//	{
-
-		//	}
-		//	else if (buttons[5].renderTarget.IsMouseInBounds())
-		//	{
-
-		//	}
-		//	else if (buttons[6].renderTarget.IsMouseInBounds())
-		//	{
-
-		//	}
-		//}
-
-		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
-
+		
+		// Arrow buttons.
 		if (selectionMade)
 		{
 			if (currentSelection >= 3)
@@ -209,6 +200,25 @@ int SettingsMenu::Draw(GLShader shader)
 			return CLOSE;
 		}
 
+
+		// Draw the quads.
+		for (int i = 0; i < numOfLabels; i++)
+		{
+			// Bind texture.
+			glUniform1i(shader.GetUniformLocation("tex"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
+			labels[i].renderTarget.Draw();
+		}
+		for (int i = 0; i < numOfButtons; i++)
+		{
+			// Bind texture.
+			glUniform1i(shader.GetUniformLocation("tex"), 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
+			buttons[i].renderTarget.Draw();
+		}
+		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
 
 	}
@@ -217,10 +227,22 @@ int SettingsMenu::Draw(GLShader shader)
 
 void SettingsMenu::SelectionUp()
 {
+	if (buttons.size() == 0)
+		return;
+	// If currentSelection is the first one, loop to end one. 
+	currentSelection -= 1;
+	if (currentSelection < 0)
+		currentSelection = buttons.size() - 1;
 }
 
 void SettingsMenu::SelectionDown()
 {
+	if (buttons.size() == 0)
+		return;
+	// If currentSelection is the last one one, loop to first one. 
+	currentSelection += 1;
+	if (currentSelection > buttons.size() - 1)
+		currentSelection = 0;
 }
 
 void SettingsMenu::SelectionLeft()

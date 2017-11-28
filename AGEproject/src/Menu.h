@@ -32,6 +32,11 @@ protected:
 	bool mouseButtonHeld;
 	bool selectionMade;
 
+	// small timer for controller.
+	int cooldown = 6;
+	// frames since last call.
+	int timeElapsed = 6;
+
 public:
 	Menu()
 	{
