@@ -15,7 +15,7 @@ public:
 	Renderable();
 	~Renderable();
 
-	Model GetModel() { return *model; }
+	Model& GetModel() { return *model; }
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
 	void SetTexture(std::string texName);
@@ -23,6 +23,8 @@ public:
 	void SetMaterial(Material* mat);
 	void SetShader(std::string shader);
 	Effect* GetEffect() { return effect; }
+	
+
 	void Render();
 	void SetProperties(const std::string jsonFile);
 };

@@ -8,7 +8,7 @@
 #include "Singleton.h"
 #include "Material.h"
 #include "Model.h"
-
+#include <mutex>
 class Material;
 
 struct Effect
@@ -36,6 +36,9 @@ struct RenderData
 	glm::mat4 m;
 
 	Material* mat;
+
+	glm::vec3 boundingPoint;
+	float sphereRadius;
 };
 
 struct ParticleData
@@ -61,6 +64,9 @@ private:
 	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
 	std::vector<ParticleData> particles;
+	glm::vec4 frustumPlanes[6];
+	std::mutex mut;
+	
 public:
 
 	// The render window.
@@ -73,7 +79,7 @@ public:
 	int GetScreenWidth() { return width; }
 	int GetScreenHeight() { return height; }
 	bool GetFullScreen() { return fullScreen; }
-	void SetFullScreen(int val) { fullScreen = val; }
+	void SetFullScreen(int val){ fullScreen = val; }
 	void SetScreenWidth(int val) { width = val; }
 	void SetScreenHeight(int val) { height = val; }
 	void SetCameraPos(glm::vec3 pos) { cameraPos = pos; }
@@ -94,4 +100,7 @@ public:
 	void PrintGlewInfo();
 	//void LoadShaders();
 
+	void GenerateFrustumPlanes();
+
+	bool IsInCameraFrustum(RenderData& rd);
 };

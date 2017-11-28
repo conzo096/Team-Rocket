@@ -40,7 +40,6 @@
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\Menu_Camera.h" />
-    <ClInclude Include="src\minijson_reader.hpp" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Movement.h" />
     <ClInclude Include="src\Particle.h" />
@@ -49,6 +48,7 @@
     <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\RayCast.h" />
     <ClInclude Include="src\Renderable.h" />
+    <ClInclude Include="src\Resource.h" />
     <ClInclude Include="src\ResourceHandler.h" />
     <ClInclude Include="src\SettingsMenu.h" />
     <ClInclude Include="src\ShipUnit.h" />
@@ -63,6 +63,8 @@
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\TroopUnit.h" />
+    <ClInclude Include="src\UIManager.h" />
+    <ClInclude Include="src\UIQuad.h" />
     <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
     <ClInclude Include="src\VehicleDepotStructure.h" />
@@ -100,6 +102,8 @@
     <ClCompile Include="src\Structure.cpp" />
     <ClCompile Include="src\Targetable.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\UIManager.cpp" />
+    <ClCompile Include="src\UIQuad.cpp" />
     <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
   </ItemGroup>
@@ -191,7 +195,6 @@
       <AdditionalIncludeDirectories>$(ProjectDir)/include</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;glew32s.lib;opengl32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -234,7 +237,8 @@
       <AdditionalIncludeDirectories>$(ProjectDir)/include</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

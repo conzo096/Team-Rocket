@@ -6,7 +6,6 @@
 #include <iostream>
 #include "RayCast.h"
 #include "Menu.h"
-
 class UserControls : public Singleton<UserControls>
 {
 private:
@@ -23,8 +22,8 @@ private:
 	GLFWcursor* cursor;
 
 	// Ray mouse generates.
-
 	RayCast mouseRay;
+
 public:
 
 	// Controller choices.
@@ -103,4 +102,8 @@ public:
 	void Update(Free_Camera& camera);
 	// Handle console input for debugging options (cheat menu).
 	void HandleConsoleInput();
+
+
+	// Register user input method here?
+
 };

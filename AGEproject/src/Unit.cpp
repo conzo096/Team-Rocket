@@ -67,7 +67,7 @@ void Unit::AttackEntity()
 		// If within range, fire a projectile
 		if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) <= weaponRange)
 		{
-			if (canShoot)
+			if (canShoot)//GET WEAPON TO DO THIS
 			{
 				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 				timeSinceLastFire = 0;
@@ -80,8 +80,8 @@ void Unit::AttackEntity()
 		}
 		else
 		{
-			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
-			//if(Get)
+			if (action != Hold)
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
 		}
 
 
@@ -92,53 +92,74 @@ void Unit::AttackEntity()
 			targetEntity = NULL;
 			targetAcquired = false;
 			// Stop moving.
-			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
-			action = Hold;
+			if (action = Attack)
+			{
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+				action = Stop;
+			}
 		}
-
-
-
 	}
 }
 
-void Unit::Update(double deltaTime)
-{
-	timeSinceLastFire += deltaTime;
-	// If hold, do nothing. Should be stop
-	if (action == Hold)
+	void Unit::Update(double deltaTime)
 	{
-		GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
-		AcquireTarget();
-	}
-	// If move, keep moving the unit to destination.
-	if (action == Move)
-	{
+		timeSinceLastFire += deltaTime;
 
-	}
-	if (action == Attack)
-	{
-		if (targetEntity != NULL)
+		if (action == Move)
 		{
-			AttackEntity();
+			if (GetParent()->GetPosition() == GetParent()->GetCompatibleComponent<Movement>()->GetGoal())
+				action = Stop;
 		}
-	}
-	if (action == AttackMove)
-	{
-		AcquireTarget();
-	}
-	// Update all the bullets.
-	for (BulletParticle & b : projectiles)
-		b.Update(deltaTime);
-	// Remove bullets no longer used.
-	projectiles.erase(std::remove_if
-	(projectiles.begin(), projectiles.end(), [](const BulletParticle& x)
-	{
-		return !x.isActive;
-	}), projectiles.end());
-}
 
-void Unit::Render()
-{
-	for (BulletParticle & b : projectiles)
-		b.Render();
-}
+		if (action == Stop)
+		{
+			AcquireTarget();
+			if (targetEntity != NULL)
+			{
+				action = Attack;
+			}
+		}
+
+		if (action == Attack)
+		{
+			if (targetEntity != NULL)
+			{
+				AttackEntity();
+			}
+		}
+
+		if (action == AttackMove)
+		{
+			AcquireTarget();
+			if (targetEntity != NULL)
+			{
+				AttackEntity();
+			}
+		}
+
+		if (action == Hold)
+		{
+			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+			AcquireTarget();
+			if (targetEntity != NULL)
+			{
+				AttackEntity();
+			}
+		}
+
+		// Update all the bullets.
+		for (BulletParticle & b : projectiles)
+			b.Update(deltaTime);
+		// Remove bullets no longer used.
+		projectiles.erase(std::remove_if
+		(projectiles.begin(), projectiles.end(), [](const BulletParticle& x)
+		{
+			return !x.isActive;
+		}), projectiles.end());
+	}
+
+	void Unit::Render()
+	{
+		for (BulletParticle & b : projectiles)
+			b.Render();
+	}
