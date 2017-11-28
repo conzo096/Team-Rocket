@@ -160,7 +160,6 @@ void Game::Initialise()
 
 bool Game::Update()
 {
-<<<<<<< HEAD
 	// Populate the all entity list.
 	allEntities.clear();
 	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
@@ -173,18 +172,33 @@ bool Game::Update()
 	// Let user and update their actions. 
 	player->Update(allEntities);
 	NPC->Update(allEntities);
-	// Set camera matrix.
-	glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
-	GameEngine::Get().SetCamera(camMatrix);
-	// Update mouse ray.
-	UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
-	// Calculate time since last frame. (deltaTime)
+
+	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
+	{
+		freeCamEnabled = !freeCamEnabled;
+	}
+
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
 	lastTime = clock();
-	// Update clock.
-	free_cam->Update(deltaTime);
+
+	if (freeCamEnabled)
+	{
+		glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
+		GameEngine::Get().SetCamera(camMatrix);
+		UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
+		free_cam->Update(deltaTime);
+	}
+	else
+	{
+		glm::mat4 camMatrix = game_cam->GetComponent<Game_Camera>().GetProjection() * game_cam->GetComponent<Game_Camera>().GetView();
+		GameEngine::Get().SetCamera(camMatrix);
+		UserControls::Get().Update(game_cam->GetComponent<Game_Camera>());
+		game_cam->Update(deltaTime);
+	}
+
 	// reduce duration.
 	duration -= deltaTime;
+
 	//// Update neutral entities.
 	//int i = 0;
 	//#pragma omp parallel for private(i)
@@ -249,42 +263,6 @@ bool Game::Update()
 			}
 	}
 	for (i = 0; i < player->GetEntities().size(); i++)
-=======
-	player->Update(NPC->GetEntities());
-	NPC->Update(player->GetEntities());
-
-	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
-	{
-		freeCamEnabled = !freeCamEnabled;
-	}
-
-	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
-	lastTime = clock();
-	//free_cam->GetComponent<Free_Camera>().Rotate(45,45);
-
-	if (freeCamEnabled)
-	{
-		glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
-		GameEngine::Get().SetCamera(camMatrix);
-		UserControls::Get().Update(free_cam->GetComponent<Free_Camera>());
-		free_cam->Update(deltaTime);
-	}
-	else
-	{
-		glm::mat4 camMatrix = game_cam->GetComponent<Game_Camera>().GetProjection() * game_cam->GetComponent<Game_Camera>().GetView();
-		GameEngine::Get().SetCamera(camMatrix);
-		UserControls::Get().Update(game_cam->GetComponent<Game_Camera>());
-		game_cam->Update(deltaTime);
-	}
-
-	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
-	{
-		entities[n]->Update(deltaTime);
-		n++;
-	}
-
-	for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
->>>>>>> Feature-SettingsMenu
 	{
 		Entity*& e = player->GetEntities()[i];
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
@@ -339,16 +317,6 @@ bool Game::Update()
 
 void Game::Render()
 {
-<<<<<<< HEAD
-	GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
-	GameEngine::Get().SetCameraUp(free_cam->GetComponent<Free_Camera>().GetOrientation());
-	GameEngine::Get().SetCameraRight(free_cam->GetComponent<Free_Camera>().GetRight());
-	
-	int n;
-	#pragma omp parallel for private(n)
-	for (n = 0; n < neutralEntities.size();n++)
-=======
-	//	GameEngine::Get().SetCameraPos(free_cam->GetPosition());
 	if (freeCamEnabled)
 	{
 		GameEngine::Get().SetCameraPos(free_cam->GetComponent<Free_Camera>().GetPosition());
@@ -361,9 +329,10 @@ void Game::Render()
 		GameEngine::Get().SetCameraUp(game_cam->GetComponent<Game_Camera>().GetOrientation());
 		GameEngine::Get().SetCameraRight(game_cam->GetComponent<Game_Camera>().GetRight());
 	}
-
-	for (std::vector<Entity*>::size_type n = 0; n < entities.size();)
->>>>>>> Feature-SettingsMenu
+	
+	int n;
+	#pragma omp parallel for private(n)
+	for (n = 0; n < neutralEntities.size();n++)
 	{
 		neutralEntities[n]->Render();
 	}
