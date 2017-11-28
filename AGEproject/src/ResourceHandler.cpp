@@ -1,4 +1,5 @@
 #include "ResourceHandler.h"
+
 void ResourceHandler::LoadModels()
 {
 	std::cout << "Convert to file loading!" << std::endl;
@@ -89,6 +90,12 @@ void ResourceHandler::LoadShaders()
 		//	printf("Frag failed to compile.\n");
 		//shader3->Link();
 		//shaders.insert(std::pair<std::string, GLShader*>("Tex", shader4));
+}
+
+void ResourceHandler::LoadAudio()
+{
+	// How this would look:
+	// audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/noise.wav"));
 }
 
 

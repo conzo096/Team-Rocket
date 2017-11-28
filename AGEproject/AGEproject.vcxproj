@@ -54,7 +54,8 @@
     <ClInclude Include="src\ShipUnit.h" />
     <ClInclude Include="src\ShipyardStructure.h" />
     <ClInclude Include="src\Singleton.h" />
-    <ClInclude Include="src\SoundObject.h" />
+    <ClInclude Include="src\SoundEmitter.h" />
+    <ClInclude Include="src\SoundManager.h" />
     <ClInclude Include="src\Spawner.h" />
     <ClInclude Include="src\StateManager.h" />
     <ClInclude Include="src\stb_image.h" />
@@ -95,7 +96,8 @@
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\ResourceHandler.cpp" />
     <ClCompile Include="src\SettingsMenu.cpp" />
-    <ClCompile Include="src\SoundObject.cpp" />
+    <ClCompile Include="src\SoundEmitter.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\StateManager.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
