@@ -119,11 +119,11 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<GroundMovement>();
-		tempAirMovement->SetGoal(glm::dvec3(20, 15, 20));
-		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.1);
-		tempAirMovement->SetTurnSpeed(200.0);
+		auto tempMovement = std::make_unique<GroundMovement>();
+		tempMovement->SetGoal(glm::dvec3(20, 0, 20));
+		tempMovement->SetSpeed(15.0);
+		tempMovement->SetAcceleration(0.1);
+		tempMovement->SetTurnSpeed(200.0);
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto tempStructure = std::make_unique<Structure>();
@@ -145,7 +145,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
-		tempEntity->AddComponent(move(tempAirMovement));
+		tempEntity->AddComponent(move(tempMovement));
 		tempEntity->AddComponent(move(tempBoundingSphere));
 		tempEntity->AddComponent(move(target));
 		tempEntity->AddComponent(move(tempStructure));

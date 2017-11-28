@@ -178,7 +178,7 @@ void GroundMovement::MoveTo(double delta)
 			goal.x = (std::rand() % (99));
 		while((goal.z < 50 || goal.z >75))
 			goal.z = (std::rand() % (99));*/
-		needPath = true;
+		//needPath = true;
 	}
 	else
 	{

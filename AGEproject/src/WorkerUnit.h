@@ -13,7 +13,7 @@ private:
 	bool waitingForCollection = false;
 
 	// Location is needs to head towards to drop of resource.
-	glm::dvec3 collectionPoint = glm::vec3(0,2.5,0);
+	glm::dvec3 collectionPoint = glm::vec3(0, 2.5, 0);
 
 protected:
 	void from_json(const nlohmann::json &j) {};
@@ -30,7 +30,7 @@ public:
 	{
 		if (targetEntity != NULL && targetEntity->GetCompatibleComponent<Resource>() != NULL)
 		{
-			if  (returnToResource)
+			if (returnToResource)
 			{
 				GetParent()->GetComponent<GroundMovement>().SetGoal(targetEntity->GetPosition());
 				// If within range, Collect some of the resource.
@@ -54,7 +54,7 @@ public:
 			if (walkToBase)
 			{
 				// Get it to walk to base.
- 				GetParent()->GetComponent<GroundMovement>().SetGoal(collectionPoint);
+				GetParent()->GetComponent<GroundMovement>().SetGoal(collectionPoint);
 				// If it close enough to destination, give resource to team.
 				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 0.5)
 				{
@@ -67,11 +67,8 @@ public:
 
 				}
 			}
-
 		}
-	
-	
-}
+	}
 
 	// Players collect resource from worker once it is in correct area.
 	int Collect()
