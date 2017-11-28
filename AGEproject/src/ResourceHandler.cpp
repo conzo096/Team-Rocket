@@ -3,9 +3,17 @@ void ResourceHandler::LoadModels()
 {
 	std::cout << "Convert to file loading!" << std::endl;
 	models.insert(std::pair<std::string, Model*>(std::string("Worker"), new Model("../res/models/Worker.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("DronePlatform"), new Model("../res/models/DronePlatform.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("DroneTurret"), new Model("../res/models/DroneTurret.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("WardenPlatform"), new Model("../res/models/WardenPlatform.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("WardenTurret"), new Model("../res/models/WardenTurret.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Ship"), new Model("../res/models/Flyer.obj")));
+
 	models.insert(std::pair<std::string, Model*>(std::string("Base"), new Model("../res/models/Constructor.obj")));
-	models.insert(std::pair<std::string, Model*>(std::string("Shipyard"), new Model("../res/models/Constructor.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("Factory"), new Model("../res/models/Factory.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("VehicleBay"), new Model("../res/models/VehicleBay.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("Hanger"), new Model("../res/models/Hanger.obj")));
+
 	models.insert(std::pair<std::string, Model*>(std::string("Torus"), new Model("../res/models/Torus2.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 100, 100)));
 	models.insert(std::pair<std::string, Model*>(std::string("BillBoard"), GeometryUtil::BuildPlane(0.5, 4,4)));
