@@ -85,7 +85,6 @@ private:
 	int dir = 8;
 	int dx[9] = { 1, 1, 0, -1, -1, -1, 0, 1, 0 }; //The x coordinate of the posible directions
 	int dz[9] = { 0, 1, 1, 1, 0, -1, -1, -1, 0 }; //The z coordinate of the posible directions
-	//bool needPath;
 	dvec3 **terrainGrid; //map of terrain plane coordinates
 	deque<ivec2> waypoints; //The series of waypoins to be followed
 

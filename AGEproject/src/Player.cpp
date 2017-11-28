@@ -305,15 +305,15 @@ void Player:: UpdateGhostBuilding(int type)
 
 	if (type == 0)
 	{
-		ghostBuilding.GetComponent<Renderable>().SetModel("Shipyard");
+		ghostBuilding.GetComponent<Renderable>().SetModel("Factory");
 	}
 	else if (type == 1)
 	{
-		ghostBuilding.GetComponent<Renderable>().SetModel("Shipyard");
+		ghostBuilding.GetComponent<Renderable>().SetModel("VehicleBay");
 	}
 	else if (type == 2)
 	{
-		ghostBuilding.GetComponent<Renderable>().SetModel("Shipyard");
+		ghostBuilding.GetComponent<Renderable>().SetModel("Hanger");
 	}
 	ghostBuilding.GetComponent<BoundingSphere>().SetUpBoundingSphere(ghostBuilding.GetComponent<Renderable>().GetModel().GetVertexPositions());
 }
