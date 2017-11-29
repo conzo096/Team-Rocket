@@ -1,0 +1,231 @@
+{
+    "Objects":
+    [
+        {
+            "Name": "Ship",
+            "Type": "Renderable",
+            "TypeCode": "Ship",
+            "Model": "Worker",
+            "EntityList": "Neutral",
+            "Texture": "WorkerUV",
+            "Shader": "Phong",
+            "Position": [0, 0.5, 0],
+            "Movement":
+            {
+                "Type": "Ground",
+                "Goal": [90, 0, 90],
+                "Speed": 15.0,
+                "Acceleration": 0.5,
+                "TurnSpeed": 200
+            }
+        },
+        {
+            "Type": "Light",
+            "Shader": "Phong",
+            "Position" : [50, 30, 50],
+            "Colour" : [0.7, 0.2, 0.4, 1.0]
+        },
+        {
+            "Name": "Plane",
+            "Type": "Renderable",
+            "Model" : "",
+            "EntityList": "Neutral",
+            "Shader" : "Phong",
+            "Texture" : "Rock",
+            "Position" : [0, 0, 0],
+            "Plane" : [1, 100, 100],
+            "Emissive": [0.02, 0.02, 0.02, 1.0]
+        },
+        {
+            "Name": "Shipyard",
+            "Model" : "Hanger",
+            "EntityList": "Neutral",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard",
+			            "Shader" : "Phong",
+            "Texture" : "debug",
+            "Position" : [3.5, 2.5, 3.5],
+            "SpawnInfos":
+            [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Ship"
+                }
+            ]
+        },
+        {
+            "Name": "Worker",
+            "Type": "Renderable",
+            "TypeCode": "Worker",
+            "Model": "Torus",
+            "EntityList": "Neutral",
+            "Shader": "Phong",
+            "Texture": "FlyerUV",
+            "Position": [0,0,0],
+            "Movement":
+            {
+                "Type": "Ground",
+                "Goal": [20, 15, 20],
+                "Speed": 15.0,
+                "Acceleration": 0.5,
+                "TurnSpeed": 200
+            }
+        },
+        {
+            "Name": "Troop",
+            "Type": "Renderable",
+            "TypeCode": "Troop",
+            "Model": "BillBoard",
+            "EntityList": "Neutral",
+            "Texture": "FlyerUV",
+            "Shader": "Phong",
+            "Position": [0,0,0],
+            "Movement":
+            {
+                "Type": "Ground",
+                "Goal": [20, 15, 20],
+				"Speed": 15.0,
+                "Acceleration": 0.5,
+                "TurnSpeed": 200
+            }
+        },
+        {
+            "Name": "Tank",
+            "Type": "Renderable",
+            "TypeCode": "Tank",
+            "Model": "BillBoard",
+            "EntityList": "Neutral",
+            "Texture": "FlyerUV",
+            "Shader": "Phong",
+            "Position": [0,0,0],
+            "Movement":
+            {
+                "Type": "Air",
+                "Goal": [20, 15, 20],
+                "Speed": 15.0,
+                "Acceleration": 0.5,
+                "TurnSpeed": 200
+            }
+        },
+        {
+            "Name": "Worker",
+            "Type": "Renderable",
+            "TypeCode": "Worker",
+            "Model": "Worker",
+            "EntityList": "Neutral",
+            "Shader": "Phong",
+            "Texture": "WorkerUV",
+            "Position": [0,0,0],
+            "Movement":
+            {
+                "Type": "Ground",
+                "Goal": [20, 0, 20],
+                "Speed": 15.0,
+                "Acceleration": 0.1,
+                "TurnSpeed": 200
+            },
+            "SpawnInfos":
+            [
+                {
+				    "BuildTime": 3.0,
+                    "Cost": 1500,
+                    "UnitType": "Shipyard"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "Barracks"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 2000,
+                    "UnitType": "VehicleDepot"
+                }
+            ]
+        },
+        {
+            "Name": "Base",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard",
+            "EntityList": "Player",
+            "Model": "Base",
+            "Texture": "ConstructorUV",
+            "Shader": "Phong",
+            "Position": [3.5, 2.5, 3.5],
+            "SpawnInfos":
+            [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Worker"
+                }
+            ]
+        },
+        {
+            "Name": "Base",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard",
+            "EntityList": "NPC",
+            "Model": "Base",
+            "Texture": "ConstructorUV",
+            "Shader": "Phong",
+            "Position": [90, 2.5, 90],
+            "SpawnInfos":
+			[
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Worker"
+                }
+            ]
+        },
+        {
+            "Name": "Resource",
+            "Type": "Renderable",
+            "TypeCode": "Resource",
+            "Model": "WardenPlatform",
+            "EntityList": "Neutral",
+            "Texture": "debug",
+            "Shader": "Phong",
+            "Position": [50, 2.5, 50],
+            "Diffuse": [1, 0, 0, 1]
+        },
+        {
+            "Name": "Barracks",
+            "Type": "Renderable",
+            "TypeCode": "Barracks",
+            "Model": "Factory",
+            "EntityList": "Neutral",
+            "Shader": "Phong",
+            "Texture": "debug",
+            "Position": [0,0,0],
+            "SpawnInfos":
+            [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Troop"
+                }
+            ]
+        },
+        {
+            "Name": "VehicleDepot",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard",
+            "Model": "VehicleBay",
+            "EntityList": "Neutral",
+			            "Texture": "debug",
+            "Shader": "Phong",
+            "Position": [0,0,0],
+            "SpawnInfos":
+            [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Tank"
+                }    
+            ]
+        }
+    ]
+}
