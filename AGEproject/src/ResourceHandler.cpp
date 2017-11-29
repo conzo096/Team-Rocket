@@ -1,4 +1,5 @@
 #include "ResourceHandler.h"
+
 void ResourceHandler::LoadModels()
 {
 	std::cout << "Convert to file loading!" << std::endl;
@@ -33,34 +34,35 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Rock"), Texture("../res/textures/rock.png").GetTextureId()));
 
 	// MainMenu buttons and labels
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Start_Game"), Texture("../res/textures/MainMenu_Button1.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Options"), Texture("../res/textures/MainMenu_Button2.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Exit_Game"), Texture("../res/textures/MainMenu_Button3.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Start_Game_HIGHLIGHTED"), Texture("../res/textures/MainMenu_Button1_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Options_HIGHLIGHTED"), Texture("../res/textures/MainMenu_Button2_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Exit_Game_HIGHLIGHTED"), Texture("../res/textures/MainMenu_Button3_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Start_Game"), Texture("../res/textures/UI/MainMenu/MainMenu_Button1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Options"), Texture("../res/textures/UI/MainMenu/MainMenu_Button2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Exit_Game"), Texture("../res/textures/UI/MainMenu/MainMenu_Button3.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Start_Game_HIGHLIGHTED"), Texture("../res/textures/UI/MainMenu/MainMenu_Button1_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Options_HIGHLIGHTED"), Texture("../res/textures/UI/MainMenu/MainMenu_Button2_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Exit_Game_HIGHLIGHTED"), Texture("../res/textures/UI/MainMenu/MainMenu_Button3_Highlighted.png").GetTextureId()));
 	
 	// SettingsMenu buttons and labels
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Resolution"), Texture("../res/textures/SettingsMenu_Title1.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Screen_mode"), Texture("../res/textures/SettingsMenu_Title2.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("1920x1080"), Texture("../res/textures/SettingsMenu_Option1-1.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("1920x1080_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_Option1-1_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Fullscreen"), Texture("../res/textures/SettingsMenu_Option2-1.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Fullscreen_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_Option2-1_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Customise_controls"), Texture("../res/textures/SettingsMenu_LargeButton1.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_changes"), Texture("../res/textures/SettingsMenu_LargeButton2.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel"), Texture("../res/textures/SettingsMenu_LargeButton3.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow"), Texture("../res/textures/SettingsMenu_SmallButton1.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow"), Texture("../res/textures/SettingsMenu_SmallButton2.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Customise_controls_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_LargeButton1_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_changes_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_LargeButton2_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_LargeButton3_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow_HIGHLIGHTED"), Texture("../res/textures/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Resolution"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Title1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Screen_mode"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Title2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("1920x1080"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Option1-1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("1600x900"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Option1-2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("1280x720"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Option1-3.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("1024x576"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Option1-4.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Windowed"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Option2-2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Fullscreen"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_Option2-1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Customise_controls"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_changes"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton3.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Customise_controls_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton1_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_changes_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton2_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton3_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId()));
 
-	// UI Font.
+	// UI font
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Font"), Texture("../res/textures/Holstein.png").GetTextureId()));
-
 }
 
 void ResourceHandler::LoadShaders()
@@ -104,6 +106,12 @@ void ResourceHandler::LoadShaders()
 			printf("Frag failed to compile.\n");
 		shader4->Link();
 		shaders.insert(std::pair<std::string, GLShader*>("Font", shader4));
+}
+
+void ResourceHandler::LoadAudio()
+{
+	// How this would look:
+	// audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/noise.wav"));
 }
 
 

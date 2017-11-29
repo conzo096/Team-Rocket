@@ -3,10 +3,7 @@
 // Update free camera for this frame
 void Free_Camera::Update(double deltaTime)
 {
-	/*if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_X))
-		projection = glm::ortho(0.0f, static_cast<float>(GameEngine::Get().GetScreenWidth()) / 10, 0.0f, static_cast<float>(GameEngine::Get().GetScreenHeight()) / 10, -1000.0f, 1000.0f);*/
-
-	//glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(GameEngine::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// The ratio of pixels to rotation
 	double ratioWidth = fieldOfView / static_cast<float>(GameEngine::Get().GetScreenWidth());
@@ -18,7 +15,7 @@ void Free_Camera::Update(double deltaTime)
 	double currentY;
 
 	// The camera's movement speed
-	float moveSpeed = 20.0f;
+	float moveSpeed = 25.0f;
 
 	// Get current cursor position
 	glfwGetCursorPos(GameEngine::Get().GetWindow(), &currentX, &currentY);
@@ -31,11 +28,12 @@ void Free_Camera::Update(double deltaTime)
 	deltaX *= ratioWidth;
 	deltaY *= ratioHeight;
 
-	if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
-		Rotate(-2*deltaTime,0);
-	if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
-		Rotate(2*deltaTime,0);
+	Rotate(deltaX, deltaY);
 
+	//if (UserControls::Get().IsKeyPressed(std::string("RotateLeft")))
+	//	Rotate(-2*deltaTime,0);
+	//if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
+	//	Rotate(2*deltaTime,0);
 
 	// Move camera with user controls.
 	if (UserControls::Get().IsKeyPressed(std::string("Forward")))
@@ -54,9 +52,9 @@ void Free_Camera::Update(double deltaTime)
 		glfwSetWindowShouldClose(GameEngine::Get().GetWindow(), true);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)
-	glm::dvec3 forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
+	glm::dvec3 temp_forward(cosf(pitch) * -sinf(yaw), sinf(pitch), -cosf(yaw) * cosf(pitch));
 	// Normalise forward direction
-	forward = glm::normalize(forward);
+	forward = glm::normalize(temp_forward);
 
 	// Create standard right vector and rotate it by the yaw
 	right = glm::dvec3(glm::eulerAngleY(yaw) * glm::dvec4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -64,13 +62,13 @@ void Free_Camera::Update(double deltaTime)
 	right = glm::normalize(right);
 
 	// Calculate (perpendicular) up vector using cross product
-	orientation = glm::cross(right, forward);
+	up = glm::cross(right, forward);
 	// Normalise up
-	orientation = glm::normalize(orientation);
+	up = glm::normalize(up);
 
 	// Update position by multiplying translation elements by forward, up and right
 	glm::dvec3 trans = translation.x * right;
-	trans += translation.y * orientation;
+	trans += translation.y * up;
 	trans += translation.z * forward;
 	Move(trans);
 
@@ -81,7 +79,7 @@ void Free_Camera::Update(double deltaTime)
 	translation = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	// Calculate view matrix
-	view = glm::lookAt(GetPosition(), target, orientation); //glm::eulerAngles(GetRotation()));
+	view = glm::lookAt(GetPosition(), target, up); //glm::eulerAngles(GetRotation()));
 
 	// Update cursor position
 	glfwGetCursorPos(GameEngine::Get().GetWindow(), &cursorX, &cursorY);
