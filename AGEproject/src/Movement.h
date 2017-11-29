@@ -13,6 +13,7 @@ protected:
 	double currentSpeed;
 	double turnSpeed;
 	glm::dvec3 destination;
+	bool needPath;
 
 	void from_json(const nlohmann::json &j);
 public:
@@ -20,7 +21,8 @@ public:
 	Movement(std::string type);
 	~Movement();
 
-	void SetGoal(glm::dvec3 goal) { this->goal = goal; };
+	glm::dvec3 GetGoal() { return goal; };
+	void SetGoal(glm::dvec3 goal) { this->goal = goal; needPath = true; };
 	void SetSpeed(double speed) { this->speed = speed; };
 	void SetCurrentSpeed(double currentSpeed) { this->currentSpeed = currentSpeed; };
 	void SetTurnSpeed(double turnSpeed) { this->turnSpeed = turnSpeed; };

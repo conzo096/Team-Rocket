@@ -1,11 +1,14 @@
 #pragma once
 #include "Singleton.h"
 #include "GameEngine.h"
+#include "RayCast.h"
+#include "Menu.h"
+#include "Game_Camera.h"
+#include "Free_Camera.h"
 #include <map>
 #include <GLFW\glfw3.h>
 #include <iostream>
-#include "RayCast.h"
-#include "Menu.h"
+
 class UserControls : public Singleton<UserControls>
 {
 private:
@@ -36,6 +39,8 @@ public:
 
 	// Returns true if it is a valid key and it is currently being pressed.
 	bool IsKeyPressed(std::string &action);
+
+	bool KeyBuffer(std::string action, bool& keyHeld);
 
 	bool IsMouseButtonPressed(std::string &action);
 
@@ -113,6 +118,7 @@ public:
 
 	// Update method.
 	void Update();
+	void Update(Game_Camera& camera);
 	void Update(Free_Camera& camera);
 	// Handle console input for debugging options (cheat menu).
 	void HandleConsoleInput();

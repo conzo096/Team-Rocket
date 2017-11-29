@@ -35,8 +35,23 @@ void StateManager::StateLoop()
 			break;
 		case(stateSettings):
 			select = ShowSettingsMenu();
-			if (select == 2) { state = stateMainMenu; }
-			else if (select == 7) { state = stateExiting; }
+			if (select == 1)
+			{
+				GameEngine::Get().UpdateWindow();
+				state = stateMainMenu;
+			}
+			else if (select == 2) 
+			{ 
+				state = stateMainMenu; 
+			}
+			else if (select == 0)
+			{
+				state = stateControls;
+			}
+			else if (select == 7) 
+			{ 
+				state = stateExiting; 
+			}
 			break;
 		case(stateControls):
 			select = ShowControlsMenu();

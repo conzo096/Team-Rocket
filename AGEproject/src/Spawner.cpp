@@ -119,11 +119,11 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		auto tempAirMovement = std::make_unique<GroundMovement>();
-		tempAirMovement->SetGoal(glm::dvec3(20, 15, 20));
-		tempAirMovement->SetSpeed(15.0);
-		tempAirMovement->SetAcceleration(0.1);
-		tempAirMovement->SetTurnSpeed(200.0);
+		auto tempMovement = std::make_unique<GroundMovement>();
+		tempMovement->SetGoal(glm::dvec3(20, 0, 20));
+		tempMovement->SetSpeed(15.0);
+		tempMovement->SetAcceleration(0.1);
+		tempMovement->SetTurnSpeed(200.0);
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto tempStructure = std::make_unique<Structure>();
@@ -145,7 +145,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
-		tempEntity->AddComponent(move(tempAirMovement));
+		tempEntity->AddComponent(move(tempMovement));
 		tempEntity->AddComponent(move(tempBoundingSphere));
 		tempEntity->AddComponent(move(target));
 		tempEntity->AddComponent(move(tempStructure));
@@ -193,8 +193,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Shipyard");
-		tempRenderable->SetTexture("ConstructorUV");
+		tempRenderable->SetModel("Hanger");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);
@@ -237,8 +237,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Shipyard");
-		tempRenderable->SetTexture("ConstructorUV");
+		tempRenderable->SetModel("WardenPlatform");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);
@@ -265,8 +265,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempEntity->SetPosition(position);
 
 		auto tempRenderable = std::make_unique<Renderable>();
-		tempRenderable->SetModel("Torus");
-		tempRenderable->SetTexture("ConstructorUV");
+		tempRenderable->SetModel("Factory");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);
@@ -296,8 +296,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Torus");
-		tempRenderable->SetTexture("ConstructorUV");
+		tempRenderable->SetModel("VehicleBay");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);

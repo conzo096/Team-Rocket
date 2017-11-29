@@ -9,6 +9,7 @@
 #include "Material.h"
 #include "Model.h"
 #include <mutex>
+
 class Material;
 
 struct Effect
@@ -45,14 +46,11 @@ struct ParticleData
 {
 	glm::vec3 pos;
 	unsigned int tex;
-
 };
-
 
 class GameEngine : public Singleton<GameEngine>
 {
 private:
-
 	// The window that is to be rendered too.
 	GLFWwindow* window;
 	int width;
@@ -66,12 +64,12 @@ private:
 	std::vector<ParticleData> particles;
 	glm::vec4 frustumPlanes[6];
 	std::mutex mut;
-	
-public:
 
+public:
 	// The render window.
 	GLFWwindow* GetWindow() { return window; }
-
+	void CreateWindow();
+	void UpdateWindow();
 	void Initialise();
 	//void Render(glm::mat4 mvp, Model model, Effect effect);
 
@@ -86,8 +84,6 @@ public:
 	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
 	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
-	// Execute the game engine.
-	void Start();
 	// Cleans up game engine resources.
 	void CleanUp();
 
