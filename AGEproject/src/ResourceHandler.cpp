@@ -8,7 +8,7 @@ void ResourceHandler::LoadModels()
 	models.insert(std::pair<std::string, Model*>(std::string("DroneTurret"), new Model("../res/models/DroneTurret.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("WardenPlatform"), new Model("../res/models/WardenPlatform.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("WardenTurret"), new Model("../res/models/WardenTurret.obj")));
-	models.insert(std::pair<std::string, Model*>(std::string("Ship"), new Model("../res/models/Flyer.obj")));
+	models.insert(std::pair<std::string, Model*>(std::string("Kestrel"), new Model("../res/models/Flyer.obj")));
 
 	models.insert(std::pair<std::string, Model*>(std::string("Base"), new Model("../res/models/Constructor.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Factory"), new Model("../res/models/Factory.obj")));
@@ -25,6 +25,10 @@ void ResourceHandler::LoadTextures()
 	std::cout << "Convert to file loading!" << std::endl;
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WorkerUV"), Texture("../res/textures/WorkerUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("ConstructorUV"), Texture("../res/textures/ConstructorUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("DronePlatformUV"), Texture("../res/textures/DronePlatformUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("DroneTurretUV"), Texture("../res/textures/DroneTurretUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("WardenPlatformUV"), Texture("../res/textures/WardenPlatformUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("WardenTurretUV"), Texture("../res/textures/WardenTurretUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("FlyerUV"), Texture("../res/textures/FlyerUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("debug"), Texture("../res/textures/debug.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Rock"), Texture("../res/textures/rock.png").GetTextureId()));

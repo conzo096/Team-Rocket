@@ -1,5 +1,6 @@
 {
-    "Model": "Torus",
-    "Shader": "Phong",
-    "Texture": "FlyerUV"
+  "Model": "Worker",
+  "Texture": "WorkerUV",
+  "Shader": "Phong",
+  "Position": [ 0, 0.5, 0 ]
 }
