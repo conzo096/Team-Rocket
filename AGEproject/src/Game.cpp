@@ -6,6 +6,7 @@
 #include "UserControls.h"
 #include <thread>
 #include <omp.h>
+#include "LevelLoader.h"
 
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
@@ -109,6 +110,9 @@ void Game::Initialise()
 
 
 	// Add point light to the scene
+	LevelLoader ll;
+	ll.LoadLevel("./json/Level.json", player->GetEntities(), NPC->GetEntities(), neutralEntities);
+/*	
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
@@ -142,7 +146,7 @@ void Game::Initialise()
 
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
-
+*/
 	////This is a "wall"
 	//Entity* tempEntity77 = new Entity;
 	//auto tempRenderable77 = std::make_unique<Renderable>();
