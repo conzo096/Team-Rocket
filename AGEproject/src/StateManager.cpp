@@ -18,7 +18,7 @@ void StateManager::StateLoop()
 		{
 		case(stateSplash):
 			ShowSplashScreen();
-			state = stateControls;
+			state = stateMainMenu;
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
@@ -41,6 +41,7 @@ void StateManager::StateLoop()
 		case(stateControls):
 			select = ShowControlsMenu();
 			// Handle result.
+			state = stateMainMenu;
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

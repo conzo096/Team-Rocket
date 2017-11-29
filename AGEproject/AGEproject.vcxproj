@@ -26,6 +26,7 @@
     <ClInclude Include="src\BoundingBox.h" />
     <ClInclude Include="src\BoundingSphere.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\ControlsMenu.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\FileIO.h" />
     <ClInclude Include="src\FrameBuffer.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="src\AirMovement.cpp" />
     <ClCompile Include="src\BoundingBox.cpp" />
     <ClCompile Include="src\BoundingSphere.cpp" />
+    <ClCompile Include="src\ControlsMenu.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\FileIO.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
@@ -111,6 +113,8 @@
     <None Include="res\shaders\Basic.frag" />
     <None Include="res\shaders\Basic.vert" />
     <None Include="res\shaders\bloom-blend.frag" />
+    <None Include="res\shaders\font.frag" />
+    <None Include="res\shaders\font.vert" />
     <None Include="res\shaders\Particle.frag" />
     <None Include="res\shaders\Particle.vert" />
     <None Include="res\shaders\gaussian-blur.frag" />

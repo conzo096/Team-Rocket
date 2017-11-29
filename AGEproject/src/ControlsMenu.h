@@ -9,7 +9,7 @@ public:
 	
 	}
 	~ControlsMenu() {}
-	int currentSelection = 0;
+	static int currentSelection;
 
 	int Draw(GLShader shader);
 
@@ -22,8 +22,20 @@ public:
 private:
 
 	// Buttons which display their key binding.
-	std::vector <std::pair<Button, UIQuad>> buttons;
+	static std::vector <std::pair<Button, UIQuad>> buttons;
 	// Texture for the buttons.
 	std::vector <unsigned int> textureIds;
+
+	// Button to leave controls menu.
+	Button exit; 
+
+
+	// Key bindings, index of buttons represents one of these.
+	static std::vector<std::string> bindings;
+
+	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+	void PopulateBindings();
+
 
 };
