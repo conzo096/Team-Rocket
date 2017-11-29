@@ -68,6 +68,7 @@
     <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
     <ClInclude Include="src\VehicleDepotStructure.h" />
+    <ClInclude Include="src\Weapon.h" />
     <ClInclude Include="src\WorkerUnit.h" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +107,7 @@
     <ClCompile Include="src\UIQuad.cpp" />
     <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
+    <ClCompile Include="src\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />

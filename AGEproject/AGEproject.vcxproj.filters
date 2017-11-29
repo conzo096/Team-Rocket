@@ -156,6 +156,9 @@
     <ClCompile Include="src\Game_Camera.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Weapon.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">
@@ -306,6 +309,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Game_Camera.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Weapon.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
