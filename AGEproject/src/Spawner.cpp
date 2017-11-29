@@ -167,7 +167,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("Hanger");
-		tempRenderable->SetTexture("Debug");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);
@@ -211,7 +211,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("WardenPlatform");
-		tempRenderable->SetTexture("Debug");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);
@@ -239,7 +239,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("Factory");
-		tempRenderable->SetTexture("Debug");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);
@@ -270,7 +270,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("VehicleBay");
-		tempRenderable->SetTexture("Debug");
+		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempEntity->SetPosition(position);

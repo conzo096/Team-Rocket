@@ -2,16 +2,15 @@
 #include "RayCast.h"
 #include "GeometryUtil.h"
 #include "UserControls.h"
-
 // Move up
 void MainMenu::SelectionUp()
 {
 	if (buttons.size() == 0)
 		return;
 	// If currentSelection is the first one, loop to end one. 
-	if (currentSelection == 0)
-		currentSelection = buttons.size() - 1;
 	currentSelection -= 1;
+	if (currentSelection < 0)
+		currentSelection = buttons.size() - 1;
 }
 
 // Move down.
@@ -20,9 +19,9 @@ void MainMenu::SelectionDown()
 	if (buttons.size() == 0)
 		return;
 	// If currentSelection is the last one one, loop to first one. 
-	if (currentSelection == buttons.size() - 1)
-		currentSelection = 0;
 	currentSelection += 1;
+	if (currentSelection > buttons.size() - 1)
+		currentSelection = 0;
 }
 
 // Return selected button action.
@@ -46,26 +45,72 @@ int MainMenu::Draw(GLShader shader)
 		newButton.renderTarget.SetOpenGL();
 		buttonOffset += offsetChange;
 	}
-
+	// If a controller is connected use this instead.
+	UserControls::Get().FindConnectedJoystick();
+	if (UserControls::Get().isJoystickActive() == GL_TRUE)
+		currentSelection = 0;
 	while (!selectionMade)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
-		// If cursor is over a button, highlight it
-		if (!mouseButtonHeld)
+		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
-			for (int i = 0; i < numberOfButtons; i++)
+			timeElapsed += 1;
+			int axesCount, buttonCount;
+			const float * axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+			const unsigned char* keys = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
+
+			if (timeElapsed > cooldown)
 			{
-				if (buttons[i].renderTarget.IsMouseInBounds())
+				timeElapsed = 0;
+				// process our joystick info
+				if (GLFW_PRESS == keys[10])
 				{
-					buttons[i].texture = highlight_tex[i];
+					SelectionUp();
 				}
-				else
-					buttons[i].texture = normal_tex[i];
+				if (GLFW_PRESS == keys[12])
+				{
+					SelectionDown();
+				}
+				for (int i = 0; i < buttons.size(); i++)
+					if (i == currentSelection)
+						buttons[i].texture = highlight_tex[i];
+					else
+						buttons[i].texture = normal_tex[i];
+				if (GLFW_PRESS == keys[0])
+					break;
 			}
 		}
+		else
+		{
+			// If cursor is over a button, highlight it
+			if (!mouseButtonHeld)
+			{
+				for (int i = 0; i < numberOfButtons; i++)
+				{
+					if (buttons[i].renderTarget.IsMouseInBounds())
+					{
+						buttons[i].texture = highlight_tex[i];
+					}
+					else
+						buttons[i].texture = normal_tex[i];
+				}
+			}
+			if (UserControls::Get().IsKeyPressed(std::string("Forward")))
+				SelectionUp();
+			if (UserControls::Get().IsKeyPressed(std::string("Backward")))
+				SelectionDown();
+			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
+		}
+		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
+		{
+			selectionMade = true;
+			currentSelection = 2;
+		}
+
+
 
 		// Draw the quad.
 		for (int i = 0; i < numberOfButtons; i++)
@@ -76,22 +121,8 @@ int MainMenu::Draw(GLShader shader)
 			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
 			buttons[i].renderTarget.Draw();
 		}
-		glfwSwapBuffers(GameEngine::Get().GetWindow());
-
-		if (UserControls::Get().IsKeyPressed(std::string("Forward")))
-			SelectionUp();
-		if (UserControls::Get().IsKeyPressed(std::string("Backward")))
-			SelectionDown();
-
-		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
-
-		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
-		{
-			selectionMade = true;
-			currentSelection = 2;
-		}
-
 		glfwPollEvents();
+		glfwSwapBuffers(GameEngine::Get().GetWindow());
 	}
 	return currentSelection;
 }

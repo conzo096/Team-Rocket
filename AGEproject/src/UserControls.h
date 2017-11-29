@@ -52,6 +52,11 @@ public:
 		return buttonOptions.find(name)->second;
 	}
 
+	unsigned int GetKeyValue(const char* name)
+	{
+		return buttonOptions.find(name)->second;
+	}
+
 	// Search through all available index locations and connect to the first one found.
 	void FindConnectedJoystick()
 	{
@@ -74,7 +79,8 @@ public:
 	// Returns if a controller is connected or not.
 	bool isJoystickActive()
 	{
-		if (joyStickConnected == -1)
+		
+		if (glfwJoystickPresent(joyStickConnected) == false)
 			return false;
 		return true;
 	}
@@ -92,6 +98,14 @@ public:
 		glfwGetCursorPos(GameEngine::Get().GetWindow(), &mouseX, &mouseY);
 		return glm::ivec2(mouseX, mouseY);
 	}
+
+
+	// Obtain map list.
+	std::map<std::string,unsigned int> GetMapBindings()&
+	{
+		return buttonOptions;
+	}
+
 
 	// Reset the keybindings to their default configuration.
 	void ResetKeyBindings(ControllerOption options);

@@ -72,6 +72,9 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Menu_Camera.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Model.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -153,8 +156,8 @@
     <ClCompile Include="src\Unit.cpp">
       <Filter>Source Files\Components\Units</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game_Camera.cpp">
-      <Filter>Source Files\Components</Filter>
+    <ClCompile Include="src\ControlsMenu.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +281,9 @@
     <ClInclude Include="src\Free_Camera.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Menu_Camera.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\ResourceHandler.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -305,8 +311,8 @@
     <ClInclude Include="src\UIManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game_Camera.h">
-      <Filter>Header Files\Components</Filter>
+    <ClInclude Include="src\ControlsMenu.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -341,6 +347,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\Particle.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

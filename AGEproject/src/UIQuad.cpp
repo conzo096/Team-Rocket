@@ -44,6 +44,7 @@ void UIQuad::Render()
 		UVs.push_back(uv_down_right);
 		UVs.push_back(uv_up_left);
 	}
+
 	glBindVertexArray(Text2DVertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, Text2DVertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_STATIC_DRAW);
