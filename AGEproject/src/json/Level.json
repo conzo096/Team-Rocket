@@ -42,7 +42,7 @@
             "EntityList": "Neutral",
             "Type": "Renderable",
             "TypeCode": "Shipyard",
-			            "Shader" : "Phong",
+			"Shader" : "Phong",
             "Texture" : "debug",
             "Position" : [3.5, 2.5, 3.5],
             "SpawnInfos":
@@ -215,7 +215,7 @@
             "TypeCode": "Shipyard",
             "Model": "VehicleBay",
             "EntityList": "Neutral",
-			            "Texture": "debug",
+			"Texture": "debug",
             "Shader": "Phong",
             "Position": [0,0,0],
             "SpawnInfos":

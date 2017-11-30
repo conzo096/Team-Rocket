@@ -50,6 +50,34 @@ Team LevelLoader::GetTeam(const string team)
 	return neutral;
 }
 
+void LevelLoader::EncodeEntity(Entity* entity, json &objects)
+{
+	json jEntity;
+	if(entity->GetCompatibleComponent<Renderable>() != nullptr)
+	{
+		jEntity["Type"] = "Renderable";
+		jEntity["Name"] = entity->GetName();
+
+		auto tempRenderable = entity->GetCompatibleComponent<Renderable>();
+		const auto tempMaterial = tempRenderable->GetMaterial();
+
+		if(tempMaterial.diffuse != vec4(0))
+		{
+			auto d = tempMaterial.diffuse;
+			jEntity["Diffuse"] = {d.r, d.g, d.b, d.w};
+		}
+
+		if (tempMaterial.emissive != vec4(0))
+		{
+			auto d = tempMaterial.emissive;
+			jEntity["Emissive"] = { d.r, d.g, d.b, d.w };
+		}
+
+
+	}
+	objects.push_back(jEntity);
+}
+
 void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities)
 {
 	std::ifstream ifs(jsonFile);
@@ -259,10 +287,13 @@ void LevelLoader::SaveLevel(const std::string jsonFile, vector<Entity*> &playerE
 	std::ofstream o(jsonFile);
 	json j;
 
+	json objects = json::array();
+
 	for(auto pE : playerEntities)
 	{
-		
+		EncodeEntity(pE, objects);
 	}
+	j["Objects"] = objects;
 
 	o << std::setw(4) << j << std::endl;
 }

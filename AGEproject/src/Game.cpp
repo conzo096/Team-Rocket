@@ -180,6 +180,8 @@ bool Game::Update()
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
 	{
 		freeCamEnabled = !freeCamEnabled;
+		LevelLoader ll;
+		ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities);
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
