@@ -28,8 +28,8 @@ public:
 	std::mutex mut;
 	// Creates a predefined entity.
 	
-	void EncodeEntity(Entity* entity, json &objects);
+	void EncodeEntity(Entity* entity, json &objects, string entityList);
 
-	void LoadLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities);
-	void SaveLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities);
+	void LoadLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities, Player* player);
+	void SaveLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities, int balance);
 };

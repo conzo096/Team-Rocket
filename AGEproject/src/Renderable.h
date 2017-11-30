@@ -15,6 +15,8 @@ public:
 	Renderable();
 	~Renderable();
 
+	glm::vec3 planeDimensions;
+
 	Model& GetModel() { return *model; }
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);

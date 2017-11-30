@@ -50,38 +50,120 @@ Team LevelLoader::GetTeam(const string team)
 	return neutral;
 }
 
-void LevelLoader::EncodeEntity(Entity* entity, json &objects)
+void LevelLoader::EncodeEntity(Entity* entity, json &objects, string entityList)
 {
 	json jEntity;
 	if(entity->GetCompatibleComponent<Renderable>() != nullptr)
 	{
 		jEntity["Type"] = "Renderable";
 		jEntity["Name"] = entity->GetName();
+		jEntity["EntityList"] = entityList;
 
 		auto tempRenderable = entity->GetCompatibleComponent<Renderable>();
 		const auto tempMaterial = tempRenderable->GetMaterial();
 
-		if(tempMaterial.diffuse != vec4(0))
+		jEntity["Model"] = entity->modelName;
+		jEntity["Shader"] = entity->shaderName;
+		jEntity["Texture"] = entity->textureName;
+
+		auto p = tempRenderable->GetPosition();
+		jEntity["Position"] = { p.x, p.y, p.z };
+
+		if(tempMaterial.diffuse != vec4(0) && entity->GetCompatibleComponent<Resource>() != nullptr)
 		{
 			auto d = tempMaterial.diffuse;
 			jEntity["Diffuse"] = {d.r, d.g, d.b, d.w};
 		}
 
-		if (tempMaterial.emissive != vec4(0))
+		if (tempMaterial.emissive != vec4(0) && entity->GetCompatibleComponent<BoundingBox>() != nullptr)
 		{
 			auto d = tempMaterial.emissive;
 			jEntity["Emissive"] = { d.r, d.g, d.b, d.w };
 		}
 
+		if (entity->GetCompatibleComponent<Ship>() != nullptr)
+			jEntity["TypeCode"] = "Ship";
+		else if (entity->GetCompatibleComponent<Troop>() != nullptr)
+			jEntity["TypeCode"] = "Troop";
+		else if (entity->GetCompatibleComponent<Tank>() != nullptr)
+			jEntity["TypeCode"] = "Tank";
+		else if (entity->GetCompatibleComponent<Worker>() != nullptr)
+			jEntity["TypeCode"] = "Worker";
+		else if (entity->GetCompatibleComponent<Shipyard>() != nullptr)
+			jEntity["TypeCode"] = "Shipyard";
+		else if (entity->GetCompatibleComponent<Resource>() != nullptr)
+			jEntity["TypeCode"] = "Resource";
+		else if (entity->GetCompatibleComponent<Barracks>() != nullptr)
+			jEntity["TypeCode"] = "Barracks";
 
+		if(entity->GetCompatibleComponent<Movement>() != nullptr)
+		{
+			json mov;
+
+			if (entity->GetCompatibleComponent<GroundMovement>() != nullptr)
+				mov["Type"] = "Ground";
+			else if (entity->GetCompatibleComponent<AirMovement>() != nullptr)
+				mov["Type"] = "Air";
+
+			auto movComp = entity->GetCompatibleComponent<Movement>();
+			auto g = movComp->GetGoal();
+			mov["Goal"] = { g.x, g.y, g.z };
+			mov["Speed"] = movComp->GetSpeed();
+			mov["Acceleration"] = movComp->GetAcceleration();
+			mov["TurnSpeed"] = movComp->GetTurnSpeed();
+			
+			jEntity["Movement"] = mov;
+		}
+
+		// If it's a plane (eveything else has a bounding sphere)
+		if(entity->GetCompatibleComponent<BoundingBox>() != nullptr)
+		{
+			auto dims = tempRenderable->planeDimensions;
+			jEntity["Plane"] = { dims[0], dims[1], dims[2] };
+		}
+
+		auto structure = entity->GetCompatibleComponent<Structure>();
+			
+		if(structure != nullptr)
+		{
+			json spawnInfos = json::array();
+
+			auto si = structure->GetSpawnInfo();
+
+			for(auto s : si)
+			{
+				json sEntity;
+				sEntity["BuildTime"] = s.buildTime;
+				sEntity["Cost"] = s.cost;
+				sEntity["UnitType"] = s.unitType;
+				spawnInfos.push_back(sEntity);
+			}
+			jEntity["SpawnInfos"] = spawnInfos;
+		}
+	}
+	else if(entity->GetCompatibleComponent<PointLight>() != nullptr)
+	{
+		jEntity["Type"] = "Light";
+
+		auto pL = entity->GetCompatibleComponent<PointLight>();
+
+		jEntity["Shader"] = pL->GetEffect();
+
+		auto p = pL->GetPosition();
+		jEntity["Position"] = { p.x, p.y, p.z };
+
+		auto c = pL->diffuse;
+		jEntity["Colour"] = { c.r, c.g, c.b, c.w };
 	}
 	objects.push_back(jEntity);
 }
 
-void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities)
+void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities, Player* player)
 {
 	std::ifstream ifs(jsonFile);
 	json j = json::parse(ifs);
+
+	player->SetBalance(j["Balance"]);
 
 	vector<json> objects = j["Objects"];
 
@@ -116,12 +198,24 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 				tempRenderable->GetMaterial().emissive = glm::vec4(comps[0], comps[1], comps[2], comps[3]);
 			}
 
-			if (object["Model"] != "") 
-				tempRenderable->SetModel(object["Model"]);
+			if (object["Model"] != "")
+			{
+				const string s = object["Model"];
+				tempEntity->modelName = s;
+				tempRenderable->SetModel(s);
+			}
 			if (object["Shader"] != "")
-				tempRenderable->SetShader(object["Shader"]);
+			{
+				const string s = object["Shader"];
+				tempEntity->shaderName = s;
+				tempRenderable->SetShader(s);
+			}
 			if (object["Texture"] != "")
-				tempRenderable->SetTexture(object["Texture"]);
+			{
+				const string s = object["Texture"];
+				tempEntity->textureName = s;
+				tempRenderable->SetTexture(s);
+			}
 
 			json pos = object["Position"];
 			vector<float> positions;
@@ -175,21 +269,7 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 			tempEntity->AddComponent(move(tempRenderable));
 
 
-			if(object["SpawnInfos"] != nullptr)
-			{
-				auto tempStructure = std::make_unique<Structure>();
-				SpawnInfo si;
-				json sp = object["SpawnInfos"];
-				for(auto sis : sp)
-				{
-					si.buildTime = sis["BuildTime"];
-					si.cost = sis["Cost"];
-					const string t = sis["UnitType"]; // Can't implicitly convert to string
-					si.unitType = t;
-					tempStructure->AddSpawnInfo(si);
-				}
-				tempEntity->AddComponent(move(tempStructure));
-			}
+
 
 			auto target = std::make_unique<Targetable>();
 			target->SetHealth(100);
@@ -238,6 +318,39 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 				tempEntity->AddComponent(move(tempUnit));
 			}
 
+			if (object["SpawnInfos"] != nullptr)
+			{
+				Structure* tempStructure = tempEntity->GetCompatibleComponent<Structure>();
+				if(tempStructure != nullptr)
+				{
+					SpawnInfo si;
+					json sp = object["SpawnInfos"];
+					for (auto sis : sp)
+					{
+						si.buildTime = sis["BuildTime"];
+						si.cost = sis["Cost"];
+						const string t = sis["UnitType"]; // Can't implicitly convert to string
+						si.unitType = t;
+						tempStructure->AddSpawnInfo(si);
+					}
+				}
+				else
+				{
+					auto tempStructure2 = std::make_unique<Structure>();
+					SpawnInfo si;
+					json sp = object["SpawnInfos"];
+					for (auto sis : sp)
+					{
+						si.buildTime = sis["BuildTime"];
+						si.cost = sis["Cost"];
+						const string t = sis["UnitType"]; // Can't implicitly convert to string
+						si.unitType = t;
+						tempStructure2->AddSpawnInfo(si);
+					}
+					tempEntity->AddComponent(move(tempStructure2));
+				}
+			}
+
 			if(object["EntityList"] == "Player")
 			{
 				playerEntities.push_back(tempEntity);
@@ -282,17 +395,28 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 
 }
 
-void LevelLoader::SaveLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities)
+void LevelLoader::SaveLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities, int balance)
 {
 	std::ofstream o(jsonFile);
 	json j;
+
+	j["Balance"] = balance;
 
 	json objects = json::array();
 
 	for(auto pE : playerEntities)
 	{
-		EncodeEntity(pE, objects);
+		EncodeEntity(pE, objects, "Player");
 	}
+	for (auto pE : NPCEntities)
+	{
+		EncodeEntity(pE, objects, "NPC");
+	}
+	for (auto pE : neutralEntities)
+	{
+		EncodeEntity(pE, objects, "Neutral");
+	}
+
 	j["Objects"] = objects;
 
 	o << std::setw(4) << j << std::endl;
