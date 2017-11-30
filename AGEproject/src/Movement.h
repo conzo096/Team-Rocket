@@ -21,7 +21,11 @@ public:
 	Movement(std::string type);
 	~Movement();
 
+	double GetSpeed() { return speed; }
+	double GetAcceleration() { return accelerationTime; }
+	double GetTurnSpeed() { return turnSpeed; }
 	glm::dvec3 GetGoal() { return goal; };
+
 	void SetGoal(glm::dvec3 goal) { this->goal = goal; needPath = true; };
 	void SetSpeed(double speed) { this->speed = speed; };
 	void SetCurrentSpeed(double currentSpeed) { this->currentSpeed = currentSpeed; };

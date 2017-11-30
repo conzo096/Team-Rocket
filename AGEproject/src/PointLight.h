@@ -26,6 +26,9 @@ public:
 	void setLightPosition(const glm::vec3 position);
 	void SetProperties(const std::string &jsonFile);
 
+	std::string GetEffect() { return effect->shader; }
+	glm::vec3 GetPosition() { return position; }
+
 	float constant  = 1.0f;
 	float linear    = 0.001f;
 	float quadratic = 0.00001f;
