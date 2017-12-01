@@ -4,6 +4,8 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include "FileIO.h"
 #include <tuple>
+#include "AudioEngine.h"
+
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
@@ -47,6 +49,8 @@ void GameEngine::Initialise()
 	glfwSwapInterval(1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	AudioEngine::Get().Initialise();
 }
 
 
@@ -211,8 +215,8 @@ void GameEngine::SetCamera(glm::mat4 camera)
 
 void GameEngine::CleanUp()
 {
+	AudioEngine::Get().Shutdown();
 	glfwTerminate();
-
 }
 
 void GameEngine::PrintGlewInfo()

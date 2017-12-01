@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Renderable.h"
 #include "UserControls.h"
+#include "AudioEngine.h"
 #include <memory>
 
 void StateManager::StateLoop()
@@ -10,6 +11,9 @@ void StateManager::StateLoop()
 	GameEngine::Get().Initialise();
 	bool running = true;
 	int select;
+
+	AudioEngine::Get().LoadSound("../res/audio/tone-beep.wav", false, false, false);
+	AudioEngine::Get().PlaySound("../res/audio/tone-beep.wav");
 
 	while (running)
 	{
@@ -70,5 +74,6 @@ void StateManager::StateLoop()
 			break;
 		}
 	}
+	AudioEngine::Get().UnloadSound("../res/audio/tone-beep.wav");
 	GameEngine::Get().CleanUp();
 }
