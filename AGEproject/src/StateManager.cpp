@@ -44,10 +44,19 @@ void StateManager::StateLoop()
 			{ 
 				state = stateMainMenu; 
 			}
+			else if (select == 0)
+			{
+				state = stateControls;
+			}
 			else if (select == 7) 
 			{ 
 				state = stateExiting; 
 			}
+			break;
+		case(stateControls):
+			select = ShowControlsMenu();
+			// Handle result.
+			state = stateMainMenu;
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

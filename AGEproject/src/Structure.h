@@ -62,6 +62,7 @@ public:
 	Team GetTeam() { return team; }
 	
 	void AddSpawnInfo(SpawnInfo info) { spawnData.push_back(info); }
+	std::vector<SpawnInfo> GetSpawnInfo() { return spawnData; }
 	// Change value for being controlled by player or not.
 	void IsController(bool act);
 

@@ -15,6 +15,7 @@ Renderable::~Renderable()
 
 void Renderable::SetPlane(float spacing, unsigned int xSize, unsigned int ySize)
 {
+	planeDimensions = glm::vec3(spacing, xSize, ySize);
 	model = GeometryUtil::BuildPlane(spacing, xSize, ySize);
 	//model = ResourceHandler::Get().GetModel("Plane");
 	renderInfo.modelVao = model->GetVAO();

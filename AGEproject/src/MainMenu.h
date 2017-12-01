@@ -32,6 +32,8 @@ public:
 	void SelectionDown();
 	int SelectionPicked();
 
+
+
 private:
 	int numberOfButtons;
 

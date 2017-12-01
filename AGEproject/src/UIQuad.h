@@ -42,7 +42,10 @@ public:
 	{
 		text = newText;
 	}
-
+	void SetText(const char* newText)
+	{
+		text = newText;
+	}
 
 	void SetX(int x)
 	{

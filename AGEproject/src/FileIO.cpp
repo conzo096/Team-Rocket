@@ -56,6 +56,45 @@ bool FileIO::CreateIniFile()
 }
 
 
+
+bool FileIO::SaveIniFile()
+{
+
+	std::ofstream outputFile;
+	outputFile.open("../res/config.ini");
+	outputFile << "Window options" << std::endl;
+	outputFile << "FullScreen=" <<GameEngine::Get().GetFullScreen() << std::endl;
+	outputFile << "Width="<<GameEngine::Get().GetScreenWidth() << std::endl;
+	outputFile << "Height="<<GameEngine::Get().GetScreenHeight() << std::endl;
+
+	outputFile << "Controller bindings" << std::endl;
+	outputFile << "Action=" << UserControls::Get().GetKeyValue("Action") << std::endl;
+	outputFile << "Move=" <<  UserControls::Get().GetKeyValue("Move") << std::endl;
+	outputFile << "Forward=" <<  UserControls::Get().GetKeyValue("Forward") << std::endl;
+	outputFile << "Backward=" <<  UserControls::Get().GetKeyValue("Backward") << std::endl;
+	outputFile << "Left=" <<  UserControls::Get().GetKeyValue("Left") << std::endl;
+	outputFile << "Right=" <<  UserControls::Get().GetKeyValue("Right") << std::endl;
+	outputFile << "ResetCamera=" <<  UserControls::Get().GetKeyValue("ResetCamera") << std::endl;
+	outputFile << "Escape=" <<  UserControls::Get().GetKeyValue("Escape") << std::endl;
+	outputFile << "RotateLeft=" <<  UserControls::Get().GetKeyValue("RotateLeft") << std::endl;
+	outputFile << "RotateRight=" <<  UserControls::Get().GetKeyValue("RotateRight") << std::endl;
+	outputFile << "Up="<< UserControls::Get().GetKeyValue("Up") << std::endl;
+	outputFile << "Down=" <<  UserControls::Get().GetKeyValue("Down") << std::endl;
+	outputFile << "Enter=" <<  UserControls::Get().GetKeyValue("Enter") << std::endl;
+	outputFile << "Hold=" <<  UserControls::Get().GetKeyValue("Hold") << std::endl;
+	outputFile << "HotKey1=" <<  UserControls::Get().GetKeyValue("HotKey1") << std::endl;
+	outputFile << "HotKey2=" <<  UserControls::Get().GetKeyValue("HotKey2") << std::endl;
+	outputFile << "HotKey3=" <<  UserControls::Get().GetKeyValue("HotKey3") << std::endl;
+	outputFile.close();
+
+	return true;
+}
+
+
+
+
+
+
 void FileIO::ConfigureGame(std::string para)
 {
 	std::string delimiter = "=";
