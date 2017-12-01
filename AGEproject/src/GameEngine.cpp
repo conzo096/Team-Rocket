@@ -3,6 +3,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include "FileIO.h"
+#include "UserControls.h"
 #include <tuple>
 void GameEngine::Initialise()
 {
@@ -47,6 +48,7 @@ void GameEngine::Initialise()
 	glfwSwapInterval(1.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	UserControls::Get().ResetControllerBindings();
 }
 
 

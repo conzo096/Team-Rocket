@@ -37,7 +37,7 @@ public:
 		//			entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
 
 		//}
-		for (Entity*& e : entities)
+	/*	for (Entity*& e : entities)
 		{
 			if (e->GetCompatibleComponent<Unit>() != NULL)
 			{
@@ -47,6 +47,6 @@ public:
 					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
 				}
 			}
-		}
+		}*/
 	}
 };

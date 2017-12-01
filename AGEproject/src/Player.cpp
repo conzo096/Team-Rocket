@@ -73,7 +73,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 	glm::vec3 poi;
 	// if it is a move action, move selected entity.
-	if (UserControls::Get().IsMouseButtonPressed(std::string("Move")))
+	if (UserControls::Get().IsMouseButtonPressed(std::string("Move")) || UserControls::Get().IsJoystickPressed(std::string("A"),UserControls::ControllerAction::BUTTON))
 	{
 		showGhostBuilding = false;
 		// Check for point of intersection.
@@ -116,7 +116,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 	}
 
 	// Select unit or units.
-	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
+	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")) || UserControls::Get().IsJoystickPressed(std::string("X"), UserControls::ControllerAction::BUTTON))
 	{
 		// If you are to spawn a building. Create it.
 		if (selectedEntities.size() >0)
@@ -182,7 +182,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (selectedEntity != NULL)
 		{
 			// Delete all selected entities.
-			if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_4) == GLFW_PRESS)
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")))
 			{
 				selectedEntities.erase(std::remove(selectedEntities.begin(), selectedEntities.end(), selectedEntity), selectedEntities.end());
 				entities.erase(std::remove(entities.begin(), entities.end(), selectedEntity), entities.end());
@@ -207,7 +207,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL && updateCalled >= 4)
 		{
 
-			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")) || UserControls::Get().IsJoystickPressed(std::string("dUp")))
 			{
 				//selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
 				if (selectedEntity->GetName() == "Worker")
@@ -219,7 +219,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 				else
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(20, 2.5, 0));
 			}
-			else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
+			else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")) || UserControls::Get().IsJoystickPressed(std::string("dRight")))
 			{
 				if (selectedEntity->GetName() == "Worker")
 				{
@@ -230,7 +230,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 				else
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(20, 2.5, 0));
 			}
-			else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")))
+			else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")) || UserControls::Get().IsJoystickPressed(std::string("dDown")))
 			{
 				//selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 				if (selectedEntity->GetName() == "Worker")

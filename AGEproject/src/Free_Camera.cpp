@@ -35,19 +35,40 @@ void Free_Camera::Update(double deltaTime)
 	//if (UserControls::Get().IsKeyPressed(std::string("RotateRight")))
 	//	Rotate(2*deltaTime,0);
 
-	// Move camera with user controls.
-	if (UserControls::Get().IsKeyPressed(std::string("Forward")))
-		(translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed));
-	if (UserControls::Get().IsKeyPressed(std::string("Left")))
-		(translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
-	if (UserControls::Get().IsKeyPressed(std::string("Backward")))
-		(translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed));
-	if (UserControls::Get().IsKeyPressed(std::string("Right")))
-		(translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
-	if (UserControls::Get().IsKeyPressed(std::string("Up")))
-		(translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed));
-	if (UserControls::Get().IsKeyPressed(std::string("Down")))
-		(translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	//// Move camera with user controls.
+	//if (UserControls::Get().IsKeyPressed(std::string("Forward")))
+	//	(translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed));
+	//if (UserControls::Get().IsKeyPressed(std::string("Left")))
+	//	(translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	//if (UserControls::Get().IsKeyPressed(std::string("Backward")))
+	//	(translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed));
+	//if (UserControls::Get().IsKeyPressed(std::string("Right")))
+	//	(translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	//if (UserControls::Get().IsKeyPressed(std::string("Up")))
+	//	(translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+	//if (UserControls::Get().IsKeyPressed(std::string("Down")))
+	//	(translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed));
+
+	/*if (UserControls::Get().GetAxisValue(std::string("leftRightRightSticker")) < -0.7)
+		Rotate(-2 * deltaTime,0);
+	if (UserControls::Get().GetAxisValue(std::string("leftRightRightSticker")) > 0.7)
+		Rotate(2 * deltaTime,0);*/
+
+	if (UserControls::Get().IsKeyPressed(std::string("Forward")) || UserControls::Get().GetAxisValue(std::string("upDownLeftSticker")) > 0.7f)
+		translation += (glm::vec3(0.0f, 0.0f, 1.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Left")) || UserControls::Get().GetAxisValue(std::string("leftRightLeftSticker")) < -0.7f)
+		translation += (glm::vec3(-1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Backward")) || UserControls::Get().GetAxisValue(std::string("upDownLeftSticker")) < -0.7f)
+		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Right")) || UserControls::Get().GetAxisValue(std::string("leftRightLeftSticker")) > 0.7f)
+		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Up")) || UserControls::Get().GetAxisValue(std::string("leftTrigger")) > 0.7)
+		translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed);
+	if (UserControls::Get().IsKeyPressed(std::string("Down")) || UserControls::Get().GetAxisValue(std::string("rightTrigger")) > 0.7)
+		translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed);
+
+
+
 	if (UserControls::Get().IsKeyPressed(std::string("Escape")))
 		glfwSetWindowShouldClose(GameEngine::Get().GetWindow(), true);
 

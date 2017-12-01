@@ -46,6 +46,7 @@ int MainMenu::Draw(GLShader shader)
 		buttonOffset += offsetChange;
 	}
 	// If a controller is connected use this instead.
+	
 	UserControls::Get().FindConnectedJoystick();
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		currentSelection = 0;
@@ -55,22 +56,18 @@ int MainMenu::Draw(GLShader shader)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
-		if (UserControls::Get().isJoystickActive() == GL_TRUE)
+		if (UserControls::Get().isJoystickActive())
 		{
-			timeElapsed += 1;
-			int axesCount, buttonCount;
-			const float * axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
-			const unsigned char* keys = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
-
+			timeElapsed++;
 			if (timeElapsed > cooldown)
 			{
 				timeElapsed = 0;
 				// process our joystick info
-				if (GLFW_PRESS == keys[10])
+				if (UserControls::Get().IsJoystickPressed("dUp",UserControls::ControllerAction::BUTTON))
 				{
 					SelectionUp();
 				}
-				if (GLFW_PRESS == keys[12])
+				if (UserControls::Get().IsJoystickPressed("dDown", UserControls::ControllerAction::BUTTON))
 				{
 					SelectionDown();
 				}
@@ -79,7 +76,7 @@ int MainMenu::Draw(GLShader shader)
 						buttons[i].texture = highlight_tex[i];
 					else
 						buttons[i].texture = normal_tex[i];
-				if (GLFW_PRESS == keys[0])
+				if (UserControls::Get().IsJoystickPressed("A", UserControls::ControllerAction::BUTTON))
 					break;
 			}
 		}

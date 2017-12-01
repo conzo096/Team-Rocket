@@ -40,7 +40,7 @@ int ControlsMenu::Draw(GLShader shader)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
-		newButton.texture = ResourceHandler::Get().GetTexture("debug");
+		newButton.texture = ResourceHandler::Get().GetTexture("Rock");
 		newButton.renderTarget = Quad(glm::vec2(-0.8, 1 - buttonOffset - 0.1),
 			glm::vec2(-0.6, 1 - buttonOffset));
 		newButton.renderTarget.SetOpenGL();
@@ -50,65 +50,40 @@ int ControlsMenu::Draw(GLShader shader)
 		UIQuad& u = buttons[i].second;
 		u.SetText(bindings[i].c_str());
 		u.SetSize(12);
-		u.SetX(200);
-		u.SetY(i * 70);
+		u.SetX(55);
+		u.SetY(567 - (i * 71));
 	}
 
 	// Handle left hand side.
 	buttonOffset = 0.0625f;
+	int j = 0;
 	for (int i = 8; i < 16; i++)
 	{
 		auto &p = buttons.at(i);
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
-		newButton.texture = ResourceHandler::Get().GetTexture("debug");
+		newButton.texture = ResourceHandler::Get().GetTexture("Rock");
 		newButton.renderTarget = Quad(glm::vec2(0.2, 1 - buttonOffset - 0.1),
-			glm::vec2(0.4, 1 - buttonOffset));
+		glm::vec2(0.4, 1 - buttonOffset));
 		newButton.renderTarget.SetOpenGL();
 		buttonOffset += offsetChange;
-
-
 		// Draw text.
-		UIQuad& u = buttons[i].second;
-		u.SetText("temp");
-		u.SetSize(12);
-		u.SetX(600);
-		u.SetY((i%8) * 70);
-
+		if (i < 12)
+		{
+			UIQuad& u = buttons[i].second;
+			u.SetText("temp");
+			u.SetSize(12);
+			u.SetX(600);
+			u.SetY(567 - (j * 71));
+		}
+		j++;
 	}
 	// Exit action.
 	exit.action = 101;
 	// Set its texture
-	exit.texture = ResourceHandler::Get().GetTexture("debug");
+	exit.texture = ResourceHandler::Get().GetTexture("Rock");
 	exit.renderTarget = Quad(glm::vec2(-0.1, -0.8), glm::vec2(0.1, -0.6));
 	exit.renderTarget.SetOpenGL();
-
-
-	// Render buttons.
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glClearColor(0, 0, 1, 1);
-	shader.Use();
-	// Draw the quads.
-	for (int i = 0; i < 16; i++)
-	{
-		// Bind texture.
-		glUniform1i(shader.GetUniformLocation("tex"), 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, buttons[i].first.texture);
-			buttons[i].first.renderTarget.Draw();
-	}
-	glUniform1i(shader.GetUniformLocation("tex"), 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, exit.texture);
-	exit.renderTarget.Draw();
-	// Draw their corresponding bindings.
-	for (int i = 0; i < 16; i++)
-	{
-		buttons[i].second.Render();
-	}
-
-	glfwSwapBuffers(GameEngine::Get().GetWindow());
 
 	while (!selectionMade)
 	{
@@ -122,13 +97,13 @@ int ControlsMenu::Draw(GLShader shader)
 				buttons[i].first.texture = ResourceHandler::Get().GetTexture("Rock");
 			}
 			else
-				buttons[i].first.texture = ResourceHandler::Get().GetTexture("debug");
+				buttons[i].first.texture = ResourceHandler::Get().GetTexture("Rock");
 
 		}
 		// Handle selection.
 		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
 		{
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 16; i++)
 				if (buttons[i].first.renderTarget.IsMouseInBounds())
 				{
 					currentSelection = i;
@@ -145,6 +120,13 @@ int ControlsMenu::Draw(GLShader shader)
 		// Render buttons.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
+		
+		// Draw their corresponding bindings.
+		for (int i = 0; i < 12; i++)
+		{
+			buttons[i].second.Render();
+		}
+		
 		shader.Use();
 		// Draw the quads.
 		for (int i = 0; i < 16; i++)
@@ -160,11 +142,6 @@ int ControlsMenu::Draw(GLShader shader)
 		glBindTexture(GL_TEXTURE_2D, exit.texture);
 		exit.renderTarget.Draw();
 
-		// Draw their corresponding bindings.
-		for (int i = 0; i < 16; i++)
-		{
-			buttons[i].second.Render();
-		}
 		glfwPollEvents();
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 	}
