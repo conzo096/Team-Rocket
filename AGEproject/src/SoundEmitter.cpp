@@ -1,6 +1,20 @@
-//#include "SoundEmitter.h"
+#include "SoundEmitter.h"
+#include <Windows.h>
 //
 //using namespace std;
+//
+//void SoundEmitter::Initilaise()
+//{
+//	FILE *fp;
+//	device = alcOpenDevice(NULL);
+//	if (!device)
+//		ErrorMessage("No sound device");
+//	context = alcCreateContext(device, NULL);
+//	alcMakeContextCurrent(context);
+//	if (!context)
+//		ErrorMessage("No sound context");
+//fclose(fp);
+//}
 //
 //void SoundEmitter::LoadSoundFile(const char* filepath)
 //{
@@ -101,4 +115,16 @@
 //	// Display error message in console
 //	cout << msg << endl;
 //	return;
+//}
+//
+//void SoundEmitter::CleanUp()
+//{
+//	fclose(fp);
+//	delete[] data;
+//	alDeleteSources(1, &source);
+//	alDeleteBuffers(1, &buffer);
+//	
+//	alcMakeContextCurrent(NULL);
+//	alcDestroyContext(context);
+//	alcCloseDevice(device);
 //}
