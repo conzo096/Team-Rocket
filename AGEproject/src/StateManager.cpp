@@ -12,8 +12,8 @@ void StateManager::StateLoop()
 	bool running = true;
 	int select;
 
-	AudioEngine::Get().LoadSound("../res/audio/tone-beep.wav", false, false, false);
-	AudioEngine::Get().PlaySound("../res/audio/tone-beep.wav");
+	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
+	AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 
 	while (running)
 	{
@@ -74,6 +74,5 @@ void StateManager::StateLoop()
 			break;
 		}
 	}
-	AudioEngine::Get().UnloadSound("../res/audio/tone-beep.wav");
 	GameEngine::Get().CleanUp();
 }

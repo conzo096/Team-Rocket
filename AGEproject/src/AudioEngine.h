@@ -42,8 +42,8 @@ public:
 	// "pos" will be the position of the unit/structure's transform
 	int PlaySound(const string& soundName, const glm::dvec3& pos = glm::dvec3(0.0, 0.0, 0.0), float volume_dB = 0.0f);
 //	void PlaySoundOnThread(const string& soundName, const glm::dvec3& pos = glm::dvec3(0.0, 0.0, 0.0), float volume_dB = 0.0f);
-	//void StopChannel(int channelID);
-	//void StopAllChannels();
+	void StopChannel(int channelID);
+	void StopAllChannels();
 	void SetChannel3DPosition(int channelID, const glm::dvec3& pos);
 	void SetChannelVolume(int channelID, float volume_dB);
 	//bool IsPlaying(int channelID) const;
