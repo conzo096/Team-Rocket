@@ -1,0 +1,6 @@
+{
+  "Model": "WardenPlatform",
+  "Texture": "WardenPlatformUV",
+  "Shader": "Phong",
+  "Position": [ 0, 0.5, 0 ]
+}

@@ -59,6 +59,8 @@ public:
 	void Update(const double delta);
 	void Render();
 
+	std::string modelName, textureName, shaderName;
+
 	template <typename T> T &GetComponent() const {
 		map::const_iterator iter = components.find(std::type_index(typeid(T)));
 

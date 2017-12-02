@@ -56,4 +56,6 @@ public:
 	Team GetTeam() { return team; }
 	
 	void AddSpawnInfo(SpawnInfo info) { spawnData.push_back(info); }
+	std::vector<SpawnInfo> GetSpawnInfo() { return spawnData; }
+
 };

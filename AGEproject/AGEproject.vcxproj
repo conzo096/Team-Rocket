@@ -38,6 +38,7 @@
     <ClInclude Include="src\GLShader.h" />
     <ClInclude Include="src\GroundMovement.h" />
     <ClInclude Include="src\json.hpp" />
+    <ClInclude Include="src\LevelLoader.h" />
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Menu.h" />
@@ -69,6 +70,7 @@
     <ClInclude Include="src\Unit.h" />
     <ClInclude Include="src\UserControls.h" />
     <ClInclude Include="src\VehicleDepotStructure.h" />
+    <ClInclude Include="src\Weapon.h" />
     <ClInclude Include="src\WorkerUnit.h" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +87,7 @@
     <ClCompile Include="src\Game_Camera.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\GroundMovement.cpp" />
+    <ClCompile Include="src\LevelLoader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Material.cpp" />
@@ -108,6 +111,7 @@
     <ClCompile Include="src\UIQuad.cpp" />
     <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
+    <ClCompile Include="src\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />

@@ -23,7 +23,7 @@ void Structure::Build(double delta)
 	}
 }
 
-void Structure::AddProduct(int& bal,int hotkey, glm::vec3 destination)
+void Structure::AddProduct(int& bal, int hotkey, glm::vec3 destination)
 {
 	if (spawnData.size() == 0)
 		return;
@@ -44,12 +44,12 @@ void Structure::AddProduct(int& bal,int hotkey, glm::vec3 destination)
 }
 
 void Structure::Produce(double delta)
-{	
+{
 	ammountBuilt += delta;
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
 		// Spawn unit should be from factory pattern class, not game!
-		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName,productQueue.front().destination,team));
+		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}
@@ -75,14 +75,13 @@ void Structure::Update(double delta)
 		Build(delta);
 		return;
 	}
-	if(productQueue.size() != 0)
+	if (productQueue.size() != 0)
 		Produce(delta);
 }
 
 void Structure::Collect(std::vector<Entity*>& ents)
 {
-	for (Entity*&e:collectionQueue)
+	for (Entity*&e : collectionQueue)
 		ents.push_back(e);
 	collectionQueue.clear();
-	
 }

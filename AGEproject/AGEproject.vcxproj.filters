@@ -159,6 +159,12 @@
     <ClCompile Include="src\ControlsMenu.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\LevelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Weapon.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">
@@ -313,6 +319,12 @@
     </ClInclude>
     <ClInclude Include="src\ControlsMenu.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LevelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Weapon.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

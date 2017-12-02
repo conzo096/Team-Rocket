@@ -6,6 +6,7 @@
 #include "UserControls.h"
 #include <thread>
 #include <omp.h>
+#include "LevelLoader.h"
 
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
@@ -109,6 +110,9 @@ void Game::Initialise()
 
 
 	// Add point light to the scene
+	//LevelLoader ll;
+	//ll.LoadLevel("./json/Level.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
+	
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
@@ -176,6 +180,8 @@ bool Game::Update()
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
 	{
 		freeCamEnabled = !freeCamEnabled;
+		LevelLoader ll;
+		ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
