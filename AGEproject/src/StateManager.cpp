@@ -13,11 +13,11 @@ void StateManager::StateLoop()
 	int select;
 
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
-	AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 
 	while (running)
 	{
 		glfwPollEvents();
+		AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 		switch (state)
 		{
 		case(stateSplash):
@@ -73,6 +73,7 @@ void StateManager::StateLoop()
 			throw std::invalid_argument("Error: No behavior has been set for state" + state);
 			break;
 		}
+		AudioEngine::Get().Update();
 	}
 	GameEngine::Get().CleanUp();
 }

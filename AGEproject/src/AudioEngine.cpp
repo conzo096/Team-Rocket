@@ -111,7 +111,6 @@ void AudioEngine::StopChannel(int channelID)
 	FMOD::Channel* sChannel = nullptr;
 	sChannel = imp->mChannels[channelID];
 	AudioEngine::Get().ErrorCheck(sChannel->setPaused(true));
-
 }
 
 void AudioEngine::StopAllChannels()
@@ -127,8 +126,6 @@ void AudioEngine::StopAllChannels()
 //	std::thread t(AudioEngine::Get().PlaySound(soundName, pos, volume_dB), AudioEngine::Get(), imp->audioSystem, imp->mSounds[soundName]);
 //	t.join();
 //}
-
-
 
 void AudioEngine::SetChannel3DPosition(int channelID, const glm::dvec3& pos)
 {
