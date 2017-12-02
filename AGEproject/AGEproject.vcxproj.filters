@@ -72,9 +72,6 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\Menu_Camera.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -164,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="src\Weapon.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game_Camera.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +287,6 @@
     <ClInclude Include="src\Free_Camera.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\Menu_Camera.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\ResourceHandler.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -325,6 +322,12 @@
     </ClInclude>
     <ClInclude Include="src\Weapon.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game_Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TurretRenderable.h">
+      <Filter>Header Files\Components\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

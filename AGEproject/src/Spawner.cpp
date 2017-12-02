@@ -14,7 +14,7 @@
 #include "BaseStructure.h"
 #include "Resource.h"
 #include "GroundMovement.h"
-
+#include "TurretRenderable.h"
 
 // Creates a predefined entity.
 Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
@@ -30,6 +30,16 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetProperties("./json/Warden.json");
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
+		// Add turret render.
+		auto t = std::make_unique<TurretRenderable>();
+		t->SetMaterial(new Material());
+		t->SetProperties("./json/Warden.json");
+		t->SetModel("WardenTurret");
+		t->SetTexture("WardenTurretUV");
+		t->SetPosition(glm::vec3(tempRenderable->GetPosition().x, tempRenderable->GetPosition().y+0.5, tempRenderable->GetPosition().y));
+
+		t->UpdateTransforms();
+		tempEntity->AddComponent(move(t));
 		auto tempMovement = std::make_unique<GroundMovement>();
 		tempMovement->SetProperties("./json/WorkerMovement.json");
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
