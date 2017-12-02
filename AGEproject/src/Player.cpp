@@ -3,6 +3,8 @@
 #include "BoundingSphere.h"
 #include "Game.h"
 #include "WorkerUnit.h"
+#include "Spawner.h"
+#include "Targetable.h"
 void Player::Update(std::vector<Entity*>& enemyList)
 {
 	HandleInput(enemyList);
@@ -38,33 +40,11 @@ void Player::Update(std::vector<Entity*>& enemyList)
 			glm::ivec2 sp = glm::ivec2(poi.x, poi.z);
 			// Space is valid. Prevent Units walking in this area.
 			validSpawn = true;
-			// Check by row.  
-			for (int i = -ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); i++)
-			{
-				// check by depth.
-				for (int j = -ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); j < ghostBuilding.GetComponent<BoundingSphere>().GetRadius(); j++)
-				{
-					// Get Point to check.
-					glm::ivec2 p = sp + glm::ivec2(i, j);
-					if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
-					{
-						validSpawn = false;
-						return;
-					}
-					// Check nav mesh.
-					if (Game::Get().GetNavGridValue(p) == 1)
-					{
-						validSpawn = false;
-						return;
-					}
-				}
-			}
 
-		
-
+			if (!Spawner::Get().CheckGameGrid(ghostBuilding.GetComponent<BoundingSphere>()))
+				validSpawn = false;
 		}
 	}
-
 }
 
 void Player::HandleInput(std::vector<Entity*>& enemyList)
@@ -136,11 +116,9 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		{
 			for (Entity* &e : selectedEntities)
-			{
-				if (e->GetCompatibleComponent<Unit>() != NULL)
-					e->GetCompatibleComponent<Unit>()->IsController(false);
-				if (e->GetCompatibleComponent<Structure>() != NULL)
-					e->GetCompatibleComponent<Structure>()->IsController(false);
+			{	
+				e->GetComponent<Targetable>().IsSelected(false);
+
 			}
 			selectedEntities.clear();
 		}
@@ -152,10 +130,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			// If a ray intersects with the bounding sphere.
 			if (e->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
 			{
-				if (e->GetCompatibleComponent<Unit>() != NULL)
-					e->GetCompatibleComponent<Unit>()->IsController(true);
-				if (e->GetCompatibleComponent<Structure>() != NULL)
-					e->GetCompatibleComponent<Structure>()->IsController(true);
+				e->GetComponent<Targetable>().IsSelected(true);
 				selectedEntities.push_back(e);
 				return;
 			}
@@ -165,10 +140,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			// If no suitable object has been selected, clear selected list.
 			for (Entity* &e : selectedEntities)
 			{
-				if (e->GetCompatibleComponent<Unit>() != NULL)
-					e->GetCompatibleComponent<Unit>()->IsController(false);
-				if (e->GetCompatibleComponent<Structure>() != NULL)
-					e->GetCompatibleComponent<Structure>()->IsController(false);
+				e->GetComponent<Targetable>().IsSelected(false);
 			}
 			selectedEntities.clear();
 		}

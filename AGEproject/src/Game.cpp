@@ -170,7 +170,7 @@ bool Game::Update()
 	// all entities now contains all the entities in the game.
 
 	// Let user and update their actions. 
-	player->Update(allEntities);
+	player->Update(NPC->GetEntities());
 	NPC->Update(allEntities);
 
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
@@ -367,5 +367,5 @@ void Game::UpdateNavGrid(int val, glm::ivec2 pos)
 {
 //	std::cout << "Pos:" << pos.x<< "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 	navGrid[pos.x][pos.y] = val;
-	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
+//	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 }

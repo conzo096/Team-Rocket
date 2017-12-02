@@ -23,12 +23,6 @@ class Structure : public Component
 	};
 
 private:
-
-	// Is the unit currently controller by the player?
-	bool isControlled = false;
-	// Previous effect.
-	glm::vec4 tempCol;
-
 	// Is it currently building a unit?
 	bool building;
 	float constructionTime;
@@ -62,8 +56,4 @@ public:
 	Team GetTeam() { return team; }
 	
 	void AddSpawnInfo(SpawnInfo info) { spawnData.push_back(info); }
-	// Change value for being controlled by player or not.
-	void IsController(bool act);
-
-
 };

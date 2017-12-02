@@ -3,10 +3,16 @@
 #include <mutex>
 #include "Entity.h"
 #include "Player.h"
+#include "BoundingSphere.h"
 class Spawner : public  Singleton<Spawner>
 {
 public:
 	std::mutex mut;
+
+	//Check if the Entity can be spawned in the area requested.
+	bool CheckGameGrid(BoundingSphere& sphere);
+	void UpdateGameGrid(BoundingSphere& sphere, int value = 1);
 	// Creates a predefined entity.
 	Entity* CreateEntity(std::string name, glm::vec3 position, Team team);
+
 };

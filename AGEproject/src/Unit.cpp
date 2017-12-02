@@ -6,24 +6,6 @@ void Unit::SetAction(Action act)
 	action = act;
 }
 
-void Unit::IsController(bool act)
-{
-	isControlled = act;
-	// If it is being selected.
-	if (act)
-	{
-		// Hold current emissive value.
-		originalColour = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
-		// Set objects emissive value to blue (for now). 
-		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
-	}
-	else
-	{
-		// Return the emissive colour back to its original value.
-		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(originalColour);
-		originalColour = glm::vec4();
-	}
-}
 
 void Unit::SetEntityToTarget(Entity *& target)
 {
