@@ -26,7 +26,7 @@ private:
 	// Is it currently building a unit?
 	bool building;
 	float constructionTime;
-	float ammountBuilt;
+	double ammountBuilt;
 	std::queue<Product> productQueue;
 	// Holds items that are created.
 	std::vector<Entity*> collectionQueue;

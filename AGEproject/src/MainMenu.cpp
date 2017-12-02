@@ -10,7 +10,7 @@ void MainMenu::SelectionUp()
 	// If currentSelection is the first one, loop to end one. 
 	currentSelection -= 1;
 	if (currentSelection < 0)
-		currentSelection = buttons.size() - 1;
+		currentSelection = static_cast<unsigned int>(buttons.size()) - 1;
 }
 
 // Move down.

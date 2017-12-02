@@ -2,7 +2,7 @@
 
 void UIQuad::Render()
 {
-	unsigned int length = strlen(text.c_str());
+	unsigned int length = static_cast<unsigned int>(strlen(text.c_str()));
 	std::vector<glm::vec2> vertices;
 	std::vector<glm::vec2> UVs;
 	for (unsigned int i = 0; i<length; i++)
@@ -21,8 +21,8 @@ void UIQuad::Render()
 		vertices.push_back(vertex_down_left);
 
 		char character = text[i];
-		float uv_x = (character % 16) / 16.0f;
-		float uv_y = (character / 16) / 16.0f;
+		double uv_x = (character % 16) / 16.0f;
+		double uv_y = (character / 16) / 16.0f;
 		uv_y = (1 - uv_y - 0.0625);
 		glm::vec2 uv_up_left = glm::vec2(uv_x, uv_y);
 		glm::vec2 uv_up_right = glm::vec2(uv_x + 1.0f / 16.0f, uv_y);
@@ -70,7 +70,7 @@ void UIQuad::Render()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	// Draw call
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);

@@ -44,7 +44,7 @@ public:
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
 
-	int GetFireRate() { return fireRate; }
+	double GetFireRate() { return fireRate; }
 	void SetFireRate(float fr) { fireRate = fr; }
 
 	void SetEntityToTarget(Entity*& target);

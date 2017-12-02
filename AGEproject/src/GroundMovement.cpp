@@ -258,8 +258,8 @@ void GroundMovement::Update(double delta)
 	nodeMap = Game::Get().GetNavGrid();
 	terrainGrid = Game::Get().GetTerrainGrid();
 
-	int xStart = floor(GetParent()->GetPosition().x + 0.5);//for grid of 1 spacing
-	int zStart = floor(GetParent()->GetPosition().z + 0.5);
+	int xStart = static_cast<int>(floor(GetParent()->GetPosition().x + 0.5));//for grid of 1 spacing
+	int zStart = static_cast<int>(floor(GetParent()->GetPosition().z + 0.5));
 
 	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
 	int zFinish = floor(goal.z + 0.5);

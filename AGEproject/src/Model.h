@@ -33,7 +33,7 @@ public:
 	std::vector<GLuint> indices;
 	GLenum GetType() { return type; }
 	unsigned int GetVAO() { return VAO; }
-	int GetIndices() { return indices.size(); }
+	int GetIndices() { return static_cast<int>(indices.size()); }
 	void SetType(GLenum t) { type = t; }
 
 	void Draw();

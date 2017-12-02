@@ -11,16 +11,14 @@ void StateManager::StateLoop()
 	GameEngine::Get().Initialise();
 	bool running = true;
 	int select;
-
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
-
 	while (running)
 	{
 		glfwPollEvents();
-		AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 		switch (state)
 		{
 		case(stateSplash):
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			ShowSplashScreen();
 			state = stateMainMenu;
 			break;
@@ -38,6 +36,7 @@ void StateManager::StateLoop()
 			else if (select == 2) { state = stateExiting; }
 			break;
 		case(stateSettings):
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowSettingsMenu();
 			if (select == 1)
 			{
@@ -58,6 +57,7 @@ void StateManager::StateLoop()
 			}
 			break;
 		case(stateControls):
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowControlsMenu();
 			// Handle result.
 			state = stateMainMenu;
