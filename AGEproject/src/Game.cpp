@@ -110,9 +110,9 @@ void Game::Initialise()
 
 
 	// Add point light to the scene
-	LevelLoader ll;
-	ll.LoadLevel("./json/Level.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
-/*	
+	//LevelLoader ll;
+	//ll.LoadLevel("./json/Level.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
+	
 	Entity* tempEntity3 = new Entity;
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
@@ -146,7 +146,7 @@ void Game::Initialise()
 
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
-*/
+
 	////This is a "wall"
 	//Entity* tempEntity77 = new Entity;
 	//auto tempRenderable77 = std::make_unique<Renderable>();
@@ -174,7 +174,7 @@ bool Game::Update()
 	// all entities now contains all the entities in the game.
 
 	// Let user and update their actions. 
-	player->Update(allEntities);
+	player->Update(NPC->GetEntities());
 	NPC->Update(allEntities);
 
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
@@ -373,5 +373,5 @@ void Game::UpdateNavGrid(int val, glm::ivec2 pos)
 {
 //	std::cout << "Pos:" << pos.x<< "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 	navGrid[pos.x][pos.y] = val;
-	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
+//	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 }

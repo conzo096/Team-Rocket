@@ -196,7 +196,12 @@ void UserControls::Update()
 {
 	{
 		// Update cursor position.
-		glfwGetCursorPos(GameEngine::Get().GetWindow(), &mouseX, &mouseY);
+		if(!IsJoystick)
+			glfwGetCursorPos(GameEngine::Get().GetWindow(), &mouseX, &mouseY);
+		else 
+		{
+			glfwSetCursorPos(GameEngine::Get().GetWindow(), GameEngine::Get().GetScreenWidth() / 2, GameEngine::Get().GetScreenHeight() / 2);
+		}
 	}
 }
 
@@ -215,4 +220,105 @@ void UserControls::Update(Free_Camera& cam)
 void UserControls::HandleConsoleInput()
 {
 	std::cout << "Still to be implemented!" << std::endl;
+}
+
+
+
+void UserControls::ResetControllerBindings()
+{
+	std::pair<std::string, unsigned int> temp;
+	temp.first = "A";
+	temp.second = 0;
+	controllerButtons.insert(temp);
+	temp.first = "B";
+	temp.second = 1;
+	controllerButtons.insert(temp);
+	temp.first = "X";
+	temp.second = 2;
+	controllerButtons.insert(temp);
+	temp.first = "Y";
+	temp.second = 3;
+	controllerButtons.insert(temp);
+	temp.first = "leftShoulder";
+	temp.second = 4;
+	controllerButtons.insert(temp);
+	temp.first = "rightShoulder";
+	temp.second = 5;
+	controllerButtons.insert(temp);
+	temp.first = "back";
+	temp.second = 6;
+	controllerButtons.insert(temp);
+	temp.first = "start";
+	temp.second = 7;
+	controllerButtons.insert(temp);
+	temp.first = "leftSticker";
+	temp.second = 8;
+	controllerButtons.insert(temp);
+	temp.first = "rightSticker";
+	temp.second = 9;
+	controllerButtons.insert(temp);
+	temp.first = "dUp";
+	temp.second = 10;
+	controllerButtons.insert(temp);
+	temp.first = "dRight";
+	temp.second = 11;
+	controllerButtons.insert(temp);
+	temp.first = "dDown";
+	temp.second = 12;
+	controllerButtons.insert(temp);
+	temp.first = "dLeft";
+	temp.second = 13;
+	controllerButtons.insert(temp);
+
+	// Axis buttons.
+	temp.first = "leftRightLeftSticker";
+	temp.second = 0;
+	controllerAxis.insert(temp);
+	temp.first = "upDownLeftSticker";
+	temp.second = 1;
+	controllerAxis.insert(temp);
+	temp.first = "leftRightRightSticker";
+	temp.second = 2;
+	controllerAxis.insert(temp);
+	temp.first = "upDownRightSticker";
+	temp.second = 3;
+	controllerAxis.insert(temp);
+	temp.first = "rightTrigger";
+	temp.second = 4;
+	controllerAxis.insert(temp);
+	temp.first = "leftTrigger";
+	temp.second = 5;
+
+	controllerAxis.insert(temp);
+}
+
+bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
+{
+	ResetControllerBindings();
+	int axesCount, buttonCount;
+	const float * axes = glfwGetJoystickAxes(joyStickConnected, &axesCount);
+	const unsigned char* keys = glfwGetJoystickButtons(joyStickConnected, &buttonCount);
+	if (!IsJoystick)
+		return false;
+	if (type == BUTTON)
+	{	
+		if (GLFW_PRESS == keys[controllerButtons.find(action)->second])
+			return true;
+	}
+	else
+	{
+		// Handle axis movement.
+		//if (axes[controllerAxis.find(action)->second] > 0.7 || axes[controllerAxis.find(action)->second] < -0.7)
+		//	return true;
+	}
+	return false;
+}
+
+float UserControls::GetAxisValue(std::string action)
+{
+	int axesCount;
+	const float * axes = glfwGetJoystickAxes(joyStickConnected, &axesCount);
+	if (!IsJoystick)
+		return false;
+	return axes[controllerAxis.find(action)->second];
 }

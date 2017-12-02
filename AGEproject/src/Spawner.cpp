@@ -1,7 +1,7 @@
 #include "Spawner.h"
 #include "Renderable.h"
 #include "AirMovement.h"
-#include "BoundingSphere.h"
+//#include "BoundingSphere.h"
 #include "Targetable.h"
 #include "ShipUnit.h"
 #include "WorkerUnit.h"
@@ -14,6 +14,8 @@
 #include "BaseStructure.h"
 #include "Resource.h"
 #include "GroundMovement.h"
+
+
 // Creates a predefined entity.
 Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 {
@@ -148,6 +150,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		si.unitType = "Worker";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
+		BoundingSphere sp;
+		sp.SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		sp.SetCenter(spawnPosition);
+		if (CheckGameGrid(sp))
+		{
+			UpdateGameGrid(sp);
+		}
+		else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -162,8 +173,6 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 	if (name == "Hanger")
 	{
-		std::cout << "Incomplete" << std::endl;
-
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("Hanger");
@@ -180,21 +189,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		si.unitType = "Kestrel";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
+		BoundingSphere sp;
+		sp.SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		sp.SetCenter(spawnPosition);
+		if (CheckGameGrid(sp))
+			UpdateGameGrid(sp);
+		else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-
-		// Check by row.  
-		for (int i = -tempBoundSphere->GetRadius(); i < tempBoundSphere->GetRadius(); i++)
-		{
-			// check by depth.
-			for (int j = -tempBoundSphere->GetRadius(); j < tempBoundSphere->GetRadius(); j++)
-			{
-				// Get Point to check.
-				glm::ivec2 p = glm::ivec2(position.x, position.z) + glm::ivec2(i, j);
-				Game::Get().UpdateNavGrid(1, p);
-			}
-		}
-
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
@@ -220,6 +223,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 		auto tempResource = std::make_unique<Resource>();
 		tempEntity->AddComponent(move(tempResource));
+		BoundingSphere sp;
+		sp.SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		sp.SetCenter(spawnPosition);
+		if (CheckGameGrid(sp))
+		{
+			UpdateGameGrid(sp);
+		}
+		else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -251,6 +263,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		si.unitType = "Drone";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
+		BoundingSphere sp;
+		sp.SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		sp.SetCenter(spawnPosition);
+		if (CheckGameGrid(sp))
+		{
+			UpdateGameGrid(sp);
+		}
+		else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -282,6 +303,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		si.unitType = "Warden";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
+		BoundingSphere sp;
+		sp.SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
+		sp.SetCenter(spawnPosition);
+		if (CheckGameGrid(sp))
+		{
+			UpdateGameGrid(sp);
+		}
+		else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -294,4 +324,44 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	}
 
 	return NULL;
+}
+
+//Check if the Entity can be spawned in the area requested.
+bool Spawner::CheckGameGrid(BoundingSphere& sphere)
+{
+	// Check by row.  
+	for (int i = -sphere.GetRadius()/2; i <sphere.GetRadius() / 2; i++)
+	{
+		// check by depth.
+		for (int j = -sphere.GetRadius() / 2; j < sphere.GetRadius() / 2; j++)
+		{
+			// Get Point to check.
+			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
+			// Check if it is within playable range.
+			if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
+			{
+				return false;
+			}
+			// Check if game grid is already occupied.
+			if (Game::Get().GetNavGridValue(p) == 1)
+				return false;
+		}
+	}
+	return true;
+}
+
+void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
+{
+	// Check by row.  
+	for (int i = -sphere.GetRadius() / 2; i <sphere.GetRadius() / 2; i++)
+	{
+		// check by depth.
+		for (int j = -sphere.GetRadius() / 2; j < sphere.GetRadius() / 2; j++)
+		{
+			// Get Point to check.
+			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
+			// Update Game Grid.
+			Game::Get().UpdateNavGrid(value, p);
+		}
+	}
 }

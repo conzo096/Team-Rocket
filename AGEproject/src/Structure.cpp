@@ -84,24 +84,4 @@ void Structure::Collect(std::vector<Entity*>& ents)
 	for (Entity*&e : collectionQueue)
 		ents.push_back(e);
 	collectionQueue.clear();
-
-}
-
-void Structure::IsController(bool act)
-{
-	isControlled = act;
-	// If it is being selected.
-	if (act)
-	{
-		// Hold current emissive value.
-		tempCol = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
-		// Set objects emissive value to blue (for now). 
-		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
-	}
-	else
-	{
-		// Return the emissive colour back to its original value.
-		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(tempCol);
-		tempCol = glm::vec4();
-	}
 }

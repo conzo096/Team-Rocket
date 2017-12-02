@@ -13,7 +13,7 @@ private:
 public:
 
 	BoundingSphere() : Component("BoundingSphere") {};
-	~BoundingSphere() {}
+	~BoundingSphere(){}
 
 	// This center will only work for symmetrical objects.
 	void SetUpBoundingSphere(std::vector<glm::vec3> &vertices)
