@@ -47,8 +47,7 @@ Entity* Component::GetParent() const { return entity; }
 Entity::Entity() { components.clear(); }
 
 Entity::~Entity()
-{
-	components.clear();
+{	components.clear();
 	cout << "Goodbye from Entity: " << name << endl;
 }
 

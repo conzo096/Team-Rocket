@@ -15,12 +15,9 @@ protected:
 	Action action = Move;
 	// What entity is it looking to attack?
 	Entity* targetEntity = NULL;
-	// What team is this unit on?
+
+	// what team this is on.
 	int team;
-	// Is the unit currently controller by the player?
-	bool isControlled = false;
-	// Previous effect.
-	glm::vec4 originalColour;
 
 	double weaponRange=10;
 	double sightRange=12;
@@ -44,11 +41,9 @@ public:
 
 	void SetAction(Action act);
 
-	// Change value for being controlled by player or not.
-	void IsController(bool act);
-
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
+
 	int GetFireRate() { return fireRate; }
 	void SetFireRate(float fr) { fireRate = fr; }
 

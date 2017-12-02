@@ -3,6 +3,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include "FileIO.h"
+#include "UserControls.h"
 #include <tuple>
 #include "AudioEngine.h"
 
@@ -51,6 +52,8 @@ void GameEngine::Initialise()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	AudioEngine::Get().Initialise();
+
+	UserControls::Get().ResetControllerBindings();
 }
 
 

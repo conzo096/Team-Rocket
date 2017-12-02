@@ -15,8 +15,14 @@ private:
 	// If the joystick is not connected set to -1.
 	int joyStickConnected = -1;
 
-	// Map of user keys.
+	// Map of keyboard keys.
 	std::map<std::string, unsigned int> buttonOptions;
+	// Map of controller keys.
+	std::map<std::string, unsigned int> controllerButtons;
+	// Map of controller axis.
+	std::map<std::string, unsigned int> controllerAxis;
+
+
 
 	// Mouse position.
 	double mouseX, mouseY;
@@ -27,11 +33,13 @@ private:
 	// Ray mouse generates.
 	RayCast mouseRay;
 
+	bool IsJoystick = false;
 public:
 
-	// Controller choices.
-	enum ControllerOption { KEYBOARD, CONTROLLER};
 
+	// Controller choices.
+	enum ControllerOption { KEYBOARD, CONTROLLER };
+	enum ControllerAction { BUTTON, AXIS };
 	RayCast GetRay() { return mouseRay; };
 
 	// Bind action to a new key.
@@ -64,6 +72,7 @@ public:
 		{
 			if (glfwJoystickPresent(i))
 			{
+				IsJoystick = true;
 				joyStickConnected = i;
 				break;
 			}
@@ -74,6 +83,7 @@ public:
 	void DisconnectJoystick()
 	{
 		joyStickConnected = -1;
+		IsJoystick = false;
 	}
 
 	// Returns if a controller is connected or not.
@@ -81,7 +91,11 @@ public:
 	{
 		
 		if (glfwJoystickPresent(joyStickConnected) == false)
+		{
+			IsJoystick = false;
 			return false;
+		}
+		IsJoystick = true;
 		return true;
 	}
 
@@ -89,6 +103,11 @@ public:
 	int GetControllerIndex()
 	{
 		return joyStickConnected;
+	}
+
+	bool IsJoyStickConnected()
+	{
+		return IsJoystick;
 	}
 
 
@@ -123,7 +142,8 @@ public:
 	// Handle console input for debugging options (cheat menu).
 	void HandleConsoleInput();
 
+	void ResetControllerBindings();
+	bool IsJoystickPressed(std::string action, ControllerAction type = BUTTON);
 
-	// Register user input method here?
-
+	float GetAxisValue(std::string action);
 };
