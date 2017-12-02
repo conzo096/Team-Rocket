@@ -113,7 +113,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 
 		// If only wanting one entity, remove everything from the current list.
-		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && !UserControls::Get().IsJoystickPressed(std::string("leftShoulder"), UserControls::ControllerAction::BUTTON))
 		{
 			for (Entity* &e : selectedEntities)
 			{	
@@ -122,6 +122,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 			selectedEntities.clear();
 		}
+		
 
 		bool objectSelected = false;
 		// Now iterate through player units and check if mouse ray intersects with their bounding sphere.
@@ -154,7 +155,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (selectedEntity != NULL)
 		{
 			// Delete all selected entities.
-			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")))
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")) || UserControls::Get().IsJoystickPressed(std::string("dLeft"), UserControls::ControllerAction::BUTTON))
 			{
 				selectedEntities.erase(std::remove(selectedEntities.begin(), selectedEntities.end(), selectedEntity), selectedEntities.end());
 				entities.erase(std::remove(entities.begin(), entities.end(), selectedEntity), entities.end());
@@ -163,7 +164,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 
 			// Pause all movement components of selected units.
-			if (UserControls::Get().IsKeyPressed(std::string("Hold")))
+			if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON))
 			{
 				// Pause all units.
 				for (Entity*& e : selectedEntities)
@@ -221,7 +222,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
-				selectedEntity->SetScale(glm::vec3(10, 10, 10));
+			//	selectedEntity->SetScale(glm::vec3(10, 10, 10));
 			}
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
