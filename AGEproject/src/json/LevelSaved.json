@@ -1,5 +1,5 @@
 {
-    "Balance": 9700,
+    "Balance": 10000,
     "Objects": [
         {
             "EntityList": "Player",
@@ -21,48 +21,6 @@
             "Texture": "",
             "Type": "Renderable",
             "TypeCode": "Shipyard"
-        },
-        {
-            "EntityList": "Player",
-            "Model": "",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    24.9324417114258,
-                    0.0,
-                    12.0362167358398
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Worker",
-            "Position": [
-                0.0,
-                0.5,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 500,
-                    "UnitType": "Factory"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 750,
-                    "UnitType": "VehicleBay"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 1000,
-                    "UnitType": "Hanger"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Worker"
         },
         {
             "EntityList": "NPC",

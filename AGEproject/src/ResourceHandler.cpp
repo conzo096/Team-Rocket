@@ -110,8 +110,5 @@ void ResourceHandler::LoadShaders()
 
 void ResourceHandler::LoadAudio()
 {
-	// How this would look:
-	// audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/noise.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/tone-beep.wav"));
 }
-
-

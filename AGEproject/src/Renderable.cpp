@@ -93,7 +93,7 @@ void Renderable::SetProperties(const std::string jsonFile)
 		{
 			pls.push_back(elem);
 		}
-		this->SetPlane(pls[0], pls[1], pls[2]);
+		this->SetPlane(pls[0], static_cast<unsigned int>(pls[1]), static_cast<unsigned int>(pls[2]));
 	}
 
 	json pos = j["Position"]; // All things have a position so no error checking

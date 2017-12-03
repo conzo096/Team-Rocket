@@ -5,6 +5,8 @@
 #include "FileIO.h"
 #include "UserControls.h"
 #include <tuple>
+#include "AudioEngine.h"
+
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
@@ -45,9 +47,12 @@ void GameEngine::Initialise()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	// V-Sync, does not run without it
-	glfwSwapInterval(1.0f);
+	glfwSwapInterval(1);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	AudioEngine::Get().Initialise();
+
 	UserControls::Get().ResetControllerBindings();
 }
 
@@ -213,8 +218,8 @@ void GameEngine::SetCamera(glm::mat4 camera)
 
 void GameEngine::CleanUp()
 {
+	AudioEngine::Get().Shutdown();
 	glfwTerminate();
-
 }
 
 void GameEngine::PrintGlewInfo()

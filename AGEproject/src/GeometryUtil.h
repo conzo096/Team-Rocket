@@ -3,7 +3,7 @@
 #include <iostream>
 #include <glm\common.hpp>
 #include <vector>
-static class GeometryUtil
+class GeometryUtil
 {
 public:
 	static Model* BuildPlane(float spacing, unsigned int xSize, unsigned int ySize)
@@ -73,7 +73,6 @@ public:
 		temp->SetType(GL_TRIANGLE_STRIP);
 		return temp;
 	}
-
 
 	static Model* BuildLine(std::vector<glm::vec3> p)
 	{

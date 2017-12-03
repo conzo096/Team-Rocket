@@ -369,10 +369,10 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 bool Spawner::CheckGameGrid(BoundingSphere& sphere)
 {
 	// Check by row.  
-	for (int i = -sphere.GetRadius()/2; i <sphere.GetRadius() / 2; i++)
+	for (float i = -sphere.GetRadius()/2; i <sphere.GetRadius() / 2; i++)
 	{
 		// check by depth.
-		for (int j = -sphere.GetRadius() / 2; j < sphere.GetRadius() / 2; j++)
+		for (float j = -sphere.GetRadius() / 2; j < sphere.GetRadius() / 2; j++)
 		{
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
