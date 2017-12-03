@@ -169,12 +169,12 @@ bool Game::Update()
 	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
 	
 	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());	
-	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
 	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
 	// all entities now contains all the entities in the game.
 
 	// Let user and update their actions. 
-	player->Update(NPC->GetEntities());
+	player->Update(allEntities);
 	NPC->Update(allEntities);
 
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
@@ -229,6 +229,14 @@ bool Game::Update()
 	//}
 
 	// Update all the entities in the scene.
+
+	allEntities.clear();
+	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
+
+	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+
 	int i;
 	#pragma omp parallel for private(i)
 	for (i = 0; i < allEntities.size();i++)

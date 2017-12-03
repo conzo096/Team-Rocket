@@ -28,6 +28,8 @@ public:
 	// This class does not attack any entities unless it is the a resource.
 	void AttackEntity() override
 	{
+		if (timeSinceLastFire > fireRate)
+			canShoot = true;
 		if (targetEntity != NULL && targetEntity->GetCompatibleComponent<Resource>() != NULL)
 		{
 			if (returnToResource)
@@ -45,9 +47,12 @@ public:
 						walkToBase = true;
 						returnToResource = false;
 						std::cout << "Returning to base." << std::endl;
+						GetParent()->GetComponent<GroundMovement>().SetGoal(collectionPoint);
 					}
 					if (targetEntity->GetComponent<Targetable>().IsDead())
+					{
 						targetEntity = NULL;
+					}
 				}
 			}
 			// If the resource contained in this unit is within a certain amount, empty at base, then return.

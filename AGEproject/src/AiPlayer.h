@@ -10,7 +10,7 @@ public:
 	// Update the ai player.
 	void Update(std::vector<Entity*>& enemyList)
 	{
-		HandleAiLogic(enemyList);
+		//HandleAiLogic(enemyList);
 		// Collect any units that have been produced by your structures.
 		std::vector<Entity*> temp;
 		for (Entity*&e : entities)

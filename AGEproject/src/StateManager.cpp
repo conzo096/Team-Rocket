@@ -46,7 +46,7 @@ void StateManager::StateLoop()
 			}
 			else if (select == 0)
 			{
-				state = stateControls;
+				//state = stateControls;
 			}
 			else if (select == 7) 
 			{ 
