@@ -93,7 +93,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->UpdateTransforms();
 		auto tempMovement = std::make_unique<GroundMovement>();
 		tempMovement->SetProperties("./json/WorkerMovement.json");
-		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
+		//tempMovement->SetGoal(glm::vec3());
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto target = std::make_unique<Targetable>();
@@ -174,6 +174,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	// Structures...
 	if (name == "Base")
 	{
+		tempEntity->SetName("Base");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("Base");
@@ -212,6 +213,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 	if (name == "Hanger")
 	{
+		tempEntity->SetName("Hanger");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("Hanger");
@@ -284,6 +286,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 	if (name == "Factory")
 	{
+		tempEntity->SetName("Factory");
 		std::cout << "Incomplete" << std::endl;
 
 		tempEntity->SetPosition(position);
@@ -320,12 +323,11 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		target->SetHealth(100);
 		tempEntity->AddComponent(move(target));
 		return tempEntity;
-
-		return tempEntity;
 	}
 
 	if (name == "VehicleBay")
 	{
+		tempEntity->SetName("VehicleBay");
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);

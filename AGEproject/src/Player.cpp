@@ -19,8 +19,11 @@ void Player::Update(std::vector<Entity*>& enemyList)
 	}
 	// Push the collect entities back to the player.
 	for (Entity*&e : temp)
+	{
+		if (e->GetCompatibleComponent<Movement>() != NULL)
+			e->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(20, 0, 20));
 		entities.push_back(e);
-
+	}
 
 	// If ghost building is active, update location and change boolean.
 	if (showGhostBuilding)
