@@ -48,11 +48,11 @@ bool GroundMovement::LineOfSight()
 
 bool GroundMovement::Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish)
 {
-	static priority_queue<Node> untriedNodes[2]; // list of open (not-yet-tried) nodes
-	static int nodeIndex = 0;
-	static Node* node1;
-	static Node* node2;
-	static int x, z,
+	priority_queue<Node> untriedNodes[2]; // list of open (not-yet-tried) nodes
+	int nodeIndex = 0;
+	Node* node1;
+	Node* node2;
+	int x, z,
 		xdx, //The Current x plus a direction
 		zdz; //The Current z plus a direction
 
