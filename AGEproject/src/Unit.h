@@ -3,6 +3,7 @@
 #include "Renderable.h"
 #include "Movement.h"
 #include "Targetable.h"
+#include "TurretRenderable.h"
 #include "GeometryUtil.h"
 #include "Particle.h"
 class Unit : public Component
