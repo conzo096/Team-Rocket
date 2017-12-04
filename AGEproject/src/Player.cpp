@@ -158,13 +158,13 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (selectedEntity != NULL)
 		{
 			// Delete all selected entities.
-			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")) || UserControls::Get().IsJoystickPressed(std::string("dLeft"), UserControls::ControllerAction::BUTTON))
+		/*	if (UserControls::Get().IsKeyPressed(std::string("HotKey4")) || UserControls::Get().IsJoystickPressed(std::string("dLeft"), UserControls::ControllerAction::BUTTON))
 			{
 				selectedEntities.erase(std::remove(selectedEntities.begin(), selectedEntities.end(), selectedEntity), selectedEntities.end());
 				entities.erase(std::remove(entities.begin(), entities.end(), selectedEntity), entities.end());
 				selectedEntity = NULL;
 				return;
-			}
+			}*/
 
 			// Pause all movement components of selected units.
 			if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON))

@@ -18,12 +18,6 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 	}
 }
 
-void Game::HandleInput(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	
-}
-
-
 vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange)
 {
 	vector<Entity*> localUnits;

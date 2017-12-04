@@ -55,12 +55,11 @@ public:
 		for (int i=0; i < entities.size();i++)
 		{
 
-			if (entities[i]->GetCompatibleComponent<Structure>() == NULL)
+			if (entities[i]->GetCompatibleComponent<Structure>() == NULL && !moving)
 			{
-				entities[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(65+(i*2), 2.5, 50));
+				entities[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(65+(i*2), 0, 65 + (i * 2)));
 				moving = true;
 			}
-			// Factory made
 		}
 
 		// Tell worker to spawn a factory object.
@@ -112,7 +111,38 @@ public:
 				}
 			}
 		}
-
+		int inRange;
+		// If any enemies are in range of any structures attack them.
+		for (int i = 0; i < enemyList.size(); i++)
+		{
+			//check through npc list.
+			for (int j = 0; j < entities.size(); j++)
+			{
+				// if entity is a structure and not a worker..
+				if (entities[j]->GetName() != "Worker" && entities[j]->GetCompatibleComponent<Structure>() != NULL)
+				{
+					if (glm::distance(entities[j]->GetPosition(), enemyList[i]->GetPosition()) < 6)
+					{
+						inRange = true;
+						break;
+					}
+				}
+			}
+			// If enemy is in range.
+			if (inRange)
+			{
+				// Send combat units to attack then leave
+				for (int j = 0; j < entities.size(); j++)
+				{
+					// if entity is a structure and not a worker..
+					if (entities[j]->GetCompatibleComponent<Structure>() == NULL)
+					{
+						entities[j]->GetCompatibleComponent<Unit>()->SetEntityToTarget(enemyList[i]);
+						entities[j]->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
+					}
+				}
+			}
+		}
 
 	}
 };
