@@ -51,7 +51,7 @@ void BulletParticle::Update(double delta)
 
 void BulletParticle::Render()
 {
-	if (isActive && target != NULL)
+	if (isActive)
 	{
 		ParticleData particle;
 		particle.pos = position;

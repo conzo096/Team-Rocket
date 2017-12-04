@@ -19,8 +19,11 @@ void Player::Update(std::vector<Entity*>& enemyList)
 	}
 	// Push the collect entities back to the player.
 	for (Entity*&e : temp)
+	{
+		if (e->GetCompatibleComponent<Movement>() != NULL)
+			e->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(20, 0, 20));
 		entities.push_back(e);
-
+	}
 
 	// If ghost building is active, update location and change boolean.
 	if (showGhostBuilding)
@@ -69,11 +72,11 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					poi.y = (float)e->GetPosition().y;
 					e->GetCompatibleComponent<Movement>()->SetGoal(poi);
 					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
-					// Particle that appears when the user selects a location.
-					Game::Get().location = poi;
-					Game::Get().duration = 3.0;
 				}
 			}
+			// Particle that appears when the user selects a location.
+			Game::Get().location = poi;
+			Game::Get().duration = 3.0;
 		}
 
 		// Check for targets. - swap order, better worse case.
@@ -113,7 +116,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 
 
 		// If only wanting one entity, remove everything from the current list.
-		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && !UserControls::Get().IsJoystickPressed(std::string("leftShoulder"), UserControls::ControllerAction::BUTTON))
 		{
 			for (Entity* &e : selectedEntities)
 			{	
@@ -122,6 +125,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 			selectedEntities.clear();
 		}
+		
 
 		bool objectSelected = false;
 		// Now iterate through player units and check if mouse ray intersects with their bounding sphere.
@@ -154,7 +158,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 		if (selectedEntity != NULL)
 		{
 			// Delete all selected entities.
-			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")))
+			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")) || UserControls::Get().IsJoystickPressed(std::string("dLeft"), UserControls::ControllerAction::BUTTON))
 			{
 				selectedEntities.erase(std::remove(selectedEntities.begin(), selectedEntities.end(), selectedEntity), selectedEntities.end());
 				entities.erase(std::remove(entities.begin(), entities.end(), selectedEntity), entities.end());
@@ -163,7 +167,7 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 
 			// Pause all movement components of selected units.
-			if (UserControls::Get().IsKeyPressed(std::string("Hold")))
+			if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON))
 			{
 				// Pause all units.
 				for (Entity*& e : selectedEntities)
@@ -176,9 +180,8 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			}
 		}
 
-		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL && updateCalled >= 4)
+		if (selectedEntity->GetCompatibleComponent<Structure>() != NULL && updateCalled >= 8)
 		{
-
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")) || UserControls::Get().IsJoystickPressed(std::string("dUp")))
 			{
 				//selectedEntity->GetCompatibleComponent<Structure>()->AddProduct(balance,0);
@@ -189,7 +192,14 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					buildingType = 0;
 				}
 				else
+				{
+					// This is spawner near the object towards the center - change to towards door.
+					glm::vec3 spawnLoc;
+					spawnLoc.y = 2.5f;
+					spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
+					spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(20, 2.5, 0));
+				}
 			}
 			else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")) || UserControls::Get().IsJoystickPressed(std::string("dRight")))
 			{
@@ -200,7 +210,13 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					buildingType = 1;
 				}
 				else
+				{
+					glm::vec3 spawnLoc;
+					spawnLoc.y = 2.5f;
+					spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
+					spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(20, 2.5, 0));
+				}
 			}
 			else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")) || UserControls::Get().IsJoystickPressed(std::string("dDown")))
 			{
@@ -212,16 +228,22 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 					buildingType = 2;
 				}
 				else
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2,glm::vec3(20,2.5,0));
+				{
+					glm::vec3 spawnLoc;
+					spawnLoc.y = 2.5f;
+					spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
+					spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2, glm::vec3(20, 2.5, 0));
+				}
 			}
 			updateCalled = 0;
 		}
-		else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL && updateCalled >= 4)
+		else if (selectedEntity->GetCompatibleComponent<Unit>() != NULL && updateCalled >= 8)
 		{
 
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
-				selectedEntity->SetScale(glm::vec3(10, 10, 10));
+			//	selectedEntity->SetScale(glm::vec3(10, 10, 10));
 			}
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{

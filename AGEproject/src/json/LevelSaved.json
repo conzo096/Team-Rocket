@@ -1,16 +1,16 @@
 {
-    "Balance": 10000,
+    "Balance": 9000,
     "Objects": [
         {
             "EntityList": "Player",
-            "Model": "Base",
+            "Model": "",
             "Name": "Base",
             "Position": [
-                3.5,
-                2.5,
-                3.5
+                0.0,
+                0.0,
+                0.0
             ],
-            "Shader": "Phong",
+            "Shader": "",
             "SpawnInfos": [
                 {
                     "BuildTime": 3.0,
@@ -18,55 +18,381 @@
                     "UnitType": "Worker"
                 }
             ],
-            "Texture": "ConstructorUV",
+            "Texture": "",
             "Type": "Renderable",
             "TypeCode": "Shipyard"
         },
         {
-            "EntityList": "NPC",
-            "Model": "Base",
-            "Name": "Base",
-            "Position": [
-                90.0,
-                2.5,
-                90.0
-            ],
-            "Shader": "Phong",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 300,
-                    "UnitType": "Worker"
-                }
-            ],
-            "Texture": "ConstructorUV",
-            "Type": "Renderable",
-            "TypeCode": "Shipyard"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "Worker",
+            "EntityList": "Player",
+            "Model": "",
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    90.0,
+                    20.0,
                     0.0,
-                    90.0
+                    20.0
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
                 "Type": "Ground"
             },
-            "Name": "Ship",
+            "Name": "Worker",
             "Position": [
                 0.0,
                 0.5,
                 0.0
             ],
-            "Shader": "Phong",
-            "Texture": "WorkerUV",
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
             "Type": "Renderable",
-            "TypeCode": "Ship"
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Name": "Factory",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Drone"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Barracks"
+        },
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    20.0,
+                    0.0,
+                    20.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    20.0,
+                    0.0,
+                    20.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Name": "Base",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Worker"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    20.0,
+                    2.5,
+                    20.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Name": "Factory",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Drone"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Barracks"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    71.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    73.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    75.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    77.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    79.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    81.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    83.0,
+                    2.5,
+                    50.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "",
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
         },
         {
             "Colour": [
@@ -92,220 +418,20 @@
             ],
             "EntityList": "Neutral",
             "Model": "",
-            "Name": "Plane",
+            "Name": "",
             "Plane": [
-                1.0,
-                100.0,
-                100.0
+                10.0,
+                10.0,
+                10.0
             ],
             "Position": [
                 0.0,
                 0.0,
                 0.0
             ],
-            "Shader": "Phong",
-            "Texture": "Rock",
+            "Shader": "",
+            "Texture": "",
             "Type": "Renderable"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "Hanger",
-            "Name": "Shipyard",
-            "Position": [
-                3.5,
-                2.5,
-                3.5
-            ],
-            "Shader": "Phong",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 300,
-                    "UnitType": "Ship"
-                }
-            ],
-            "Texture": "debug",
-            "Type": "Renderable",
-            "TypeCode": "Shipyard"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "Torus",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    20.0,
-                    15.0,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Worker",
-            "Position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "Shader": "Phong",
-            "Texture": "FlyerUV",
-            "Type": "Renderable",
-            "TypeCode": "Worker"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "BillBoard",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    20.0,
-                    15.0,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Troop",
-            "Position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "Shader": "Phong",
-            "Texture": "FlyerUV",
-            "Type": "Renderable",
-            "TypeCode": "Troop"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "BillBoard",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    20.0,
-                    15.0,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Air"
-            },
-            "Name": "Tank",
-            "Position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "Shader": "Phong",
-            "Texture": "FlyerUV",
-            "Type": "Renderable",
-            "TypeCode": "Tank"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "Worker",
-            "Movement": {
-                "Acceleration": 0.1,
-                "Goal": [
-                    20.0,
-                    0.0,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Worker",
-            "Position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "Shader": "Phong",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 1500,
-                    "UnitType": "Shipyard"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 750,
-                    "UnitType": "Barracks"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 2000,
-                    "UnitType": "VehicleDepot"
-                }
-            ],
-            "Texture": "WorkerUV",
-            "Type": "Renderable",
-            "TypeCode": "Worker"
-        },
-        {
-            "Diffuse": [
-                1.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "EntityList": "Neutral",
-            "Model": "WardenPlatform",
-            "Name": "Resource",
-            "Position": [
-                50.0,
-                2.5,
-                50.0
-            ],
-            "Shader": "Phong",
-            "Texture": "debug",
-            "Type": "Renderable",
-            "TypeCode": "Resource"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "Factory",
-            "Name": "Barracks",
-            "Position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "Shader": "Phong",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 2.0,
-                    "Cost": 100,
-                    "UnitType": "Troop"
-                }
-            ],
-            "Texture": "debug",
-            "Type": "Renderable",
-            "TypeCode": "Barracks"
-        },
-        {
-            "EntityList": "Neutral",
-            "Model": "VehicleBay",
-            "Name": "VehicleDepot",
-            "Position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "Shader": "Phong",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 300,
-                    "UnitType": "Tank"
-                }
-            ],
-            "Texture": "debug",
-            "Type": "Renderable",
-            "TypeCode": "Shipyard"
         }
     ]
 }

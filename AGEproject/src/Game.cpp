@@ -142,10 +142,9 @@ void Game::Initialise()
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 
 //	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 2.5, 80), NPC->GetTeam()));
 
-
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(90, 2.5, 90), NPC->GetTeam()));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
+	//neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
 
 	////This is a "wall"
 	//Entity* tempEntity77 = new Entity;
@@ -169,12 +168,16 @@ bool Game::Update()
 	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
 	
 	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());	
-	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
 	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
 	// all entities now contains all the entities in the game.
 
 	// Let user and update their actions. 
-	player->Update(NPC->GetEntities());
+	player->Update(allEntities);
+
+	allEntities.clear();
+	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
 	NPC->Update(allEntities);
 
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
@@ -205,37 +208,39 @@ bool Game::Update()
 	// reduce duration.
 	duration -= deltaTime;
 
-	//// Update neutral entities.
-	//int i = 0;
-	//#pragma omp parallel for private(i)
-	//for (i = 0; i < neutralEntities.size();i++)
-	//{
-	//	neutralEntities[i]->Update(deltaTime);
-	//}
-	//// Update user entities.
-	//#pragma omp parallel for private(i)
-	//for (i = 0; i < player->GetEntities().size();i++)
-	//{
-	//	Entity*& e = player->GetEntities()[i];
-	//	e->Update(deltaTime);
-	//}
-
-	//// Update enemy entities.
-	//#pragma omp parallel for private(i)
-	//for (i = 0; i < NPC->GetEntities().size();i++)
-	//{
-	//	Entity*& e = NPC->GetEntities()[i];
-	//	e->Update(deltaTime);
-	//}
-
 	// Update all the entities in the scene.
+
+	/*allEntities.clear();
+	allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
+
+	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());*/
+
 	int i;
-	#pragma omp parallel for private(i)
-	for (i = 0; i < allEntities.size();i++)
+	//#pragma omp parallel for private(i)
+	//for (i = 0; i < allEntities.size();i++)
+	//{
+	//	allEntities[i]->Update(deltaTime);
+	//}
+#pragma omp parallel for private(i)
+	for (i = 0; i <neutralEntities.size(); i++)
 	{
-		allEntities[i]->Update(deltaTime);
+		neutralEntities[i]->Update(deltaTime);
+	}
+#pragma omp parallel for private(i)
+	for (i = 0; i < player->GetEntities().size(); i++)
+	{
+		player->GetEntities()[i]->Update(deltaTime);
+	}
+#pragma omp parallel for private(i)
+	for (i = 0; i < NPC->GetEntities().size(); i++)
+	{
+		NPC->GetEntities()[i]->Update(deltaTime);
 	}
 
+	
+	
 	//// Delete any entities in the scene that are required to be removed.
 	//for (i = 0; i <allEntities.size(); i++)
 	//{

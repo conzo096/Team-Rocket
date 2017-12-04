@@ -27,7 +27,7 @@ public:
 		int takeAmount = 250;
 		value -=250;
 		mut.lock();
-		std::cout << "Retrieving resource." << std::endl;
+		std::cout << "Retrieving resource. " << value << std::endl;
 		std::cout << "Pretending to reduce resource." << std::endl;
 		if (value < 0)
 		{

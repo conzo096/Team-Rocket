@@ -75,6 +75,16 @@ Model::Model(const std::string &fileName)
 		}
 		vertex_begin += modelMesh->mNumVertices;
 	}
+		
+	std::vector<glm::vec3> temp = GetVertexPositions();
+	for (glm::vec3& v : temp)
+	{
+		if (lowestYVertex > v.y)
+			lowestYVertex = v.y;
+		if (largestYVertex < v.y)
+			largestYVertex = v.y;
+	}
+
 	SetUpMesh();
 }
 

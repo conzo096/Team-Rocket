@@ -24,6 +24,8 @@ enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 class Model
 {
 	unsigned int VAO, VBO, EBO;
+	float lowestYVertex;
+	float largestYVertex;
 	GLenum type;
 public:
 	Model();
@@ -35,7 +37,8 @@ public:
 	unsigned int GetVAO() { return VAO; }
 	int GetIndices() { return static_cast<int>(indices.size()); }
 	void SetType(GLenum t) { type = t; }
-
+	float GetLowestYPosition() { return lowestYVertex; }
+	float GetLargestYPosition() { return largestYVertex; }
 	void Draw();
 
 	Model(const std::string& fileName);

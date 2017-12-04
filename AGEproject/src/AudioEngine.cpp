@@ -168,7 +168,7 @@ int AudioEngine::ErrorCheck(FMOD_RESULT result) {
 		cout << "FMOD error " << result << endl;
 		return 1;
 	}
-	cout << "FMOD all good!" << endl;
+	//cout << "FMOD all good!" << endl;
 	return 0;
 }
 
