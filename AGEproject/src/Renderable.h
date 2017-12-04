@@ -13,6 +13,7 @@ protected:
 
 public:
 	Renderable();
+	Renderable(std::string type);
 	~Renderable();
 
 	glm::vec3 planeDimensions;

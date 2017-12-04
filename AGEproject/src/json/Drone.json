@@ -1,0 +1,6 @@
+{
+  "Model": "DronePlatform",
+  "Texture": "DronePlatformUV",
+  "Shader": "Phong",
+  "Position": [ 0, 0.5, 0 ]
+}

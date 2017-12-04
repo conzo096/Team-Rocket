@@ -46,6 +46,10 @@ void Unit::AttackEntity()
 	// if it is within distance.
 	if (targetAcquired)
 	{
+		if (GetParent()->GetCompatibleComponent<TurretRenderable>() != NULL)
+		{
+			GetParent()->GetCompatibleComponent<TurretRenderable>()->SetTarget(targetEntity);
+		}
 		// If within range, fire a projectile
 		if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) <= weaponRange)
 		{
@@ -78,6 +82,10 @@ void Unit::AttackEntity()
 			{
 				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 				action = Stop;
+			}
+			if (GetParent()->GetCompatibleComponent<TurretRenderable>() != NULL)
+			{
+				GetParent()->GetCompatibleComponent<TurretRenderable>()->ClearTarget();
 			}
 		}
 	}

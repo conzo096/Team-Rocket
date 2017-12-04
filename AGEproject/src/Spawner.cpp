@@ -27,19 +27,11 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempEntity->SetName("Worker");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
-		tempRenderable->SetProperties("./json/Warden.json");
+		tempRenderable->SetProperties("./json/Worker.json");
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
-		// Add turret render.
-		auto t = std::make_unique<TurretRenderable>();
-		t->SetMaterial(new Material());
-		t->SetProperties("./json/Warden.json");
-		t->SetModel("WardenTurret");
-		t->SetTexture("WardenTurretUV");
-		t->SetPosition(glm::vec3(tempRenderable->GetPosition().x, tempRenderable->GetPosition().y+0.5, tempRenderable->GetPosition().y));
 
-		t->UpdateTransforms();
-		tempEntity->AddComponent(move(t));
 		auto tempMovement = std::make_unique<GroundMovement>();
 		tempMovement->SetProperties("./json/WorkerMovement.json");
 		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
@@ -77,13 +69,16 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetModel("DronePlatform");
 		tempRenderable->SetShader("Phong");
-//		tempRenderable->SetProperties("./json/Drone.json");
+		tempRenderable->SetProperties("./json/Drone.json");
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
+		tempRenderable->UpdateTransforms();
 		auto t = std::make_unique<TurretRenderable>();
 		t->SetMaterial(new Material());
-		t->SetProperties("./json/Warden.json");
+		t->SetProperties("./json/Drone.json");
 		t->SetModel("DroneTurret");
 		t->SetTexture("DroneTurretUV");
-		t->SetPosition(glm::vec3(tempRenderable->GetPosition().x, tempRenderable->GetPosition().y + 0.5, tempRenderable->GetPosition().y));
+		t->SetTurnSpeed(3000);
+		t->SetPosition(glm::vec3(0, -tempRenderable->GetModel().GetLowestYPosition()+ tempRenderable->GetModel().GetLargestYPosition() - t->GetModel().GetLowestYPosition(), 0));
 
 		t->UpdateTransforms();
 		tempEntity->AddComponent(move(t));
@@ -116,12 +111,14 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		tempRenderable->SetProperties("./json/Warden.json");
 
 		tempEntity->SetPosition(spawnPosition);
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempRenderable->UpdateTransforms();	
 		auto t = std::make_unique<TurretRenderable>();
 		t->SetMaterial(new Material());
 		t->SetProperties("./json/Warden.json");
 		t->SetModel("WardenTurret");
 		t->SetTexture("WardenTurretUV");
+		t->SetTurnSpeed(3000);
 		t->SetPosition(glm::vec3(tempRenderable->GetPosition().x, tempRenderable->GetPosition().y + 0.5, tempRenderable->GetPosition().y));
 
 		t->UpdateTransforms();
@@ -151,6 +148,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetProperties("./json/Ship.json");
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->UpdateTransforms();
 		auto tempMovement = std::make_unique<AirMovement>();
