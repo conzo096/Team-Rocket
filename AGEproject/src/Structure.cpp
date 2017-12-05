@@ -39,7 +39,7 @@ void Structure::AddProduct(int& bal, int hotkey, glm::vec3 destination)
 	Product tempProduct;
 	tempProduct.productName = spawnData[hotkey].unitType;
 	tempProduct.buildTime = spawnData[hotkey].buildTime;
-	tempProduct.destination = destination;
+	tempProduct.destination = spawnPoint;
 	productQueue.push(tempProduct);
 }
 

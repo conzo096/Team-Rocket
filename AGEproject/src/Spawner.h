@@ -12,6 +12,8 @@ public:
 	//Check if the Entity can be spawned in the area requested.
 	bool CheckGameGrid(BoundingSphere& sphere);
 	void UpdateGameGrid(BoundingSphere& sphere, int value = 1);
+	// Find a valid spawnPoint just outside bounding radius.
+	glm::vec3 FindValidSpawnPoint(BoundingSphere& sphere);
 	// Creates a predefined entity.
 	Entity* CreateEntity(std::string name, glm::vec3 position, Team team);
 

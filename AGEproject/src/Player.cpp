@@ -115,7 +115,9 @@ void Player::HandleInput(std::vector<Entity*>& enemyList)
 			{
 				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi) && validSpawn)
 				{
-					poi.y = 2.5f;
+					poi.y = 0;
+					// Set spawnLocation.
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->SetSpawnPoint(poi);
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, buildingType, poi);
 					Spawner::Get().UpdateGameGrid(ghostBuilding.GetComponent<BoundingSphere>(), 1);
 					showGhostBuilding = false;

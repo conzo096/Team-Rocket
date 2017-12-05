@@ -72,6 +72,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	}
 	if (name == "Drone")
 	{
+		tempEntity->SetName(name);
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
@@ -110,6 +111,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 	if (name == "Warden")
 	{
+		tempEntity->SetName(name);
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
@@ -148,6 +150,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 
 	if (name == "Kestrel")
 	{
+		tempEntity->SetName(name);
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetProperties("./json/Ship.json");
@@ -199,6 +202,17 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		}
 		else
 			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+
+		// Set spawn Point.
+		glm::vec3 spawn = FindValidSpawnPoint(sp);
+		// Check if it is invalid
+		if (spawn == glm::vec3(-1))
+		{
+			// Spawn is somewhere weird?
+			spawn = glm::vec3(50, 0, 10);
+		}
+		tempStructure->SetSpawnPoint(spawn);
+
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -235,6 +249,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		sp.SetCenter(spawnPosition);
 		if (CheckGameGrid(sp))
 			UpdateGameGrid(sp);
+		// Set spawn Point.
+		glm::vec3 spawn = FindValidSpawnPoint(sp);
+		// Check if it is invalid
+		if (spawn == glm::vec3(-1))
+		{
+			// Spawn is somewhere weird?
+			spawn = glm::vec3(50, 0, 10);
+		}
+		tempStructure->SetSpawnPoint(spawn);
 		/*else
 			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
 
@@ -316,6 +339,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		}
 		/*else
 			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
+			// Set spawn Point.
+		glm::vec3 spawn = FindValidSpawnPoint(sp);
+		// Check if it is invalid
+		if (spawn == glm::vec3(-1))
+		{
+			// Spawn is somewhere weird?
+			spawn = glm::vec3(50, 0, 10);
+		}
+		tempStructure->SetSpawnPoint(spawn);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -355,6 +387,15 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		}
 		/*else
 			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
+			// Set spawn Point.
+		glm::vec3 spawn = FindValidSpawnPoint(sp);
+		// Check if it is invalid
+		if (spawn == glm::vec3(-1))
+		{
+			// Spawn is somewhere weird?
+			spawn = glm::vec3(50, 0, 10);
+		}
+		tempStructure->SetSpawnPoint(spawn);
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -367,6 +408,37 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	}
 
 	return NULL;
+}
+
+
+glm::vec3 Spawner::FindValidSpawnPoint(BoundingSphere& sphere)
+{
+	// Check by row.  
+	for (float i = -sphere.GetRadius(); i < sphere.GetRadius(); i++)
+	{
+		// check by depth.
+		for (float j = -sphere.GetRadius(); j < sphere.GetRadius(); j++)
+		{
+			// Get Point to check.
+			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
+			// Check if it is within playable range.
+			if ((p.x > 0 && p.y > 0) && (p.x < 99 && p.y < 99))
+			{
+				// Now check point is outside radius area.
+				if ((p.x < -sphere.GetRadius()/2 || p.y > sphere.GetRadius()/2) || (p.x < -sphere.GetRadius()/2 || p.y > sphere.GetRadius()/2))
+				{
+					// Check if game grid is already occupied. If it is not return.
+					if (Game::Get().GetNavGridValue(p) == 0)
+					{
+						return glm::vec3(p.x, 0, p.y);
+					}
+
+				}
+			}
+		}
+	}
+		// No point available, give invalid position.
+		return glm::vec3(-1);
 }
 
 //Check if the Entity can be spawned in the area requested.
@@ -382,6 +454,7 @@ bool Spawner::CheckGameGrid(BoundingSphere& sphere)
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
 			// Check if it is within playable range.
 			if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
+			//if ((p.x > 0 && p.y > 0) && (p.x < 99 && p.y < 99))
 			{
 				return false;
 			}
