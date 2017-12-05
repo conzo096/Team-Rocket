@@ -253,7 +253,7 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 				{
 					values.push_back(p);
 				}
-				tempRenderable->SetPlane(values[0], values[1], values[2]);
+				tempRenderable->SetPlane(static_cast<unsigned int>(values[0]), static_cast<unsigned int>(values[1]), static_cast<unsigned int>(values[2]));
 				auto tempBoundingBox = std::make_unique<BoundingBox>();
 				// ReSharper disable once CppMsExtBindingRValueToLvalueReference
 				tempBoundingBox->SetUpBoundingBox(tempRenderable->GetModel().GetVertexPositions());

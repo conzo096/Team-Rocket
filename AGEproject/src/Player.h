@@ -31,7 +31,8 @@ protected:
 	int buildingType; 
 	// Ghost building.
 	Entity ghostBuilding;
-
+	// cost to build object.
+	float buildingCost;
 public:
 	
 

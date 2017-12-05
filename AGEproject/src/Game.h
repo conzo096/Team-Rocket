@@ -61,10 +61,13 @@ public:
 
 	dvec3** GetTerrainGrid() { return terrainGrid; };
 	vector<Entity*> FindLocalUnits(int team, dvec3 position, double sightRange);
+	
+	// Obtain the nearest valid point to end from start.
+	vec3 ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end);
+	
 	void Initialise();
 	bool Update();
 	void Render();
+	
 
-	void HandleInput(GLFWwindow* window, int key, int scancode, int action, int mods);
-	//void UpdateEntityList(int start, int end, double deltaTime);
 };

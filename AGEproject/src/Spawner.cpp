@@ -235,8 +235,10 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		sp.SetCenter(spawnPosition);
 		if (CheckGameGrid(sp))
 			UpdateGameGrid(sp);
-		else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+		/*else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
+
+
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -254,7 +256,7 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("WardenPlatform");
+		tempRenderable->SetModel("Base");
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
@@ -271,8 +273,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		{
 			UpdateGameGrid(sp);
 		}
-		else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+		/*else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -312,8 +314,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		{
 			UpdateGameGrid(sp);
 		}
-		else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+		/*else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
@@ -351,8 +353,8 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 		{
 			UpdateGameGrid(sp);
 		}
-		else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+		/*else
+			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));

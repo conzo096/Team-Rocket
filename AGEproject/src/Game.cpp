@@ -57,6 +57,35 @@ vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange
 	return localUnits;
 }
 
+vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
+{
+	glm::vec3 point;
+	// Check if end point is valid.
+	if (navGrid[(int)end.x][(int)end.z] == 0)
+	{
+		return end;
+	}
+	else
+	{
+		// Check in straight line from b until point is found
+		glm::vec3 dir = glm::normalize(start-end);
+		// Check for so many iterations.
+		for (float i = 0; i < 6; i++)
+		{
+			glm::vec3 tPoint = end +(dir*i);
+			if (navGrid[(int)tPoint.x][(int)tPoint.z] == 0)
+			{
+				return tPoint;
+			}
+		}
+	}
+	return point;
+}
+
+
+
+
+
 void Game::Initialise()
 {
 
@@ -136,7 +165,7 @@ void Game::Initialise()
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 
 //	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 2.5, 80), NPC->GetTeam()));
+//	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 2.5, 80), NPC->GetTeam()));
 
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
 
