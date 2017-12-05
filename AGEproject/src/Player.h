@@ -39,6 +39,7 @@ public:
 	Team GetTeam() { return team; }
 	void SetTeam(Team t) { team = t; }
 	std::vector<Entity*>& GetEntities() { return entities; }
+	std::vector<Entity*>& GetSelectedEntities() { return selectedEntities; }
 	int GetBalance() { return balance; }
 	void SetBalance(const int val) { balance = val; }
 

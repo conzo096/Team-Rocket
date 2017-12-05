@@ -40,7 +40,7 @@ public:
 
 
 	void SetAction(Action act);
-
+	Action GetAction() { return action; }
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
 

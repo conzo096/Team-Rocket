@@ -51,7 +51,8 @@ public:
 	void Produce(double delta);
 	void Update(double delta) override;
 	int GetQueueSize() { return  (int)productQueue.size(); }
-
+	// Get next thing in queue.
+	Product GetNextProduct() { return productQueue.front(); }
 	void SetTeam(Team t) { team = t; }
 	Team GetTeam() { return team; }
 	
