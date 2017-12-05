@@ -46,7 +46,6 @@ public:
 	{
 		text = newText;
 	}
-
 	void SetX(int x)
 	{
 		xPos = x;

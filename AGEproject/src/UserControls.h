@@ -22,8 +22,6 @@ private:
 	// Map of controller axis.
 	std::map<std::string, unsigned int> controllerAxis;
 
-
-
 	// Mouse position.
 	double mouseX, mouseY;
 
@@ -34,6 +32,7 @@ private:
 	RayCast mouseRay;
 
 	bool IsJoystick = false;
+
 public:
 
 

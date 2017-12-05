@@ -61,6 +61,10 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId()));
 
+	// ControlsMenu buttons
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward"), Texture("../res/textures/UI/ControlsMenu/Forward.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Forward.png").GetTextureId()));
+
 	// UI font
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Font"), Texture("../res/textures/Holstein.png").GetTextureId()));
 }
@@ -69,43 +73,43 @@ void ResourceHandler::LoadShaders()
 {
 	std::cout << "Convert to file loading!" << std::endl;
 
-		GLShader* shader = new GLShader();
-		if (!shader->AddShaderFromFile("../res/shaders/phong.vert", GLShader::VERTEX))
-			printf("Vert failed to compile.\n");
-		if (!shader->AddShaderFromFile("../res/shaders/phong.frag", GLShader::FRAGMENT))
-			printf("Frag failed to compile.\n");
-		shader->Link();
-		shaders.insert(std::pair<std::string, GLShader*>("Phong", shader));
-		GLShader* shader1 = new GLShader();
-		if (!shader1->AddShaderFromFile("../res/shaders/Basic.vert", GLShader::VERTEX))
-			printf("Vert failed to compile.\n");
-		if (!shader1->AddShaderFromFile("../res/shaders/Basic.frag", GLShader::FRAGMENT))
-			printf("Frag failed to compile.\n");
-		shader1->Link();
-		shaders.insert(std::pair<std::string, GLShader*>("Basic", shader1));
+	GLShader* shader = new GLShader();
+	if (!shader->AddShaderFromFile("../res/shaders/phong.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!shader->AddShaderFromFile("../res/shaders/phong.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
+	shader->Link();
+	shaders.insert(std::pair<std::string, GLShader*>("Phong", shader));
+	GLShader* shader1 = new GLShader();
+	if (!shader1->AddShaderFromFile("../res/shaders/Basic.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!shader1->AddShaderFromFile("../res/shaders/Basic.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
+	shader1->Link();
+	shaders.insert(std::pair<std::string, GLShader*>("Basic", shader1));
 
-		GLShader* shader2 = new GLShader();
-		if (!shader2->AddShaderFromFile("../res/shaders/point.vert", GLShader::VERTEX))
-			printf("Vert failed to compile.\n");
-		if (!shader2->AddShaderFromFile("../res/shaders/point.frag", GLShader::FRAGMENT))
-			printf("Frag failed to compile.\n");
-		shader->Link();
-		shaders.insert(std::pair<std::string, GLShader*>("Point", shader2));
-		GLShader* shader3 = new GLShader();
-		if (!shader3->AddShaderFromFile("../res/shaders/Particle.vert", GLShader::VERTEX))
-			printf("Vert failed to compile.\n");
-		if (!shader3->AddShaderFromFile("../res/shaders/Particle.frag", GLShader::FRAGMENT))
-			printf("Frag failed to compile.\n");
-		shader3->Link();
-		shaders.insert(std::pair<std::string, GLShader*>("Particle", shader3));
+	GLShader* shader2 = new GLShader();
+	if (!shader2->AddShaderFromFile("../res/shaders/point.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!shader2->AddShaderFromFile("../res/shaders/point.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
+	shader->Link();
+	shaders.insert(std::pair<std::string, GLShader*>("Point", shader2));
+	GLShader* shader3 = new GLShader();
+	if (!shader3->AddShaderFromFile("../res/shaders/Particle.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!shader3->AddShaderFromFile("../res/shaders/Particle.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
+	shader3->Link();
+	shaders.insert(std::pair<std::string, GLShader*>("Particle", shader3));
 
-		GLShader* shader4 = new GLShader();
-		if (!shader4->AddShaderFromFile("../res/shaders/font.vert", GLShader::VERTEX))
-			printf("Vert failed to compile.\n");
-		if (!shader4->AddShaderFromFile("../res/shaders/font.frag", GLShader::FRAGMENT))
-			printf("Frag failed to compile.\n");
-		shader4->Link();
-		shaders.insert(std::pair<std::string, GLShader*>("Font", shader4));
+	GLShader* shader4 = new GLShader();
+	if (!shader4->AddShaderFromFile("../res/shaders/font.vert", GLShader::VERTEX))
+		printf("Vert failed to compile.\n");
+	if (!shader4->AddShaderFromFile("../res/shaders/font.frag", GLShader::FRAGMENT))
+		printf("Frag failed to compile.\n");
+	shader4->Link();
+	shaders.insert(std::pair<std::string, GLShader*>("Font", shader4));
 }
 
 void ResourceHandler::LoadAudio()

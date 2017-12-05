@@ -22,7 +22,7 @@ class StateManager : public Singleton<StateManager>
 
 public:
 
-	State state;
+	State currentState;
 
 	void StateLoop();
 
@@ -38,13 +38,11 @@ public:
 		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
 	}
 
-
 	int ShowControlsMenu()
 	{
 		ControlsMenu sm;
 		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
 	}
-
 
 	int ShowSplashScreen()
 	{

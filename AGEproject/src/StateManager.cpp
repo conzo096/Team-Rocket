@@ -12,28 +12,29 @@ void StateManager::StateLoop()
 	bool running = true;
 	int select;
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
+
 	while (running)
 	{
 		glfwPollEvents();
-		switch (state)
+		switch (currentState)
 		{
 		case(stateSplash):
 			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			ShowSplashScreen();
-			state = stateMainMenu;
+			currentState = stateMainMenu;
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
 			if (select == 0)
 			{
 				Game::Get().Initialise(); //This will need a new home later.
-				state = statePlaying;
+				currentState = statePlaying;
 			}
 			else if (select == 1)
 			{
-				state = stateSettings;
+				currentState = stateSettings;
 			}
-			else if (select == 2) { state = stateExiting; }
+			else if (select == 2) { currentState = stateExiting; }
 			break;
 		case(stateSettings):
 			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
@@ -41,26 +42,26 @@ void StateManager::StateLoop()
 			if (select == 1)
 			{
 				GameEngine::Get().UpdateWindow();
-				state = stateMainMenu;
+				currentState = stateMainMenu;
 			}
 			else if (select == 2) 
 			{ 
-				state = stateMainMenu; 
+				currentState = stateMainMenu; 
 			}
 			else if (select == 0)
 			{
-				//state = stateControls;
+				currentState = stateControls;
 			}
 			else if (select == 7) 
 			{ 
-				state = stateExiting; 
+				currentState = stateExiting; 
 			}
 			break;
 		case(stateControls):
 			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowControlsMenu();
 			// Handle result.
-			state = stateMainMenu;
+			currentState = stateSettings;
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

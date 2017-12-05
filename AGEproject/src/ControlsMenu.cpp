@@ -1,11 +1,12 @@
 #include "ControlsMenu.h"
 #include "UserControls.h"
 
-int ControlsMenu:: currentSelection = 0;
+int ControlsMenu::currentSelection = 0;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::string> ControlsMenu::bindings;
+
 // Key callback method.
-void ControlsMenu::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	auto keyName = glfwGetKeyName(key, scancode);
 	if (keyName != NULL)
@@ -25,18 +26,19 @@ void ControlsMenu::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
 }
 
-
 int ControlsMenu::Draw(GLShader shader)
 {	
 	// Set up binding vector.
-
 	PopulateBindings();
+
 	// Initialise the quads.
-	buttons.resize(16);
+	buttons.resize(12);
+
 	float buttonOffset = 0.0625f;
 	float offsetChange = 0.17 + 0.0625f;
-	// Handle right hand side.
-	for (int i = 0; i < 8; i++)
+
+	// Handle left hand side.
+	for (int i = 0; i < (buttons.size()/2); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -54,10 +56,10 @@ int ControlsMenu::Draw(GLShader shader)
 		u.SetY(567 - (i * 71));
 	}
 
-	// Handle left hand side.
+	// Handle right hand side.
 	buttonOffset = 0.0625f;
 	int j = 0;
-	for (int i = 8; i < 16; i++)
+	for (int i = (buttons.size()/2); i < buttons.size(); i++)
 	{
 		auto &p = buttons.at(i);
 		Button& newButton = buttons[i].first;
@@ -90,7 +92,7 @@ int ControlsMenu::Draw(GLShader shader)
 		// Handle input.
 
 		// Update textures.
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < buttons.size(); i++)
 		{
 			if (buttons[i].first.renderTarget.IsMouseInBounds())
 			{
@@ -103,12 +105,12 @@ int ControlsMenu::Draw(GLShader shader)
 		// Handle selection.
 		if (UserControls::Get().IsMouseButtonPressed(std::string("Action")))
 		{
-			for (int i = 0; i < 16; i++)
+			for (int i = 0; i < buttons.size(); i++)
 				if (buttons[i].first.renderTarget.IsMouseInBounds())
 				{
 					currentSelection = i;
 				//	selectionMade = true;
-					glfwSetKeyCallback(GameEngine::Get().GetWindow(), keyCallback);
+					glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
 				}
 			// Check exit button.
 			if (exit.renderTarget.IsMouseInBounds())
@@ -122,14 +124,14 @@ int ControlsMenu::Draw(GLShader shader)
 		glClearColor(0, 0, 1, 1);
 		
 		// Draw their corresponding bindings.
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < buttons.size(); i++)
 		{
 			buttons[i].second.Render();
 		}
 		
 		shader.Use();
 		// Draw the quads.
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < buttons.size(); i++)
 		{
 			// Bind texture.
 			glUniform1i(shader.GetUniformLocation("tex"), 0);
@@ -181,26 +183,24 @@ int ControlsMenu::SelectionPicked()
 	return buttons.at(currentSelection).first.action;
 }
 
-
 void ControlsMenu::PopulateBindings()
 {
-	bindings.resize(16);
-	// Iterate through map.
-	
-	// Camera movement.
+	bindings.resize(12);
+
+	// Iterate through map
+	// Camera movement
 	bindings[0] = "Forward";
 	bindings[1] = "Backward";
 	bindings[2] = "Left";
 	bindings[3] = "Right";
 	bindings[4] = "RotateLeft";
 	bindings[5] = "RotateRight";
-	bindings[6] = "ResetCamera";
-	bindings[7] = "Enter";
+	bindings[6] = "ZoomIn";
+	bindings[7] = "ZoomOut";
 
-	// Hotkey/ entity options. 
+	// Hotkey/entity options
 	bindings[8] = "Hold";
 	bindings[9] = "HotKey1";
 	bindings[10] = "HotKey2";
 	bindings[11] = "HotKey3";
-
 }
