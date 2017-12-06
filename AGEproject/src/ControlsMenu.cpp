@@ -211,6 +211,7 @@ void ControlsMenu::PopulateBindings()
 	bindings[3] = "Right";
 	bindings[4] = "RotateLeft";
 	bindings[5] = "RotateRight";
+	bindings[6] = "Not implemented";
 	bindings[7] = "ZoomIn";
 	bindings[8] = "ZoomOut";
 
