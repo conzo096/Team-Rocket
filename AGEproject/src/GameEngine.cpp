@@ -165,21 +165,31 @@ void GameEngine::CreateWindow()
 {
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	if (GameEngine::Get().GetFullScreen())
+	{
 		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Scrapitalism!", glfwGetPrimaryMonitor(), NULL);
+	}
 	else
+	{
 		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Scrapitalism!", NULL, NULL);
+	}
 	glfwMakeContextCurrent(window);
 }
 
 void GameEngine::UpdateWindow()
 {
 	if (!fullScreen)
+	{
 		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 20, 50, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+	}
 	else
-		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+	{
+		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetResolutionWidth(), GameEngine::Get().GetResolutionHeight(), 60);
+	}
 	int w, h;
 	glfwGetWindowSize(window, &w, &h);
 	glViewport(0, 0, w, h);
+	SetScreenWidth(w);
+	SetScreenHeight(h);
 	glfwMakeContextCurrent(window);
 }
 

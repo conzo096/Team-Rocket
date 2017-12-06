@@ -7,7 +7,7 @@ void Unit::SetAction(Action act)
 }
 
 
-void Unit::SetEntityToTarget(Entity *& target)
+void Unit::SetEntityToTarget(std::shared_ptr<Entity>& target)
 {
 	targetEntity = target;
 	targetAcquired = true;
@@ -15,7 +15,7 @@ void Unit::SetEntityToTarget(Entity *& target)
 
 void Unit::AcquireTarget()
 {
-	vector<Entity*> localUnits = Game::Get().FindLocalUnits(team, GetParent()->GetPosition(), sightRange);
+	vector<std::shared_ptr<Entity>> localUnits = Game::Get().FindLocalUnits(team, GetParent()->GetPosition(), sightRange);
 	if (localUnits.size() == 0)
 	{
 		targetAcquired = false;
@@ -24,7 +24,7 @@ void Unit::AcquireTarget()
 	}
 	int min = 0;
 	int n = 0;
-	for (Entity*& e : localUnits)
+	for (std::shared_ptr<Entity>& e : localUnits)
 	{
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 		{
@@ -118,7 +118,6 @@ void Unit::AttackEntity()
 				AttackEntity();
 			}
 		}
-
 		if (action == Hold)
 		{
 			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
@@ -128,6 +127,15 @@ void Unit::AttackEntity()
 				AttackEntity();
 			}
 		}
+		if (action == Harvest)
+		{
+			HarvestResource();
+		}
+		if (action == Build)
+		{
+			BuildStructure();
+		}
+
 
 		// Update all the bullets.
 		for (BulletParticle & b : projectiles)

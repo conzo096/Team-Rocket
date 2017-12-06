@@ -15,6 +15,6 @@ public:
 	// Find a valid spawnPoint just outside bounding radius.
 	glm::vec3 FindValidSpawnPoint(BoundingSphere& sphere);
 	// Creates a predefined entity.
-	Entity* CreateEntity(std::string name, glm::vec3 position, Team team);
+	std::shared_ptr<Entity> CreateEntity(std::string name, glm::vec3 position, Team team);
 
 };

@@ -17,11 +17,11 @@
 #include "TurretRenderable.h"
 
 // Creates a predefined entity.
-Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
+std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 {
 	std::lock_guard<std::mutex> lock(mut);
 	glm::vec3 spawnPosition = position;
-	Entity* tempEntity = new Entity;
+	auto tempEntity = std::make_shared<Entity>();
 	if (name == "Worker")
 	{
 		tempEntity->SetName("Worker");
@@ -277,9 +277,10 @@ Entity* Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 	if (name == "Resource")
 	{
 		std::cout << "Incomplete" << std::endl;
+		tempEntity->SetName("Resource");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Base");
+		tempRenderable->SetModel("Hanger");
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());

@@ -29,7 +29,7 @@ private:
 	double ammountBuilt;
 	std::queue<Product> productQueue;
 	// Holds items that are created.
-	std::vector<Entity*> collectionQueue;
+	std::vector<std::shared_ptr<Entity>> collectionQueue;
 	// Types of entities it can spawn.
 	std::vector<SpawnInfo> spawnData;
 	// The current stored value of this building (how much money has been invested into producing units/other structures.)
@@ -48,7 +48,7 @@ public:
 	Structure(std::string type,std::string unitType,int cost) : Structure(type) {};
 	~Structure();
 
-	void Collect(std::vector<Entity*>& ents);
+	void Collect(std::vector<std::shared_ptr<Entity>>& ents);
 	void Build(double delta);
 	void AddProduct(int& bal, int hotkey, glm::vec3 destination);
 	void Produce(double delta);

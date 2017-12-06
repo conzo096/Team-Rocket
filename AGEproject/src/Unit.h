@@ -5,16 +5,19 @@
 #include "Targetable.h"
 #include "GeometryUtil.h"
 #include "Particle.h"
+
+
+static std::string const UnitActions[] = { "Stop","Move","Attack","AttackMove","Hold","Harvest", "Build" };
 class Unit : public Component
 {
 
 public:
-	enum Action { Stop, Move, Attack, AttackMove, Hold };
+	enum Action { Stop, Move, Attack, AttackMove, Hold, Harvest, Build};
 protected:
 	// What action this unit is to perform.
 	Action action = Move;
 	// What entity is it looking to attack?
-	Entity* targetEntity = NULL;
+	std::shared_ptr<Entity> targetEntity = NULL;
 
 	// what team this is on.
 	int team;
@@ -47,12 +50,16 @@ public:
 	double GetFireRate() { return fireRate; }
 	void SetFireRate(float fr) { fireRate = fr; }
 
-	void SetEntityToTarget(Entity*& target);
+	void SetEntityToTarget(std::shared_ptr<Entity>& target);
 
 	void AcquireTarget();
 	virtual void AttackEntity();
 	
-	void Update(double deltaTime) override;
+	// Methods that worker will build upon.
+	virtual void HarvestResource() {}
+	virtual void BuildStructure() {}
 
+
+	void Update(double deltaTime) override;
 	void Render();
 };

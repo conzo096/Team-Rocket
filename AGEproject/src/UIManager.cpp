@@ -59,11 +59,14 @@
 			x->second.SetIsActive(true);
 			sprintf_s(buffer, 64, "%.0f\n", Game::Get().GetPlayer().GetSelectedEntities()[0]->GetComponent<Targetable>().GetHealth());
 			x->second.SetText(buffer);
+
+			// Set the third info quad.
 			x = uiElements.find("Misc");
 			x->second.SetIsActive(true);
 			// If the selected entity is a structure, print out number of queued items.
 			if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Structure>() != NULL)
 			{
+				// If there is an item in queue display name, else print none.
 				if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Structure>()->GetQueueSize() > 0)
 					x->second.SetText(Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Structure>()->GetNextProduct().productName.c_str());
 				else
@@ -71,18 +74,17 @@
 					x->second.SetText("None!");
 				}
 			}
+			// If it is just a combat unit print out there action.
 			else if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>() != NULL)
 			{
-				sprintf_s(buffer, 64, "%i\n", Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>()->GetAction());
-				x->second.SetText(buffer);
+				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
-			// If it is a worker, print out unit info.
+			// Workers are considered both - print their action out underneath the tag.
 			if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetName() == "Worker")
 			{
 				x = uiElements.find("Misc2");
 				x->second.SetIsActive(true);
-				sprintf_s(buffer, 64, "%i\n", Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>()->GetAction());
-				x->second.SetText(buffer);
+				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
 		}
 		else

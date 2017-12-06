@@ -50,6 +50,7 @@ bool FileIO::CreateIniFile()
 	outputFile << "HotKey1=49" << std::endl;
 	outputFile << "HotKey2=50" << std::endl;
 	outputFile << "HotKey3=51" << std::endl;
+	outputFile << "HotKey4=52" << std::endl;
 	outputFile.close();
 
 	return true;
@@ -85,6 +86,7 @@ bool FileIO::SaveIniFile()
 	outputFile << "HotKey1=" <<  UserControls::Get().GetKeyValue("HotKey1") << std::endl;
 	outputFile << "HotKey2=" <<  UserControls::Get().GetKeyValue("HotKey2") << std::endl;
 	outputFile << "HotKey3=" <<  UserControls::Get().GetKeyValue("HotKey3") << std::endl;
+	outputFile << "HotKey4=" << UserControls::Get().GetKeyValue("HotKey4") << std::endl;
 	outputFile.close();
 
 	return true;
@@ -148,7 +150,8 @@ void FileIO::ConfigureGame(std::string para)
 			UserControls::Get().BindKey(token, value);
 		if (token == "HotKey3")
 			UserControls::Get().BindKey(token, value);
-
+		if (token == "HotKey4")
+			UserControls::Get().BindKey(token, value);
 	}
 	else
 		std::cout << "Error" << std::endl;

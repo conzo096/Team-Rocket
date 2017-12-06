@@ -79,9 +79,9 @@ void Structure::Update(double delta)
 		Produce(delta);
 }
 
-void Structure::Collect(std::vector<Entity*>& ents)
+void Structure::Collect(std::vector<std::shared_ptr<Entity>>& ents)
 {
-	for (Entity*&e : collectionQueue)
+	for (std::shared_ptr<Entity>&e : collectionQueue)
 		ents.push_back(e);
 	collectionQueue.clear();
 }

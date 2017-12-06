@@ -11,12 +11,12 @@ class AiPlayer : public Player
 public:
 
 	// Update the ai player.
-	void Update(std::vector<Entity*>& enemyList)
+	void Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 	{
 		//HandleAiLogic(enemyList);
 		// Collect any units that have been produced by your structures.
-		std::vector<Entity*> temp;
-		for (Entity*&e : entities)
+		std::vector<std::shared_ptr<Entity>> temp;
+		for (std::shared_ptr<Entity>&e : entities)
 		{
 			if (e->GetCompatibleComponent<Structure>() != NULL)
 			{
@@ -36,7 +36,7 @@ public:
 
 
 	// Ai decisions are handled here.
-	void HandleAiLogic(std::vector<Entity*>& enemyList)
+	void HandleAiLogic(std::vector<std::shared_ptr<Entity>>& enemyList)
 	{
 		// If it only has a base, build a worker.
 

@@ -18,15 +18,15 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 	}
 }
 
-vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange)
+std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 position, double sightRange)
 {
-	vector<Entity*> localUnits;
+	vector<std::shared_ptr<Entity>> localUnits;
 
 	if (team == 0)
 	{
-		for (std::vector<Entity*>::size_type n = 0; n < player->GetEntities().size();)
+		for (vector<std::shared_ptr<Entity>>::size_type n = 0; n < player->GetEntities().size();)
 		{
-			Entity*& e = player->GetEntities()[n];
+			std::shared_ptr<Entity>& e = player->GetEntities()[n];
 			if (e->GetCompatibleComponent<Targetable>() != NULL)
 			{
 				if (distance(position, e->GetPosition()) <= sightRange)
@@ -40,9 +40,9 @@ vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange
 
 	if (team == 1)
 	{
-		for (std::vector<Entity*>::size_type n = 0; n < NPC->GetEntities().size();)
+		for (std::vector<std::shared_ptr<Entity>>::size_type n = 0; n < NPC->GetEntities().size();)
 		{
-			Entity*& e = NPC->GetEntities()[n];
+			std::shared_ptr<Entity>& e = NPC->GetEntities()[n];
 			if (e->GetCompatibleComponent<Targetable>() != NULL)
 			{
 				if (distance(position, e->GetPosition()) <= sightRange)
@@ -53,7 +53,6 @@ vector<Entity*> Game::FindLocalUnits(int team, dvec3 position, double sightRange
 			n++;
 		}
 	}
-
 	return localUnits;
 }
 
@@ -136,14 +135,14 @@ void Game::Initialise()
 	//LevelLoader ll;
 	//ll.LoadLevel("./json/Level.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
 	
-	Entity* tempEntity3 = new Entity;
+	std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
 	tempEntity3->AddComponent(move(tempLightComponent));
 	neutralEntities.push_back(tempEntity3);
 
 	// This is the floor.
-	Entity* tempEntity2 = new Entity;
+	std::shared_ptr<Entity> tempEntity2 = std::make_shared<Entity>();
 	auto tempRenderable2 = std::make_unique<Renderable>();
 	tempRenderable2->SetMaterial(new Material());
 	tempRenderable2->SetPlane(1, 100, 100);
@@ -207,7 +206,7 @@ bool Game::Update()
 	{
 		freeCamEnabled = !freeCamEnabled;
 		LevelLoader ll;
-		ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		//ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
@@ -232,50 +231,35 @@ bool Game::Update()
 	duration -= deltaTime;
 
 	// Update all the entities in the scene.
-
-	/*allEntities.clear();
-	allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
-
-	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
-	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());*/
-
 	int i;
-	//#pragma omp parallel for private(i)
-	//for (i = 0; i < allEntities.size();i++)
-	//{
-	//	allEntities[i]->Update(deltaTime);
-	//}
-#pragma omp parallel for private(i)
+
+	#pragma omp parallel for private(i)
 	for (i = 0; i <neutralEntities.size(); i++)
 	{
 		neutralEntities[i]->Update(deltaTime);
 	}
-#pragma omp parallel for private(i)
+	#pragma omp parallel for private(i)
 	for (i = 0; i < player->GetEntities().size(); i++)
 	{
 		player->GetEntities()[i]->Update(deltaTime);
 	}
-#pragma omp parallel for private(i)
+	#pragma omp parallel for private(i)
 	for (i = 0; i < NPC->GetEntities().size(); i++)
 	{
 		NPC->GetEntities()[i]->Update(deltaTime);
+	}	
+	// Delete any entities in the scene that are required to be removed.
+	for (i = 0; i <allEntities.size(); i++)
+	{
+		std::shared_ptr<Entity>& e = allEntities[i];
+		if (e->GetCompatibleComponent<Targetable>() != NULL)
+		{
+			if (e->GetCompatibleComponent<Targetable>()->IsDead())
+			{
+				allEntities.erase(std::remove(allEntities.begin(), allEntities.end(), e), allEntities.end());
+			}
+		}
 	}
-
-	
-	
-	//// Delete any entities in the scene that are required to be removed.
-	//for (i = 0; i <allEntities.size(); i++)
-	//{
-	//	Entity*& e = allEntities[i];
-	//	if (e->GetCompatibleComponent<Targetable>() != NULL)
-	//	{
-	//		if (e->GetCompatibleComponent<Targetable>()->IsDead())
-	//		{
-	//			allEntities.erase(std::remove(allEntities.begin(), allEntities.end(), e), allEntities.end());
-	//		}
-	//	}
-	//}
 	//// Remove bullets no longer used.
 	//projectiles.erase(std::remove_if
 	//(projectiles.begin(), projectiles.end(), [](const BulletParticle& x)
@@ -288,7 +272,7 @@ bool Game::Update()
 	//// Handle deletion of entities.
 	for (i = 0; i <neutralEntities.size(); i++)
 	{
-		Entity*& e = neutralEntities[i];
+		std::shared_ptr<Entity>& e = neutralEntities[i];
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
@@ -298,7 +282,7 @@ bool Game::Update()
 	}
 	for (i = 0; i < player->GetEntities().size(); i++)
 	{
-		Entity*& e = player->GetEntities()[i];
+		std::shared_ptr<Entity>& e = player->GetEntities()[i];
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
@@ -308,7 +292,7 @@ bool Game::Update()
 	}
 	for (i = 0; i < NPC->GetEntities().size(); i++)
 	{
-		Entity* e = NPC->GetEntities()[i];
+		std::shared_ptr<Entity> e = NPC->GetEntities()[i];
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
