@@ -61,8 +61,14 @@ void StateManager::StateLoop()
 		case(stateControls):
 			select = ShowControlsMenu();
 			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
-			// Handle result.
-			currentState = stateSettings;
+			if (select == 14)
+			{
+				currentState = stateExiting;
+			}
+			else
+			{
+				currentState = stateSettings;
+			}
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

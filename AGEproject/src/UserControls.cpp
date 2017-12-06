@@ -106,6 +106,40 @@ bool UserControls::MouseSelection(std::string action, std::vector<Button>& butto
 	return false;
 }
 
+bool UserControls::MouseSelection(std::string action, std::vector<std::pair<Button, UIQuad>>& buttons, bool& mouseButtonHeld, int& currentSelection)
+{
+	if (IsMouseButtonPressed(action))
+	{
+		if (!mouseButtonHeld)
+		{
+			for (int i = 0; i < buttons.size(); i++)
+			{
+				if (buttons[i].first.renderTarget.IsMouseInBounds())
+				{
+					currentSelection = i;
+					break;
+				}
+			}
+			mouseButtonHeld = true;
+		}
+	}
+	else
+	{
+		if (mouseButtonHeld)
+		{
+			mouseButtonHeld = false;
+			if (currentSelection > -1)
+			{
+				if (buttons[currentSelection].first.renderTarget.IsMouseInBounds())
+					return true;
+				else
+					currentSelection = -1;
+			}
+		}
+	}
+	return false;
+}
+
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
 	// Clear the current map of keys.

@@ -21,6 +21,7 @@ private:
 
 	// Dimensions of quad.
 	int xPos, yPos, size;
+
 public:
 
 	UIQuad()
