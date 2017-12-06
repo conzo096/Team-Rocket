@@ -297,6 +297,7 @@ void UserControls::ResetControllerBindings()
 bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
 {
 	ResetControllerBindings();
+	isJoystickActive();
 	int axesCount, buttonCount;
 	const float * axes = glfwGetJoystickAxes(joyStickConnected, &axesCount);
 	const unsigned char* keys = glfwGetJoystickButtons(joyStickConnected, &buttonCount);
