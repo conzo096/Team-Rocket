@@ -11,7 +11,7 @@ std::vector <std::string> ControlsMenu::bindings;
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (!(currentSelection == 6 || currentSelection == 13))
+	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
 		auto keyName = glfwGetKeyName(key, scancode);
 		if (keyName != NULL)
@@ -34,12 +34,10 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 
 int ControlsMenu::Draw(GLShader shader)
 {	
-	// Set up binding vector.
-	PopulateBindings();
-
 	// Initialise the quads.
 	buttons.resize(numOfControls);
-
+	// Set up binding vector.
+	PopulateBindings();
 	float buttonWidth = 0.46875f * 0.7f;
 	float buttonHeight = 0.20926f * 0.7f;
 
@@ -75,7 +73,6 @@ int ControlsMenu::Draw(GLShader shader)
 	buttonOffsetY = 0.1f;
 	for (int i = (buttons.size()/2); i < buttons.size(); i++)
 	{
-		auto &p = buttons.at(i);
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
 		newButton.texture = button_tex[i];
@@ -222,4 +219,5 @@ void ControlsMenu::PopulateBindings()
 	bindings[10] = "HotKey1";
 	bindings[11] = "HotKey2";
 	bindings[12] = "HotKey3";
+	bindings[13] = "Not implemented";
 }
