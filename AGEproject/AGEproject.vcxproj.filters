@@ -160,10 +160,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game_Camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\AudioEngine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TurretRenderable.cpp">
+      <Filter>Source Files\Components\Units</Filter>
     </ClCompile>
     <ClCompile Include="src\WorkerUnit.cpp">
       <Filter>Source Files\Components\Units</Filter>
@@ -323,11 +326,14 @@
     <ClInclude Include="src\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game_Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\AudioEngine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game_Camera.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TurretRenderable.h">
+      <Filter>Header Files\Components\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

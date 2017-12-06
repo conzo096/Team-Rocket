@@ -9,6 +9,10 @@ Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rend
 {
 }
 
+Renderable::Renderable(std::string type) : model(nullptr), effect(new Effect()), Component(type)
+{
+}
+
 Renderable::~Renderable()
 {
 }

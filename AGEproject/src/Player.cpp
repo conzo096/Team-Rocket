@@ -81,7 +81,9 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				}
 			}
 			// Particle that appears when the user selects a location.
-			Game::Get().location = poi;
+			glm::vec3 t = poi;
+			t.y = 0;
+			Game::Get().location = t;
 			Game::Get().duration = 3.0;
 		}
 
