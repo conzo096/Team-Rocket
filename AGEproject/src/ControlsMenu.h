@@ -7,31 +7,31 @@ class ControlsMenu : public Menu
 public:
 	ControlsMenu() 
 	{
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Forward"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Backward"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Left"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Right"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("RotateLeft"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("RotateRight"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("ZoomIn"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("ZoomOut"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Hold"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey1"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("Forward"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("Backward"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("Left"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("Right"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("RotateLeft"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("RotateRight"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("ZoomIn"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("ZoomOut"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("Hold"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey1"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3"));
 
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Forward_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Backward_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Left_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Right_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("RotateLeft_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("RotateRight_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("ZoomIn_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("ZoomOut_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("Hold_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey1_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2_HIGHLIGHTED"));
-		//button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Forward_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Backward_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Left_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Right_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("RotateLeft_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("RotateRight_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("ZoomIn_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("ZoomOut_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Hold_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey1_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3_HIGHLIGHTED"));
 	}
 	~ControlsMenu() {}
 
@@ -49,6 +49,7 @@ private:
 	// Buttons which display their key binding.
 	static std::vector<std::pair<Button, UIQuad>> buttons;
 	std::vector <unsigned int> button_tex;
+	std::vector <unsigned int> highlight_tex;
 
 	// Button to leave controls menu.
 	Button exit; 

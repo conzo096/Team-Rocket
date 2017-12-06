@@ -63,7 +63,29 @@ void ResourceHandler::LoadTextures()
 
 	// ControlsMenu buttons
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward"), Texture("../res/textures/UI/ControlsMenu/Forward.png").GetTextureId()));
-	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Forward.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Backward"), Texture("../res/textures/UI/ControlsMenu/Backward.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Left"), Texture("../res/textures/UI/ControlsMenu/Pan_Left.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Right"), Texture("../res/textures/UI/ControlsMenu/Pan_Right.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("RotateLeft"), Texture("../res/textures/UI/ControlsMenu/Rotate_Left.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("RotateRight"), Texture("../res/textures/UI/ControlsMenu/Rotate_Right.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("ZoomIn"), Texture("../res/textures/UI/ControlsMenu/Zoom_In.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("ZoomOut"), Texture("../res/textures/UI/ControlsMenu/Zoom_Out.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Hold"), Texture("../res/textures/UI/ControlsMenu/Hold.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey1"), Texture("../res/textures/UI/ControlsMenu/Hotkey_1.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey2"), Texture("../res/textures/UI/ControlsMenu/Hotkey_2.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey3"), Texture("../res/textures/UI/ControlsMenu/Hotkey_3.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Forward_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Backward_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Backward_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Pan_Left_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Pan_Right_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("RotateLeft_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Rotate_Left_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("RotateRight_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Rotate_Right_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("ZoomIn_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Zoom_In_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("ZoomOut_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Zoom_Out_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Hold_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hold_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey1_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hotkey_1_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey2_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hotkey_2_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey3_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hotkey_3_Highlight.png").GetTextureId()));
 
 	// UI font
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Font"), Texture("../res/textures/Holstein.png").GetTextureId()));

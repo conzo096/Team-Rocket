@@ -42,7 +42,7 @@ int ControlsMenu::Draw(GLShader shader)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
-		newButton.texture = ResourceHandler::Get().GetTexture("Rock");
+		newButton.texture = button_tex[i];
 		newButton.renderTarget = Quad(glm::vec2(-0.8, 1 - buttonOffset - 0.1),
 			glm::vec2(-0.6, 1 - buttonOffset));
 		newButton.renderTarget.SetOpenGL();
@@ -64,7 +64,7 @@ int ControlsMenu::Draw(GLShader shader)
 		auto &p = buttons.at(i);
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
-		newButton.texture = ResourceHandler::Get().GetTexture("Rock");
+		newButton.texture = button_tex[i];
 		newButton.renderTarget = Quad(glm::vec2(0.2, 1 - buttonOffset - 0.1),
 		glm::vec2(0.4, 1 - buttonOffset));
 		newButton.renderTarget.SetOpenGL();
@@ -96,10 +96,10 @@ int ControlsMenu::Draw(GLShader shader)
 		{
 			if (buttons[i].first.renderTarget.IsMouseInBounds())
 			{
-				buttons[i].first.texture = ResourceHandler::Get().GetTexture("Rock");
+				buttons[i].first.texture = highlight_tex[i];
 			}
 			else
-				buttons[i].first.texture = ResourceHandler::Get().GetTexture("Rock");
+				buttons[i].first.texture = button_tex[i];
 
 		}
 		// Handle selection.

@@ -12,6 +12,7 @@ void StateManager::StateLoop()
 	bool running = true;
 	int select;
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
+	AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 
 	while (running)
 	{
@@ -19,12 +20,12 @@ void StateManager::StateLoop()
 		switch (currentState)
 		{
 		case(stateSplash):
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			ShowSplashScreen();
 			currentState = stateMainMenu;
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 0)
 			{
 				Game::Get().Initialise(); //This will need a new home later.
@@ -37,8 +38,8 @@ void StateManager::StateLoop()
 			else if (select == 2) { currentState = stateExiting; }
 			break;
 		case(stateSettings):
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowSettingsMenu();
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 1)
 			{
 				GameEngine::Get().UpdateWindow();
@@ -58,8 +59,8 @@ void StateManager::StateLoop()
 			}
 			break;
 		case(stateControls):
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowControlsMenu();
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			// Handle result.
 			currentState = stateSettings;
 			break;
@@ -71,7 +72,7 @@ void StateManager::StateLoop()
 			running = false;
 			break;
 		default:
-			throw std::invalid_argument("Error: No behavior has been set for state" + state);
+			throw std::invalid_argument("Error: No behavior has been set for state" + currentState);
 			break;
 		}
 		AudioEngine::Get().Update();
