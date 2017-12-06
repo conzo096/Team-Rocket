@@ -478,7 +478,9 @@ void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
 			// Update Game Grid.
+			gameGridMut.lock();
 			Game::Get().UpdateNavGrid(value, p);
+			gameGridMut.unlock();
 		}
 	}
 }

@@ -82,7 +82,53 @@ vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
 }
 
 
-
+void ResolveCollisions(std::vector<std::shared_ptr<Entity>>& ents)
+{
+	for (int i = 0; i < ents.size(); i++)
+	{
+		for (int j = 0; j < ents.size(); j++)
+		{
+			if (i != j)
+			{
+				// If both objects have a bounding sphere.
+				if (ents[i]->GetCompatibleComponent<BoundingSphere>() != NULL && ents[j]->GetCompatibleComponent<BoundingSphere>() != NULL)
+				{
+					// Calculate if they are colliding.
+					if (ents[i]->GetComponent<BoundingSphere>().DetectSphereSphereIntersection(ents[j]->GetComponent<BoundingSphere>()))
+					{
+						// Get distance between both objects.
+						float x = glm::distance(ents[i]->GetPosition(), ents[j]->GetPosition());
+						// find out sum radius.
+						float sumR = ents[i]->GetComponent<BoundingSphere>().GetRadius() + ents[j]->GetComponent<BoundingSphere>().GetRadius();
+						// Calculate how far they need to be moved back.
+						double dist = sumR - x;
+						// Get direction to move.
+						glm::dvec3 dir = ents[i]->GetPosition() - ents[j]->GetPosition();
+						dir = glm::normalize(dir);
+						// Now if both are units move back equally.
+						if (ents[i]->GetCompatibleComponent<Unit>() != NULL && ents[j]->GetCompatibleComponent<Unit>() != NULL)
+						{
+							ents[i]->SetPosition(ents[i]->GetPosition()+(dir * (dist / 2)));
+							ents[j]->SetPosition(ents[j]->GetPosition() + (dir * (dist / 2)));
+							ents[i]->UpdateTransforms();
+						}
+						// If one is a structure, fully move the other.
+						else if (ents[i]->GetCompatibleComponent<Unit>() != NULL && ents[j]->GetCompatibleComponent<Structure>() != NULL)
+						{
+		//					ents[i]->Move(dir * (dist));
+		//					ents[i]->UpdateTransforms();
+						}
+						else if (ents[j]->GetCompatibleComponent<Unit>() != NULL && ents[i]->GetCompatibleComponent<Structure>() != NULL)
+						{
+		//					ents[j]->Move(-dir * (dist));
+		//					ents[j]->UpdateTransforms();
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 
 void Game::Initialise()
@@ -248,27 +294,17 @@ bool Game::Update()
 	{
 		NPC->GetEntities()[i]->Update(deltaTime);
 	}	
-	// Delete any entities in the scene that are required to be removed.
-	for (i = 0; i <allEntities.size(); i++)
-	{
-		std::shared_ptr<Entity>& e = allEntities[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-		{
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				allEntities.erase(std::remove(allEntities.begin(), allEntities.end(), e), allEntities.end());
-			}
-		}
-	}
-	//// Remove bullets no longer used.
-	//projectiles.erase(std::remove_if
-	//(projectiles.begin(), projectiles.end(), [](const BulletParticle& x)
-	//{
-	//	return !x.isActive;
-	//}), projectiles.end());
 
-
+	//allEntities.clear();
+	//allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	//allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+	//// Resolve their collisions.
+	//ResolveCollisions(allEntities);
 	
+	
+	
+	// Delete any entities in the scene that are required to be removed
 	//// Handle deletion of entities.
 	for (i = 0; i <neutralEntities.size(); i++)
 	{

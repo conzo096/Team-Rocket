@@ -8,7 +8,7 @@ class Spawner : public  Singleton<Spawner>
 {
 public:
 	std::mutex mut;
-
+	std::mutex gameGridMut;
 	//Check if the Entity can be spawned in the area requested.
 	bool CheckGameGrid(BoundingSphere& sphere);
 	void UpdateGameGrid(BoundingSphere& sphere, int value = 1);
