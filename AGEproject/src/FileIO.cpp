@@ -11,7 +11,7 @@ bool FileIO::LoadIniFile()
 {
 	if (!FileExists(std::string("../res/config.ini")))
 		CreateIniFile();
-	// Start reading and setting parameters//
+	// Start reading and setting parameters
 	std::ifstream file("../res/config.ini");
 	std::string para;
 	while (std::getline(file, para))

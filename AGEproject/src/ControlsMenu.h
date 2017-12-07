@@ -38,6 +38,8 @@ public:
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2_HIGHLIGHTED"));
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3_HIGHLIGHTED"));
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Back_HIGHLIGHTED"));
+
+		current_tex = button_tex;
 	}
 	~ControlsMenu() {}
 
@@ -51,14 +53,16 @@ public:
 
 private:
 	static int currentSelection;
+	static int lastSelection;
 	static int numOfControls;
 
 	// Buttons which display their key binding.
 	static std::vector<std::pair<Button, UIQuad>> buttons;
 
 	// Button textures
-	std::vector <unsigned int> button_tex;
-	std::vector <unsigned int> highlight_tex;
+	static std::vector <unsigned int> button_tex;
+	static std::vector <unsigned int> highlight_tex;
+	static std::vector <unsigned int> current_tex;
 
 	// Key bindings, index of buttons represents one of these.
 	static std::vector<std::string> bindings;
