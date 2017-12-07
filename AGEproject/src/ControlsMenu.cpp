@@ -8,6 +8,9 @@ int ControlsMenu::lastSelection = -1;
 int const ControlsMenu::numOfControls = 14;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::string> ControlsMenu::bindings;
+std::vector <unsigned int> ControlsMenu::button_tex;
+std::vector <unsigned int> ControlsMenu::highlight_tex;
+std::vector <unsigned int> ControlsMenu::current_tex;
 
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -22,15 +25,15 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 			UserControls::Get().BindKey(bindings[currentSelection], key);
 			FileIO::Get().SaveIniFile();
 		//}
-		//current_tex[currentSelection] = button_tex[currentSelection];
+		current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
 		glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
 	}
 }
 
-int ControlsMenu::Draw(GLShader shader)
-{	
+void ControlsMenu::DrawButtons()
+{
 	// Initialise the quads.
 	buttons.resize(numOfControls);
 	// Set up binding vector.
@@ -45,7 +48,7 @@ int ControlsMenu::Draw(GLShader shader)
 	float offsetChange = 0.1f + buttonHeight;
 
 	// Handle left hand side.
-	for (int i = 0; i < (buttons.size()/2); i++)
+	for (int i = 0; i < (buttons.size() / 2); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -54,7 +57,7 @@ int ControlsMenu::Draw(GLShader shader)
 		if (!(i == 6))
 		{
 			newButton.renderTarget = Quad(glm::vec2(-1 + buttonOffsetX, 1 - buttonOffsetY - buttonHeight),
-										  glm::vec2(-1 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
+				glm::vec2(-1 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
 
 			// Draw text.
 			UIQuad& u = buttons[i].second;
@@ -70,16 +73,15 @@ int ControlsMenu::Draw(GLShader shader)
 			buttonOffsetX = 0.05f;
 			buttonOffsetY += 0.1f;
 			newButton.renderTarget = Quad(glm::vec2(0 - buttonOffsetX - resetWidth, 1 - buttonOffsetY - resetHeight),
-										  glm::vec2(0 - buttonOffsetX, 1 - buttonOffsetY));
+				glm::vec2(0 - buttonOffsetX, 1 - buttonOffsetY));
 		}
-
 		newButton.renderTarget.SetOpenGL();
 	}
 
 	// Handle right hand side.
 	buttonOffsetX = 0.1f;
 	buttonOffsetY = 0.1f;
-	for (int i = (buttons.size()/2); i < buttons.size(); i++)
+	for (int i = (buttons.size() / 2); i < buttons.size(); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -106,13 +108,16 @@ int ControlsMenu::Draw(GLShader shader)
 			newButton.renderTarget = Quad(glm::vec2(0 + buttonOffsetX, 1 - buttonOffsetY - resetHeight),
 										  glm::vec2(0 + buttonOffsetX + resetWidth, 1 - buttonOffsetY));
 		}
-
 		newButton.renderTarget.SetOpenGL();
 	}
+}
+
+int ControlsMenu::Draw(GLShader shader)
+{	
+	DrawButtons();
 
 	while (!selectionMade)
 	{
-
 		// Update key bindings.
 	//	PopulateBindings();
 		// Update key bindings.
@@ -177,7 +182,7 @@ int ControlsMenu::Draw(GLShader shader)
 				{
 					current_tex[currentSelection] = highlight_tex[currentSelection];
 					glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
-					if (!lastSelection == -1)
+					if (!(lastSelection == -1))
 					{
 						current_tex[lastSelection] = button_tex[lastSelection];
 					}

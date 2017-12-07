@@ -386,7 +386,8 @@ std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCod
 		text = "Backspace";
 		break;
 	case 341:
-		text = "Left control";
+		text = "Left Ctrl";
+		break;
 
 	default:
 		text = 	("%s",glfwGetKeyName(ascii,scanCode));
