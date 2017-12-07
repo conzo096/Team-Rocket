@@ -9,7 +9,6 @@ class UIManager
 
 	// List of all the UI elements.
 	std::map<std::string, UIQuad> uiElements;
-
 public: 
 
 	UIManager();

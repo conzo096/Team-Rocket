@@ -60,8 +60,8 @@ void GameEngine::Initialise()
 void GameEngine::Render()
 {
 
-//	std::cout << "Number of renderable objects:";
-//	std::cout << renderList.size() << std::endl;
+	std::cout << "Number of renderable objects:";
+	std::cout << renderList.size() << std::endl;
 	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	for (RenderData rl : renderList)
@@ -165,21 +165,31 @@ void GameEngine::CreateWindow()
 {
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	if (GameEngine::Get().GetFullScreen())
+	{
 		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Scrapitalism!", glfwGetPrimaryMonitor(), NULL);
+	}
 	else
+	{
 		window = glfwCreateWindow(GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), "Scrapitalism!", NULL, NULL);
+	}
 	glfwMakeContextCurrent(window);
 }
 
 void GameEngine::UpdateWindow()
 {
 	if (!fullScreen)
+	{
 		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), NULL, 20, 50, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+	}
 	else
-		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetScreenWidth(), GameEngine::Get().GetScreenHeight(), 60);
+	{
+		glfwSetWindowMonitor(GameEngine::Get().GetWindow(), glfwGetPrimaryMonitor(), 0, 0, GameEngine::Get().GetResolutionWidth(), GameEngine::Get().GetResolutionHeight(), 60);
+	}
 	int w, h;
 	glfwGetWindowSize(window, &w, &h);
 	glViewport(0, 0, w, h);
+	SetScreenWidth(w);
+	SetScreenHeight(h);
 	glfwMakeContextCurrent(window);
 }
 
@@ -187,8 +197,7 @@ void GameEngine::AddToRenderList(RenderData data)
 {
 	// Sort vector here.
 	mut.lock();
-	
-	//if (IsInCameraFrustum(data) || data.sphereRadius == 0)
+	if (data.sphereRadius == 0)
 	{
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
@@ -197,6 +206,17 @@ void GameEngine::AddToRenderList(RenderData data)
 		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
 		{
 			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
+		});
+	}
+	else if(IsInCameraFrustum(data))
+	{
+		renderList.push_back(data);
+		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
+		// it should be inserted to first.
+
+		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
+		{
+			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao, lhs.drawType);
 		});
 	}
 	mut.unlock();
@@ -236,42 +256,78 @@ void GameEngine::PrintGlewInfo()
 
 void GameEngine::GenerateFrustumPlanes()
 {
+	//// Left plane
+	//frustumPlanes[0].x = cameraMVP[0][3] + cameraMVP[0][0];
+	//frustumPlanes[0].y = cameraMVP[1][3] + cameraMVP[1][0];
+	//frustumPlanes[0].z = cameraMVP[2][3] + cameraMVP[2][0];
+	//frustumPlanes[0].w = cameraMVP[3][3] + cameraMVP[3][0];
+
+	//// Right plane
+	//frustumPlanes[1].x = cameraMVP[0][3] - cameraMVP[0][0];
+	//frustumPlanes[1].y = cameraMVP[1][3] - cameraMVP[1][0];
+	//frustumPlanes[1].z = cameraMVP[2][3] - cameraMVP[2][0];
+	//frustumPlanes[1].w = cameraMVP[3][3] - cameraMVP[3][0];
+
+	//// Top plane
+	//frustumPlanes[2].x = cameraMVP[0][3] - cameraMVP[0][1];
+	//frustumPlanes[2].y = cameraMVP[1][3] - cameraMVP[1][1];
+	//frustumPlanes[2].z = cameraMVP[2][3] - cameraMVP[2][1];
+	//frustumPlanes[2].w = cameraMVP[3][3] - cameraMVP[3][1];
+
+	//// Bottom plane
+	//frustumPlanes[3].x = cameraMVP[0][0] + cameraMVP[0][1];
+	//frustumPlanes[3].y = cameraMVP[1][0] + cameraMVP[1][1];
+	//frustumPlanes[3].z = cameraMVP[2][0] + cameraMVP[2][1];
+	//frustumPlanes[3].w = cameraMVP[3][0] + cameraMVP[3][1];
+
+	//// Near plane
+	//frustumPlanes[4].x = cameraMVP[0][2] + cameraMVP[0][1];
+	//frustumPlanes[4].y = cameraMVP[1][2] + cameraMVP[1][2];
+	//frustumPlanes[4].z = cameraMVP[2][2] + cameraMVP[2][2];
+	//frustumPlanes[4].w = cameraMVP[3][2] + cameraMVP[3][2];
+
+	//// Far plane
+	//frustumPlanes[5].x = cameraMVP[0][3] - cameraMVP[0][2];
+	//frustumPlanes[5].y = cameraMVP[1][3] - cameraMVP[1][2];
+	//frustumPlanes[5].z = cameraMVP[2][3] - cameraMVP[2][2];
+	//frustumPlanes[5].w = cameraMVP[3][3] - cameraMVP[3][2];
+
+
 	// Left plane
-	frustumPlanes[0].x = cameraMVP[0][3] + cameraMVP[0][0];
-	frustumPlanes[0].y = cameraMVP[1][3] + cameraMVP[1][0];
-	frustumPlanes[0].z = cameraMVP[2][3] + cameraMVP[2][0];
-	frustumPlanes[0].w = cameraMVP[3][3] + cameraMVP[3][0];
+	frustumPlanes[0].x = cameraMVP[0][0] + cameraMVP[3][0];
+	frustumPlanes[0].y = cameraMVP[0][1] + cameraMVP[3][1];
+	frustumPlanes[0].z = cameraMVP[0][2] + cameraMVP[3][2];
+	frustumPlanes[0].w = cameraMVP[0][3] + cameraMVP[3][3];
 
 	// Right plane
-	frustumPlanes[1].x = cameraMVP[0][3] - cameraMVP[0][0];
-	frustumPlanes[1].y = cameraMVP[1][3] - cameraMVP[1][0];
-	frustumPlanes[1].z = cameraMVP[2][3] - cameraMVP[2][0];
-	frustumPlanes[1].w = cameraMVP[3][3] - cameraMVP[3][0];
-
-	// Top plane
-	frustumPlanes[2].x = cameraMVP[0][3] - cameraMVP[0][1];
-	frustumPlanes[2].y = cameraMVP[1][3] - cameraMVP[1][1];
-	frustumPlanes[2].z = cameraMVP[2][3] - cameraMVP[2][1];
-	frustumPlanes[2].w = cameraMVP[3][3] - cameraMVP[3][1];
+	frustumPlanes[0].x = -cameraMVP[0][0] + cameraMVP[3][0];
+	frustumPlanes[0].y = -cameraMVP[0][1] + cameraMVP[3][1];
+	frustumPlanes[0].z = -cameraMVP[0][2] + cameraMVP[3][2];
+	frustumPlanes[0].w = -cameraMVP[0][3] + cameraMVP[3][3];
 
 	// Bottom plane
-	frustumPlanes[3].x = cameraMVP[0][0] + cameraMVP[0][1];
-	frustumPlanes[3].y = cameraMVP[1][0] + cameraMVP[1][1];
-	frustumPlanes[3].z = cameraMVP[2][0] + cameraMVP[2][1];
-	frustumPlanes[3].w = cameraMVP[3][0] + cameraMVP[3][1];
+	frustumPlanes[0].x = cameraMVP[1][0] + cameraMVP[3][0];
+	frustumPlanes[0].y = cameraMVP[1][1] + cameraMVP[3][1];
+	frustumPlanes[0].z = cameraMVP[1][2] + cameraMVP[3][2];
+	frustumPlanes[0].w = cameraMVP[1][3] + cameraMVP[3][3];
+
+	// Top plane
+	frustumPlanes[0].x = -cameraMVP[1][0] + cameraMVP[3][0];
+	frustumPlanes[0].y = -cameraMVP[1][1] + cameraMVP[3][1];
+	frustumPlanes[0].z = -cameraMVP[1][2] + cameraMVP[3][2];
+	frustumPlanes[0].w = -cameraMVP[1][3] + cameraMVP[3][3];
 
 	// Near plane
-	frustumPlanes[4].x = cameraMVP[0][2];
-	frustumPlanes[4].y = cameraMVP[1][2];
-	frustumPlanes[4].z = cameraMVP[2][2];
-	frustumPlanes[4].w = cameraMVP[3][2];
+	frustumPlanes[0].x = cameraMVP[2][0] + cameraMVP[3][0];
+	frustumPlanes[0].y = cameraMVP[2][1] + cameraMVP[3][1];
+	frustumPlanes[0].z = cameraMVP[2][2] + cameraMVP[3][2];
+	frustumPlanes[0].w = cameraMVP[2][3] + cameraMVP[3][3];
 
 	// Far plane
-	frustumPlanes[5].x = cameraMVP[0][3] - cameraMVP[0][2];
-	frustumPlanes[5].y = cameraMVP[1][3] - cameraMVP[1][2];
-	frustumPlanes[5].z = cameraMVP[2][3] - cameraMVP[2][2];
-	frustumPlanes[5].w = cameraMVP[3][3] - cameraMVP[3][2];
-
+	frustumPlanes[0].x = -cameraMVP[2][0] + cameraMVP[3][0];
+	frustumPlanes[0].y = -cameraMVP[2][1] + cameraMVP[3][1];
+	frustumPlanes[0].z = -cameraMVP[2][2] + cameraMVP[3][2];
+	frustumPlanes[0].w = -cameraMVP[2][3] + cameraMVP[3][3];
 
 	// Normalize planes
 	for (int i = 0; i < 6; i++)
@@ -286,8 +342,8 @@ bool GameEngine::IsInCameraFrustum(RenderData& rd)
 	// Not fully tested.
 	for (int i = 0; i < 6; i++)
 	{
-		if ((glm::dot(glm::vec3(frustumPlanes[i]), rd.boundingPoint) + frustumPlanes[i].w) + rd.sphereRadius < 0)
-			return false;
+		if ((glm::dot(glm::vec3(frustumPlanes[i]), rd.boundingPoint) - rd.sphereRadius)  < -frustumPlanes[i].w)
+		return false;
 	}
 	return true;
 }

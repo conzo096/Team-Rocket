@@ -18,7 +18,8 @@ private:
 	unsigned int Text2DVertexBufferID;
 	unsigned int Text2DUVBufferID;
 	unsigned int Text2DUniformID;
-
+	// should this be rendered?
+	bool isActive = true;
 	// Dimensions of quad.
 	int xPos, yPos, size;
 public:
@@ -60,5 +61,13 @@ public:
 		size = s;
 	}
 
+	bool IsActive()
+	{
+		return isActive;
+	}
+	void SetIsActive(bool a)
+	{
+		isActive = a;
+	}
 };
 

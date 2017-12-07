@@ -17,7 +17,8 @@ class StateManager : public Singleton<StateManager>
 		stateSettings,
 		stateControls,
 		statePlaying,
-		stateExiting
+		stateExiting,
+		statePause
 	};
 
 public:
@@ -50,4 +51,11 @@ public:
 	{
 		return stateMainMenu;
 	}
+
+	int ShowPauseScreen()
+	{
+		SettingsMenu sm;
+		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	}
+
 };

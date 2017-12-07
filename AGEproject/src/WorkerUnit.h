@@ -2,6 +2,7 @@
 #include "Unit.h"
 #include "Resource.h"
 #include "GroundMovement.h"
+#include "Game.h"
 class Worker : public Unit
 {
 private:
@@ -12,8 +13,13 @@ private:
 	bool walkToBase = false;
 	bool waitingForCollection = false;
 
+
+	// True if it is to harvest resource, false if it is to head back to cp.
+	bool harvestResource = true;
+
+
 	// Location is needs to head towards to drop of resource.
-	glm::dvec3 collectionPoint = glm::vec3(0, 2.5, 0);
+	glm::dvec3 collectionPoint = glm::vec3(10,0,50);
 
 protected:
 	void from_json(const nlohmann::json &j) {};
@@ -25,74 +31,18 @@ public:
 	~Worker() {};
 
 
+	glm::vec3 GetCollectionPoint() { return collectionPoint; }
+	void SetCollectionPoint(glm::vec3 cp) { collectionPoint = cp; }
+
+
+
+
+
 	// This class does not attack any entities unless it is the a resource.
-	void AttackEntity() override
-	{
-		if (timeSinceLastFire > fireRate)
-			canShoot = true;
-		if (targetEntity != NULL && targetEntity->GetCompatibleComponent<Resource>() != NULL)
-		{
-			if (returnToResource)
-			{
-				GetParent()->GetComponent<GroundMovement>().SetGoal(targetEntity->GetPosition());
-				// If within range, Collect some of the resource.
-				if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 16 && canShoot)
-				{
-					canShoot = false;
-					timeSinceLastFire = 0;
-					// Take some of the resource from the targetEntity.
-					resourcesHeld += targetEntity->GetCompatibleComponent<Resource>()->RetrieveResource();
-					if (resourcesHeld >= 1000 || targetEntity->GetComponent<Targetable>().IsDead())
-					{
-						walkToBase = true;
-						returnToResource = false;
-						std::cout << "Returning to base." << std::endl;
-						GetParent()->GetComponent<GroundMovement>().SetGoal(collectionPoint);
-					}
-					if (targetEntity->GetComponent<Targetable>().IsDead())
-					{
-						targetEntity = NULL;
-					}
-				}
-			}
-			// If the resource contained in this unit is within a certain amount, empty at base, then return.
-			if (walkToBase)
-			{
-				// Get it to walk to base.
-				GetParent()->GetComponent<GroundMovement>().SetGoal(collectionPoint);
-				// If it close enough to destination, give resource to team.
-				if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 0.5)
-				{
-					GetParent()->GetComponent<GroundMovement>().SetCurrentSpeed(0);
-					std::cout << "Depositing resource." << std::endl;
-					waitingForCollection = true;
-					walkToBase = false;
-					returnToResource = true;
-					std::cout << "Returning to resource." << std::endl;
-
-				}
-			}
-		}
-	}
-
+	void AttackEntity() override;
+	void HarvestResource() override;
 	// Players collect resource from worker once it is in correct area.
-	int Collect()
-	{
-		// Collect if at correct place, otherwise return 0.
-		if (waitingForCollection == true)
-		{
-			std::cout << "Sending: " << resourcesHeld << std::endl;
-			returnToResource = true;
-			walkToBase = false;
-			waitingForCollection = false;
-			int balanceToSend = resourcesHeld;
-			resourcesHeld = 0;
-			//GetParent()->GetCompatibleComponent<Movement>()->SetDestination(targetEntity->GetPosition());
-			return balanceToSend;
-		}
-		else
-			return 0;
-	}
+	int Collect();
 
 
 };

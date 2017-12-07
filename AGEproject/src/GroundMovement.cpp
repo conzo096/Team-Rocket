@@ -222,7 +222,7 @@ void GroundMovement::TurnTo(double delta)
 
 		vec3 distantPoint = thisPos + (distance * 2 * currentVec);
 
-		float determinant = ((destination.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((destination.z - thisPos.z)*(distantPoint.x - thisPos.x));
+		float determinant = static_cast<float>(((destination.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((destination.z - thisPos.z)*(distantPoint.x - thisPos.x)));
 
 		if (determinant != 0 && !glm::isnan(angle))
 		{
@@ -261,8 +261,8 @@ void GroundMovement::Update(double delta)
 	int xStart = static_cast<int>(floor(GetParent()->GetPosition().x + 0.5));//for grid of 1 spacing
 	int zStart = static_cast<int>(floor(GetParent()->GetPosition().z + 0.5));
 
-	int xFinish = floor(goal.x + 0.5);//for grid of 1 spacing
-	int zFinish = floor(goal.z + 0.5);
+	int xFinish = static_cast<int>(floor(goal.x + 0.5));//for grid of 1 spacing
+	int zFinish = static_cast<int>(floor(goal.z + 0.5));
 
 	for (int i = 0; i < waypoints.size(); i++)
 	{

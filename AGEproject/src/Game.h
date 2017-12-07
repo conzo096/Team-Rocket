@@ -40,10 +40,10 @@ public:
 
 
 	// Contains a list of just the neutral entities in the scene.
-	std::vector <Entity*> neutralEntities;
+	std::vector <std::shared_ptr<Entity>> neutralEntities;
 	
 	// Contains a list of all entities in the scene.
-	std::vector <Entity*> allEntities;
+	std::vector <std::shared_ptr<Entity>> allEntities;
 
 	// Particle that appears when the user selects a location.
 	BulletParticle location;
@@ -62,11 +62,14 @@ public:
 
 	float GetTime() { return time; };
 	dvec3** GetTerrainGrid() { return terrainGrid; };
-	vector<Entity*> FindLocalUnits(int team, dvec3 position, double sightRange);
+	std::vector<std::shared_ptr<Entity>> FindLocalUnits(int team, dvec3 position, double sightRange);
+	
+	// Obtain the nearest valid point to end from start.
+	vec3 ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end);
+	
 	void Initialise();
 	bool Update();
 	void Render();
+	
 
-	void HandleInput(GLFWwindow* window, int key, int scancode, int action, int mods);
-	//void UpdateEntityList(int start, int end, double deltaTime);
 };
