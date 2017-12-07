@@ -65,7 +65,8 @@ public:
 	{
 		return buttonOptions.find(name)->second;
 	}
-
+	std::string GetKeyString(const char* name);
+	std::string UserControls::AsciiToString(unsigned int ascii,unsigned int scanCode = 0);
 	// Search through all available index locations and connect to the first one found.
 	void FindConnectedJoystick()
 	{

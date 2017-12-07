@@ -14,19 +14,14 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 {
 	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
-		auto keyName = glfwGetKeyName(key, scancode);
-		if (keyName != NULL)
-		{
-			std::cout << keyName << std::endl;
-			buttons[currentSelection].second.SetText(keyName);
+		//auto keyName = glfwGetKeyName(key, scancode);
+		//if (keyName != NULL)
+		//{
+			//std::cout << keyName << std::endl;
+			buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
 			UserControls::Get().BindKey(bindings[currentSelection], key);
 			FileIO::Get().SaveIniFile();
-		}
-		else
-		{
-			std::cout << "Need to manually type key pressed!" << std::endl;
-			buttons[currentSelection].second.SetText("Invalid");
-		}
+		//}
 		//current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
@@ -117,6 +112,18 @@ int ControlsMenu::Draw(GLShader shader)
 
 	while (!selectionMade)
 	{
+
+		// Update key bindings.
+	//	PopulateBindings();
+		// Update key bindings.
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			if (i != 6 && i != 13)
+			{
+	//			buttons[i].second.SetText(bindings[i].c_str());
+			}
+
+		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
@@ -249,20 +256,20 @@ void ControlsMenu::PopulateBindings()
 
 	// Iterate through map
 	// Camera movement
-	bindings[0] = "Forward";
-	bindings[1] = "Backward";
-	bindings[2] = "Left";
-	bindings[3] = "Right";
-	bindings[4] = "RotateLeft";
-	bindings[5] = "RotateRight";
+	bindings[0] = UserControls::Get().GetKeyString("Forward");// "Forward";
+	bindings[1] = UserControls::Get().GetKeyString("Backward"); //"Backward";
+	bindings[2] = UserControls::Get().GetKeyString("Left");//"Left";
+	bindings[3] = UserControls::Get().GetKeyString("Right"); //"Right";
+	bindings[4] = UserControls::Get().GetKeyString("RotateLeft"); //"RotateLeft";
+	bindings[5] = UserControls::Get().GetKeyString("RotateRight"); //"RotateRight";
 	bindings[6] = "Not implemented";
-	bindings[7] = "ZoomIn";
-	bindings[8] = "ZoomOut";
+	bindings[7] = UserControls::Get().GetKeyString("ZoomIn"); //"ZoomIn";
+	bindings[8] = UserControls::Get().GetKeyString("ZoomOut"); //"ZoomOut";
 
 	// Hotkey/entity options
-	bindings[9] = "Hold";
-	bindings[10] = "HotKey1";
-	bindings[11] = "HotKey2";
-	bindings[12] = "HotKey3";
+	bindings[9] = UserControls::Get().GetKeyString("Hold"); //"Hold";
+	bindings[10] = UserControls::Get().GetKeyString("HotKey1"); //"HotKey1";
+	bindings[11] = UserControls::Get().GetKeyString("HotKey2");//"HotKey2";
+	bindings[12] = UserControls::Get().GetKeyString("HotKey3");//"HotKey3";
 	bindings[13] = "Not implemented";
 }

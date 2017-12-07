@@ -358,3 +358,41 @@ float UserControls::GetAxisValue(std::string action)
 		return false;
 	return axes[controllerAxis.find(action)->second];
 }
+
+std::string UserControls::GetKeyString(const char* name)
+{
+	//std::cout << "Not done" << std::endl;
+	std::string text("");
+	unsigned int ascii = buttonOptions.find(name)->second;
+	// invalid ascii character, have to handle manually.
+	return AsciiToString(ascii);
+}
+
+std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCode)
+{
+	const char* text;
+	switch (ascii)
+	{
+	case -1:
+		text = "Unknown";
+		break;
+	case 32:
+		text = "Spacebar";
+		break;
+	case 39:
+		text = "Apostrophe";
+		break;
+	case 259:
+		text = "Backspace";
+		break;
+	case 341:
+		text = "Left control";
+
+	default:
+		text = 	("%s",glfwGetKeyName(ascii,scanCode));
+		if (text == NULL)
+			text = "Dunno";
+		break;
+	}
+	return text;
+}
