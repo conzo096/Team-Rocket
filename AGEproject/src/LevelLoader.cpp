@@ -50,7 +50,7 @@ Team LevelLoader::GetTeam(const string team)
 	return neutral;
 }
 
-void LevelLoader::EncodeEntity(Entity* entity, json &objects, string entityList)
+void LevelLoader::EncodeEntity(std::shared_ptr<Entity> entity, json &objects, string entityList)
 {
 	json jEntity;
 	if(entity->GetCompatibleComponent<Renderable>() != nullptr)
@@ -158,7 +158,7 @@ void LevelLoader::EncodeEntity(Entity* entity, json &objects, string entityList)
 	objects.push_back(jEntity);
 }
 
-void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities, Player* player)
+void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<Entity>> &playerEntities, vector<std::shared_ptr<Entity>> &NPCEntities, vector<std::shared_ptr<Entity>> &neutralEntities, Player* player)
 {
 	std::ifstream ifs(jsonFile);
 	json j = json::parse(ifs);
@@ -169,7 +169,7 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 
 	for(json object : objects)
 	{
-		Entity* tempEntity = new Entity;
+		std::shared_ptr<Entity> tempEntity = std::make_shared<Entity>();
 		if(object["Type"] == "Renderable")
 		{
 			tempEntity->SetName(object["Name"]);
@@ -395,7 +395,7 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<Entity*> &playerE
 
 }
 
-void LevelLoader::SaveLevel(const std::string jsonFile, vector<Entity*> &playerEntities, vector<Entity*> &NPCEntities, vector<Entity*> &neutralEntities, int balance)
+void LevelLoader::SaveLevel(const std::string jsonFile, vector<std::shared_ptr<Entity>> &playerEntities, vector<std::shared_ptr<Entity>> &NPCEntities, vector<std::shared_ptr<Entity>> &neutralEntities, int balance)
 {
 	std::ofstream o(jsonFile);
 	json j;

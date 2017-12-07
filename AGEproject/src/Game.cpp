@@ -252,7 +252,7 @@ bool Game::Update()
 	{
 		freeCamEnabled = !freeCamEnabled;
 		LevelLoader ll;
-		//ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
