@@ -136,7 +136,7 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey1", GLFW_KEY_1));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey2", GLFW_KEY_2));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey3", GLFW_KEY_3));
-
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey4", GLFW_KEY_4));
 	}
 	// Set up controller configuration.
 	else
@@ -297,6 +297,7 @@ void UserControls::ResetControllerBindings()
 bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
 {
 	ResetControllerBindings();
+	isJoystickActive();
 	int axesCount, buttonCount;
 	const float * axes = glfwGetJoystickAxes(joyStickConnected, &axesCount);
 	const unsigned char* keys = glfwGetJoystickButtons(joyStickConnected, &buttonCount);

@@ -26,6 +26,10 @@ class Model
 	unsigned int VAO, VBO, EBO;
 	float lowestYVertex;
 	float largestYVertex;
+
+	// Width and length of model, for gridplacement.
+	int width, length;
+
 	GLenum type;
 public:
 	Model();
@@ -40,7 +44,8 @@ public:
 	float GetLowestYPosition() { return lowestYVertex; }
 	float GetLargestYPosition() { return largestYVertex; }
 	void Draw();
-
+	int GetLength() { return length; }
+	int GetWidth() { return width; }
 	Model(const std::string& fileName);
 
 	std::vector<glm::vec3> GetVertexPositions()

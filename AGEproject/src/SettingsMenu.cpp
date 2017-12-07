@@ -194,20 +194,40 @@ int SettingsMenu::Draw(GLShader shader)
 				switch (currentOption1)
 				{
 				case 0:
-					GameEngine::Get().SetScreenWidth(1920);
-					GameEngine::Get().SetScreenHeight(1080);
+					if (!GameEngine::Get().GetFullScreen())
+					{
+						GameEngine::Get().SetScreenWidth(1920);
+						GameEngine::Get().SetScreenHeight(1080);
+					}
+					GameEngine::Get().SetResolutionWidth(1920);
+					GameEngine::Get().SetResolutionHeight(1080);
 					break;
 				case 1:
-					GameEngine::Get().SetScreenWidth(1600);
-					GameEngine::Get().SetScreenHeight(900);
+					if (!GameEngine::Get().GetFullScreen())
+					{
+						GameEngine::Get().SetScreenWidth(1600);
+						GameEngine::Get().SetScreenHeight(900);
+					}
+					GameEngine::Get().SetResolutionWidth(1600);
+					GameEngine::Get().SetResolutionHeight(900);
 					break;
 				case 2:
-					GameEngine::Get().SetScreenWidth(1280);
-					GameEngine::Get().SetScreenHeight(720);
+					if (!GameEngine::Get().GetFullScreen())
+					{
+						GameEngine::Get().SetScreenWidth(1280);
+						GameEngine::Get().SetScreenHeight(720);
+					}
+					GameEngine::Get().SetResolutionWidth(1280);
+					GameEngine::Get().SetResolutionHeight(720);
 					break;
 				case 3:
-					GameEngine::Get().SetScreenWidth(1024);
-					GameEngine::Get().SetScreenHeight(576);
+					if (!GameEngine::Get().GetFullScreen())
+					{
+						GameEngine::Get().SetScreenWidth(1024);
+						GameEngine::Get().SetScreenHeight(576);
+					}
+					GameEngine::Get().SetResolutionWidth(1024);
+					GameEngine::Get().SetResolutionHeight(576);
 					break;
 				}
 			}

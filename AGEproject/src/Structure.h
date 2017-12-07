@@ -29,14 +29,17 @@ private:
 	double ammountBuilt;
 	std::queue<Product> productQueue;
 	// Holds items that are created.
-	std::vector<Entity*> collectionQueue;
-	
+	std::vector<std::shared_ptr<Entity>> collectionQueue;
 	// Types of entities it can spawn.
 	std::vector<SpawnInfo> spawnData;
 	// The current stored value of this building (how much money has been invested into producing units/other structures.)
 	int value;
 	// What team this structure belongs to.
 	Team team;
+	// Where units created from this will come from.
+	glm::vec3 spawnPoint;
+
+
 protected:
 	void from_json(const nlohmann::json &j);
 public:
@@ -45,17 +48,20 @@ public:
 	Structure(std::string type,std::string unitType,int cost) : Structure(type) {};
 	~Structure();
 
-	void Collect(std::vector<Entity*>& ents);
+	void Collect(std::vector<std::shared_ptr<Entity>>& ents);
 	void Build(double delta);
 	void AddProduct(int& bal, int hotkey, glm::vec3 destination);
 	void Produce(double delta);
 	void Update(double delta) override;
 	int GetQueueSize() { return  (int)productQueue.size(); }
-
+	// Get next thing in queue.
+	Product GetNextProduct() { return productQueue.front(); }
 	void SetTeam(Team t) { team = t; }
 	Team GetTeam() { return team; }
 	
 	void AddSpawnInfo(SpawnInfo info) { spawnData.push_back(info); }
 	std::vector<SpawnInfo> GetSpawnInfo() { return spawnData; }
 
+	glm::vec3 GetSpawnPoint() { return spawnPoint; }
+	void SetSpawnPoint(glm::vec3 sp) { spawnPoint = sp; }
 };

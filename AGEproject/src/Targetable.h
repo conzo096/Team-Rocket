@@ -37,4 +37,5 @@ public:
 	void Update(double delta) override;
 
 	void IsSelected(bool act);
+	float GetHealth() { return health; }
 };

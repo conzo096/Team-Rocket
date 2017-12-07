@@ -115,6 +115,7 @@
     <ClCompile Include="src\UIQuad.cpp" />
     <ClCompile Include="src\Unit.cpp" />
     <ClCompile Include="src\UserControls.cpp" />
+    <ClCompile Include="src\WorkerUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.frag" />
@@ -135,7 +136,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{022A6B6F-1377-4AC5-94FC-FF78BD6B0238}</ProjectGuid>
     <RootNamespace>AGEproject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -206,6 +207,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)/include</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <AdditionalDependencies>assimp.lib;glew32s.lib;opengl32.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;fmodL64_vc.lib;fmodstudioL64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>

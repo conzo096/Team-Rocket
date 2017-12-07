@@ -15,15 +15,15 @@ protected:
 	// Team the player is on.
 	Team team;
 	// List of entities that this player contains.
-	std::vector<Entity*>entities;
+	std::vector<std::shared_ptr<Entity>>entities;
 	// The units that the player is controlling.
-	std::vector<Entity*> selectedEntities;
+	std::vector<std::shared_ptr<Entity>> selectedEntities;
 	// How much $$$$ the player has, used for unit spawning.
 	int balance = 10000;
 
 	// Used to limit key calls.
-	int updateCalled;
-
+	float timeElapsed = 0.5f;
+	float lastClock = 0.0f;
 	// should a ghost building be displayed?
 	bool showGhostBuilding = false;
 	// Is this area valid for the player to request a building?
@@ -31,13 +31,15 @@ protected:
 	int buildingType; 
 	// Ghost building.
 	Entity ghostBuilding;
-
+	// cost to build object.
+	float buildingCost;
 public:
 	
 
 	Team GetTeam() { return team; }
 	void SetTeam(Team t) { team = t; }
-	std::vector<Entity*>& GetEntities() { return entities; }
+	std::vector<std::shared_ptr<Entity>>& GetEntities() { return entities; }
+	std::vector<std::shared_ptr<Entity>>& GetSelectedEntities() { return selectedEntities; }
 	int GetBalance() { return balance; }
 	void SetBalance(const int val) { balance = val; }
 
@@ -45,8 +47,8 @@ public:
 	void UpdateGhostBuilding(int type);
 
 
-	void Update(std::vector<Entity*>& enemyList);
-	void HandleInput(std::vector<Entity*>& enemyList);
+	void Update(std::vector<std::shared_ptr<Entity>>& enemyList);
+	void HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList);
 	void Render();
 
 

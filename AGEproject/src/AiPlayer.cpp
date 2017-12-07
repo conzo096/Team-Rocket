@@ -1,13 +1,13 @@
 #include "AiPlayer.h"
 
-void AiPlayer::Update(std::vector<Entity*>& enemyList)
+void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 {
 	CheckProperty();
 	MacroCycle();
 	//HandleAiLogic(enemyList);
 	// Collect any units that have been produced by your structures.
-	std::vector<Entity*> temp;
-	for (Entity*&e : entities)
+	std::vector<std::shared_ptr<Entity>> temp;
+	for (std::shared_ptr<Entity>&e : entities)
 	{
 		if (e->GetCompatibleComponent<Structure>() != NULL)
 		{
@@ -155,7 +155,7 @@ void AiPlayer::ArmyCycle()
 {
 }
 
-void AiPlayer::HandleAiLogic(std::vector<Entity*>& enemyList)
+void AiPlayer::HandleAiLogic(std::vector<std::shared_ptr<Entity>>&)
 {
 	// If it only has a base, build a worker.
 

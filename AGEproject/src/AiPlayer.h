@@ -20,7 +20,7 @@ class AiPlayer : public Player
 
 	int unitsQueued = 0;
 public:
-	void Update(std::vector<Entity*>& enemyList);
+	void Update(std::vector<std::shared_ptr<Entity>>& enemyList);
 
 	//Update unit, building and supply counts
 	void CheckProperty();
@@ -30,7 +30,9 @@ public:
 
 	//Manage all units
 	void ArmyCycle();
+	// Update the ai player.
 
-	//Ai decisions are handled here.
-	void HandleAiLogic(std::vector<Entity*>& enemyList);
+	// Ai decisions are handled here.
+	void HandleAiLogic(std::vector<std::shared_ptr<Entity>>& enemyList);
+
 };

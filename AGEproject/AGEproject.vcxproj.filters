@@ -171,6 +171,9 @@
     <ClCompile Include="src\AiPlayer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\WorkerUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">
