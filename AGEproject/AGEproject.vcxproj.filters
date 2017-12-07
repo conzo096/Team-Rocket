@@ -168,6 +168,9 @@
     <ClCompile Include="src\TurretRenderable.cpp">
       <Filter>Source Files\Components\Units</Filter>
     </ClCompile>
+    <ClCompile Include="src\WorkerUnit.cpp">
+      <Filter>Source Files\Components\Units</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AiPlayer.h">

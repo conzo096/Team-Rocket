@@ -37,7 +37,7 @@ public:
 			float length = float((modelCenter - v).length());
 			radius = std::max(radius,length);
 		}
-		radius += 2;
+		radius;
 	}
 	
 
@@ -45,12 +45,13 @@ public:
 	void SetCenter(glm::vec3 c) { center = c; }
 
 	float GetRadius() { return radius; }
-
+	void SetRadius(float r) { radius = r; }
 	void SetUpBoundingSphere(float rad,glm::vec3 c)
 	{
 		radius = rad;
 		center = c;
 	}
+
 	
 	void from_json(const nlohmann::json &j) {};
 
