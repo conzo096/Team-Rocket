@@ -30,7 +30,6 @@ public:
 
 	//Manage all units
 	void ArmyCycle();
-	// Update the ai player.
 
 	// Ai decisions are handled here.
 	void HandleAiLogic(std::vector<std::shared_ptr<Entity>>& enemyList);
