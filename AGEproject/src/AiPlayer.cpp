@@ -4,7 +4,7 @@ void AiPlayer::Update(std::vector<Entity*>& enemyList)
 {
 	CheckProperty();
 	MacroCycle();
-	HandleAiLogic(enemyList);
+	//HandleAiLogic(enemyList);
 	// Collect any units that have been produced by your structures.
 	std::vector<Entity*> temp;
 	for (Entity*&e : entities)
@@ -82,24 +82,69 @@ void AiPlayer::MacroCycle()
 	}
 	if (workerCount > 4)
 	{
-		//Build a factory every 3 minutes
-		if (factoryCount < (int)(Game::Get().GetTime() / 3))
+		//Build a factory every 2 minutes
+		if (factoryCount < (int)(Game::Get().GetTime() / 2))
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
 				if (entities[i]->GetName() == "Worker")
 				{
-					int buildX = rand() % 20 + 80;
-					int buildZ = rand() % 20 + 80;
-					entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(buildX, 0, buildZ));
+					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+					{
+						int buildX = rand() % 20 + 80;
+						int buildZ = rand() % 20 + 80;
+						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(buildX, 0, buildZ));
+					}
+				}
+				break;
+			}
+		}
+	}
+	if (workerCount > 6 && factoryCount > 1)
+	{
+		//Build a vehicleBay every 3 minutes
+		if (vehicleBayCount < (int)(Game::Get().GetTime() / 3))
+		{
+			for (int i = 0; i < entities.size(); i++)
+			{
+				if (entities[i]->GetName() == "Worker")
+				{
+					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+					{
+						int buildX = rand() % 20 + 80;
+						int buildZ = rand() % 20 + 80;
+						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(buildX, 0, buildZ));
+					}
 					break;
 				}
 			}
 		}
 	}
-	for (int i = 0; i < entities.size(); i++)
+	if (workerCount > 8 && factoryCount > 2 && vehicleBayCount > 1)
 	{
-		if (entities[i]->GetCompatibleComponent<Structure>() != NULL && entities[i]->GetName() != "Worker")
+		//Build a vehicleBay every 4 minutes
+		if (vehicleBayCount < (int)(Game::Get().GetTime() / 4))
+		{
+			for (int i = 0; i < entities.size(); i++)
+			{
+				if (entities[i]->GetName() == "Worker")
+				{
+					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+					{
+						int buildX = rand() % 20 + 80;
+						int buildZ = rand() % 20 + 80;
+						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2, glm::vec3(buildX, 0, buildZ));
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	//Make all production structures make units not including the main base
+	for (int i = 1; i < entities.size(); i++)
+	{
+		if (entities[i]->GetCompatibleComponent<Structure>() != NULL && entities[i]->GetName() != "Worker" && entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 		{
 			entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, entities[i]->GetPosition());
 		}

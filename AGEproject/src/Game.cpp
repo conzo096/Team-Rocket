@@ -67,19 +67,19 @@ void Game::Initialise()
 {
 
 	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
-	navGrid = new int*[100];
-	for (int i = 0; i < 100; i++)
-		navGrid[i] = new int[100];
-	for (int i = 0; i < 100; i++)
-		for (int j = 0; j < 100; j++)
+	navGrid = new int*[gridSize];
+	for (int i = 0; i < gridSize; i++)
+		navGrid[i] = new int[gridSize];
+	for (int i = 0; i < gridSize; i++)
+		for (int j = 0; j < gridSize; j++)
 		{
 				navGrid[i][j] = 0;
 		}
-	terrainGrid = new dvec3*[100];
-	for (int i = 0; i < 100; i++)
+	terrainGrid = new dvec3*[gridSize];
+	for (int i = 0; i < gridSize; i++)
 	{
-		terrainGrid[i] = new dvec3[100];
-		for (int j = 0; j < 100; j++)
+		terrainGrid[i] = new dvec3[gridSize];
+		for (int j = 0; j < gridSize; j++)
 		{
 			terrainGrid[i][j] = vec3(i, 0, j);
 		}
