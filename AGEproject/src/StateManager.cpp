@@ -12,55 +12,63 @@ void StateManager::StateLoop()
 	bool running = true;
 	int select;
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
+	AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
+
 	while (running)
 	{
 		glfwPollEvents();
-		switch (state)
+		switch (currentState)
 		{
 		case(stateSplash):
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			ShowSplashScreen();
-			state = stateMainMenu;
+			currentState = stateMainMenu;
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 0)
 			{
 				Game::Get().Initialise(); //This will need a new home later.
-				state = statePlaying;
+				currentState = statePlaying;
 			}
 			else if (select == 1)
 			{
-				state = stateSettings;
+				currentState = stateSettings;
 			}
-			else if (select == 2) { state = stateExiting; }
+			else if (select == 2) { currentState = stateExiting; }
 			break;
 		case(stateSettings):
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowSettingsMenu();
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 1)
 			{
 				GameEngine::Get().UpdateWindow();
-				state = stateMainMenu;
+				currentState = stateMainMenu;
 			}
 			else if (select == 2) 
 			{ 
-				state = stateMainMenu; 
+				currentState = stateMainMenu; 
 			}
 			else if (select == 0)
 			{
-				state = stateControls;
+				currentState = stateControls;
 			}
 			else if (select == 7) 
 			{ 
-				state = stateExiting; 
+				currentState = stateExiting; 
 			}
 			break;
 		case(stateControls):
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
 			select = ShowControlsMenu();
-			// Handle result.
-			state = stateMainMenu;
+			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
+			if (select == 14)
+			{
+				currentState = stateExiting;
+			}
+			else
+			{
+				currentState = stateSettings;
+			}
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();
@@ -70,7 +78,7 @@ void StateManager::StateLoop()
 			running = false;
 			break;
 		default:
-			throw std::invalid_argument("Error: No behavior has been set for state" + state);
+			throw std::invalid_argument("Error: No behavior has been set for state" + currentState);
 			break;
 		}
 		AudioEngine::Get().Update();

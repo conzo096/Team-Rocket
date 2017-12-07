@@ -3,6 +3,7 @@
 #include "GameEngine.h"
 #include "RayCast.h"
 #include "Menu.h"
+#include "UIQuad.h"
 #include "Game_Camera.h"
 #include "Free_Camera.h"
 #include <map>
@@ -22,8 +23,6 @@ private:
 	// Map of controller axis.
 	std::map<std::string, unsigned int> controllerAxis;
 
-
-
 	// Mouse position.
 	double mouseX, mouseY;
 
@@ -34,6 +33,7 @@ private:
 	RayCast mouseRay;
 
 	bool IsJoystick = false;
+
 public:
 
 
@@ -53,6 +53,7 @@ public:
 	bool IsMouseButtonPressed(std::string &action);
 
 	bool MouseSelection(std::string action, std::vector<Button>& buttons, bool& mouseButtonHeld, int& currentSelection);
+	bool MouseSelection(std::string action, std::vector<std::pair<Button, UIQuad>>& buttons, bool& mouseButtonHeld, int& currentSelection);
 
 	// Returns the key value of an action.
 	unsigned int GetKeyValue(std::string &name)

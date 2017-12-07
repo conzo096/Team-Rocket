@@ -25,7 +25,6 @@ void UserControls::BindKey(std::string &name, unsigned int key)
 
 bool UserControls::IsKeyPressed(std::string &action)
 {
-
 	auto val = buttonOptions.find(action);
 	if (val == buttonOptions.end())
 		return false;
@@ -33,7 +32,7 @@ bool UserControls::IsKeyPressed(std::string &action)
 	{
 		if (glfwGetKey(GameEngine::Get().GetWindow(), val->second) == GLFW_PRESS)
 		{			
-				return true;
+			return true;
 		}
 	}
 	// Should never enter here but just in case.
@@ -107,29 +106,61 @@ bool UserControls::MouseSelection(std::string action, std::vector<Button>& butto
 	return false;
 }
 
+bool UserControls::MouseSelection(std::string action, std::vector<std::pair<Button, UIQuad>>& buttons, bool& mouseButtonHeld, int& currentSelection)
+{
+	if (IsMouseButtonPressed(action))
+	{
+		if (!mouseButtonHeld)
+		{
+			for (int i = 0; i < buttons.size(); i++)
+			{
+				if (buttons[i].first.renderTarget.IsMouseInBounds())
+				{
+					currentSelection = i;
+					break;
+				}
+			}
+			mouseButtonHeld = true;
+		}
+	}
+	else
+	{
+		if (mouseButtonHeld)
+		{
+			mouseButtonHeld = false;
+			if (currentSelection > -1)
+			{
+				if (buttons[currentSelection].first.renderTarget.IsMouseInBounds())
+					return true;
+				else
+					currentSelection = -1;
+			}
+		}
+	}
+	return false;
+}
+
 void UserControls::ResetKeyBindings(ControllerOption options)
 {
-	// clear the current map of keys.
+	// Clear the current map of keys.
 	buttonOptions.clear();
 	// Set up keyboard configuration.
 	if (options == KEYBOARD)
 	{
-		// Mouse buttons.
+		// Mouse buttons and Escape (DO NOT REMAP)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Action", GLFW_MOUSE_BUTTON_1));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Move", GLFW_MOUSE_BUTTON_2));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Escape", GLFW_KEY_ESCAPE));
 
-		// Camera movement.
+		// Camera movement
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Forward", GLFW_KEY_W));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Backward", GLFW_KEY_S));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Left", GLFW_KEY_A));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Right", GLFW_KEY_D));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("RotateLeft", GLFW_KEY_W));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("RotateRight", GLFW_KEY_R));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("ResetCamera", GLFW_KEY_SPACE));
-		
-		// Other?
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Escape", GLFW_KEY_ESCAPE));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("ZoomIn", GLFW_KEY_SPACE));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("ZoomOut", GLFW_KEY_LEFT_CONTROL));
 
 		// Hotkey/ entity options. 
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Hold", GLFW_KEY_X));
@@ -137,6 +168,8 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey2", GLFW_KEY_2));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey3", GLFW_KEY_3));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey4", GLFW_KEY_4));
+		// Other
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
 	}
 	// Set up controller configuration.
 	else
