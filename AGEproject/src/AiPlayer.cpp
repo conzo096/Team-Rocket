@@ -3,6 +3,7 @@
 void AiPlayer::Update(std::vector<Entity*>& enemyList)
 {
 	CheckProperty();
+	MacroCycle();
 	HandleAiLogic(enemyList);
 	// Collect any units that have been produced by your structures.
 	std::vector<Entity*> temp;
@@ -70,12 +71,37 @@ void AiPlayer::MacroCycle()
 {
 	if (entities.size() > 0)
 	{
-		if (entities.size() == 1 && entities[0]->GetName() == "Base" && !workerbuilding)
+		//Build up to 16 workers, 3 a minute
+		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() * 3))
 		{
-			workerbuilding = true;
-			// Build a worker.
-			entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(75, 0, 75));
-			unitsQueued++;
+			if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+			{
+				entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, entities[0]->GetPosition());
+			}
+		}
+	}
+	if (workerCount > 4)
+	{
+		//Build a factory every 3 minutes
+		if (factoryCount < (int)(Game::Get().GetTime() / 3))
+		{
+			for (int i = 0; i < entities.size(); i++)
+			{
+				if (entities[i]->GetName() == "Worker")
+				{
+					int buildX = rand() % 20 + 80;
+					int buildZ = rand() % 20 + 80;
+					entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(buildX, 0, buildZ));
+					break;
+				}
+			}
+		}
+	}
+	for (int i = 0; i < entities.size(); i++)
+	{
+		if (entities[i]->GetCompatibleComponent<Structure>() != NULL && entities[i]->GetName() != "Worker")
+		{
+			entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, entities[i]->GetPosition());
 		}
 	}
 }

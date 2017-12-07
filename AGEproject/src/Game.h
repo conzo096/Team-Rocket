@@ -22,6 +22,7 @@ class AiPlayer;
 class Game : public Singleton<Game>
 {
 private:
+	double time;
 	double lastTime;
 	int** navGrid;
 	dvec3** terrainGrid;
@@ -58,7 +59,7 @@ public:
 	int GetNavGridValue(glm::ivec2 pos) { return navGrid[pos.x][pos.y]; }
 	void UpdateNavGrid(int val, glm::ivec2 pos);
 
-
+	float GetTime() { return time; };
 	dvec3** GetTerrainGrid() { return terrainGrid; };
 	vector<Entity*> FindLocalUnits(int team, dvec3 position, double sightRange);
 	void Initialise();
