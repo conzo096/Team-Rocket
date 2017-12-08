@@ -145,9 +145,9 @@ private:
 	static std::vector<std::pair<Button, UIQuad>> buttons;
 
 	// Button textures
-	std::vector <unsigned int> button_tex;
-	std::vector <unsigned int> highlight_tex;
-	std::vector <unsigned int> current_tex;
+	static std::vector <unsigned int> button_tex;
+	static std::vector <unsigned int> highlight_tex;
+	static std::vector <unsigned int> current_tex;
 
 	// Key bindings, index of buttons represents one of these.
 	static std::vector<std::string> bindings;

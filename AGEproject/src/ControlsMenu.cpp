@@ -9,6 +9,11 @@ int const ControlsMenu::numOfControls = 14;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::string> ControlsMenu::bindings;
 std::vector<std::string> ControlsMenu::buttonActions;
+
+std::vector <unsigned int> ControlsMenu::button_tex;
+std::vector <unsigned int> ControlsMenu::highlight_tex;
+std::vector <unsigned int> ControlsMenu::current_tex;
+
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -17,7 +22,7 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
 		UserControls::Get().BindKey(buttonActions[currentSelection], key);
 		FileIO::Get().SaveIniFile();
-		//current_tex[currentSelection] = button_tex[currentSelection];
+		current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
 		glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
