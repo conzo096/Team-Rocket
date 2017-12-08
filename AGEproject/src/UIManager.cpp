@@ -11,6 +11,9 @@
 		balance.SetSize(10);
 		uiElements.insert(std::pair<std::string,UIQuad>("Balance", balance));
 
+
+
+		// Friendly selected unit
 		UIQuad name;
 		name.SetText("Name:");
 		name.SetX(650);
@@ -36,6 +39,34 @@
 		misc2.SetY(25);
 		misc2.SetSize(10);
 		uiElements.insert(std::pair<std::string, UIQuad>("Misc2", misc2));
+
+		//Enemy selected unit.
+		// Friendly selected unit
+		
+		name.SetText("Name:");
+		name.SetX(250);
+		name.SetY(100);
+		name.SetSize(10);
+		uiElements.insert(std::pair<std::string, UIQuad>("EnemyName", name));
+
+		health.SetText("Health:");
+		health.SetX(250);
+		health.SetY(75);
+		health.SetSize(10);
+		uiElements.insert(std::pair<std::string, UIQuad>("EnemyHealth", health));
+		
+		misc.SetText("misc:");
+		misc.SetX(250);
+		misc.SetY(50);
+		misc.SetSize(10);
+		uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc", misc));
+		
+		misc2.SetText("misc2:");
+		misc2.SetX(250);
+		misc2.SetY(25);
+		misc2.SetSize(10);
+		uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc2", misc2));
+
 
 	}
 
@@ -97,6 +128,16 @@
 			x->second.SetIsActive(false);
 			x = uiElements.find("Misc2");
 			x->second.SetIsActive(false);
+			x = uiElements.find("EnemyName");
+			x->second.SetIsActive(false);
+			x = uiElements.find("EnemyHealth");
+			x->second.SetIsActive(false);
+			x = uiElements.find("EnemyMisc");
+			x->second.SetIsActive(false);
+			x = uiElements.find("EnemyMisc2");
+			x->second.SetIsActive(false);
+
+
 		}
 	}
 

@@ -6,6 +6,12 @@
 #include "UserControls.h"
 #include <tuple>
 #include "AudioEngine.h"
+#include "PointLight.h"
+
+
+void GameEngine::AddPointLight(PointLight* light) { lights.push_back(light); }
+std::vector<PointLight*>& GameEngine::GetPointLights() { return lights; }
+
 
 void GameEngine::Initialise()
 {
@@ -70,7 +76,9 @@ void GameEngine::Render()
 		glUseProgram(rl.shader);
 		// Bind Uniforms.
 		const auto mvp = cameraMVP * rl.m;
-
+		// Bind all the lights.
+		for (int i = 0; i < lights.size(); i++)
+			lights[i]->Render();
 		GLint index;
 		index = glGetUniformLocation(rl.shader, "MVP");
 		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));

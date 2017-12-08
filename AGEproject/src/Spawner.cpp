@@ -27,7 +27,11 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		if (team == Team::player)
-			tempRenderable->GetMaterial().emissive = glm::vec4(74/255, 20/255, 140/255, 1);
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		tempRenderable->SetProperties("./json/Worker.json");
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(spawnPosition);
@@ -76,6 +80,18 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto t = std::make_unique<TurretRenderable>();
 		t->SetMaterial(new Material());
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
+		if (team == Team::player)
+		{
+			t->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			t->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		t->SetProperties("./json/Drone.json");
 		t->SetModel("DroneTurret");
 		t->SetTexture("DroneTurretUV");
@@ -115,9 +131,21 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		tempRenderable->UpdateTransforms();	
 		auto t = std::make_unique<TurretRenderable>();
 		t->SetMaterial(new Material());
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		t->SetProperties("./json/Warden.json");
 		t->SetModel("WardenTurret");
 		t->SetTexture("WardenTurretUV");
@@ -160,7 +188,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
 		auto tempUnit = std::make_unique<Ship>();
@@ -199,8 +232,6 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
 		if (team == Team::player)
 		{
 			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
@@ -263,9 +294,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 			spawn = glm::vec3(50, 0, 10);
 		}
 		tempStructure->SetSpawnPoint(spawn);
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
@@ -302,9 +336,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-		auto tempBoundSphere = std::make_unique<BoundingSphere>();
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));
@@ -313,8 +350,6 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->AddComponent(move(target));
 		return tempEntity;
 	}
-
-
 	if (name == "Factory")
 	{
 		tempEntity->SetName("Factory");
@@ -343,9 +378,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-			// Set spawn Point.
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);		// Set spawn Point.
 		glm::vec3 spawn = FindValidSpawnPoint(sp);
 		// Check if it is invalid
 		if (spawn == glm::vec3(-1))
@@ -391,9 +429,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-			// Set spawn Point.
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);		// Set spawn Point.
 		glm::vec3 spawn = FindValidSpawnPoint(sp);
 		// Check if it is invalid
 		if (spawn == glm::vec3(-1))

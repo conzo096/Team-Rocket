@@ -10,6 +10,7 @@
 #include "Model.h"
 #include <mutex>
 
+class PointLight;
 class Material;
 
 struct Effect
@@ -48,6 +49,7 @@ struct ParticleData
 	unsigned int tex;
 };
 
+
 class GameEngine : public Singleton<GameEngine>
 {
 private:
@@ -67,6 +69,7 @@ private:
 	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
 	std::vector<ParticleData> particles;
+	std::vector<PointLight*> lights;
 	glm::vec4 frustumPlanes[6];
 	std::mutex mut;
 
@@ -93,6 +96,8 @@ public:
 	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
 	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
+	void AddPointLight(PointLight* light); 
+	std::vector<PointLight*>& GetPointLights();
 	// Cleans up game engine resources.
 	void CleanUp();
 

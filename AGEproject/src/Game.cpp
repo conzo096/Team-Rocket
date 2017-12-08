@@ -179,9 +179,10 @@ void Game::Initialise()
 	//ll.LoadLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
 	
 	std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
-	auto tempLightComponent = std::make_unique<PointLight>();
+	auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
-	tempEntity3->AddComponent(move(tempLightComponent));
+	//tempEntity3->AddComponent(move(tempLightComponent));
+	GameEngine::Get().AddPointLight(tempLightComponent);
 	neutralEntities.push_back(tempEntity3);
 
 	// This is the floor.
