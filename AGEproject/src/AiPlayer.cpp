@@ -77,7 +77,7 @@ void AiPlayer::MacroCycle()
 		{
 			if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 			{
-				entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, entities[0]->GetPosition());
+				entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ void AiPlayer::MacroCycle()
 						int buildX = rand() % 20 + 80;
 						int buildZ = rand() % 20 + 80;
 						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
-						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(buildX, 0, buildZ));
+						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 					}
 					break;
 				}
@@ -116,7 +116,7 @@ void AiPlayer::MacroCycle()
 						int buildX = rand() % 20 + 80;
 						int buildZ = rand() % 20 + 80;
 						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
-						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(buildX, 0, buildZ));
+						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 					}
 					break;
 				}
@@ -137,7 +137,7 @@ void AiPlayer::MacroCycle()
 						int buildX = rand() % 20 + 80;
 						int buildZ = rand() % 20 + 80;
 						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
-						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2, glm::vec3(buildX, 0, buildZ));
+						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 					}
 					break;
 				}
@@ -150,7 +150,7 @@ void AiPlayer::MacroCycle()
 	{
 		if (entities[i]->GetCompatibleComponent<Structure>() != NULL && entities[i]->GetName() != "Worker" && entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 		{
-			entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, entities[i]->GetPosition());
+			entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 		}
 	}
 }
@@ -169,7 +169,7 @@ void AiPlayer::HandleAiLogic(std::vector<std::shared_ptr<Entity>>&)
 		{
 			workerbuilding = true;
 			// Build a worker.
-			entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(75, 0, 75));
+			entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 			unitsQueued++;
 		}
 	}
@@ -203,7 +203,7 @@ void AiPlayer::HandleAiLogic(std::vector<std::shared_ptr<Entity>>&)
 			if (entities[i]->GetName() == "Worker")
 			{
 				// Add a factory at a set position.
-				entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(75, 0, 15));
+				entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 				unitsQueued++;
 				factoryMade = true;
 			}
@@ -229,7 +229,7 @@ void AiPlayer::HandleAiLogic(std::vector<std::shared_ptr<Entity>>&)
 			//	std::cout << entities[i]->GetName() << std::endl;
 			if (entities[i]->GetName() == "Factory")
 			{
-				entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(70, 0, 15));
+				entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 				combatUnitCount++;
 				unitsQueued++;
 			}

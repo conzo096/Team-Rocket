@@ -208,27 +208,16 @@ void Game::Initialise()
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
 
-<<<<<<< HEAD
-//	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
 
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
-=======
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(96.5, 2.5, 96.5), NPC->GetTeam()));
-
 	
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
+
 	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 25), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));
->>>>>>> origin/Development
-
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 0), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 0), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 100), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 100), Team::neutral));*/
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));*/
 	lastTime = clock();
 }
 

@@ -198,24 +198,17 @@ void GameEngine::AddToRenderList(RenderData data)
 	// Sort vector here.
 	mut.lock();
 	//if (data.sphereRadius == 0)
-<<<<<<< HEAD
 	{
-=======
 	//{
->>>>>>> origin/Development
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
 		// it should be inserted to first.
-
 		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
 		{
 			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
 		});
-<<<<<<< HEAD
 	}
-=======
 	//}
->>>>>>> origin/Development
 	//else if(IsInCameraFrustum(data))
 	//{
 	//	renderList.push_back(data);

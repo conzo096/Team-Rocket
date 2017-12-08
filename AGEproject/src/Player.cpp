@@ -215,11 +215,9 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					spawnLoc.y = 0.0f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
-<<<<<<< HEAD
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(20, 0.0, 0));
-=======
+
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
->>>>>>> origin/Development
+
 				}
 				timeElapsed = 0;
 			}
@@ -237,11 +235,8 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					spawnLoc.y = 0.0f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
-<<<<<<< HEAD
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(20, 0.0, 0));
-=======
+
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
->>>>>>> origin/Development
 				}
 				timeElapsed = 0;
 			}
@@ -259,11 +254,8 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					spawnLoc.y = 0.0f;
 					spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
 					spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
-<<<<<<< HEAD
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2, glm::vec3(20, 0.0, 0));
-=======
+
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
->>>>>>> origin/Development
 				}
 				timeElapsed = 0;
 			}
