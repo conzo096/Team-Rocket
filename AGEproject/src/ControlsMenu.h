@@ -73,8 +73,8 @@ public:
 					UIQuad& u = buttons[i].second;
 					u.SetText(bindings[i].c_str());
 					u.SetSize(12);
-					u.SetX(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
-					u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
+					u.SetX(	int(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
+					u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
 
 					buttonOffsetY += offsetChange;
 				}
@@ -92,7 +92,7 @@ public:
 			// Handle right hand side.
 			buttonOffsetX = 0.1f;
 			buttonOffsetY = 0.1f;
-			for (int i = (buttons.size() / 2); i < buttons.size(); i++)
+			for (int i = int(buttons.size() / 2); i < int(buttons.size()); i++)
 			{
 				Button& newButton = buttons[i].first;
 				newButton.action = i;
@@ -107,8 +107,8 @@ public:
 					UIQuad& u = buttons[i].second;
 					u.SetText(bindings[i].c_str());
 					u.SetSize(12);
-					u.SetX(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
-					u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
+					u.SetX(int(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
+					u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
 
 					buttonOffsetY += offsetChange;
 				}

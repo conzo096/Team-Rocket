@@ -50,7 +50,7 @@ public:
 
 	void Collect(std::vector<std::shared_ptr<Entity>>& ents);
 	void Build(double delta);
-	void AddProduct(int& bal, int hotkey, glm::vec3 destination);
+	bool AddProduct(int& bal, int hotkey);
 	void Produce(double delta);
 	void Update(double delta) override;
 	int GetQueueSize() { return  (int)productQueue.size(); }

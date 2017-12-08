@@ -9,8 +9,8 @@ int SettingsMenu::Draw(GLShader shader)
 {
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
-	int currentOption1;
-	int currentOption2;
+	int currentOption1 = -1;
+	int currentOption2 = -1;
 
 	labels.resize(numOfLabels);
 	buttons.resize(numOfButtons);

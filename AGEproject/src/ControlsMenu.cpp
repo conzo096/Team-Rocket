@@ -71,8 +71,8 @@ int ControlsMenu::Draw(GLShader shader)
 			UIQuad& u = buttons[i].second;
 			u.SetText(bindings[i].c_str());
 			u.SetSize(12);
-			u.SetX(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
-			u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
+			u.SetX(int(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
+			u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
 
 			buttonOffsetY += offsetChange;
 		}
@@ -90,7 +90,7 @@ int ControlsMenu::Draw(GLShader shader)
 	// Handle right hand side.
 	buttonOffsetX = 0.1f;
 	buttonOffsetY = 0.1f;
-	for (int i = (buttons.size()/2); i < buttons.size(); i++)
+	for (int i = int(buttons.size()/2); i < int(buttons.size()); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -105,8 +105,8 @@ int ControlsMenu::Draw(GLShader shader)
 			UIQuad& u = buttons[i].second;
 			u.SetText(bindings[i].c_str());
 			u.SetSize(12);
-			u.SetX(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
-			u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
+			u.SetX(int(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
+			u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
 
 			buttonOffsetY += offsetChange;
 		}
@@ -187,7 +187,7 @@ int ControlsMenu::Draw(GLShader shader)
 				{
 					current_tex[currentSelection] = highlight_tex[currentSelection];
 					glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
-					if (!lastSelection == -1)
+					if (lastSelection != -1)
 					{
 						current_tex[lastSelection] = button_tex[lastSelection];
 					}
@@ -234,7 +234,7 @@ void ControlsMenu::SelectionUp()
 	// If currentSelection is the first one, loop to end one. 
 	currentSelection -= 1;
 	if (currentSelection < 0)
-		currentSelection = buttons.size() - 1;
+		currentSelection = int(buttons.size() - 1);
 }
 
 void ControlsMenu::SelectionDown()

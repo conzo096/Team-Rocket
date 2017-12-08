@@ -174,12 +174,9 @@ void Game::Initialise()
 	freeCamEnabled = false;
 	keyHeld = false;
 
-	// todo: Remove entity creation from this init method.
-
-
 	// Add point light to the scene
 	//LevelLoader ll;
-	//ll.LoadLevel("./json/Level.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
+	//ll.LoadLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
 	
 	std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
 	auto tempLightComponent = std::make_unique<PointLight>();
@@ -189,9 +186,11 @@ void Game::Initialise()
 
 	// This is the floor.
 	std::shared_ptr<Entity> tempEntity2 = std::make_shared<Entity>();
+	tempEntity2->SetPosition(glm::vec3(0, 0, 0));
+	tempEntity2->UpdateTransforms();
 	auto tempRenderable2 = std::make_unique<Renderable>();
 	tempRenderable2->SetMaterial(new Material());
-	tempRenderable2->SetPlane(1, 100, 100);
+	//tempRenderable2->SetPlane(1, 100, 100);
 	tempRenderable2->SetProperties("./json/Plane.json");
 	tempEntity2->SetPosition(tempRenderable2->GetPosition());
 	tempRenderable2->UpdateTransforms();
@@ -209,22 +208,20 @@ void Game::Initialise()
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
 
-//	player->GetEntities().push_back(Spawner::Get().CreateEntity("Ship", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
-//	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 2.5, 80), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(96.5, 2.5, 96.5), NPC->GetTeam()));
 
+	
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
+	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 25), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));
 
-	////This is a "wall"
-	//Entity* tempEntity77 = new Entity;
-	//auto tempRenderable77 = std::make_unique<Renderable>();
-	//tempRenderable77->SetMaterial(new Material());
-	//tempRenderable77->SetPlane(1, 25, 25);
-	//tempRenderable77->SetTexture("ConstructorUV");
-	//tempRenderable77->SetShader("Phong");
-	//tempEntity77->SetPosition(glm::vec3(50.0f, 2.5f, 50.0f));
-
-	//neutralEntities.push_back(move(tempEntity77));
-
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 0), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 0), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 100), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 100), Team::neutral));*/
 	lastTime = clock();
 }
 

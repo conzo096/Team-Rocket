@@ -119,12 +119,12 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 		if (selectedEntities.size() >0)
 			if (showGhostBuilding)
 			{
-				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi) && validSpawn)
+				if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))// && validSpawn)
 				{
 					poi.y = 0;
 					// Set spawnLocation.
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->SetSpawnPoint(poi);
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, buildingType, poi);
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, buildingType);
 					Spawner::Get().UpdateGameGrid(ghostBuilding.GetComponent<BoundingSphere>(), 1);
 					showGhostBuilding = false;
 				}
@@ -215,7 +215,7 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					spawnLoc.y = 2.5f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(20, 2.5, 0));
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 				}
 				timeElapsed = 0;
 			}
@@ -233,7 +233,7 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					spawnLoc.y = 2.5f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(20, 2.5, 0));
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 				}
 				timeElapsed = 0;
 			}
@@ -251,7 +251,7 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					spawnLoc.y = 2.5f;
 					spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
 					spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2, glm::vec3(20, 2.5, 0));
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 				}
 				timeElapsed = 0;
 			}
