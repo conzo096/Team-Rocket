@@ -153,20 +153,20 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Escape", GLFW_KEY_ESCAPE));
 
 		// Camera movement
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Forward", GLFW_KEY_W));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Backward", GLFW_KEY_S));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Left", GLFW_KEY_A));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Right", GLFW_KEY_D));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("RotateLeft", GLFW_KEY_W));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("RotateRight", GLFW_KEY_R));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("ZoomIn", GLFW_KEY_SPACE));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("ZoomOut", GLFW_KEY_LEFT_CONTROL));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Forward", defaultKeys[0]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Backward", defaultKeys[1]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Left", defaultKeys[2]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Right", defaultKeys[3]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("RotateLeft", defaultKeys[4]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("RotateRight", defaultKeys[5]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("ZoomIn", defaultKeys[7]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("ZoomOut", defaultKeys[8]));
 
-		// Hotkey/ entity options. 
-		buttonOptions.insert(std::pair<std::string, unsigned int>("Hold", GLFW_KEY_X));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey1", GLFW_KEY_1));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey2", GLFW_KEY_2));
-		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey3", GLFW_KEY_3));
+		// Hotkey/entity options. 
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Hold", defaultKeys[9]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey1", defaultKeys[10]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey2", defaultKeys[11]));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey3", defaultKeys[12]));
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey4", GLFW_KEY_4));
 		// Other
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
@@ -359,6 +359,11 @@ float UserControls::GetAxisValue(std::string action)
 	return axes[controllerAxis.find(action)->second];
 }
 
+std::vector<unsigned int> UserControls::GetDefaultKeys()
+{
+	return defaultKeys;
+}
+
 std::string UserControls::GetKeyString(const char* name)
 {
 	//std::cout << "Not done" << std::endl;
@@ -386,7 +391,8 @@ std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCod
 		text = "Backspace";
 		break;
 	case 341:
-		text = "Left control";
+		text = "Left Ctrl";
+		break;
 
 	default:
 		text = 	("%s",glfwGetKeyName(ascii,scanCode));

@@ -59,7 +59,6 @@ bool FileIO::CreateIniFile()
 
 bool FileIO::SaveIniFile()
 {
-
 	std::ofstream outputFile;
 	outputFile.open("../res/config.ini");
 	outputFile << "Window options" << std::endl;
@@ -74,7 +73,7 @@ bool FileIO::SaveIniFile()
 	outputFile << "Backward=" <<  UserControls::Get().GetKeyValue("Backward") << std::endl;
 	outputFile << "Left=" <<  UserControls::Get().GetKeyValue("Left") << std::endl;
 	outputFile << "Right=" <<  UserControls::Get().GetKeyValue("Right") << std::endl;
-	outputFile << "ResetCamera=" <<  UserControls::Get().GetKeyValue("ResetCamera") << std::endl;
+//	outputFile << "ResetCamera=" <<  UserControls::Get().GetKeyValue("ResetCamera") << std::endl;
 	outputFile << "Escape=" <<  UserControls::Get().GetKeyValue("Escape") << std::endl;
 	outputFile << "RotateLeft=" <<  UserControls::Get().GetKeyValue("RotateLeft") << std::endl;
 	outputFile << "RotateRight=" <<  UserControls::Get().GetKeyValue("RotateRight") << std::endl;
