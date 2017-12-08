@@ -6,7 +6,8 @@
 #include "UserControls.h"
 #include <tuple>
 #include "AudioEngine.h"
-
+#include "Game.h"
+#include "PointLight.h"
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
@@ -68,6 +69,9 @@ void GameEngine::Render()
 	{
 		// Bind shader.
 		glUseProgram(rl.shader);
+		for (int i = 0; i < Game::Get().GetNeutralEntities().size(); i++)
+			if (Game::Get().GetNeutralEntities()[i]->GetCompatibleComponent<PointLight>() != NULL)
+				Game::Get().GetNeutralEntities()[i]->GetCompatibleComponent<PointLight>()->Render();
 		// Bind Uniforms.
 		const auto mvp = cameraMVP * rl.m;
 

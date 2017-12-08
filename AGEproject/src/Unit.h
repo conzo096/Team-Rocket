@@ -23,8 +23,8 @@ protected:
 	// what team this is on.
 	int team;
 
-	double weaponRange=10;
-	double sightRange=12;
+	double weaponRange=15;
+	double sightRange=20;
 
 	double fireRate = 0.5;
 	double timeSinceLastFire = 0;

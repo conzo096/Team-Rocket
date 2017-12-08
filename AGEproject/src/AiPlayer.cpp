@@ -1,5 +1,5 @@
 #include "AiPlayer.h"
-
+#include "WorkerUnit.h"
 void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 {
 	CheckProperty();
@@ -15,11 +15,11 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 			e->GetCompatibleComponent<Structure>()->Collect(temp);
 
 		}
+		if (e->GetCompatibleComponent<Worker>() != NULL)
+			balance += e->GetCompatibleComponent<Worker>()->Collect();
 	}
 	for (int i = 0; i < temp.size(); i++)
 	{
-		//if(temp[i]->GetCompatibleComponent<Movement>()!=NULL)
-		//	temp[i]->GetCompatibleComponent<Movement>()->SetGoal(temp[i]->GetPosition());
 		entities.push_back(temp[i]);
 		unitsQueued--;
 		moving = false;
@@ -83,8 +83,8 @@ void AiPlayer::MacroCycle()
 	}
 	if (workerCount > 4)
 	{
-		//Build a factory every 2 minutes
-		if (factoryCount < (int)(Game::Get().GetTime() / 60 / 2))
+		//Build a factory every 2 minutes if there are less than 4
+		if (factoryCount < (int)(Game::Get().GetTime() / 60 / 2) && factoryCount < 4)
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -105,7 +105,7 @@ void AiPlayer::MacroCycle()
 	if (workerCount > 6 && factoryCount > 1)
 	{
 		//Build a vehicleBay every 3 minutes
-		if (vehicleBayCount < (int)(Game::Get().GetTime() / 60 / 3))
+		if (vehicleBayCount < (int)(Game::Get().GetTime() / 60 / 3) && vehicleBayCount < 3)
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -126,7 +126,7 @@ void AiPlayer::MacroCycle()
 	if (workerCount > 8 && factoryCount > 2 && vehicleBayCount > 1)
 	{
 		//Build a vehicleBay every 4 minutes
-		if (hangerCount < (int)(Game::Get().GetTime() / 60 / 4))
+		if (hangerCount < (int)(Game::Get().GetTime() / 60 / 4) && hangerCount < 2)
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{

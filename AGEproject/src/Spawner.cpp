@@ -129,7 +129,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		
 		auto tempMovement = std::make_unique<GroundMovement>();
 		tempMovement->SetProperties("./json/WorkerMovement.json");
-		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
+		tempMovement->SetGoal(glm::vec3(20, 0, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -156,7 +156,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto tempMovement = std::make_unique<AirMovement>();
 		tempMovement->SetProperties("./json/ShipMovement.json");
-		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
+		tempMovement->SetGoal(glm::vec3(20, 15, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -480,10 +480,13 @@ void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
 		{
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
-			// Update Game Grid.
-			gameGridMut.lock();
-			Game::Get().UpdateNavGrid(value, p);
-			gameGridMut.unlock();
+			if (p.x > 0 && p.y > 0 && p.x < 99 && p.y < 99)
+			{
+				// Update Game Grid.
+				gameGridMut.lock();
+				Game::Get().UpdateNavGrid(value, p);
+				gameGridMut.unlock();
+			}
 		}
 	}
 }
