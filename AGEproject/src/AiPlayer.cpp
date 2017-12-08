@@ -4,7 +4,8 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 {
 	CheckProperty();
 	MacroCycle();
-	//HandleAiLogic(enemyList);
+	ArmyCycle();
+
 	// Collect any units that have been produced by your structures.
 	std::vector<std::shared_ptr<Entity>> temp;
 	for (std::shared_ptr<Entity>&e : entities)
@@ -27,7 +28,7 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 
 void AiPlayer::CheckProperty()
 {
-	workerCount, factoryCount, vehicleBayCount, hangerCount, droneCount, wardenCount, kestralCount = 0;
+	workerCount = 0; factoryCount = 0; vehicleBayCount = 0; hangerCount = 0; droneCount = 0; wardenCount = 0; kestralCount = 0;
 	for (int i = 0; i < entities.size(); i++)
 	{
 		if (entities[i]->GetName() == "Worker")
@@ -72,7 +73,7 @@ void AiPlayer::MacroCycle()
 	if (entities.size() > 0)
 	{
 		//Build up to 16 workers, 3 a minute
-		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() * 3.0))
+		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() / 60 * 3.0) + 1)
 		{
 			if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 			{
@@ -83,7 +84,7 @@ void AiPlayer::MacroCycle()
 	if (workerCount > 4)
 	{
 		//Build a factory every 2 minutes
-		if (factoryCount < (int)(Game::Get().GetTime() / 2))
+		if (factoryCount < (int)(Game::Get().GetTime() / 60 / 2))
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -93,6 +94,7 @@ void AiPlayer::MacroCycle()
 					{
 						int buildX = rand() % 20 + 80;
 						int buildZ = rand() % 20 + 80;
+						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(buildX, 0, buildZ));
 					}
 					break;
@@ -103,7 +105,7 @@ void AiPlayer::MacroCycle()
 	if (workerCount > 6 && factoryCount > 1)
 	{
 		//Build a vehicleBay every 3 minutes
-		if (vehicleBayCount < (int)(Game::Get().GetTime() / 3))
+		if (vehicleBayCount < (int)(Game::Get().GetTime() / 60 / 3))
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -113,6 +115,7 @@ void AiPlayer::MacroCycle()
 					{
 						int buildX = rand() % 20 + 80;
 						int buildZ = rand() % 20 + 80;
+						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1, glm::vec3(buildX, 0, buildZ));
 					}
 					break;
@@ -123,7 +126,7 @@ void AiPlayer::MacroCycle()
 	if (workerCount > 8 && factoryCount > 2 && vehicleBayCount > 1)
 	{
 		//Build a vehicleBay every 4 minutes
-		if (vehicleBayCount < (int)(Game::Get().GetTime() / 4))
+		if (hangerCount < (int)(Game::Get().GetTime() / 60 / 4))
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -133,6 +136,7 @@ void AiPlayer::MacroCycle()
 					{
 						int buildX = rand() % 20 + 80;
 						int buildZ = rand() % 20 + 80;
+						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2, glm::vec3(buildX, 0, buildZ));
 					}
 					break;

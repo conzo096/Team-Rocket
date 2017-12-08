@@ -182,6 +182,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("ConstructorUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
@@ -232,6 +233,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		//tempRenderable->SetProperties("./json/Shipyard.json");
 		tempRenderable->UpdateTransforms();
@@ -283,6 +285,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 
@@ -320,6 +323,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Barracks>();
@@ -368,6 +372,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();

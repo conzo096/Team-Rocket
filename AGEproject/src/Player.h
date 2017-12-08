@@ -19,7 +19,7 @@ protected:
 	// The units that the player is controlling.
 	std::vector<std::shared_ptr<Entity>> selectedEntities;
 	// How much $$$$ the player has, used for unit spawning.
-	int balance = 10000;
+	int balance = 100000000000;
 
 	// Used to limit key calls.
 	float timeElapsed = 0.5f;
