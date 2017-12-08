@@ -15,7 +15,6 @@
 #include "Resource.h"
 #include "GroundMovement.h"
 #include "TurretRenderable.h"
-
 // Creates a predefined entity.
 std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
 {
@@ -27,6 +26,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->SetName("Worker");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
+		if (team == Team::player)
+			tempRenderable->GetMaterial().emissive = glm::vec4(74/255, 20/255, 140/255, 1);
 		tempRenderable->SetProperties("./json/Worker.json");
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(spawnPosition);
@@ -200,6 +201,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		}
 		else
 			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if(team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 
 		// Set spawn Point.
 		glm::vec3 spawn = FindValidSpawnPoint(sp);

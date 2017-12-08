@@ -274,6 +274,75 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 			}
 		}
 	}
+
+
+	//// Check if any user input commands has been made.
+	//if (selectedEntities.size() > 0 && timeElapsed >0.5f)
+	//{
+	//	// Handle hotkey 1.
+	//	if (UserControls::Get().IsKeyPressed(std::string("HotKey1")) || UserControls::Get().IsJoystickPressed(std::string("dUp")))
+	//	{
+	//		for (int i = 0; i < selectedEntities.size();i++)
+	//		{
+	//			// if you have a worker selected update the ghost building.
+	//			if (selectedEntities[i]->GetName() == "Worker")
+	//			{
+	//				showGhostBuilding = true;
+	//				UpdateGhostBuilding(0);
+	//				buildingType = 0;
+	//			}
+	//			else
+	//			{
+	//				// This is spawner near the object towards the center - change to towards door.
+	//				glm::vec3 spawnLoc;
+	//				spawnLoc.y = 2.5f;
+	//				spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
+	//				spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
+	//				selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+	//			}
+	//			timeElapsed = 0;
+	//		}
+	//	}
+	//	else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")) || UserControls::Get().IsJoystickPressed(std::string("dRight")))
+	//	{
+	//		if (selectedEntity->GetName() == "Worker")
+	//		{
+	//			showGhostBuilding = true;
+	//			UpdateGhostBuilding(1);
+	//			buildingType = 1;
+	//		}
+	//		else
+	//		{
+	//			glm::vec3 spawnLoc;
+	//			spawnLoc.y = 2.5f;
+	//			spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
+	//			spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
+	//			selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
+	//		}
+	//		timeElapsed = 0;
+	//	}
+	//	else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")) || UserControls::Get().IsJoystickPressed(std::string("dDown")))
+	//	{
+	//		if (selectedEntity->GetName() == "Worker")
+	//		{
+	//			showGhostBuilding = true;
+	//			UpdateGhostBuilding(2);
+	//			buildingType = 2;
+	//		}
+	//		else
+	//		{
+	//			glm::vec3 spawnLoc;
+	//			spawnLoc.y = 2.5f;
+	//			spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
+	//			spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
+	//			selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
+	//		}
+	//		timeElapsed = 0;
+	//	}
+	//}
+
+
+
 }
 
 // Render ghost block if there is one.
