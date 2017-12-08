@@ -23,16 +23,25 @@ void Structure::Build(double delta)
 	}
 }
 
-void Structure::AddProduct(int& bal, int hotkey, glm::vec3 destination)
+bool Structure::AddProduct(int& bal, int hotkey)
 {
 	if (spawnData.size() == 0)
-		return;
+		return false;
 	if (hotkey > spawnData.size() - 1)
-		return;
+		return false;
 	int newBalance = bal - spawnData[hotkey].cost;
 	// If the balance is invalid, do not allow object to be queued.
 	if (newBalance < 0)
-		return;
+		return false;
+	// Check if area is valid.
+	auto temp = Spawner::Get().CreateEntity(spawnData[hotkey].unitType, spawnPoint, team);
+	temp->GetComponent<Targetable>().SetHealth(0);
+	temp->Update(0);
+	BoundingSphere sp;
+	sp.SetUpBoundingSphere(temp->GetComponent<BoundingSphere>().GetRadius(), temp->GetPosition());
+	if(!temp->GetCompatibleComponent<Unit>() != NULL)
+		if (!Spawner::Get().CheckGameGrid(sp))
+			return false;
 	value += spawnData[hotkey].cost;
 	std::cout << GetTeam() << " balance is now: " << newBalance << std::endl;
 	bal = newBalance;
@@ -41,6 +50,7 @@ void Structure::AddProduct(int& bal, int hotkey, glm::vec3 destination)
 	tempProduct.buildTime = spawnData[hotkey].buildTime;
 	tempProduct.destination = spawnPoint;
 	productQueue.push(tempProduct);
+	return true;
 }
 
 void Structure::Produce(double delta)

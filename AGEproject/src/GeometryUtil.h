@@ -10,7 +10,6 @@ public:
 	{
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-
 		if (xSize == 1 && ySize == 1)
 		{
 			for (unsigned int i = 0; i < ySize; i++)
@@ -69,7 +68,7 @@ public:
 			}
 		}
 
-		Model* temp  = new Model(vertices,indices);
+		Model* temp = new Model(vertices, indices);
 		temp->SetType(GL_TRIANGLE_STRIP);
 		return temp;
 	}
@@ -90,4 +89,35 @@ public:
 		temp->SetType(GL_LINES);
 		return temp;
 	}
+
+
+
+
+	static Model* make_plane(int width, int height)
+	{
+		std::vector<Vertex> vertices;
+		vertices.resize(4);
+		std::vector<unsigned int> indices;
+		indices.resize(4);
+		vertices[0].position = glm::vec3(0, 0, 0);
+		vertices[1].position = glm::vec3(0, 0, height);
+		vertices[2].position = glm::vec3(width, 0, height);
+		vertices[3].position = glm::vec3(width, 0, 0);
+
+		vertices[0].texCoords = glm::vec2(0, 0);
+		vertices[1].texCoords = glm::vec2(0, height);
+		vertices[2].texCoords = glm::vec2(width, 0);
+		vertices[3].texCoords = glm::vec2(width, height);
+		for (int i = 0; i < 4; i++)
+		{
+			vertices[i].normal = glm::vec3(0.0f, 1.0f, 0.0f);
+			vertices[i].color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+			indices[i] = i;
+		}
+		
+		Model* temp = new Model(vertices,indices);
+		temp->SetType(GL_TRIANGLE_STRIP);
+		return temp;
+	}
+
 };

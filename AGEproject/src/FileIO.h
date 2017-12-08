@@ -21,6 +21,4 @@ public:
 
 	// Save current configuration to ini file.
 	bool SaveIniFile();
-
-	
 };

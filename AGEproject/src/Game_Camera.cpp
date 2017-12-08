@@ -38,9 +38,9 @@ void Game_Camera::Update(double deltaTime)
 		translation += (glm::vec3(0.0f, 0.0f, -1.0f) * float(deltaTime) * moveSpeed);
 	if (UserControls::Get().IsKeyPressed(std::string("Right")) || UserControls::Get().GetAxisValue(std::string("leftRightLeftSticker")) > 0.7f)
 		translation += (glm::vec3(1.0f, 0.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (UserControls::Get().IsKeyPressed(std::string("Up")) || UserControls::Get().GetAxisValue(std::string("leftTrigger")) > 0.7)
+	if (UserControls::Get().IsKeyPressed(std::string("ZoomIn")) || UserControls::Get().GetAxisValue(std::string("leftTrigger")) > 0.7)
 		translation += (glm::vec3(0.0f, 1.0f, 0.0f) * float(deltaTime) * moveSpeed);
-	if (UserControls::Get().IsKeyPressed(std::string("Down")) || UserControls::Get().GetAxisValue(std::string("rightTrigger")) > 0.7)
+	if (UserControls::Get().IsKeyPressed(std::string("ZoomOut")) || UserControls::Get().GetAxisValue(std::string("rightTrigger")) > 0.7)
 		translation += (glm::vec3(0.0f, -1.0f, 0.0f) * float(deltaTime) * moveSpeed);
 
 	// Calculate the forward direction (spherical co-ordinates to Cartesian co-ordinates)

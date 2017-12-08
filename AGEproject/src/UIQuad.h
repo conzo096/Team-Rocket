@@ -22,6 +22,7 @@ private:
 	bool isActive = true;
 	// Dimensions of quad.
 	int xPos, yPos, size;
+
 public:
 
 	UIQuad()
@@ -47,7 +48,6 @@ public:
 	{
 		text = newText;
 	}
-
 	void SetX(int x)
 	{
 		xPos = x;
