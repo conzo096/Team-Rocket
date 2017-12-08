@@ -72,7 +72,7 @@ void AiPlayer::MacroCycle()
 	if (entities.size() > 0)
 	{
 		//Build up to 16 workers, 3 a minute
-		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() * 3))
+		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() * 3.0))
 		{
 			if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 			{
@@ -95,8 +95,8 @@ void AiPlayer::MacroCycle()
 						int buildZ = rand() % 20 + 80;
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0, glm::vec3(buildX, 0, buildZ));
 					}
+					break;
 				}
-				break;
 			}
 		}
 	}
