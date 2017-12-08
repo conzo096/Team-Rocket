@@ -7,7 +7,7 @@ int ControlsMenu::currentSelection = -1;
 int ControlsMenu::lastSelection = -1;
 int const ControlsMenu::numOfControls = 14;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
-std::vector <std::string> ControlsMenu::bindings;
+std::vector <std::pair<std::string, std::string>> ControlsMenu::bindings;
 std::vector <unsigned int> ControlsMenu::button_tex;
 std::vector <unsigned int> ControlsMenu::highlight_tex;
 std::vector <unsigned int> ControlsMenu::current_tex;
@@ -18,9 +18,8 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
 		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
-		UserControls::Get().BindKey(bindings[currentSelection], key);
+		UserControls::Get().BindKey(bindings[currentSelection].first, key);
 		FileIO::Get().SaveIniFile();
-
 		current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
@@ -57,7 +56,7 @@ void ControlsMenu::DrawButtons()
 
 			// Draw text.
 			UIQuad& u = buttons[i].second;
-			u.SetText(bindings[i].c_str());
+			u.SetText(bindings[i].second.c_str());
 			u.SetSize(12);
 			u.SetX(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
 			u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
@@ -90,7 +89,7 @@ void ControlsMenu::DrawButtons()
 
 			// Draw text.
 			UIQuad& u = buttons[i].second;
-			u.SetText(bindings[i].c_str());
+			u.SetText(bindings[i].second.c_str());
 			u.SetSize(12);
 			u.SetX(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
 			u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
@@ -114,6 +113,14 @@ int ControlsMenu::Draw(GLShader shader)
 
 	while (!selectionMade)
 	{
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			if (!(i == 6 || i == 13))
+			{
+				buttons[i].second.SetText(bindings[i].second.c_str());
+			}
+		}
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
@@ -147,7 +154,7 @@ int ControlsMenu::Draw(GLShader shader)
 				{
 					if (!(i == 6 || i == 13))
 					{
-						UserControls::Get().BindKey(bindings[i], UserControls::Get().GetDefaultKeys()[i]);
+						UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
 						buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
 						current_tex[i] = button_tex[i];
 					}
@@ -256,22 +263,21 @@ void ControlsMenu::PopulateBindings()
 {
 	bindings.resize(numOfControls);
 
-	// Iterate through map
 	// Camera movement
-	bindings[0] = UserControls::Get().GetKeyString("Forward");// "Forward";
-	bindings[1] = UserControls::Get().GetKeyString("Backward"); //"Backward";
-	bindings[2] = UserControls::Get().GetKeyString("Left");//"Left";
-	bindings[3] = UserControls::Get().GetKeyString("Right"); //"Right";
-	bindings[4] = UserControls::Get().GetKeyString("RotateLeft"); //"RotateLeft";
-	bindings[5] = UserControls::Get().GetKeyString("RotateRight"); //"RotateRight";
-	bindings[6] = "Not implemented";
-	bindings[7] = UserControls::Get().GetKeyString("ZoomIn"); //"ZoomIn";
-	bindings[8] = UserControls::Get().GetKeyString("ZoomOut"); //"ZoomOut";
+	bindings[0] = std::pair<std::string, std::string>("Forward", UserControls::Get().GetKeyString("Forward"));
+	bindings[1] = std::pair<std::string, std::string>("Backward", UserControls::Get().GetKeyString("Backward"));
+	bindings[2] = std::pair<std::string, std::string>("Left", UserControls::Get().GetKeyString("Left"));
+	bindings[3] = std::pair<std::string, std::string>("Right", UserControls::Get().GetKeyString("Right")); 
+	bindings[4] = std::pair<std::string, std::string>("RotateLeft", UserControls::Get().GetKeyString("RotateLeft")); 
+	bindings[5] = std::pair<std::string, std::string>("RotateRight", UserControls::Get().GetKeyString("RotateRight")); 
+	bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
+	bindings[7] = std::pair<std::string, std::string>("ZoomIn", UserControls::Get().GetKeyString("ZoomIn")); 
+	bindings[8] = std::pair<std::string, std::string>("ZoomOut", UserControls::Get().GetKeyString("ZoomOut")); 
 
 	// Hotkey/entity options
-	bindings[9] = UserControls::Get().GetKeyString("Hold"); //"Hold";
-	bindings[10] = UserControls::Get().GetKeyString("HotKey1"); //"HotKey1";
-	bindings[11] = UserControls::Get().GetKeyString("HotKey2");//"HotKey2";
-	bindings[12] = UserControls::Get().GetKeyString("HotKey3");//"HotKey3";
-	bindings[13] = "Not implemented";
+	bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetKeyString("Hold")); 
+	bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1")); 
+	bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
+	bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
+	bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
 }

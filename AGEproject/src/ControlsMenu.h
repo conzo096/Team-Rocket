@@ -70,7 +70,7 @@ private:
 	static std::vector <unsigned int> current_tex;
 
 	// Key bindings, index of buttons represents one of these.
-	static std::vector<std::string> bindings;
+	static std::vector<std::pair<std::string, std::string>> bindings;
 
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
