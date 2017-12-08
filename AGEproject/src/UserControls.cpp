@@ -17,6 +17,8 @@ void UserControls::BindKey(std::string &name, unsigned int key)
 				return;
 			}
 		}
+		// Key is unbound. Just find it.
+		buttonOptions.find(name)->second = key;
 	}
 	// Not match, just insert.
 	else
