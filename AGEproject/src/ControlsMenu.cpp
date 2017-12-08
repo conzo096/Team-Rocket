@@ -113,6 +113,7 @@ int ControlsMenu::Draw(GLShader shader)
 
 	while (!selectionMade)
 	{
+		PopulateBindings();
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			if (!(i == 6 || i == 13))
@@ -164,7 +165,7 @@ int ControlsMenu::Draw(GLShader shader)
 			// "Back" is pressed
 			else if (currentSelection == 13)
 			{
-				FileIO::Get().SaveIniFile();
+			//	FileIO::Get().SaveIniFile();
 			}
 			else
 			{
