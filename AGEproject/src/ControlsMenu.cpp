@@ -17,14 +17,10 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 {
 	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
-		//auto keyName = glfwGetKeyName(key, scancode);
-		//if (keyName != NULL)
-		//{
-			//std::cout << keyName << std::endl;
-			buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
-			UserControls::Get().BindKey(bindings[currentSelection], key);
-			FileIO::Get().SaveIniFile();
-		//}
+		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
+		UserControls::Get().BindKey(bindings[currentSelection], key);
+		FileIO::Get().SaveIniFile();
+
 		current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
@@ -118,17 +114,6 @@ int ControlsMenu::Draw(GLShader shader)
 
 	while (!selectionMade)
 	{
-		// Update key bindings.
-	//	PopulateBindings();
-		// Update key bindings.
-		for (int i = 0; i < buttons.size(); i++)
-		{
-			if (i != 6 && i != 13)
-			{
-	//			buttons[i].second.SetText(bindings[i].c_str());
-			}
-
-		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
@@ -156,11 +141,23 @@ int ControlsMenu::Draw(GLShader shader)
 			if (currentSelection == 6)
 			{
 				selectionMade = false;
+				UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
+
+				for (int i = 0; i < buttons.size(); i++)
+				{
+					if (!(i == 6 || i == 13))
+					{
+						UserControls::Get().BindKey(bindings[i], UserControls::Get().GetDefaultKeys()[i]);
+						buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
+						current_tex[i] = button_tex[i];
+					}
+				}
+				FileIO::Get().SaveIniFile();
 			}
 			// "Back" is pressed
 			else if (currentSelection == 13)
 			{
-
+				FileIO::Get().SaveIniFile();
 			}
 			else
 			{
