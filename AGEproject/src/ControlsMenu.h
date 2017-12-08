@@ -151,7 +151,8 @@ private:
 
 	// Key bindings, index of buttons represents one of these.
 	static std::vector<std::string> bindings;
-
+	// What each quad represents.
+	static std::vector<std::string> buttonActions;
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 	void PopulateBindings();

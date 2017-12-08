@@ -8,20 +8,15 @@ int ControlsMenu::lastSelection = -1;
 int const ControlsMenu::numOfControls = 14;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::string> ControlsMenu::bindings;
-
+std::vector<std::string> ControlsMenu::buttonActions;
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
-		//auto keyName = glfwGetKeyName(key, scancode);
-		//if (keyName != NULL)
-		//{
-			//std::cout << keyName << std::endl;
-			buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
-			UserControls::Get().BindKey(bindings[currentSelection], key);
-			FileIO::Get().SaveIniFile();
-		//}
+		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
+		UserControls::Get().BindKey(buttonActions[currentSelection], key);
+		FileIO::Get().SaveIniFile();
 		//current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
@@ -31,6 +26,22 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 
 int ControlsMenu::Draw(GLShader shader)
 {	
+	buttonActions.resize(numOfControls);
+	buttonActions[0] = "Forward";
+	buttonActions[1] = "Backward";
+	buttonActions[2] = "Left";
+	buttonActions[3] = "Right";
+	buttonActions[4] = "RotateLeft";
+	buttonActions[5] = "RotateRight";
+	buttonActions[6] = "Not implemented";
+	buttonActions[7] = "ZoomIn";
+	buttonActions[8] = "ZoomOut";
+	buttonActions[9] = "Hold";
+	buttonActions[10] = "HotKey1";
+	buttonActions[11] = "HotKey2";
+	buttonActions[12] = "HotKey3";
+	buttonActions[13] = "Not implemented";
+
 	// Initialise the quads.
 	buttons.resize(numOfControls);
 	// Set up binding vector.
@@ -113,14 +124,13 @@ int ControlsMenu::Draw(GLShader shader)
 	while (!selectionMade)
 	{
 
-		// Update key bindings.
-	//	PopulateBindings();
+		PopulateBindings();
 		// Update key bindings.
 		for (int i = 0; i < buttons.size(); i++)
 		{
 			if (i != 6 && i != 13)
 			{
-	//			buttons[i].second.SetText(bindings[i].c_str());
+				buttons[i].second.SetText(bindings[i].c_str());
 			}
 
 		}
@@ -272,4 +282,5 @@ void ControlsMenu::PopulateBindings()
 	bindings[11] = UserControls::Get().GetKeyString("HotKey2");//"HotKey2";
 	bindings[12] = UserControls::Get().GetKeyString("HotKey3");//"HotKey3";
 	bindings[13] = "Not implemented";
+
 }
