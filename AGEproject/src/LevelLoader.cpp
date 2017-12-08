@@ -260,7 +260,7 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 				tempEntity->AddComponent(move(tempBoundingBox));
 			}
 			else
-			{
+			{	
 				auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 				// ReSharper disable once CppMsExtBindingRValueToLvalueReference
 				tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());

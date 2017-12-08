@@ -2,6 +2,7 @@
 #include "RayCast.h"
 #include "GeometryUtil.h"
 #include "UserControls.h"
+
 // Move up
 void MainMenu::SelectionUp()
 {
@@ -45,17 +46,19 @@ int MainMenu::Draw(GLShader shader)
 		newButton.renderTarget.SetOpenGL();
 		buttonOffset += offsetChange;
 	}
-	// If a controller is connected use this instead.
-	
+
+	// If a controller is being used...
 	UserControls::Get().FindConnectedJoystick();
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		currentSelection = 0;
+
 	while (!selectionMade)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
+
 		if (UserControls::Get().isJoystickActive())
 		{
 			timeElapsed++;
@@ -106,8 +109,6 @@ int MainMenu::Draw(GLShader shader)
 			selectionMade = true;
 			currentSelection = 2;
 		}
-
-
 
 		// Draw the quad.
 		for (int i = 0; i < numberOfButtons; i++)

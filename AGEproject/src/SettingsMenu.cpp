@@ -9,8 +9,8 @@ int SettingsMenu::Draw(GLShader shader)
 {
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
-	int currentOption1;
-	int currentOption2;
+	int currentOption1 = -1;
+	int currentOption2 = -1;
 
 	labels.resize(numOfLabels);
 	buttons.resize(numOfButtons);
@@ -109,16 +109,15 @@ int SettingsMenu::Draw(GLShader shader)
 	UserControls::Get().FindConnectedJoystick();
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		currentSelection = 0;
+
 	while (!selectionMade)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
-
-
-
-
+		
+		// Controller is being used
 		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
 			timeElapsed += 1;
@@ -157,6 +156,8 @@ int SettingsMenu::Draw(GLShader shader)
 					selectionMade = true;
 			}
 		}
+
+		// Keyboard is being used
 		else
 		{
 			if (!mouseButtonHeld)
@@ -183,8 +184,8 @@ int SettingsMenu::Draw(GLShader shader)
 				}
 			}
 			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
-		}		
-		// Arrow buttons.
+		}	
+
 		if (selectionMade)
 		{
 			// "Save changes" was clicked

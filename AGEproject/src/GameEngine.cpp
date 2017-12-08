@@ -60,8 +60,8 @@ void GameEngine::Initialise()
 void GameEngine::Render()
 {
 
-	std::cout << "Number of renderable objects:";
-	std::cout << renderList.size() << std::endl;
+//	std::cout << "Number of renderable objects:";
+//	std::cout << renderList.size() << std::endl;
 	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	for (RenderData rl : renderList)
@@ -198,7 +198,11 @@ void GameEngine::AddToRenderList(RenderData data)
 	// Sort vector here.
 	mut.lock();
 	//if (data.sphereRadius == 0)
+<<<<<<< HEAD
 	{
+=======
+	//{
+>>>>>>> origin/Development
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
 		// it should be inserted to first.
@@ -207,7 +211,11 @@ void GameEngine::AddToRenderList(RenderData data)
 		{
 			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
 		});
+<<<<<<< HEAD
 	}
+=======
+	//}
+>>>>>>> origin/Development
 	//else if(IsInCameraFrustum(data))
 	//{
 	//	renderList.push_back(data);

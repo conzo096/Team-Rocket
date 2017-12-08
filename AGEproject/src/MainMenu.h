@@ -6,6 +6,7 @@ class MainMenu : public Menu
 public:
 	MainMenu() 
 	{
+		currentSelection = -1;
 		numberOfButtons = 3;
 
 		normal_tex[0] = ResourceHandler::Get().GetTexture("Start_Game");
@@ -24,7 +25,6 @@ public:
 	~MainMenu() {}
 
 	std::vector<Button> buttons;
-	int currentSelection = -1;
 
 	int Draw(GLShader shader);
 
@@ -32,9 +32,9 @@ public:
 	void SelectionDown();
 	int SelectionPicked();
 
-
-
 private:
+	int currentSelection;
+	
 	int numberOfButtons;
 
 	unsigned int normal_tex[3];

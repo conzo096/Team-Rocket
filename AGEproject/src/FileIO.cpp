@@ -7,12 +7,11 @@ bool FileIO::FileExists(std::string &filePath)
 	return file.good();
 }
 
-
 bool FileIO::LoadIniFile()
 {
 	if (!FileExists(std::string("../res/config.ini")))
 		CreateIniFile();
-	// Start reading and setting parameters//
+	// Start reading and setting parameters
 	std::ifstream file("../res/config.ini");
 	std::string para;
 	while (std::getline(file, para))
@@ -43,8 +42,8 @@ bool FileIO::CreateIniFile()
 	outputFile << "Escape=256" << std::endl;
 	outputFile << "RotateLeft=81" << std::endl;
 	outputFile << "RotateRight=69" << std::endl;
-	outputFile << "Up=32" << std::endl;
-	outputFile << "Down=341" << std::endl;
+	outputFile << "ZoomIn=32" << std::endl;
+	outputFile << "ZoomOut=341" << std::endl;
 	outputFile << "Enter=257" << std::endl;
 	outputFile << "Hold=88" << std::endl;
 	outputFile << "HotKey1=49" << std::endl;
@@ -79,8 +78,8 @@ bool FileIO::SaveIniFile()
 	outputFile << "Escape=" <<  UserControls::Get().GetKeyValue("Escape") << std::endl;
 	outputFile << "RotateLeft=" <<  UserControls::Get().GetKeyValue("RotateLeft") << std::endl;
 	outputFile << "RotateRight=" <<  UserControls::Get().GetKeyValue("RotateRight") << std::endl;
-	outputFile << "Up="<< UserControls::Get().GetKeyValue("Up") << std::endl;
-	outputFile << "Down=" <<  UserControls::Get().GetKeyValue("Down") << std::endl;
+	outputFile << "ZoomIn="<< UserControls::Get().GetKeyValue("ZoomIn") << std::endl;
+	outputFile << "ZoomOut=" <<  UserControls::Get().GetKeyValue("ZoomOut") << std::endl;
 	outputFile << "Enter=" <<  UserControls::Get().GetKeyValue("Enter") << std::endl;
 	outputFile << "Hold=" <<  UserControls::Get().GetKeyValue("Hold") << std::endl;
 	outputFile << "HotKey1=" <<  UserControls::Get().GetKeyValue("HotKey1") << std::endl;
@@ -136,9 +135,9 @@ void FileIO::ConfigureGame(std::string para)
 			UserControls::Get().BindKey(token, value);
 		if (token == "RotateRight")
 			UserControls::Get().BindKey(token, value);
-		if (token == "Up")
+		if (token == "ZoomIn")
 			UserControls::Get().BindKey(token, value);
-		if (token == "Down")
+		if (token == "ZoomOut")
 			UserControls::Get().BindKey(token, value);
 		if (token == "Enter")
 			UserControls::Get().BindKey(token, value);

@@ -449,10 +449,10 @@ glm::vec3 Spawner::FindValidSpawnPoint(BoundingSphere& sphere)
 bool Spawner::CheckGameGrid(BoundingSphere& sphere)
 {
 	// Check by row.  
-	for (float i = -sphere.GetRadius()/2; i <sphere.GetRadius() / 2; i++)
+	for (float i = -sphere.GetRadius(); i <sphere.GetRadius(); i++)
 	{
 		// check by depth.
-		for (float j = -sphere.GetRadius() / 2; j < sphere.GetRadius() / 2; j++)
+		for (float j = -sphere.GetRadius(); j < sphere.GetRadius(); j++)
 		{
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
