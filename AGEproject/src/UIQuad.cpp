@@ -77,10 +77,10 @@ void UIQuad::Render()
 
 
 		// Draw call
-		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
-
-		glDisableVertexAttribArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+		glBindVertexArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(0);
 	}
 
 }

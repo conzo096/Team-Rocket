@@ -54,6 +54,7 @@ void Player::Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 		}
 	}
 	lastClock = clock();
+
 }
 
 void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)

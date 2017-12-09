@@ -22,7 +22,7 @@ std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 positi
 {
 	vector<std::shared_ptr<Entity>> localUnits;
 
-	if (team == 0)
+	if (team == 1)
 	{
 		for (vector<std::shared_ptr<Entity>>::size_type n = 0; n < player->GetEntities().size();)
 		{
@@ -38,7 +38,7 @@ std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 positi
 		}
 	}
 
-	if (team == 1)
+	if (team == 0)
 	{
 		for (std::vector<std::shared_ptr<Entity>>::size_type n = 0; n < NPC->GetEntities().size();)
 		{
@@ -357,7 +357,7 @@ bool Game::Update()
 
 	// Update the Game UI.
 	ui.Update(deltaTime);
-
+	ui.UpdateEnemyLabels(NPC->GetEntities()[0]);
 	// process events.
 	glfwPollEvents();
 	// Close the window if it has been asked too.
