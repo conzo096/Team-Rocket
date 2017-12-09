@@ -7,41 +7,28 @@ int ControlsMenu::currentSelection = -1;
 int ControlsMenu::lastSelection = -1;
 int const ControlsMenu::numOfControls = 14;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
-std::vector <std::string> ControlsMenu::bindings;
-std::vector<std::string> ControlsMenu::buttonActions;
+std::vector <std::pair<std::string, std::string>> ControlsMenu::bindings;
+std::vector <unsigned int> ControlsMenu::button_tex;
+std::vector <unsigned int> ControlsMenu::highlight_tex;
+std::vector <unsigned int> ControlsMenu::current_tex;
+
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
 		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
-		UserControls::Get().BindKey(buttonActions[currentSelection], key);
+		UserControls::Get().BindKey(bindings[currentSelection].first, key);
 		FileIO::Get().SaveIniFile();
-		//current_tex[currentSelection] = button_tex[currentSelection];
+		current_tex[currentSelection] = button_tex[currentSelection];
 
 		// Remove key callback.
 		glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
 	}
 }
 
-int ControlsMenu::Draw(GLShader shader)
-{	
-	buttonActions.resize(numOfControls);
-	buttonActions[0] = "Forward";
-	buttonActions[1] = "Backward";
-	buttonActions[2] = "Left";
-	buttonActions[3] = "Right";
-	buttonActions[4] = "RotateLeft";
-	buttonActions[5] = "RotateRight";
-	buttonActions[6] = "Not implemented";
-	buttonActions[7] = "ZoomIn";
-	buttonActions[8] = "ZoomOut";
-	buttonActions[9] = "Hold";
-	buttonActions[10] = "HotKey1";
-	buttonActions[11] = "HotKey2";
-	buttonActions[12] = "HotKey3";
-	buttonActions[13] = "Not implemented";
-
+void ControlsMenu::DrawButtons()
+{
 	// Initialise the quads.
 	buttons.resize(numOfControls);
 	// Set up binding vector.
@@ -56,7 +43,7 @@ int ControlsMenu::Draw(GLShader shader)
 	float offsetChange = 0.1f + buttonHeight;
 
 	// Handle left hand side.
-	for (int i = 0; i < (buttons.size()/2); i++)
+	for (int i = 0; i < (buttons.size() / 2); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -65,14 +52,14 @@ int ControlsMenu::Draw(GLShader shader)
 		if (!(i == 6))
 		{
 			newButton.renderTarget = Quad(glm::vec2(-1 + buttonOffsetX, 1 - buttonOffsetY - buttonHeight),
-										  glm::vec2(-1 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
+				glm::vec2(-1 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
 
 			// Draw text.
 			UIQuad& u = buttons[i].second;
-			u.SetText(bindings[i].c_str());
+			u.SetText(bindings[i].second.c_str());
 			u.SetSize(12);
-			u.SetX(int(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
-			u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
+			u.SetX(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
+			u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
 
 			buttonOffsetY += offsetChange;
 		}
@@ -81,16 +68,15 @@ int ControlsMenu::Draw(GLShader shader)
 			buttonOffsetX = 0.05f;
 			buttonOffsetY += 0.1f;
 			newButton.renderTarget = Quad(glm::vec2(0 - buttonOffsetX - resetWidth, 1 - buttonOffsetY - resetHeight),
-										  glm::vec2(0 - buttonOffsetX, 1 - buttonOffsetY));
+				glm::vec2(0 - buttonOffsetX, 1 - buttonOffsetY));
 		}
-
 		newButton.renderTarget.SetOpenGL();
 	}
 
 	// Handle right hand side.
 	buttonOffsetX = 0.1f;
 	buttonOffsetY = 0.1f;
-	for (int i = int(buttons.size()/2); i < int(buttons.size()); i++)
+	for (int i = (buttons.size() / 2); i < buttons.size(); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -103,10 +89,10 @@ int ControlsMenu::Draw(GLShader shader)
 
 			// Draw text.
 			UIQuad& u = buttons[i].second;
-			u.SetText(bindings[i].c_str());
+			u.SetText(bindings[i].second.c_str());
 			u.SetSize(12);
-			u.SetX(int(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
-			u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
+			u.SetX(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800);
+			u.SetY(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600);
 
 			buttonOffsetY += offsetChange;
 		}
@@ -117,23 +103,25 @@ int ControlsMenu::Draw(GLShader shader)
 			newButton.renderTarget = Quad(glm::vec2(0 + buttonOffsetX, 1 - buttonOffsetY - resetHeight),
 										  glm::vec2(0 + buttonOffsetX + resetWidth, 1 - buttonOffsetY));
 		}
-
 		newButton.renderTarget.SetOpenGL();
 	}
+}
+
+int ControlsMenu::Draw(GLShader shader)
+{	
+	DrawButtons();
 
 	while (!selectionMade)
 	{
-
 		PopulateBindings();
-		// Update key bindings.
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			if (i != 6 && i != 13)
+			if (!(i == 6 || i == 13))
 			{
-				buttons[i].second.SetText(bindings[i].c_str());
+				buttons[i].second.SetText(bindings[i].second.c_str());
 			}
-
 		}
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
@@ -161,11 +149,23 @@ int ControlsMenu::Draw(GLShader shader)
 			if (currentSelection == 6)
 			{
 				selectionMade = false;
+				UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
+
+				for (int i = 0; i < buttons.size(); i++)
+				{
+					if (!(i == 6 || i == 13))
+					{
+						UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
+						buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
+						current_tex[i] = button_tex[i];
+					}
+				}
+				FileIO::Get().SaveIniFile();
 			}
 			// "Back" is pressed
 			else if (currentSelection == 13)
 			{
-
+			//	FileIO::Get().SaveIniFile();
 			}
 			else
 			{
@@ -187,7 +187,7 @@ int ControlsMenu::Draw(GLShader shader)
 				{
 					current_tex[currentSelection] = highlight_tex[currentSelection];
 					glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
-					if (lastSelection != -1)
+					if (!(lastSelection == -1))
 					{
 						current_tex[lastSelection] = button_tex[lastSelection];
 					}
@@ -234,7 +234,7 @@ void ControlsMenu::SelectionUp()
 	// If currentSelection is the first one, loop to end one. 
 	currentSelection -= 1;
 	if (currentSelection < 0)
-		currentSelection = int(buttons.size() - 1);
+		currentSelection = buttons.size() - 1;
 }
 
 void ControlsMenu::SelectionDown()
@@ -264,23 +264,21 @@ void ControlsMenu::PopulateBindings()
 {
 	bindings.resize(numOfControls);
 
-	// Iterate through map
 	// Camera movement
-	bindings[0] = UserControls::Get().GetKeyString("Forward");// "Forward";
-	bindings[1] = UserControls::Get().GetKeyString("Backward"); //"Backward";
-	bindings[2] = UserControls::Get().GetKeyString("Left");//"Left";
-	bindings[3] = UserControls::Get().GetKeyString("Right"); //"Right";
-	bindings[4] = UserControls::Get().GetKeyString("RotateLeft"); //"RotateLeft";
-	bindings[5] = UserControls::Get().GetKeyString("RotateRight"); //"RotateRight";
-	bindings[6] = "Not implemented";
-	bindings[7] = UserControls::Get().GetKeyString("ZoomIn"); //"ZoomIn";
-	bindings[8] = UserControls::Get().GetKeyString("ZoomOut"); //"ZoomOut";
+	bindings[0] = std::pair<std::string, std::string>("Forward", UserControls::Get().GetKeyString("Forward"));
+	bindings[1] = std::pair<std::string, std::string>("Backward", UserControls::Get().GetKeyString("Backward"));
+	bindings[2] = std::pair<std::string, std::string>("Left", UserControls::Get().GetKeyString("Left"));
+	bindings[3] = std::pair<std::string, std::string>("Right", UserControls::Get().GetKeyString("Right")); 
+	bindings[4] = std::pair<std::string, std::string>("RotateLeft", UserControls::Get().GetKeyString("RotateLeft")); 
+	bindings[5] = std::pair<std::string, std::string>("RotateRight", UserControls::Get().GetKeyString("RotateRight")); 
+	bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
+	bindings[7] = std::pair<std::string, std::string>("ZoomIn", UserControls::Get().GetKeyString("ZoomIn")); 
+	bindings[8] = std::pair<std::string, std::string>("ZoomOut", UserControls::Get().GetKeyString("ZoomOut")); 
 
 	// Hotkey/entity options
-	bindings[9] = UserControls::Get().GetKeyString("Hold"); //"Hold";
-	bindings[10] = UserControls::Get().GetKeyString("HotKey1"); //"HotKey1";
-	bindings[11] = UserControls::Get().GetKeyString("HotKey2");//"HotKey2";
-	bindings[12] = UserControls::Get().GetKeyString("HotKey3");//"HotKey3";
-	bindings[13] = "Not implemented";
-
+	bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetKeyString("Hold")); 
+	bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1")); 
+	bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
+	bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
+	bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
 }

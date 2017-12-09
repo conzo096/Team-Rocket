@@ -5,7 +5,7 @@
 class ControlsMenu : public Menu
 {
 public:
-	ControlsMenu() 
+	ControlsMenu()
 	{
 		button_tex.push_back(ResourceHandler::Get().GetTexture("Forward"));
 		button_tex.push_back(ResourceHandler::Get().GetTexture("Backward"));
@@ -41,90 +41,10 @@ public:
 
 		current_tex = button_tex;
 
-
 		if (buttons.size() == 0)
 		{
-			// Initialise the quads.
-			buttons.resize(numOfControls);
-			// Set up binding vector.
-			PopulateBindings();
-			float buttonWidth = 0.46875f * 0.7f;
-			float buttonHeight = 0.20926f * 0.7f;
-			float resetWidth = 0.36458f * 0.7f;
-			float resetHeight = 0.27778f * 0.7f;
-
-			float buttonOffsetX = 0.2f;
-			float buttonOffsetY = 0.1f;
-			float offsetChange = 0.1f + buttonHeight;
-
-			// Handle left hand side.
-			for (int i = 0; i < (buttons.size() / 2); i++)
-			{
-				Button& newButton = buttons[i].first;
-				newButton.action = i;
-				newButton.texture = current_tex[i];
-
-				if (!(i == 6))
-				{
-					newButton.renderTarget = Quad(glm::vec2(-1 + buttonOffsetX, 1 - buttonOffsetY - buttonHeight),
-						glm::vec2(-1 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
-
-					// Draw text.
-					UIQuad& u = buttons[i].second;
-					u.SetText(bindings[i].c_str());
-					u.SetSize(12);
-					u.SetX(	int(((buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
-					u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
-
-					buttonOffsetY += offsetChange;
-				}
-				else
-				{
-					buttonOffsetX = 0.05f;
-					buttonOffsetY += 0.1f;
-					newButton.renderTarget = Quad(glm::vec2(0 - buttonOffsetX - resetWidth, 1 - buttonOffsetY - resetHeight),
-						glm::vec2(0 - buttonOffsetX, 1 - buttonOffsetY));
-				}
-
-				newButton.renderTarget.SetOpenGL();
-			}
-
-			// Handle right hand side.
-			buttonOffsetX = 0.1f;
-			buttonOffsetY = 0.1f;
-			for (int i = int(buttons.size() / 2); i < int(buttons.size()); i++)
-			{
-				Button& newButton = buttons[i].first;
-				newButton.action = i;
-				newButton.texture = current_tex[i];
-
-				if (!(i == 13))
-				{
-					newButton.renderTarget = Quad(glm::vec2(0 + buttonOffsetX, 1 - buttonOffsetY - buttonHeight),
-						glm::vec2(0 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
-
-					// Draw text.
-					UIQuad& u = buttons[i].second;
-					u.SetText(bindings[i].c_str());
-					u.SetSize(12);
-					u.SetX(int(((1 + buttonOffsetX + buttonWidth + 0.05f) / 2) * 800));
-					u.SetY(int(((2 - buttonOffsetY - (buttonHeight * 0.57f)) / 2) * 600));
-
-					buttonOffsetY += offsetChange;
-				}
-				else
-				{
-					buttonOffsetX = 0.05f;
-					buttonOffsetY += 0.1f;
-					newButton.renderTarget = Quad(glm::vec2(0 + buttonOffsetX, 1 - buttonOffsetY - resetHeight),
-						glm::vec2(0 + buttonOffsetX + resetWidth, 1 - buttonOffsetY));
-				}
-
-				newButton.renderTarget.SetOpenGL();
-			}
-
+			DrawButtons();
 		}
-
 	}
 	~ControlsMenu() {}
 
@@ -145,15 +65,15 @@ private:
 	static std::vector<std::pair<Button, UIQuad>> buttons;
 
 	// Button textures
-	std::vector <unsigned int> button_tex;
-	std::vector <unsigned int> highlight_tex;
-	std::vector <unsigned int> current_tex;
+	static std::vector <unsigned int> button_tex;
+	static std::vector <unsigned int> highlight_tex;
+	static std::vector <unsigned int> current_tex;
 
 	// Key bindings, index of buttons represents one of these.
-	static std::vector<std::string> bindings;
-	// What each quad represents.
-	static std::vector<std::string> buttonActions;
+	static std::vector<std::pair<std::string, std::string>> bindings;
+
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 	void PopulateBindings();
+	void DrawButtons();
 };
