@@ -538,3 +538,82 @@ void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
 		}
 	}
 }
+
+// Find a spawnable position somewhere near this structure.
+glm::vec3 Spawner::FindValidSpawnPoint(glm::vec3 position, int length, int width)
+{
+	int halfLength = length / 2;
+	int halfWidth = width / 2;
+	int dim = Game::Get().GetGridSize();
+
+	// For the x range.
+	for (int i = -length; i < length; i++)
+	{
+		// for the z range.
+		for (int j = -width; j < width; j++)
+		{
+			glm::vec2 point = glm::vec2(position.x, position.z) + glm::vec2(i, j);
+			// only check if it is in game grid area.
+			if (point.x >= 0 || point.x < dim || point.y >= 0 || point.y < dim)
+			{
+				// only want a point that is not occuplied
+				if (Game::Get().GetNavGridValue(point) == 0)
+				{
+					return glm::vec3(point.x, 0, point.y);
+				}
+			}
+		}
+	}
+	// There was no suitable point. Position is now an invalid area.
+	return glm::vec3(-1);
+}
+
+//Check if the Entity can be spawned in the area requested.
+bool Spawner::CheckGameGrid(glm::vec3 position, int length, int width)
+{
+	int halfLength = length / 2;
+	int halfWidth = width / 2;
+	int dim = Game::Get().GetGridSize();
+
+	// For the x range.
+	for (int i = -halfLength; i < halfLength; i++)
+	{
+		// for the z range.
+		for (int j = -halfWidth; j < halfWidth; j++)
+		{
+			// Calculate the new point it is checking.
+			glm::vec2 point = glm::vec2(position.x, position.z) + glm::vec2(i, j);
+			// Now check if this is within the game grid range.
+			if (point.x < 0 || point.x >= dim || point.y < 0 || point.y >= dim)
+				return false;
+			// It is a valid position, check if it is occupied.
+			if (Game::Get().GetNavGridValue(point) == 1)
+				return false;
+		}
+	}
+	// Area is free.
+	return true;
+}
+
+void Spawner::UpdateGameGrid(glm::vec3 position, int length, int width, int value)
+{
+	int halfLength = length / 2;
+	int halfWidth = width / 2;
+	int dim = Game::Get().GetGridSize();
+
+	// For the x range.
+	for (int i = -halfLength; i < halfLength; i++)
+	{
+		// for the z range.
+		for (int j = -halfWidth; j < halfWidth; j++)
+		{
+			// Calculate the new point it is checking.
+			glm::vec2 point = glm::vec2(position.x, position.z) + glm::vec2(i, j);
+			// Now check if this is within the game grid range.
+			if (point.x >= 0 || point.x < dim || point.y >= 0 || point.y < dim)
+			{
+				Game::Get().UpdateNavGrid(value, point);
+			}
+		}
+	}
+}
