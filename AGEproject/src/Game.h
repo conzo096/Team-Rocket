@@ -22,6 +22,8 @@ class AiPlayer;
 class Game : public Singleton<Game>
 {
 private:
+	int gridSize = 1000;
+	double time;
 	double lastTime;
 	int** navGrid;
 	dvec3** terrainGrid;
@@ -53,12 +55,13 @@ public:
 
 	// Get player class.
 	Player& GetPlayer() { return *player; }
-
+	std::vector <shared_ptr<Entity>> GetNeutralEntities() { return neutralEntities; }
 	int** GetNavGrid() { return navGrid; };
 	int GetNavGridValue(glm::ivec2 pos) { return navGrid[pos.x][pos.y]; }
 	void UpdateNavGrid(int val, glm::ivec2 pos);
 
-
+	int GetGridSize() { return gridSize; };
+	float GetTime() { return time; };
 	dvec3** GetTerrainGrid() { return terrainGrid; };
 	std::vector<std::shared_ptr<Entity>> FindLocalUnits(int team, dvec3 position, double sightRange);
 	

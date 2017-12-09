@@ -20,6 +20,9 @@ class Structure : public Component
 		std::string productName;
 		float buildTime;
 		glm::vec3 destination;
+		// radius it occupies.
+		float radius;
+
 	};
 
 private:

@@ -135,19 +135,19 @@ void Game::Initialise()
 {
 
 	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
-	navGrid = new int*[100];
-	for (int i = 0; i < 100; i++)
-		navGrid[i] = new int[100];
-	for (int i = 0; i < 100; i++)
-		for (int j = 0; j < 100; j++)
+	navGrid = new int*[gridSize];
+	for (int i = 0; i < gridSize; i++)
+		navGrid[i] = new int[gridSize];
+	for (int i = 0; i < gridSize; i++)
+		for (int j = 0; j < gridSize; j++)
 		{
 				navGrid[i][j] = 0;
 		}
-	terrainGrid = new dvec3*[100];
-	for (int i = 0; i < 100; i++)
+	terrainGrid = new dvec3*[gridSize];
+	for (int i = 0; i < gridSize; i++)
 	{
-		terrainGrid[i] = new dvec3[100];
-		for (int j = 0; j < 100; j++)
+		terrainGrid[i] = new dvec3[gridSize];
+		for (int j = 0; j < gridSize; j++)
 		{
 			terrainGrid[i][j] = vec3(i, 0, j);
 		}
@@ -207,22 +207,18 @@ void Game::Initialise()
 
 
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
 
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(96.5, 2.5, 96.5), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
 
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
 	
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
+
 	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 25), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));
-
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 0), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 0), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 100), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 100), Team::neutral));*/
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));*/
 	lastTime = clock();
 }
 
@@ -254,6 +250,7 @@ bool Game::Update()
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
+	time += deltaTime;
 	lastTime = clock();
 
 	if (freeCamEnabled)
@@ -300,7 +297,13 @@ bool Game::Update()
 	//// Resolve their collisions.
 	//ResolveCollisions(allEntities);
 	
-	
+
+	// Update the Game UI.
+	ui.Update(deltaTime);
+	if (NPC->GetEntities().size() > 0)
+		ui.UpdateEnemyLabels(NPC->GetEntities()[0]);
+	else
+		ui.DeselectEnemyLabel();
 	
 	// Delete any entities in the scene that are required to be removed
 	//// Handle deletion of entities.
@@ -354,10 +357,6 @@ bool Game::Update()
 	//}
 	//++dti;
 
-
-	// Update the Game UI.
-	ui.Update(deltaTime);
-	ui.UpdateEnemyLabels(NPC->GetEntities()[0]);
 	// process events.
 	glfwPollEvents();
 	// Close the window if it has been asked too.

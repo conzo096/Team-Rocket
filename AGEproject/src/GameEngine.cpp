@@ -9,9 +9,14 @@
 #include "PointLight.h"
 
 
-void GameEngine::AddPointLight(PointLight* light) { lights.push_back(light); }
-std::vector<PointLight*>& GameEngine::GetPointLights() { return lights; }
-
+void GameEngine::AddPointLight(PointLight* light)
+{ 
+	lights.push_back(light);
+}
+std::vector<PointLight*>& GameEngine::GetPointLights() 
+{
+	return lights;
+}
 
 void GameEngine::Initialise()
 {
@@ -206,15 +211,16 @@ void GameEngine::AddToRenderList(RenderData data)
 	// Sort vector here.
 	mut.lock();
 	//if (data.sphereRadius == 0)
+	{
 	//{
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
 		// it should be inserted to first.
-
 		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
 		{
 			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
 		});
+	}
 	//}
 	//else if(IsInCameraFrustum(data))
 	//{

@@ -158,7 +158,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		
 		auto tempMovement = std::make_unique<GroundMovement>();
 		tempMovement->SetProperties("./json/WorkerMovement.json");
-		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
+		tempMovement->SetGoal(glm::vec3(20, 0, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
@@ -185,7 +185,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto tempMovement = std::make_unique<AirMovement>();
 		tempMovement->SetProperties("./json/ShipMovement.json");
-		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
+		tempMovement->SetGoal(glm::vec3(20, 15, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		if (team == Team::player)
@@ -216,6 +216,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("ConstructorUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
@@ -270,6 +271,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		//tempRenderable->SetProperties("./json/Shipyard.json");
 		tempRenderable->UpdateTransforms();
@@ -324,6 +326,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 
@@ -362,6 +365,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Barracks>();
@@ -413,6 +417,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->SetTexture("debug");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
+		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(position);
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
@@ -523,10 +528,13 @@ void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
 		{
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
-			// Update Game Grid.
-			gameGridMut.lock();
-			Game::Get().UpdateNavGrid(value, p);
-			gameGridMut.unlock();
+			if (p.x > 0 && p.y > 0 && p.x < 99 && p.y < 99)
+			{
+				// Update Game Grid.
+				gameGridMut.lock();
+				Game::Get().UpdateNavGrid(value, p);
+				gameGridMut.unlock();
+			}
 		}
 	}
 }

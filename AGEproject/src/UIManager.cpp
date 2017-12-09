@@ -158,8 +158,13 @@
 			x = uiElements.find("EnemyHealth");
 			x->second.SetIsActive(true);
 			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
-			sprintf_s(buffer, 64, "%.0f\n", enemy->GetComponent<Targetable>().GetHealth());
-			x->second.SetText(buffer);
+			if (enemy->GetCompatibleComponent<Targetable>()->GetHealth()!= NULL)
+			{
+				sprintf_s(buffer, 64, "%.0f\n", enemy->GetComponent<Targetable>().GetHealth());
+				x->second.SetText(buffer);
+			}
+			else
+				x->second.SetText("0");
 			// Set the third info quad.
 			x = uiElements.find("EnemyMisc");
 			x->second.SetIsActive(true);
