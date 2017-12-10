@@ -116,6 +116,8 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 	// Select unit or units.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Action")) || UserControls::Get().IsJoystickPressed(std::string("X"), UserControls::ControllerAction::BUTTON))
 	{
+		selectedFriendly = NULL;
+		selectedEnemy = NULL;
 		// If you are to spawn a building. Create it.
 		if (selectedEntities.size() >0)
 			if (showGhostBuilding)
@@ -131,14 +133,12 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				}
 			}
 
-
 		// If only wanting one entity, remove everything from the current list.
 		if (!glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && !UserControls::Get().IsJoystickPressed(std::string("leftShoulder"), UserControls::ControllerAction::BUTTON))
 		{
 			for (std::shared_ptr<Entity> &e : selectedEntities)
 			{	
 				e->GetComponent<Targetable>().IsSelected(false);
-
 			}
 			selectedEntities.clear();
 		}
@@ -156,6 +156,16 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				return;
 			}
 		}
+		// Display enemy info.
+		for (std::shared_ptr<Entity> &e : enemyList)
+		{
+			// If a ray intersects with the bounding sphere.
+			if(e->GetCompatibleComponent<BoundingSphere>() != NULL)
+				if (e->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
+				{
+					selectedEnemy = e;
+				}
+		}
 		if (!objectSelected)
 		{
 			// If no suitable object has been selected, clear selected list.
@@ -166,12 +176,11 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 			selectedEntities.clear();
 		}
 	}
-
-
 	//Handle shortkeys for units/structures.
 	if(selectedEntities.size() > 0)
 	{ 
 		std::shared_ptr<Entity>& selectedEntity = selectedEntities[0];
+		selectedFriendly = selectedEntities[0];
 		if (selectedEntity != NULL)
 		{
 			// Delete all selected entities.
@@ -267,7 +276,6 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey1")))
 			{
 				timeElapsed = 0;
-			//	selectedEntity->SetScale(glm::vec3(10, 10, 10));
 			}
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey2")))
 			{
@@ -281,73 +289,194 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 	}
 
 
-	//// Check if any user input commands has been made.
-	//if (selectedEntities.size() > 0 && timeElapsed >0.5f)
+	// Need to handle.
+	// - Selection	x
+	// - Deselection 
+	// - Movement x
+	// - Targeting x
+	// Keyboard/controller commands (Such as spawning units).
+
+
+	//// Handle all possible action commands.
+	//if (UserControls::Get().IsMouseButtonPressed(std::string("Action")) || UserControls::Get().IsJoystickPressed(std::string("A"), UserControls::ControllerAction::BUTTON))
 	//{
-	//	// Handle hotkey 1.
-	//	if (UserControls::Get().IsKeyPressed(std::string("HotKey1")) || UserControls::Get().IsJoystickPressed(std::string("dUp")))
+	//	//if(!UserControls::Get().IsKeyPressed(std::string("Hold")))
+	//	//	selectedEntities.clear();
+	//	// Select all entities that are over the mouse.
+	//	for (std::shared_ptr<Entity>& ent : entities)
 	//	{
-	//		for (int i = 0; i < selectedEntities.size();i++)
+	//		if (std::find(selectedEntities.begin(), selectedEntities.end(), ent) == selectedEntities.end())
+	//			if (ent->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
+	//			{
+	//				selectedEntities.push_back(ent);
+	//				selectedFriendly = ent;
+	//			}
+	//	}
+
+	//	// If there is a ghost building get the first worker to build it.
+	//	if (validSpawn && showGhostBuilding)
+	//	{
+	//		for (std::shared_ptr<Entity>& ent : selectedEntities)
 	//		{
-	//			// if you have a worker selected update the ghost building.
-	//			if (selectedEntities[i]->GetName() == "Worker")
+	//			if (ent->GetName() == "Worker")
 	//			{
-	//				showGhostBuilding = true;
-	//				UpdateGhostBuilding(0);
-	//				buildingType = 0;
+	//				ent->GetComponent<Structure>().SetSpawnPoint(ghostBuilding.GetPosition());
+	//				ent->GetComponent<Structure>().AddProduct(balance, buildingType);
+	//				ent->GetCompatibleComponent<Unit>()->SetAction(Unit::Build);
+	//				showGhostBuilding = false;
+	//				break;
 	//			}
-	//			else
-	//			{
-	//				// This is spawner near the object towards the center - change to towards door.
-	//				glm::vec3 spawnLoc;
-	//				spawnLoc.y = 2.5f;
-	//				spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
-	//				spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
-	//				selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
-	//			}
-	//			timeElapsed = 0;
 	//		}
 	//	}
-	//	else if (UserControls::Get().IsKeyPressed(std::string("HotKey2")) || UserControls::Get().IsJoystickPressed(std::string("dRight")))
+
+	//	// Now check all the entities - Only want the first one there.
+	//	for (std::shared_ptr<Entity>& ent : enemyList)
 	//	{
-	//		if (selectedEntity->GetName() == "Worker")
+	//		if (ent->GetCompatibleComponent<BoundingSphere>() != NULL)
 	//		{
-	//			showGhostBuilding = true;
-	//			UpdateGhostBuilding(1);
-	//			buildingType = 1;
+	//			if (ent->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
+	//			{
+	//				selectedEnemy = ent;
+	//				break;
+	//			}
 	//		}
-	//		else
-	//		{
-	//			glm::vec3 spawnLoc;
-	//			spawnLoc.y = 2.5f;
-	//			spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
-	//			spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
-	//			selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
-	//		}
-	//		timeElapsed = 0;
-	//	}
-	//	else if (UserControls::Get().IsKeyPressed(std::string("HotKey3")) || UserControls::Get().IsJoystickPressed(std::string("dDown")))
-	//	{
-	//		if (selectedEntity->GetName() == "Worker")
-	//		{
-	//			showGhostBuilding = true;
-	//			UpdateGhostBuilding(2);
-	//			buildingType = 2;
-	//		}
-	//		else
-	//		{
-	//			glm::vec3 spawnLoc;
-	//			spawnLoc.y = 2.5f;
-	//			spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
-	//			spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
-	//			selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
-	//		}
-	//		timeElapsed = 0;
 	//	}
 	//}
+	//// Handles moving / attacking.
+	//if (UserControls::Get().IsMouseButtonPressed(std::string("Move")) || UserControls::Get().IsJoystickPressed(std::string("X"), UserControls::ControllerAction::BUTTON))
+	//{
+	//	selectedEnemy = NULL;
+	//	// Find point of intersection with the game plane.
+	//	if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+	//	{
+	//		showGhostBuilding = false;
+	//		// Check for point of intersection.
+	//		if (Game::Get().allEntities[1]->GetComponent<BoundingBox>().CheckForMouseIntersection(UserControls::Get().GetRay(), poi))
+	//		{
+	//			// Do not move structures.
+	//			for (std::shared_ptr<Entity>&e : selectedEntities)
+	//			{
+	//				if (e != NULL && e->GetCompatibleComponent<Unit>() != NULL)
+	//				{
+	//					// Override the pause status if it persists.
+	//					e->GetCompatibleComponent<Movement>()->SetActive(true);
+	//					poi.y = (float)e->GetPosition().y;
+	//					e->GetCompatibleComponent<Movement>()->SetGoal(poi);
+	//					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
+	//				}
+	//			}
+	//			// Particle that appears when the user selects a location.
+	//			glm::vec3 t = poi;
+	//			t.y = 0;
+	//			Game::Get().location = t;
+	//			Game::Get().duration = 3.0;
+	//		}
+	//		// If you are selected on an enemy attack it instead.
+	//		for (std::shared_ptr<Entity>&e : selectedEntities)
+	//		{
+	//			for (std::shared_ptr<Entity>&f : enemyList)
+	//			{
+	//				if (f->GetCompatibleComponent<BoundingSphere>() != NULL)
+	//				{
+	//					if (f->GetComponent<BoundingSphere>().TestIntersection(UserControls::Get().GetRay()))
+	//					{
+	//						if (e != NULL && e->GetCompatibleComponent<Unit>() != NULL && f != NULL && f->GetCompatibleComponent<Targetable>() != NULL)
+	//						{
+	//							// The selected entities attack this instead.
+	//							e->GetCompatibleComponent<Unit>()->SetEntityToTarget(f);
+	//							e->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
+	//							if (e->GetName() == "Worker" && f->GetName() == "Resource")
+	//								e->GetCompatibleComponent<Unit>()->SetAction(Unit::Harvest);
+	//						}
+	//					}
+	//				}
+	//			}
+	//		
+	//		}
+	//	}
+	//}
+	//// Handles Hotkeys of structures and units.
+	//if (selectedEntities.size() > 0)
+	//{
+	//	if (UserControls::Get().IsKeyPressed(std::string("HotKey1")) && timeElapsed >= 0.5f)
+	//	{
+	//		for (int i = 0; i < selectedEntities.size(); i++)
+	//		{
+	//			timeElapsed = 0;
+	//			if (selectedEntities[i]->GetCompatibleComponent<Structure>() != NULL)
+	//			{
+	//				if (selectedEntities[i]->GetName() == "Worker")
+	//				{
+	//					showGhostBuilding = true;
+	//					UpdateGhostBuilding(0);
+	//					buildingType = 0;
+	//				}
+	//				else
+	//				{
+	//					// This is spawner near the object towards the center - change to towards door.
+	//					glm::vec3 spawnLoc;
+	//					spawnLoc.y = 0.0f;
+	//					spawnLoc.x = static_cast<float>(selectedEntities[i]->GetPosition().x + 5.0f);
+	//					spawnLoc.y = static_cast<float>(selectedEntities[i]->GetPosition().y + 5.0f);
 
+	//					selectedEntities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+	//				}
+	//			}
+	//		}
+	//	}
+	//	if (UserControls::Get().IsKeyPressed(std::string("HotKey2")) && timeElapsed >= 0.5f)
+	//	{
+	//		timeElapsed = 0;
+	//		for (int i = 0; i < selectedEntities.size(); i++)
+	//		{
+	//			if (selectedEntities[i]->GetCompatibleComponent<Structure>() != NULL)
+	//			{
+	//				if (selectedEntities[i]->GetName() == "Worker")
+	//				{
+	//					showGhostBuilding = true;
+	//					UpdateGhostBuilding(1);
+	//					buildingType = 1;
+	//				}
+	//				else
+	//				{
+	//					// This is spawner near the object towards the center - change to towards door.
+	//					glm::vec3 spawnLoc;
+	//					spawnLoc.y = 0.0f;
+	//					spawnLoc.x = static_cast<float>(selectedEntities[i]->GetPosition().x + 5.0f);
+	//					spawnLoc.y = static_cast<float>(selectedEntities[i]->GetPosition().y + 5.0f);
 
+	//					selectedEntities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
+	//				}
+	//			}
+	//		}
+	//	}
+	//	if (UserControls::Get().IsKeyPressed(std::string("HotKey3")) && timeElapsed >= 0.5f)
+	//	{
+	//		for (int i = 0; i < selectedEntities.size(); i++)
+	//		{
+	//			timeElapsed = 0;
+	//			if (selectedEntities[i]->GetCompatibleComponent<Structure>() != NULL)
+	//			{
+	//				if (selectedEntities[i]->GetName() == "Worker")
+	//				{
+	//					showGhostBuilding = true;
+	//					UpdateGhostBuilding(2);
+	//					buildingType = 2;
+	//				}
+	//				else
+	//				{
+	//					// This is spawner near the object towards the center - change to towards door.
+	//					glm::vec3 spawnLoc;
+	//					spawnLoc.y = 0.0f;
+	//					spawnLoc.x = static_cast<float>(selectedEntities[i]->GetPosition().x + 5.0f);
+	//					spawnLoc.y = static_cast<float>(selectedEntities[i]->GetPosition().y + 5.0f);
 
+	//					selectedEntities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 // Render ghost block if there is one.
@@ -389,18 +518,56 @@ void Player:: UpdateGhostBuilding(int type)
 	if (type == 0)
 	{
 		ghostBuilding.GetComponent<Renderable>().SetModel("Factory");
-		buildingCost = selectedEntities[0]->GetComponent<Structure>().GetSpawnInfo()[0].cost;
+		for (int i = 0; i < selectedEntities.size(); i++)
+		{
+			if (selectedEntities[i]->GetName() == "Worker")
+			{
+				buildingCost = selectedEntities[i]->GetComponent<Structure>().GetSpawnInfo()[0].cost;
+				break;
+			}
+		}
 	}
 	else if (type == 1)
 	{
 		ghostBuilding.GetComponent<Renderable>().SetModel("VehicleBay");
-		buildingCost = selectedEntities[0]->GetComponent<Structure>().GetSpawnInfo()[1].cost;
+		for (int i = 0; i < selectedEntities.size(); i++)
+		{
+			if (selectedEntities[i]->GetName() == "Worker")
+			{
+				buildingCost = selectedEntities[i]->GetComponent<Structure>().GetSpawnInfo()[1].cost;
+				break;
+			}
+		}
 	}
 	else if (type == 2)
 	{
 		ghostBuilding.GetComponent<Renderable>().SetModel("Hanger");
-		buildingCost = selectedEntities[0]->GetComponent<Structure>().GetSpawnInfo()[2].cost;
+		for (int i = 0; i < selectedEntities.size(); i++)
+		{
+			if (selectedEntities[i]->GetName() == "Worker")
+			{
+				buildingCost = selectedEntities[i]->GetComponent<Structure>().GetSpawnInfo()[2].cost;
+				break;
+			}
+		}
 	}
 	ghostBuilding.GetComponent<Renderable>().SetPosition(vec3(0, -ghostBuilding.GetComponent<Renderable>().GetModel().GetLowestYPosition(), 0));
 	ghostBuilding.GetComponent<BoundingSphere>().SetUpBoundingSphere(ghostBuilding.GetComponent<Renderable>().GetModel().GetVertexPositions());
+}
+
+
+void Player::SortEntities(Free_Camera& camera)
+{
+
+}
+void Player::SortEntities(Game_Camera& camera)
+{
+	const glm::dvec3 camPos = camera.GetPosition();
+	std::sort(entities.begin(), entities.end(), [camPos](const std::shared_ptr<Entity>& lhs, const std::shared_ptr<Entity>& rhs)
+	{
+		return	glm::distance(lhs->GetPosition(), camPos) < glm::distance(rhs->GetPosition(), camPos);
+	});
+	std::cout << entities[0]->GetName() << std::endl;
+
+
 }

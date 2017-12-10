@@ -300,8 +300,8 @@ bool Game::Update()
 
 	// Update the Game UI.
 	ui.Update(deltaTime);
-	if (NPC->GetEntities().size() > 0)
-		ui.UpdateEnemyLabels(NPC->GetEntities()[0]);
+	if (player->GetSelectedEntity() != NULL)
+		ui.UpdateEnemyLabels(player->GetSelectedEntity());
 	else
 		ui.DeselectEnemyLabel();
 	
@@ -337,6 +337,7 @@ bool Game::Update()
 			}
 	}
 
+	player->SortEntities(game_cam->GetComponent<Game_Camera>());
 
 	// hacky approach to approximating framerate, causes application to crash on closing.
 	//static double dts[255];

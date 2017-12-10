@@ -84,41 +84,41 @@
 		x->second.SetText(buffer);
 
 		// If there is a selected unit, print its info.
-		if (Game::Get().GetPlayer().GetSelectedEntities().size() > 0)
+		if (Game::Get().GetPlayer().GetSelectedFriendlyEntity() != NULL)
 		{			// Only interested in first unit.
 			x = uiElements.find("Name");
 			x->second.SetIsActive(true);
-			x->second.SetText(Game::Get().GetPlayer().GetSelectedEntities()[0]->GetName().c_str());
+			x->second.SetText(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName().c_str());
 			x = uiElements.find("Health");
 			x->second.SetIsActive(true);
-			sprintf_s(buffer, 64, "%.0f\n", Game::Get().GetPlayer().GetSelectedEntities()[0]->GetComponent<Targetable>().GetHealth());
+			sprintf_s(buffer, 64, "%.0f\n", Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetComponent<Targetable>().GetHealth());
 			x->second.SetText(buffer);
 
 			// Set the third info quad.
 			x = uiElements.find("Misc");
 			x->second.SetIsActive(true);
 			// If the selected entity is a structure, print out number of queued items.
-			if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Structure>() != NULL)
+			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>() != NULL)
 			{
 				// If there is an item in queue display name, else print none.
-				if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Structure>()->GetQueueSize() > 0)
-					x->second.SetText(Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Structure>()->GetNextProduct().productName.c_str());
+				if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetQueueSize() > 0)
+					x->second.SetText(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetNextProduct().productName.c_str());
 				else
 				{
 					x->second.SetText("None!");
 				}
 			}
 			// If it is just a combat unit print out there action.
-			else if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>() != NULL)
+			else if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>() != NULL)
 			{
-				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>()->GetAction()].c_str());
+				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
 			// Workers are considered both - print their action out underneath the tag.
-			if (Game::Get().GetPlayer().GetSelectedEntities()[0]->GetName() == "Worker")
+			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName() == "Worker")
 			{
 				x = uiElements.find("Misc2");
 				x->second.SetIsActive(true);
-				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedEntities()[0]->GetCompatibleComponent<Unit>()->GetAction()].c_str());
+				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
 		}	
 		else

@@ -21,6 +21,8 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 	for (int i = 0; i < temp.size(); i++)
 	{
 		entities.push_back(temp[i]);
+		if (temp[i]->GetCompatibleComponent<Movement>() != NULL)
+			temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(80, 0, 80));
 		unitsQueued--;
 		moving = false;
 	}
