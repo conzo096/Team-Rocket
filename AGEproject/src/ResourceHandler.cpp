@@ -30,6 +30,9 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WardenPlatformUV"), Texture("../res/textures/WardenPlatformUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WardenTurretUV"), Texture("../res/textures/WardenTurretUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("FlyerUV"), Texture("../res/textures/FlyerUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("FactoryUV"), Texture("../res/textures/FactoryUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("VehicleBayUV"), Texture("../res/textures/VehicleBayUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HangerUV"), Texture("../res/textures/HangerUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("debug"), Texture("../res/textures/debug.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Rock"), Texture("../res/textures/rock.png").GetTextureId()));
 
