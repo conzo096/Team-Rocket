@@ -3,17 +3,20 @@
 
 int Worker::Collect()
 {
+	if (action != Harvest)
+		destSet = false;
 	// If near collection point return value.
-	if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 1.5)
+	if (glm::distance(GetParent()->GetPosition(), collectionPoint) < 3)
 	{
 		//std::cout << "Waiting for collection" << std::endl;
 		waitingForCollection = true;
 		if (action == Harvest)
 		{
+			//destSet = false;
 			// Reset destination.
 			if (targetEntity != NULL)
 			{
-				glm::dvec3 t = Game::Get().ObtainNearestValidCoordinate(GetParent()->GetPosition(), targetEntity->GetPosition());
+				glm::dvec3 t = Game::Get().ObtainNearestValidCoordinate(collectionPoint, targetEntity->GetPosition());
 				if (t != GetParent()->GetCompatibleComponent<Movement>()->GetGoal())
 				{
 				//	GetParent()->GetComponent<GroundMovement>().SetCurrentSpeed(0);
@@ -34,6 +37,12 @@ void Worker::AttackEntity()
 
 void Worker::HarvestResource()
 {
+	if (!destSet)
+	{
+		glm::dvec3 t = Game::Get().ObtainNearestValidCoordinate(GetParent()->GetPosition(), targetEntity->GetPosition());
+		GetParent()->GetCompatibleComponent<Movement>()->SetGoal(t);
+		destSet = true;
+	}
 	if (timeSinceLastFire > fireRate)
 		canShoot = true;
 	
@@ -62,12 +71,16 @@ void Worker::HarvestResource()
 			return;
 		}
 		// else you can harvest.
-		else if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 6 && canShoot )
-		{
-			canShoot = false;
-			timeSinceLastFire = 0;
-			// Harvest some of the resource.
-			resourcesHeld += targetEntity->GetComponent<Resource>().RetrieveResource();
+		else
+		{ 
+			if (glm::distance(GetParent()->GetPosition(), targetEntity->GetPosition()) < 6 && canShoot)
+			{
+				canShoot = false;
+				timeSinceLastFire = 0;
+				// Harvest some of the resource.
+				resourcesHeld += targetEntity->GetComponent<Resource>().RetrieveResource();
+			}
 		}
 	}
+
 }

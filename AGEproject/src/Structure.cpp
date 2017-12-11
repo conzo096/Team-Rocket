@@ -11,6 +11,15 @@ Structure::Structure() : building(true), constructionTime(0.0f), Component("Stru
 
 Structure::~Structure()
 {
+	// Need to empty game grid that this structure has queued as invalid.
+	BoundingSphere bs;
+	while (!productQueue.empty())
+	{
+		auto & p = productQueue.front();
+		bs.SetUpBoundingSphere(p.radius, p.destination);
+		Spawner::Get().UpdateGameGrid(bs,0);
+		productQueue.pop();
+	}
 }
 
 void Structure::Build(double delta)
@@ -59,7 +68,7 @@ void Structure::Produce(double delta)
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
 		// Spawn unit should be from factory pattern class, not game!
-		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team));
+		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team,rank));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}

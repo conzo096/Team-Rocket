@@ -5,6 +5,42 @@
 
 Implementation* imp = nullptr;
 
+
+
+int p(const string& soundName, const glm::dvec3& pos, float volume_dB)
+{
+	int channelID = imp->nextChannelID++;
+	auto foundIt = imp->mSounds.find(soundName);
+	if (foundIt == imp->mSounds.end())
+	{
+		AudioEngine::Get().LoadSound(soundName);
+		foundIt = imp->mSounds.find(soundName);
+		if (foundIt == imp->mSounds.end())
+		{
+			return channelID;
+		}
+	}
+	FMOD::Channel* pChannel = nullptr;
+	AudioEngine::Get().ErrorCheck(imp->audioSystem->playSound(foundIt->second, nullptr, true, &pChannel));
+	if (pChannel)
+	{
+		FMOD_MODE currMode;
+		foundIt->second->getMode(&currMode);
+		if (currMode & FMOD_3D) {
+			FMOD_VECTOR position = AudioEngine::Get().VectorToFMOD(pos);
+			AudioEngine::Get().ErrorCheck(pChannel->set3DAttributes(&position, nullptr));
+		}
+		AudioEngine::Get().ErrorCheck(pChannel->setVolume(AudioEngine::Get().dB_to_Volume(volume_dB)));
+		AudioEngine::Get().ErrorCheck(pChannel->setPaused(false));
+		imp->mChannels[channelID] = pChannel;
+	}
+	return channelID;
+}
+
+
+
+
+
 // Initialise FMOD
 Implementation::Implementation()
 {
@@ -121,11 +157,11 @@ void AudioEngine::StopAllChannels()
 	}
 }
 
-//void AudioEngine::PlaySoundOnThread(const string& soundName, const glm::dvec3& pos, float volume_dB)
-//{
-//	std::thread t(AudioEngine::Get().PlaySound(soundName, pos, volume_dB), AudioEngine::Get(), imp->audioSystem, imp->mSounds[soundName]);
-//	t.join();
-//}
+void AudioEngine::PlaySoundOnThread(const string& soundName, const glm::dvec3& pos, float volume_dB)
+{
+	std::thread t(p,soundName, pos, volume_dB);
+	t.join();
+}
 
 void AudioEngine::SetChannel3DPosition(int channelID, const glm::dvec3& pos)
 {

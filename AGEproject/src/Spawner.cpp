@@ -15,9 +15,8 @@
 #include "Resource.h"
 #include "GroundMovement.h"
 #include "TurretRenderable.h"
-
 // Creates a predefined entity.
-std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
+std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 position, Team team, int rank)
 {
 	std::lock_guard<std::mutex> lock(mut);
 	glm::vec3 spawnPosition = position;
@@ -27,6 +26,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->SetName("Worker");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		tempRenderable->SetProperties("./json/Worker.json");
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
 		tempEntity->SetPosition(spawnPosition);
@@ -54,6 +59,14 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		target->SetHealth(100);
 		auto tempUnit = std::make_unique<Worker>();
 		tempUnit->SetTeam(team);
+		if (team == Team::player)
+		{
+			tempUnit->SetCollectionPoint(glm::vec3(7.5,0,7.5));
+		}
+		else if (team == Team::ai)
+		{
+			tempUnit->SetCollectionPoint(glm::vec3(96.5, 0, 96.5));
+		}
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
 		tempEntity->AddComponent(move(tempMovement));
@@ -75,6 +88,18 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto t = std::make_unique<TurretRenderable>();
 		t->SetMaterial(new Material());
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
+		if (team == Team::player)
+		{
+			t->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			t->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		t->SetProperties("./json/Drone.json");
 		t->SetModel("DroneTurret");
 		t->SetTexture("DroneTurretUV");
@@ -94,6 +119,16 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
+		// Changes depending on rank.
+		if (rank > 0)
+		{
+			target->SetMaxHealth(150);
+			target->SetHealth(150);
+		}
+		if (rank > 1)
+		{
+			target->SetResistance(3);
+		}
 		auto tempUnit = std::make_unique<Troop>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
@@ -114,9 +149,21 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 		tempEntity->SetPosition(spawnPosition);
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		tempRenderable->UpdateTransforms();	
 		auto t = std::make_unique<TurretRenderable>();
 		t->SetMaterial(new Material());
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		t->SetProperties("./json/Warden.json");
 		t->SetModel("WardenTurret");
 		t->SetTexture("WardenTurretUV");
@@ -135,6 +182,16 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
+		// Changes depending on rank.
+		if (rank > 0)
+		{
+			target->SetMaxHealth(150);
+			target->SetHealth(150);
+		}
+		if (rank > 1)
+		{
+			target->SetResistance(3);
+		}
 		auto tempUnit = std::make_unique<Tank>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
@@ -159,9 +216,24 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempMovement->SetGoal(glm::vec3(20, 15, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
-
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
+		// Changes depending on rank.
+		if (rank > 0)
+		{
+			target->SetMaxHealth(150);
+			target->SetHealth(150);
+		}
+		if (rank > 1)
+		{
+			target->SetResistance(3);
+		}
 		auto tempUnit = std::make_unique<Ship>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
@@ -199,8 +271,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if(team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 
 		// Set spawn Point.
 		glm::vec3 spawn = FindValidSpawnPoint(sp);
@@ -258,9 +334,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 			spawn = glm::vec3(50, 0, 10);
 		}
 		tempStructure->SetSpawnPoint(spawn);
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 
 		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
@@ -298,9 +377,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-		auto tempBoundSphere = std::make_unique<BoundingSphere>();
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);		auto tempBoundSphere = std::make_unique<BoundingSphere>();
 		tempBoundSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		tempEntity->AddComponent(move(tempBoundSphere));
 		tempEntity->AddComponent(move(tempRenderable));
@@ -309,8 +391,6 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->AddComponent(move(target));
 		return tempEntity;
 	}
-
-
 	if (name == "Factory")
 	{
 		tempEntity->SetName("Factory");
@@ -340,9 +420,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-			// Set spawn Point.
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);		// Set spawn Point.
 		glm::vec3 spawn = FindValidSpawnPoint(sp);
 		// Check if it is invalid
 		if (spawn == glm::vec3(-1))
@@ -389,9 +472,12 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		{
 			UpdateGameGrid(sp);
 		}
-		/*else
-			tempRenderable->GetMaterial().emissive = glm::vec4(1, 0, 0, 1);*/
-			// Set spawn Point.
+		if (team == Team::player)
+		{
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.031, 0.009, 0.059, 1);
+		}
+		if (team == Team::ai)
+			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);		// Set spawn Point.
 		glm::vec3 spawn = FindValidSpawnPoint(sp);
 		// Check if it is invalid
 		if (spawn == glm::vec3(-1))
@@ -426,7 +512,7 @@ glm::vec3 Spawner::FindValidSpawnPoint(BoundingSphere& sphere)
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
 			// Check if it is within playable range.
-			if ((p.x > 0 && p.y > 0) && (p.x < 99 && p.y < 99))
+			if ((p.x > 0 && p.y > 0) && (p.x < Game::Get().GetGridSize() - 1 && p.y < Game::Get().GetGridSize()-1))
 			{
 				// Now check point is outside radius area.
 				if ((p.x < -sphere.GetRadius()/2 || p.y > sphere.GetRadius()/2) || (p.x < -sphere.GetRadius()/2 || p.y > sphere.GetRadius()/2))
@@ -457,7 +543,7 @@ bool Spawner::CheckGameGrid(BoundingSphere& sphere)
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
 			// Check if it is within playable range.
-			if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
+			if (p.x < 0 || p.y < 0 || p.x > Game::Get().GetGridSize() - 1 || p.y > Game::Get().GetGridSize() - 1)
 			//if ((p.x > 0 && p.y > 0) && (p.x < 99 && p.y < 99))
 			{
 				return false;
@@ -480,12 +566,91 @@ void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
 		{
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
-			if (p.x > 0 && p.y > 0 && p.x < 99 && p.y < 99)
+			if (p.x > 0 && p.y > 0 && p.x < Game::Get().GetGridSize() - 1 && p.y < Game::Get().GetGridSize() - 1)
 			{
 				// Update Game Grid.
 				gameGridMut.lock();
 				Game::Get().UpdateNavGrid(value, p);
 				gameGridMut.unlock();
+			}
+		}
+	}
+}
+
+// Find a spawnable position somewhere near this structure.
+glm::vec3 Spawner::FindValidSpawnPoint(glm::vec3 position, int length, int width)
+{
+	int halfLength = length / 2;
+	int halfWidth = width / 2;
+	int dim = Game::Get().GetGridSize();
+
+	// For the x range.
+	for (int i = -length; i < length; i++)
+	{
+		// for the z range.
+		for (int j = -width; j < width; j++)
+		{
+			glm::vec2 point = glm::vec2(position.x, position.z) + glm::vec2(i, j);
+			// only check if it is in game grid area.
+			if (point.x >= 0 || point.x < dim || point.y >= 0 || point.y < dim)
+			{
+				// only want a point that is not occuplied
+				if (Game::Get().GetNavGridValue(point) == 0)
+				{
+					return glm::vec3(point.x, 0, point.y);
+				}
+			}
+		}
+	}
+	// There was no suitable point. Position is now an invalid area.
+	return glm::vec3(-1);
+}
+
+//Check if the Entity can be spawned in the area requested.
+bool Spawner::CheckGameGrid(glm::vec3 position, int length, int width)
+{
+	int halfLength = length / 2;
+	int halfWidth = width / 2;
+	int dim = Game::Get().GetGridSize();
+
+	// For the x range.
+	for (int i = -halfLength; i < halfLength; i++)
+	{
+		// for the z range.
+		for (int j = -halfWidth; j < halfWidth; j++)
+		{
+			// Calculate the new point it is checking.
+			glm::vec2 point = glm::vec2(position.x, position.z) + glm::vec2(i, j);
+			// Now check if this is within the game grid range.
+			if (point.x < 0 || point.x >= dim || point.y < 0 || point.y >= dim)
+				return false;
+			// It is a valid position, check if it is occupied.
+			if (Game::Get().GetNavGridValue(point) == 1)
+				return false;
+		}
+	}
+	// Area is free.
+	return true;
+}
+
+void Spawner::UpdateGameGrid(glm::vec3 position, int length, int width, int value)
+{
+	int halfLength = length / 2;
+	int halfWidth = width / 2;
+	int dim = Game::Get().GetGridSize();
+
+	// For the x range.
+	for (int i = -halfLength; i < halfLength; i++)
+	{
+		// for the z range.
+		for (int j = -halfWidth; j < halfWidth; j++)
+		{
+			// Calculate the new point it is checking.
+			glm::vec2 point = glm::vec2(position.x, position.z) + glm::vec2(i, j);
+			// Now check if this is within the game grid range.
+			if (point.x >= 0 || point.x < dim || point.y >= 0 || point.y < dim)
+			{
+				Game::Get().UpdateNavGrid(value, point);
 			}
 		}
 	}

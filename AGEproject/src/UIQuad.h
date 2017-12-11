@@ -22,7 +22,8 @@ private:
 	bool isActive = true;
 	// Dimensions of quad.
 	int xPos, yPos, size;
-
+	// Text colour - default is white.
+	glm::vec4 textColour;
 public:
 
 	UIQuad()
@@ -31,6 +32,7 @@ public:
 		yPos = 500;
 		size = 60;
 		text = "Insert Text";
+		textColour = glm::vec4(255, 255, 255, 1);
 		shader = ResourceHandler::Get().GetShader("Font")->GetId();
 		Text2DUniformID = glGetUniformLocation(shader, "myTextureSampler");
 		// Initialize VBO
@@ -69,5 +71,9 @@ public:
 	{
 		isActive = a;
 	}
+
+	void SetTextColour(glm::vec4 col) { textColour = col; }
+	glm::vec4 GetTextColour() {return textColour;}
+
 };
 

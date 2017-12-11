@@ -86,7 +86,7 @@ vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
 		// Check in straight line from b until point is found
 		glm::vec3 dir = glm::normalize(start - end);
 		// Check for so many iterations.
-		for (float i = 0; i < 6; i++)
+		for (float i = 0; i < GetGridSize(); i++)
 		{
 			glm::vec3 tPoint = end + (dir*i);
 			if (navGrid[(int)tPoint.x][(int)tPoint.z] == 0)
@@ -150,8 +150,6 @@ void ResolveCollisions(std::vector<std::shared_ptr<Entity>>& ents)
 
 void Game::Initialise()
 {
-
-	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
 	navGrid = new int*[gridSize];
 	for (int i = 0; i < gridSize; i++)
 		navGrid[i] = new int[gridSize];
@@ -187,7 +185,7 @@ void Game::Initialise()
 	cam2->SetPosition(glm::dvec3(40.0, 40.0, 70.0));
 	cam2->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam2));
-
+	std::cout << "Cameras initialised" << std::endl;
 	freeCamEnabled = false;
 	keyHeld = false;
 
@@ -196,11 +194,12 @@ void Game::Initialise()
 	//ll.LoadLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
 
 	std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
-	auto tempLightComponent = std::make_unique<PointLight>();
+	auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
-	tempEntity3->AddComponent(move(tempLightComponent));
+	//tempEntity3->AddComponent(move(tempLightComponent));
+	GameEngine::Get().AddPointLight(tempLightComponent);
 	neutralEntities.push_back(tempEntity3);
-
+	std::cout << "Light initialised" << std::endl;
 	// This is the floor.
 	std::shared_ptr<Entity> tempEntity2 = std::make_shared<Entity>();
 	tempEntity2->SetPosition(glm::vec3(0, 0, 0));
@@ -313,7 +312,12 @@ bool Game::Update()
 	//// Resolve their collisions.
 	//ResolveCollisions(allEntities);
 
-
+	// Update the Game UI.
+	ui.Update(deltaTime);
+	if (player->GetSelectedEntity() != NULL)
+		ui.UpdateEnemyLabels(player->GetSelectedEntity());
+	else
+		ui.DeselectEnemyLabel();
 
 	// Delete any entities in the scene that are required to be removed
 	//// Handle deletion of entities.
@@ -347,6 +351,7 @@ bool Game::Update()
 			}
 	}
 
+	player->SortEntities(game_cam->GetComponent<Game_Camera>());
 
 	// hacky approach to approximating framerate, causes application to crash on closing.
 	//static double dts[255];
@@ -366,10 +371,6 @@ bool Game::Update()
 	//	printf("fps:%f, avg:%f, min: %f, max:%f\n",1.0/avg, avg, min, max);
 	//}
 	//++dti;
-
-
-	// Update the Game UI.
-	ui.Update(deltaTime);
 
 	// process events.
 	glfwPollEvents();

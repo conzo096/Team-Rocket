@@ -1,5 +1,5 @@
 #include "UIQuad.h"
-
+#include <glm\gtc\type_ptr.hpp>
 void UIQuad::Render()
 {
 	if (isActive)
@@ -71,11 +71,16 @@ void UIQuad::Render()
 		glBindBuffer(GL_ARRAY_BUFFER, Text2DUVBufferID);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		// Draw call
-		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
 
-		glDisableVertexAttribArray(0);
+		// Set colour field.
+		glUniform4fv(ResourceHandler::Get().GetShader("Font")->GetUniformLocation("texColour"), 1, glm::value_ptr(textColour));
+
+
+		// Draw call
+		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+		glBindVertexArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(0);
 	}
 
 }
