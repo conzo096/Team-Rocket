@@ -38,8 +38,7 @@ void AiPlayer::CheckProperty()
 		if (entities[i]->GetName() == "Worker")
 		{
 			workerCount++;
-			//Need to debug this line
-			if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && entities[i]->GetCompatibleComponent<Worker>()->GetAction() == entities[i]->GetCompatibleComponent<Worker>()->Stop)
+			if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && entities[i]->GetCompatibleComponent<Worker>()->GetAction() == Unit::Stop)
 			{
 				int min = 0;
 				int n = 0;
@@ -52,6 +51,7 @@ void AiPlayer::CheckProperty()
 					n++;
 				}
 				entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
+				entities[i]->GetCompatibleComponent<Worker>()->SetAction(Unit::Harvest);
 			}
 		}
 		else

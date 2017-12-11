@@ -1,112 +1,7 @@
 {
-    "Balance": 1215750342,
+    "Balance": 1215752192,
     "Objects": [
         {
-            "EntityList": "Player",
-            "Model": "",
-            "Name": "Base",
-            "Position": [
-                0.0,
-                2.5,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 300,
-                    "UnitType": "Worker"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Shipyard"
-        },
-        {
-            "EntityList": "Player",
-            "Model": "",
-            "Name": "Factory",
-            "Position": [
-                0.0,
-                1.0,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 2.0,
-                    "Cost": 100,
-                    "UnitType": "Drone"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Barracks"
-        },
-        {
-            "EntityList": "Player",
-            "Model": "",
-            "Name": "VehicleBay",
-            "Position": [
-                0.0,
-                1.0,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 300,
-                    "UnitType": "Warden"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Shipyard"
-        },
-        {
-            "EntityList": "Player",
-            "Model": "",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    20.0,
-                    0.0,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Worker",
-            "Position": [
-                0.0,
-                0.5,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 500,
-                    "UnitType": "Factory"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 750,
-                    "UnitType": "VehicleBay"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 1000,
-                    "UnitType": "Hanger"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Worker"
-        },
-        {
             "EntityList": "NPC",
             "Model": "",
             "Name": "Base",
@@ -126,90 +21,6 @@
             "Texture": "",
             "Type": "Renderable",
             "TypeCode": "Shipyard"
-        },
-        {
-            "EntityList": "NPC",
-            "Model": "",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    20.0,
-                    2.5,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Worker",
-            "Position": [
-                0.0,
-                0.5,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 500,
-                    "UnitType": "Factory"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 750,
-                    "UnitType": "VehicleBay"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 1000,
-                    "UnitType": "Hanger"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Worker"
-        },
-        {
-            "EntityList": "NPC",
-            "Model": "",
-            "Movement": {
-                "Acceleration": 0.5,
-                "Goal": [
-                    20.0,
-                    2.5,
-                    20.0
-                ],
-                "Speed": 15.0,
-                "TurnSpeed": 200.0,
-                "Type": "Ground"
-            },
-            "Name": "Worker",
-            "Position": [
-                0.0,
-                0.5,
-                0.0
-            ],
-            "Shader": "",
-            "SpawnInfos": [
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 500,
-                    "UnitType": "Factory"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 750,
-                    "UnitType": "VehicleBay"
-                },
-                {
-                    "BuildTime": 3.0,
-                    "Cost": 1000,
-                    "UnitType": "Hanger"
-                }
-            ],
-            "Texture": "",
-            "Type": "Renderable",
-            "TypeCode": "Worker"
         },
         {
             "EntityList": "NPC",
@@ -297,14 +108,14 @@
         },
         {
             "Colour": [
-                0.699999988079071,
+                0.5,
+                0.300000011920929,
                 0.200000002980232,
-                0.400000005960464,
                 1.0
             ],
             "Position": [
                 50.0,
-                30.0,
+                60.0,
                 50.0
             ],
             "Shader": "Phong",
@@ -346,7 +157,7 @@
             "Name": "Resource",
             "Position": [
                 0.0,
-                1.0,
+                0.5,
                 0.0
             ],
             "Shader": "",
