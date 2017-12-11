@@ -25,9 +25,11 @@ void GameEngine::Initialise()
 		fprintf(stderr, "ERROR: glfw failed init! exiting.");
 		return;
 	}
+	std::cout << "Creating or loading config file" << std::endl;
 	FileIO io = FileIO::Get();
 	io.LoadIniFile();
 
+	std::cout << "Creating game window" << std::endl;
 	GameEngine::CreateWindow();
 	
 	// Window is now initalised, now make it the current context.
