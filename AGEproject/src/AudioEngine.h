@@ -48,7 +48,7 @@ public:
 	// "pos" will be the position of the camera's transform
 	//void Set3DListenerAndOrientation(const glm::dvec3& pos = glm::dvec3(0.0, 0.0, 0.0), float volume_dB = 0.0f);
 	// "pos" will be the position of the unit/structure's transform
-	int PlaySound(const string& soundName, const glm::dvec3& pos = glm::dvec3(0.0, 0.0, 0.0), float volume_dB = 0.0f);
+	int PlaySoundUnthreaded(const string& soundName, const glm::dvec3& pos = glm::dvec3(0.0, 0.0, 0.0), float volume_dB = 0.0f);
 	void PlaySoundOnThread(const string& soundName, const glm::dvec3& pos = glm::dvec3(0.0, 0.0, 0.0), float volume_dB = 0.0f);
 	// Pause an indvidual sound 
 	void StopChannel(int channelID);

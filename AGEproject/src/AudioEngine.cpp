@@ -7,7 +7,7 @@ Implementation* imp = nullptr;
 
 
 
-int p(const string& soundName, const glm::dvec3& pos, float volume_dB)
+int PlaySound(const string& soundName, const glm::dvec3& pos, float volume_dB)
 {
 	int channelID = imp->nextChannelID++;
 	auto foundIt = imp->mSounds.find(soundName);
@@ -112,7 +112,7 @@ void AudioEngine::UnloadSound(const string& soundName)
 	imp->mSounds.erase(foundIt);
 }
 
-int AudioEngine::PlaySound(const string& soundName, const glm::dvec3& pos, float volume_dB)
+int AudioEngine::PlaySoundUnthreaded(const string& soundName, const glm::dvec3& pos, float volume_dB)
 {
 	int channelID = imp->nextChannelID++;
 	auto foundIt = imp->mSounds.find(soundName);
@@ -159,7 +159,7 @@ void AudioEngine::StopAllChannels()
 
 void AudioEngine::PlaySoundOnThread(const string& soundName, const glm::dvec3& pos, float volume_dB)
 {
-	std::thread t(p,soundName, pos, volume_dB);
+	std::thread t(PlaySound,soundName, pos, volume_dB);
 	t.join();
 }
 
