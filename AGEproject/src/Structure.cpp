@@ -83,11 +83,11 @@ void Structure::Update(double delta)
 	{
 		GetParent()->GetCompatibleComponent<Worker>()->SetAction(Unit::Build);
 		// Make unit go to destination first.
-		if (productQueue.front().destination != GetParent()->GetPosition())
+		if (productQueue.front().destination != GetParent()->GetPosition() && productQueue.front().destination != GetParent()->GetCompatibleComponent<Movement>()->GetGoal())
 		{
 			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(productQueue.front().destination);
 		}
-			if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 7)
+			if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 3)
 				return;
 			else
 				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());

@@ -24,7 +24,7 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 	{
 		entities.push_back(temp[i]);
 		if (temp[i]->GetCompatibleComponent<Movement>() != NULL)
-			temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(80, 0, 80));
+			temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(70, 0, 70));//Rally point kinda
 		unitsQueued--;
 		moving = false;
 	}
@@ -40,24 +40,6 @@ void AiPlayer::CheckProperty()
 		if (entities[i]->GetName() == "Worker")
 		{
 			workerCount++;
-			if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && entities[i]->GetCompatibleComponent<Worker>()->GetAction() == Unit::Stop)
-			{
-				int min = 0;
-				int n = 0;
-				for (std::shared_ptr<Entity>& e : resources)
-				{
-					if (distance(entities[i]->GetPosition(), e->GetPosition()) < distance(entities[i]->GetPosition(), resources[min]->GetPosition()))
-					{
-						min = n;
-					}
-					n++;
-				}
-				if (resources.size() > 0)
-				{
-					entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
-					entities[i]->GetCompatibleComponent<Worker>()->SetAction(Unit::Harvest);
-				}
-			}
 		}
 		else
 			if (entities[i]->GetName() == "Drone")
@@ -94,8 +76,33 @@ void AiPlayer::CheckProperty()
 
 void AiPlayer::MacroCycle()
 {
-	std::default_random_engine generator;
+	std::default_random_engine generator(Game::Get().GetTime());
 	std::uniform_int_distribution<int> distribution(buildMin, buildMax);
+
+	for (int i = 0; i < entities.size(); i++)
+	{
+		if (entities[i]->GetName() == "Worker")
+		{
+			if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && entities[i]->GetCompatibleComponent<Worker>()->GetAction() == Unit::Stop)
+			{
+				int min = 0;
+				int n = 0;
+				for (std::shared_ptr<Entity>& e : resources)
+				{
+					if (distance(entities[i]->GetPosition(), e->GetPosition()) < distance(entities[i]->GetPosition(), resources[min]->GetPosition()))
+					{
+						min = n;
+					}
+					n++;
+				}
+				if (resources.size() > 0)
+				{
+					entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
+					entities[i]->GetCompatibleComponent<Worker>()->SetAction(Unit::Harvest);
+				}
+			}
+		}
+	}
 	if (entities.size() > 0)
 	{
 		//Build up to 16 workers, 3 a minute
@@ -120,7 +127,7 @@ void AiPlayer::MacroCycle()
 					{
 						int buildX = distribution(generator);
 						int buildZ = distribution(generator);
-						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
+						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::dvec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 					}
 					break;
