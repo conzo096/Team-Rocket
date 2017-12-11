@@ -21,6 +21,6 @@ public:
 	void UpdateGameGrid(glm::vec3 position, int length, int width, int value = 1);
 	glm::vec3 FindValidSpawnPoint(glm::vec3 position, int length, int width);
 	// Creates a predefined entity.
-	std::shared_ptr<Entity> CreateEntity(std::string name, glm::vec3 position, Team team);
+	std::shared_ptr<Entity> CreateEntity(std::string name, glm::vec3 position, Team team, int rank = 0);
 
 };

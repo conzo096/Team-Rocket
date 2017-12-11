@@ -242,12 +242,15 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				}
 				else
 				{
-					glm::vec3 spawnLoc;
+			/*		glm::vec3 spawnLoc;
 					spawnLoc.y = 0.0f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
 
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);*/
+					if (selectedEntities[0]->GetCompatibleComponent<Structure>()->BuyRankUpdate(balance))
+						std::cout << "Success" << std::endl;
+
 				}
 				timeElapsed = 0;
 			}

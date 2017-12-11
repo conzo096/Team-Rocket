@@ -88,7 +88,15 @@
 		{			// Only interested in first unit.
 			x = uiElements.find("Name");
 			x->second.SetIsActive(true);
-			x->second.SetText(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName().c_str());
+			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>() != NULL && Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>() == NULL)
+			{
+				std::string text = Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName();
+				text += " V";
+				text += std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetRank());
+				x->second.SetText(text.c_str());
+			}
+			else
+				x->second.SetText(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName().c_str());
 			x = uiElements.find("Health");
 			x->second.SetIsActive(true);
 			sprintf_s(buffer, 64, "%.0f\n", Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetComponent<Targetable>().GetHealth());

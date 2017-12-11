@@ -52,8 +52,11 @@ void AiPlayer::CheckProperty()
 					}
 					n++;
 				}
-				entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
-				entities[i]->GetCompatibleComponent<Worker>()->SetAction(Unit::Harvest);
+				if (resources.size() > 0)
+				{
+					entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
+					entities[i]->GetCompatibleComponent<Worker>()->SetAction(Unit::Harvest);
+				}
 			}
 		}
 		else

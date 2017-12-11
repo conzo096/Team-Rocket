@@ -16,7 +16,7 @@
 #include "GroundMovement.h"
 #include "TurretRenderable.h"
 // Creates a predefined entity.
-std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 position, Team team)
+std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 position, Team team, int rank)
 {
 	std::lock_guard<std::mutex> lock(mut);
 	glm::vec3 spawnPosition = position;
@@ -119,6 +119,16 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
+		// Changes depending on rank.
+		if (rank > 0)
+		{
+			target->SetMaxHealth(150);
+			target->SetHealth(150);
+		}
+		if (rank > 1)
+		{
+			target->SetResistance(3);
+		}
 		auto tempUnit = std::make_unique<Troop>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
@@ -172,6 +182,16 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
+		// Changes depending on rank.
+		if (rank > 0)
+		{
+			target->SetMaxHealth(150);
+			target->SetHealth(150);
+		}
+		if (rank > 1)
+		{
+			target->SetResistance(3);
+		}
 		auto tempUnit = std::make_unique<Tank>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));
@@ -204,6 +224,16 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 			tempRenderable->GetMaterial().emissive = glm::vec4(0.1, 0.025, 0.0125, 1);
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
+		// Changes depending on rank.
+		if (rank > 0)
+		{
+			target->SetMaxHealth(150);
+			target->SetHealth(150);
+		}
+		if (rank > 1)
+		{
+			target->SetResistance(3);
+		}
 		auto tempUnit = std::make_unique<Ship>();
 		tempUnit->SetTeam(team);
 		tempEntity->AddComponent(move(tempRenderable));

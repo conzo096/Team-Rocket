@@ -41,7 +41,8 @@ private:
 	Team team;
 	// Where units created from this will come from.
 	glm::vec3 spawnPoint;
-
+	// The rank of the structure.
+	int rank = 0;
 
 protected:
 	void from_json(const nlohmann::json &j);
@@ -67,4 +68,19 @@ public:
 
 	glm::vec3 GetSpawnPoint() { return spawnPoint; }
 	void SetSpawnPoint(glm::vec3 sp) { spawnPoint = sp; }
+
+	void SetRank(int r) { rank = r; }
+	int GetRank() { return rank; }
+	bool BuyRankUpdate(int& bal)
+	{
+		int newBal = bal - 250;
+		if (newBal >= 0)
+		{
+			rank++;
+			bal = newBal;
+			return true;
+		}
+		else
+			return false;
+	}
 };

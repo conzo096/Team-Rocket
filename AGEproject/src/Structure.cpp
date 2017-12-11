@@ -68,7 +68,7 @@ void Structure::Produce(double delta)
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
 		// Spawn unit should be from factory pattern class, not game!
-		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team));
+		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team,rank));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}
