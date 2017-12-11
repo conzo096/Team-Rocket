@@ -280,8 +280,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->SetName("Resource");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Hanger");
-		tempRenderable->SetTexture("debug");
+		tempRenderable->SetModel("Resource");
+		tempRenderable->SetTexture("ResourceUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);

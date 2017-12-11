@@ -16,6 +16,8 @@
 #include "ResourceHandler.h"
 #include "UIManager.h"
 #include "Unit.h"
+#include "Resource.h"
+
 class Entity;
 class Player;
 class AiPlayer;
@@ -63,6 +65,7 @@ public:
 	int GetGridSize() { return gridSize; };
 	float GetTime() { return time; };
 	dvec3** GetTerrainGrid() { return terrainGrid; };
+	std::vector<std::shared_ptr<Entity>> FindResources();
 	std::vector<std::shared_ptr<Entity>> FindLocalUnits(int team, dvec3 position, double sightRange);
 	
 	// Obtain the nearest valid point to end from start.

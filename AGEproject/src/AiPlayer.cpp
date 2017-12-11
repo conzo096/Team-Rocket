@@ -1,5 +1,7 @@
 #include "AiPlayer.h"
 #include "WorkerUnit.h"
+#include <random>
+
 void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 {
 	CheckProperty();
@@ -28,12 +30,29 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 
 void AiPlayer::CheckProperty()
 {
+	resources = Game::Get().FindResources();
+
 	workerCount = 0; factoryCount = 0; vehicleBayCount = 0; hangerCount = 0; droneCount = 0; wardenCount = 0; kestralCount = 0;
 	for (int i = 0; i < entities.size(); i++)
 	{
 		if (entities[i]->GetName() == "Worker")
 		{
 			workerCount++;
+			//Need to debug this line
+			if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && entities[i]->GetCompatibleComponent<Worker>()->GetAction() == entities[i]->GetCompatibleComponent<Worker>()->Stop)
+			{
+				int min = 0;
+				int n = 0;
+				for (std::shared_ptr<Entity>& e : resources)
+				{
+					if (distance(entities[i]->GetPosition(), e->GetPosition()) < distance(entities[i]->GetPosition(), resources[min]->GetPosition()))
+					{
+						min = n;
+					}
+					n++;
+				}
+				entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
+			}
 		}
 		else
 			if (entities[i]->GetName() == "Drone")
@@ -70,6 +89,8 @@ void AiPlayer::CheckProperty()
 
 void AiPlayer::MacroCycle()
 {
+	std::default_random_engine generator;
+	std::uniform_int_distribution<int> distribution(buildMin, buildMax);
 	if (entities.size() > 0)
 	{
 		//Build up to 16 workers, 3 a minute
@@ -92,8 +113,8 @@ void AiPlayer::MacroCycle()
 				{
 					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 					{
-						int buildX = rand() % 20 + 80;
-						int buildZ = rand() % 20 + 80;
+						int buildX = distribution(generator);
+						int buildZ = distribution(generator);
 						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
 					}
@@ -113,8 +134,8 @@ void AiPlayer::MacroCycle()
 				{
 					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 					{
-						int buildX = rand() % 20 + 80;
-						int buildZ = rand() % 20 + 80;
+						int buildX = distribution(generator);
+						int buildZ = distribution(generator);
 						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 					}
@@ -134,8 +155,8 @@ void AiPlayer::MacroCycle()
 				{
 					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
 					{
-						int buildX = rand() % 20 + 80;
-						int buildZ = rand() % 20 + 80;
+						int buildX = distribution(generator);
+						int buildZ = distribution(generator);
 						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::vec3(buildX, 0, buildZ));
 						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 					}

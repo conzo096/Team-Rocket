@@ -3,6 +3,7 @@
 void ResourceHandler::LoadModels()
 {
 	std::cout << "Convert to file loading!" << std::endl;
+	models.insert(std::pair<std::string, Model*>(std::string("Resource"), new Model("../res/models/Resource.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Worker"), new Model("../res/models/Worker.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("DronePlatform"), new Model("../res/models/DronePlatform.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("DroneTurret"), new Model("../res/models/DroneTurret.obj")));
@@ -23,6 +24,7 @@ void ResourceHandler::LoadModels()
 void ResourceHandler::LoadTextures()
 {
 	std::cout << "Convert to file loading!" << std::endl;
+	textures.insert(std::pair<std::string, unsigned int>(std::string("ResourceUV"), Texture("../res/textures/ResourceUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WorkerUV"), Texture("../res/textures/WorkerUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("ConstructorUV"), Texture("../res/textures/ConstructorUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("DronePlatformUV"), Texture("../res/textures/DronePlatformUV.png").GetTextureId()));
