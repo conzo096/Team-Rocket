@@ -75,6 +75,7 @@
     <ClInclude Include="src\WorkerUnit.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AiPlayer.cpp" />
     <ClCompile Include="src\AirMovement.cpp" />
     <ClCompile Include="src\AudioEngine.cpp" />
     <ClCompile Include="src\BoundingBox.cpp" />

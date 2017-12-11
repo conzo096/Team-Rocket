@@ -77,7 +77,8 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					// Override the pause status if it persists.
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
-					e->GetCompatibleComponent<Movement>()->SetGoal(poi);
+					glm::dvec3 t = Game::Get().ObtainNearestValidCoordinate(e->GetPosition(), poi);
+					e->GetCompatibleComponent<Movement>()->SetGoal(t);
 					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
 				}
 			}

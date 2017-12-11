@@ -59,6 +59,14 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		target->SetHealth(100);
 		auto tempUnit = std::make_unique<Worker>();
 		tempUnit->SetTeam(team);
+		if (team == Team::player)
+		{
+			tempUnit->SetCollectionPoint(glm::vec3(7.5,0,7.5));
+		}
+		else if (team == Team::ai)
+		{
+			tempUnit->SetCollectionPoint(glm::vec3(96.5, 0, 96.5));
+		}
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
 		tempEntity->AddComponent(move(tempMovement));
@@ -474,7 +482,7 @@ glm::vec3 Spawner::FindValidSpawnPoint(BoundingSphere& sphere)
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
 			// Check if it is within playable range.
-			if ((p.x > 0 && p.y > 0) && (p.x < 99 && p.y < 99))
+			if ((p.x > 0 && p.y > 0) && (p.x < Game::Get().GetGridSize() - 1 && p.y < Game::Get().GetGridSize()-1))
 			{
 				// Now check point is outside radius area.
 				if ((p.x < -sphere.GetRadius()/2 || p.y > sphere.GetRadius()/2) || (p.x < -sphere.GetRadius()/2 || p.y > sphere.GetRadius()/2))
@@ -505,7 +513,7 @@ bool Spawner::CheckGameGrid(BoundingSphere& sphere)
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
 			// Check if it is within playable range.
-			if (p.x < 0 || p.y < 0 || p.x > 99 || p.y > 99)
+			if (p.x < 0 || p.y < 0 || p.x > Game::Get().GetGridSize() - 1 || p.y > Game::Get().GetGridSize() - 1)
 			//if ((p.x > 0 && p.y > 0) && (p.x < 99 && p.y < 99))
 			{
 				return false;
@@ -528,7 +536,7 @@ void Spawner::UpdateGameGrid(BoundingSphere& sphere, int value)
 		{
 			// Get Point to check.
 			glm::ivec2 p = glm::ivec2(sphere.GetCenter().x, sphere.GetCenter().z) + glm::ivec2(i, j);
-			if (p.x > 0 && p.y > 0 && p.x < 99 && p.y < 99)
+			if (p.x > 0 && p.y > 0 && p.x < Game::Get().GetGridSize() - 1 && p.y < Game::Get().GetGridSize() - 1)
 			{
 				// Update Game Grid.
 				gameGridMut.lock();

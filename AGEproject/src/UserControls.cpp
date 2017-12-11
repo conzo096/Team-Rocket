@@ -395,7 +395,75 @@ std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCod
 	case 341:
 		text = "Left Ctrl";
 		break;
-
+	case 280:
+		text = "Caps lock";
+		break;
+	case 290:
+		text = "F1";
+		break;
+	case 291:
+		text = "F2";
+		break;
+	case 292:
+		text = "F3";
+		break;
+	case 293:
+		text = "F4";
+		break;
+	case 294:
+		text = "F5";
+		break;
+	case 295:
+		text = "F6";
+		break;
+	case 296:
+		text = "F7";
+		break;
+	case 297:
+		text = "F8";
+		break;
+	case 298:
+		text = "F9";
+		break;
+	case 299:
+		text = "F10";
+		break;
+	case 300:
+		text = "F11";
+		break;
+	case 301:
+		text = "F12";
+		break;
+	case 333:
+		text = "Subtract";
+		break;
+	case 334:
+		text = "Add";
+		break;
+	case 335:
+		text = "Enter";
+		break;
+	case 336:
+		text = "Equal";
+		break;
+	case 340:
+		text = "Left Shift";
+		break;
+	case 344:
+		text = "Right Shift";
+		break;
+	case 345:
+		text = "Right Ctrl";
+		break;
+	case 346:
+		text = "Right Alt";
+		break;
+	case 347:
+		text = "Right Super";
+		break;
+	case 348:
+		text = "Menu";
+		break;
 	default:
 		text = 	("%s",glfwGetKeyName(ascii,scanCode));
 		if (text == NULL)

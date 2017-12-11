@@ -12,7 +12,7 @@ void StateManager::StateLoop()
 	bool running = true;
 	int select;
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
-	AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
+	AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
 
 	while (running)
 	{
@@ -25,7 +25,7 @@ void StateManager::StateLoop()
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
+			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 0)
 			{
 				Game::Get().Initialise(); //This will need a new home later.
@@ -39,7 +39,7 @@ void StateManager::StateLoop()
 			break;
 		case(stateSettings):
 			select = ShowSettingsMenu();
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
+			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 1)
 			{
 				GameEngine::Get().UpdateWindow();
@@ -60,7 +60,7 @@ void StateManager::StateLoop()
 			break;
 		case(stateControls):
 			select = ShowControlsMenu();
-			AudioEngine::Get().PlaySound(ResourceHandler::Get().GetAudio("noise"));
+			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 14)
 			{
 				currentState = stateExiting;

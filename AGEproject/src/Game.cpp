@@ -69,7 +69,7 @@ vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
 		// Check in straight line from b until point is found
 		glm::vec3 dir = glm::normalize(start-end);
 		// Check for so many iterations.
-		for (float i = 0; i < 6; i++)
+		for (float i = 0; i < GetGridSize(); i++)
 		{
 			glm::vec3 tPoint = end +(dir*i);
 			if (navGrid[(int)tPoint.x][(int)tPoint.z] == 0)
@@ -133,8 +133,6 @@ void ResolveCollisions(std::vector<std::shared_ptr<Entity>>& ents)
 
 void Game::Initialise()
 {
-
-	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
 	navGrid = new int*[gridSize];
 	for (int i = 0; i < gridSize; i++)
 		navGrid[i] = new int[gridSize];
@@ -170,7 +168,7 @@ void Game::Initialise()
 	cam2->SetPosition(glm::dvec3(40.0, 40.0, 70.0));
 	cam2->SetProjection((float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	free_cam->AddComponent(move(cam2));
-
+	std::cout << "Cameras initialised" << std::endl;
 	freeCamEnabled = false;
 	keyHeld = false;
 
@@ -184,7 +182,7 @@ void Game::Initialise()
 	//tempEntity3->AddComponent(move(tempLightComponent));
 	GameEngine::Get().AddPointLight(tempLightComponent);
 	neutralEntities.push_back(tempEntity3);
-
+	std::cout << "Light initialised" << std::endl;
 	// This is the floor.
 	std::shared_ptr<Entity> tempEntity2 = std::make_shared<Entity>();
 	tempEntity2->SetPosition(glm::vec3(0, 0, 0));
@@ -240,7 +238,7 @@ bool Game::Update()
 	allEntities.clear();
 	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
 	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-	NPC->Update(allEntities);
+	//NPC->Update(allEntities);
 
 	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
 	{
