@@ -265,7 +265,7 @@ bool Game::Update()
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
-	time += deltaTime;
+	time += deltaTime*60;
 	lastTime = clock();
 
 	if (freeCamEnabled)

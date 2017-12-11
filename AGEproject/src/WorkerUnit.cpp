@@ -60,7 +60,7 @@ void Worker::HarvestResource()
 			return;
 		}
 		// Now check its current carry weight.
-		if (resourcesHeld >= 1000 || targetEntity->GetComponent<Targetable>().IsDead())
+		if (resourcesHeld >= 50 || targetEntity->GetComponent<Targetable>().IsDead())
 		{
 			std::cout << "Wanna go home" << std::endl;
 			// Need to head back to base. 

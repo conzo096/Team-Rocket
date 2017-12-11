@@ -1,5 +1,6 @@
 #include "Structure.h"
 #include "Spawner.h"
+#include "WorkerUnit.h"
 void Structure::from_json(const nlohmann::json & j)
 {
 }
@@ -80,12 +81,16 @@ void Structure::Update(double delta)
 	// Handle worker logic.
 	if (GetParent()->GetName() == "Worker" && productQueue.size() > 0)
 	{
+		GetParent()->GetCompatibleComponent<Worker>()->SetAction(Unit::Build);
 		// Make unit go to destination first.
-		GetParent()->GetCompatibleComponent<Movement>()->SetGoal(productQueue.front().destination);
-		if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 7)
-			return;
-		else
-			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+		if (productQueue.front().destination != GetParent()->GetPosition())
+		{
+			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(productQueue.front().destination);
+		}
+			if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 7)
+				return;
+			else
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
 		// If it is in range, allow construction.
 	}
 
