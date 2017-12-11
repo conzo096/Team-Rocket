@@ -284,6 +284,10 @@ void GroundMovement::Update(double delta)
 			waypoints.pop_front();
 		}
 	}
+	else
+	{
+		destination = goal;
+	}
 	MoveTo(delta);
 	TurnTo(delta);
 }

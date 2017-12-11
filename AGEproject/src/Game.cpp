@@ -18,11 +18,28 @@ void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>
 	}
 }
 
+std::vector<std::shared_ptr<Entity>> Game::FindResources()
+{
+	vector<std::shared_ptr<Entity>> resources;
+
+	for (vector<std::shared_ptr<Entity>>::size_type n = 0; n < neutralEntities.size();)
+	{
+		std::shared_ptr<Entity>& e = neutralEntities[n];
+		if (e->GetCompatibleComponent<Resource>() != NULL)
+		{
+			resources.push_back(e);
+		}
+		n++;
+	}
+
+	return resources;
+}
+
 std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 position, double sightRange)
 {
 	vector<std::shared_ptr<Entity>> localUnits;
 
-	if (team == 0)
+	if (team == 1)
 	{
 		for (vector<std::shared_ptr<Entity>>::size_type n = 0; n < player->GetEntities().size();)
 		{
@@ -38,7 +55,7 @@ std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 positi
 		}
 	}
 
-	if (team == 1)
+	if (team == 0)
 	{
 		for (std::vector<std::shared_ptr<Entity>>::size_type n = 0; n < NPC->GetEntities().size();)
 		{
@@ -67,11 +84,11 @@ vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
 	else
 	{
 		// Check in straight line from b until point is found
-		glm::vec3 dir = glm::normalize(start-end);
+		glm::vec3 dir = glm::normalize(start - end);
 		// Check for so many iterations.
 		for (float i = 0; i < 6; i++)
 		{
-			glm::vec3 tPoint = end +(dir*i);
+			glm::vec3 tPoint = end + (dir*i);
 			if (navGrid[(int)tPoint.x][(int)tPoint.z] == 0)
 			{
 				return tPoint;
@@ -108,20 +125,20 @@ void ResolveCollisions(std::vector<std::shared_ptr<Entity>>& ents)
 						// Now if both are units move back equally.
 						if (ents[i]->GetCompatibleComponent<Unit>() != NULL && ents[j]->GetCompatibleComponent<Unit>() != NULL)
 						{
-							ents[i]->SetPosition(ents[i]->GetPosition()+(dir * (dist / 2)));
+							ents[i]->SetPosition(ents[i]->GetPosition() + (dir * (dist / 2)));
 							ents[j]->SetPosition(ents[j]->GetPosition() + (dir * (dist / 2)));
 							ents[i]->UpdateTransforms();
 						}
 						// If one is a structure, fully move the other.
 						else if (ents[i]->GetCompatibleComponent<Unit>() != NULL && ents[j]->GetCompatibleComponent<Structure>() != NULL)
 						{
-		//					ents[i]->Move(dir * (dist));
-		//					ents[i]->UpdateTransforms();
+							//					ents[i]->Move(dir * (dist));
+							//					ents[i]->UpdateTransforms();
 						}
 						else if (ents[j]->GetCompatibleComponent<Unit>() != NULL && ents[i]->GetCompatibleComponent<Structure>() != NULL)
 						{
-		//					ents[j]->Move(-dir * (dist));
-		//					ents[j]->UpdateTransforms();
+							//					ents[j]->Move(-dir * (dist));
+							//					ents[j]->UpdateTransforms();
 						}
 					}
 				}
@@ -135,19 +152,19 @@ void Game::Initialise()
 {
 
 	//glfwSetKeyCallback(GameEngine::Get().GetWindow(), Game::Get().HandleInput);
-	navGrid = new int*[100];
-	for (int i = 0; i < 100; i++)
-		navGrid[i] = new int[100];
-	for (int i = 0; i < 100; i++)
-		for (int j = 0; j < 100; j++)
+	navGrid = new int*[gridSize];
+	for (int i = 0; i < gridSize; i++)
+		navGrid[i] = new int[gridSize];
+	for (int i = 0; i < gridSize; i++)
+		for (int j = 0; j < gridSize; j++)
 		{
-				navGrid[i][j] = 0;
+			navGrid[i][j] = 0;
 		}
-	terrainGrid = new dvec3*[100];
-	for (int i = 0; i < 100; i++)
+	terrainGrid = new dvec3*[gridSize];
+	for (int i = 0; i < gridSize; i++)
 	{
-		terrainGrid[i] = new dvec3[100];
-		for (int j = 0; j < 100; j++)
+		terrainGrid[i] = new dvec3[gridSize];
+		for (int j = 0; j < gridSize; j++)
 		{
 			terrainGrid[i][j] = vec3(i, 0, j);
 		}
@@ -177,7 +194,7 @@ void Game::Initialise()
 	// Add point light to the scene
 	//LevelLoader ll;
 	//ll.LoadLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
-	
+
 	std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
 	auto tempLightComponent = std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
@@ -206,22 +223,18 @@ void Game::Initialise()
 
 
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 2.5, 3.5), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
 
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(96.5, 2.5, 96.5), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
 
-	
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
+
+
 	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 25), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));
-
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 0), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 0), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(0, 2.5, 100), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(100, 2.5, 100), Team::neutral));*/
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));*/
 	lastTime = clock();
 }
 
@@ -231,8 +244,8 @@ bool Game::Update()
 	// Populate the all entity list.
 	allEntities.clear();
 	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
-	
-	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());	
+
+	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
 	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
 	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
 	// all entities now contains all the entities in the game.
@@ -253,6 +266,7 @@ bool Game::Update()
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
+	time += deltaTime;
 	lastTime = clock();
 
 	if (freeCamEnabled)
@@ -276,21 +290,21 @@ bool Game::Update()
 	// Update all the entities in the scene.
 	int i;
 
-	#pragma omp parallel for private(i)
-	for (i = 0; i <neutralEntities.size(); i++)
+#pragma omp parallel for private(i)
+	for (i = 0; i < neutralEntities.size(); i++)
 	{
 		neutralEntities[i]->Update(deltaTime);
 	}
-	#pragma omp parallel for private(i)
+#pragma omp parallel for private(i)
 	for (i = 0; i < player->GetEntities().size(); i++)
 	{
 		player->GetEntities()[i]->Update(deltaTime);
 	}
-	#pragma omp parallel for private(i)
+#pragma omp parallel for private(i)
 	for (i = 0; i < NPC->GetEntities().size(); i++)
 	{
 		NPC->GetEntities()[i]->Update(deltaTime);
-	}	
+	}
 
 	//allEntities.clear();
 	//allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
@@ -298,18 +312,18 @@ bool Game::Update()
 	//allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
 	//// Resolve their collisions.
 	//ResolveCollisions(allEntities);
-	
-	
-	
+
+
+
 	// Delete any entities in the scene that are required to be removed
 	//// Handle deletion of entities.
-	for (i = 0; i <neutralEntities.size(); i++)
+	for (i = 0; i < neutralEntities.size(); i++)
 	{
 		std::shared_ptr<Entity>& e = neutralEntities[i];
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
-			//	e->~Entity();
+				//	e->~Entity();
 				neutralEntities.erase(std::remove(neutralEntities.begin(), neutralEntities.end(), e), neutralEntities.end());
 			}
 	}
@@ -319,7 +333,7 @@ bool Game::Update()
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 			if (e->GetCompatibleComponent<Targetable>()->IsDead())
 			{
-			//	e->~Entity();
+				//	e->~Entity();
 				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
 			}
 	}
@@ -380,20 +394,20 @@ void Game::Render()
 		GameEngine::Get().SetCameraUp(game_cam->GetComponent<Game_Camera>().GetOrientation());
 		GameEngine::Get().SetCameraRight(game_cam->GetComponent<Game_Camera>().GetRight());
 	}
-	
+
 	int n;
-	#pragma omp parallel for private(n)
-	for (n = 0; n < neutralEntities.size();n++)
+#pragma omp parallel for private(n)
+	for (n = 0; n < neutralEntities.size(); n++)
 	{
 		neutralEntities[n]->Render();
 	}
-	#pragma omp parallel for private(n)
-	for (n = 0; n < player->GetEntities().size();n++)
+#pragma omp parallel for private(n)
+	for (n = 0; n < player->GetEntities().size(); n++)
 	{
 		player->GetEntities()[n]->Render();
 	}
-	#pragma omp parallel for private(n)
-	for (n = 0; n < NPC->GetEntities().size();n++)
+#pragma omp parallel for private(n)
+	for (n = 0; n < NPC->GetEntities().size(); n++)
 	{
 		NPC->GetEntities()[n]->Render();
 	}
@@ -416,7 +430,7 @@ void Game::Render()
 
 void Game::UpdateNavGrid(int val, glm::ivec2 pos)
 {
-//	std::cout << "Pos:" << pos.x<< "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
+	//	std::cout << "Pos:" << pos.x<< "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 	navGrid[pos.x][pos.y] = val;
-//	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
+	//	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 }

@@ -6,7 +6,8 @@
 #include "UserControls.h"
 #include <tuple>
 #include "AudioEngine.h"
-
+#include "Game.h"
+#include "PointLight.h"
 void GameEngine::Initialise()
 {
 	if (!glfwInit())
@@ -68,6 +69,9 @@ void GameEngine::Render()
 	{
 		// Bind shader.
 		glUseProgram(rl.shader);
+		for (int i = 0; i < Game::Get().GetNeutralEntities().size(); i++)
+			if (Game::Get().GetNeutralEntities()[i]->GetCompatibleComponent<PointLight>() != NULL)
+				Game::Get().GetNeutralEntities()[i]->GetCompatibleComponent<PointLight>()->Render();
 		// Bind Uniforms.
 		const auto mvp = cameraMVP * rl.m;
 
@@ -198,15 +202,16 @@ void GameEngine::AddToRenderList(RenderData data)
 	// Sort vector here.
 	mut.lock();
 	//if (data.sphereRadius == 0)
+	{
 	//{
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
 		// it should be inserted to first.
-
 		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
 		{
 			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
 		});
+	}
 	//}
 	//else if(IsInCameraFrustum(data))
 	//{

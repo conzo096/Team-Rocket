@@ -36,7 +36,7 @@ void Player::Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 		}
 		else
 		{
-			ghostBuilding.SetPosition(glm::dvec3(poi.x, 2.5f, poi.z));
+			ghostBuilding.SetPosition(glm::dvec3(poi.x, 0.0f, poi.z));
 			// Check if the position is valid.
 			ghostBuilding.Update(0);
 			// Check square grid around radius.
@@ -212,10 +212,12 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				{
 					// This is spawner near the object towards the center - change to towards door.
 					glm::vec3 spawnLoc;
-					spawnLoc.y = 2.5f;
+					spawnLoc.y = 0.0f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
+
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+
 				}
 				timeElapsed = 0;
 			}
@@ -230,9 +232,10 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				else
 				{
 					glm::vec3 spawnLoc;
-					spawnLoc.y = 2.5f;
+					spawnLoc.y = 0.0f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
+
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
 				}
 				timeElapsed = 0;
@@ -248,9 +251,10 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				else
 				{
 					glm::vec3 spawnLoc;
-					spawnLoc.y = 2.5f;
+					spawnLoc.y = 0.0f;
 					spawnLoc.x = selectedEntities[0]->GetPosition().x + 5.0f;
 					spawnLoc.y = selectedEntities[0]->GetPosition().y + 5.0f;
+
 					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 2);
 				}
 				timeElapsed = 0;
@@ -304,7 +308,7 @@ void Player:: UpdateGhostBuilding(int type)
 		mat->diffuse.a = 0;
 		mat->specular.a = 0;
 		renderable->SetMaterial(mat);
-
+		
 		//renderable->SetMaterial(new Material());
 		//renderable->GetModel().SetType(GL_LINE_STRIP);
 		ghostBuilding.AddComponent(move(renderable));
@@ -327,5 +331,6 @@ void Player:: UpdateGhostBuilding(int type)
 		ghostBuilding.GetComponent<Renderable>().SetModel("Hanger");
 		buildingCost = selectedEntities[0]->GetComponent<Structure>().GetSpawnInfo()[2].cost;
 	}
+	ghostBuilding.GetComponent<Renderable>().SetPosition(vec3(0, -ghostBuilding.GetComponent<Renderable>().GetModel().GetLowestYPosition(), 0));
 	ghostBuilding.GetComponent<BoundingSphere>().SetUpBoundingSphere(ghostBuilding.GetComponent<Renderable>().GetModel().GetVertexPositions());
 }

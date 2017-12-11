@@ -13,7 +13,7 @@ class Unit : public Component
 {
 
 public:
-	enum Action { Stop, Move, Attack, AttackMove, Hold, Harvest, Build};
+	enum Action { Stop, Move, Attack, AttackMove, Hold, Harvest, Build };
 protected:
 	// What action this unit is to perform.
 	Action action = Move;
@@ -23,8 +23,8 @@ protected:
 	// what team this is on.
 	int team;
 
-	double weaponRange=10;
-	double sightRange=12;
+	double weaponRange = 15;
+	double sightRange = 20;
 
 	double fireRate = 0.5;
 	double timeSinceLastFire = 0;
@@ -55,7 +55,7 @@ public:
 
 	void AcquireTarget();
 	virtual void AttackEntity();
-	
+
 	// Methods that worker will build upon.
 	virtual void HarvestResource() {}
 	virtual void BuildStructure() {}
