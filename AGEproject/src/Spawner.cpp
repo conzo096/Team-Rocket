@@ -39,7 +39,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 		auto tempMovement = std::make_unique<GroundMovement>();
 		tempMovement->SetProperties("./json/WorkerMovement.json");
-		tempMovement->SetGoal(glm::vec3(20, 2.5, 20));
+		tempMovement->SetGoal(glm::vec3(20, 0, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto tempStructure = std::make_unique<Structure>();
@@ -276,7 +276,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("Hanger");
-		tempRenderable->SetTexture("debug");
+		tempRenderable->SetTexture("HangerUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
@@ -329,8 +329,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->SetName("Resource");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
-		tempRenderable->SetModel("Hanger");
-		tempRenderable->SetTexture("debug");
+		tempRenderable->SetModel("Resource");
+		tempRenderable->SetTexture("ResourceUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->GetMaterial().diffuse = glm::vec4(1, 0, 0, 1);
@@ -370,7 +370,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetModel("Factory");
-		tempRenderable->SetTexture("debug");
+		tempRenderable->SetTexture("FactoryUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));
@@ -422,7 +422,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("VehicleBay");
-		tempRenderable->SetTexture("debug");
+		tempRenderable->SetTexture("VehicleBayUV");
 		tempRenderable->SetShader("Phong");
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetPosition(vec3(0, -tempRenderable->GetModel().GetLowestYPosition(), 0));

@@ -102,6 +102,7 @@
     <ClCompile Include="src\Quad.cpp" />
     <ClCompile Include="src\RayCast.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
+    <ClCompile Include="src\Resource.cpp" />
     <ClCompile Include="src\ResourceHandler.cpp" />
     <ClCompile Include="src\SettingsMenu.cpp" />
     <ClCompile Include="src\Spawner.cpp" />

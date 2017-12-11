@@ -43,7 +43,7 @@ void StateManager::StateLoop()
 			if (select == 1)
 			{
 				GameEngine::Get().UpdateWindow();
-				currentState = stateMainMenu;
+				//currentState = stateMainMenu;
 			}
 			else if (select == 2) 
 			{ 
