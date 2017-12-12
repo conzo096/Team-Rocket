@@ -43,6 +43,7 @@ private:
 	glm::vec3 spawnPoint;
 	// The rank of the structure.
 	int rank = 0;
+	int updateCost = 550;
 
 protected:
 	void from_json(const nlohmann::json &j);
@@ -71,14 +72,38 @@ public:
 
 	void SetRank(int r) { rank = r; }
 	int GetRank() { return rank; }
+	void SetUpdateCost(int uc) { updateCost = uc; }
+	int GetUpdateCost() { return updateCost; }
+
 	bool BuyRankUpdate(int& bal)
 	{
-		int newBal = bal - 250;
-		if (newBal >= 0)
+		int newBal = bal;
+		// If Rank if 0 ... apply first update
+		if (rank == 0)
 		{
-			rank++;
-			bal = newBal;
-			return true;
+			// First upgrade costs x amount.
+			newBal -= updateCost;
+			// It it can afford it.
+			if (newBal >= 0)
+			{
+				updateCost = 750;
+				rank++;
+				bal = newBal;
+				return true;
+			}
+		}
+		// If Rank if 0 ... apply first update
+		else if (rank == 1)
+		{
+			// First upgrade costs x amount.
+			newBal -= updateCost;
+			// It it can afford it.
+			if (newBal >= 0)
+			{
+				rank++;
+				bal = newBal;
+				return true;
+			}
 		}
 		else
 			return false;
