@@ -1,6 +1,90 @@
 {
-    "Balance": 1215752192,
+    "Balance": 1215751392,
     "Objects": [
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Name": "Factory",
+            "Position": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Drone"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Barracks"
+        },
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    10.304536819458,
+                    0.0,
+                    20.6524105072021
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Name": "Base",
+            "Position": [
+                0.0,
+                2.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Worker"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard"
+        },
         {
             "EntityList": "NPC",
             "Model": "",
@@ -28,9 +112,9 @@
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    20.0,
-                    2.5,
-                    20.0
+                    89.0,
+                    0.0,
+                    89.22123
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
@@ -70,9 +154,9 @@
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    20.0,
-                    2.5,
-                    20.0
+                    52.1213188171387,
+                    0.0,
+                    52.1213188171387
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
@@ -107,20 +191,237 @@
             "TypeCode": "Worker"
         },
         {
-            "Colour": [
-                0.5,
-                0.300000011920929,
-                0.200000002980232,
-                1.0
-            ],
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    96.5,
+                    0.0,
+                    96.5
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
             "Position": [
-                50.0,
-                60.0,
-                50.0
+                0.0,
+                0.5,
+                0.0
             ],
-            "Shader": "Phong",
-            "Type": "Light"
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
         },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    52.1213188171387,
+                    0.0,
+                    52.1213188171387
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    52.1213188171387,
+                    0.0,
+                    52.1213188171387
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    96.5,
+                    0.0,
+                    96.5
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    52.1213188171387,
+                    0.0,
+                    52.1213188171387
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "",
+            "Name": "Factory",
+            "Position": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Drone"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Barracks"
+        },
+        null,
         {
             "Emissive": [
                 0.0199999995529652,
