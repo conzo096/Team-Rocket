@@ -110,6 +110,11 @@ void main()
 	vec3 norm = normalize(normal);
 	vec4 tex_colour = texture(tex, tex_coord);
 
+	if(tex_colour.a < 1.0)
+	{
+		tex_colour *= vec4(1,0,0,1);
+	}
+
 	colour = vec4(0, 0, 0, 1);
 
 	//colour = calculate_point(obvious_name, mat, position, norm, view_dir, tex_colour);
