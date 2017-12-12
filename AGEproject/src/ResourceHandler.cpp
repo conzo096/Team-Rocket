@@ -145,5 +145,7 @@ void ResourceHandler::LoadShaders()
 
 void ResourceHandler::LoadAudio()
 {
-	audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/tone-beep.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Advance"), "../res/audio/tone-beep.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Return"), "../res/audio/tone-beep-reverse.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Theme"), "../res/audio/Clash_Defiant.wav"));
 }

@@ -1,5 +1,6 @@
 #include "ControlsMenu.h"
 #include "UserControls.h"
+#include "AudioEngine.h"
 
 #define CLOSE 14
 
@@ -149,6 +150,7 @@ int ControlsMenu::Draw(GLShader shader)
 			if (currentSelection == 6)
 			{
 				selectionMade = false;
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
 
 				for (int i = 0; i < buttons.size(); i++)

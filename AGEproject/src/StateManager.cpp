@@ -11,8 +11,11 @@ void StateManager::StateLoop()
 	GameEngine::Get().Initialise();
 	bool running = true;
 	int select;
-	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
-	AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
+
+	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Theme"), false, true, false);
+	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Advance"), false, false, false);
+	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Return"), false, false, false);
+	AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Theme"), glm::dvec3(0.0, 0.0, 0.0), -15.0f);
 
 	while (running)
 	{
@@ -25,33 +28,36 @@ void StateManager::StateLoop()
 			break;
 		case(stateMainMenu):
 			select = ShowMainMenu();
-			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 0)
 			{
-				Game::Get().Initialise(); //This will need a new home later.
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				Game::Get().Initialise(); // This will need a new home later.
+										  // Does it though?
 				currentState = statePlaying;
 			}
 			else if (select == 1)
 			{
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				currentState = stateSettings;
 			}
 			else if (select == 2) { currentState = stateExiting; }
 			break;
 		case(stateSettings):
 			select = ShowSettingsMenu();
-			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
-			if (select == 1)
+			if (select == 0)
 			{
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				currentState = stateControls;
+			}
+			else if (select == 1)
+			{
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				GameEngine::Get().UpdateWindow();
-				//currentState = stateMainMenu;
 			}
 			else if (select == 2) 
 			{ 
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Return"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				currentState = stateMainMenu; 
-			}
-			else if (select == 0)
-			{
-				currentState = stateControls;
 			}
 			else if (select == 7) 
 			{ 
@@ -60,17 +66,18 @@ void StateManager::StateLoop()
 			break;
 		case(stateControls):
 			select = ShowControlsMenu();
-			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
-			if (select == 14)
+			if (select == 13)
+			{
+				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Return"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				currentState = stateSettings;
+			}
+			else if (select == 14)
 			{
 				currentState = stateExiting;
 			}
-			else
-			{
-				currentState = stateSettings;
-			}
 			break;
 		case(statePlaying):
+			AudioEngine::Get().StopAllChannels();
 			running = Game::Get().Update();
 			Game::Get().Render();
 			break;
