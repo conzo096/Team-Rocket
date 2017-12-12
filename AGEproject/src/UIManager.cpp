@@ -72,7 +72,7 @@
 
 
 		name.SetText("HotKey1");
-		name.SetX(230);
+		name.SetX(200);
 		name.SetY(25);
 		name.SetSize(8);
 		name.SetIsActive(true);
@@ -80,14 +80,14 @@
 		uiElements.insert(std::pair<std::string, UIQuad>("HotKey1", name));
 
 		name.SetText("HotKey2");
-		name.SetX(375);
+		name.SetX(350);
 		name.SetY(25);
 		name.SetSize(8);
 		name.SetIsActive(true);
 		uiElements.insert(std::pair<std::string, UIQuad>("HotKey2", name));
 
 		name.SetText("HotKey3");
-		name.SetX(520);
+		name.SetX(500);
 		name.SetY(25);
 		name.SetSize(8);
 		name.SetIsActive(true);
@@ -169,6 +169,10 @@
 					// Bracket the cost after.
 					hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost) + ")";
 					y->second.SetText(hk.c_str());
+					if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost > Game::Get().GetPlayer().GetBalance())
+						y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+					else
+						y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
 					if (num > 1)
 					{
 						auto& y = uiElements.find("HotKey2");
@@ -179,6 +183,10 @@
 						// Bracket the cost after.
 						hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[1].cost) + ")";
 						y->second.SetText(hk.c_str());
+						if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost > Game::Get().GetPlayer().GetBalance())
+							y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+						else
+							y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
 						if (num > 2)
 						{
 							auto& y = uiElements.find("HotKey3");
@@ -189,6 +197,10 @@
 							// Bracket the cost after.
 							hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[2].cost) + ")";
 							y->second.SetText(hk.c_str());
+							if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost > Game::Get().GetPlayer().GetBalance())
+								y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+							else
+								y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
 						}
 					}
 				}
@@ -207,9 +219,16 @@
 						hk += "Upgrade";
 						// Bracket the cost after.
 						hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetUpdateCost()) + ")";
+						if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetUpdateCost() > Game::Get().GetPlayer().GetBalance())
+							y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+						else
+							y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
 					}
 					else
+					{
 						hk += "MAX";
+						y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+					}
 					y->second.SetText(hk.c_str());
 				}
 				
