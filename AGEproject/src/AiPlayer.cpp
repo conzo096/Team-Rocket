@@ -108,9 +108,12 @@ void AiPlayer::MacroCycle()
 		//Build up to 16 workers, 3 a minute
 		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() / 60 * 3.0) + 1)
 		{
-			if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
 			{
-				entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+				if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+				{
+					entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+				}
 			}
 		}
 	}
@@ -123,12 +126,15 @@ void AiPlayer::MacroCycle()
 			{
 				if (entities[i]->GetName() == "Worker")
 				{
-					if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+					if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
 					{
-						int buildX = distribution(generator);
-						int buildZ = distribution(generator);
-						entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::dvec3(buildX, 0, buildZ));
-						entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+						if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
+						{
+							int buildX = distribution(generator);
+							int buildZ = distribution(generator);
+							entities[i]->GetCompatibleComponent<Structure>()->SetSpawnPoint(glm::dvec3(buildX, 0, buildZ));
+							entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
+						}
 					}
 					break;
 				}

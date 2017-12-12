@@ -7,8 +7,8 @@ int Resource::RetrieveResource()
 	int takeAmount = harvestValue;
 	value -= harvestValue;
 	mut.lock();
-	std::cout << "Retrieving resource. " << value << std::endl;
-	std::cout << "Pretending to reduce resource." << std::endl;
+//	std::cout << "Retrieving resource. " << value << std::endl;
+//	std::cout << "Pretending to reduce resource." << std::endl;
 	if (value < 0)
 	{
 		takeAmount = takeAmount + value;

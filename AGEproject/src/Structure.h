@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include <queue>
 #include "Player.h"
+#include "BoundingSphere.h"
 struct SpawnInfo
 {
 	// The type of unit that this unit spawns.
@@ -45,6 +46,10 @@ private:
 	int rank = 0;
 	int updateCost = 550;
 
+	// Used for ensuring valid structures.
+	BoundingSphere sp;
+	// New product that is being created.
+	Product tempProduct;
 protected:
 	void from_json(const nlohmann::json &j);
 public:

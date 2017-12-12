@@ -54,7 +54,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		si.cost = 1000;
 		si.unitType = "Hanger";
 		tempStructure->AddSpawnInfo(si);
-
+		tempStructure->SetTeam(team);
 		auto target = std::make_unique<Targetable>();
 		target->SetHealth(100);
 		auto tempUnit = std::make_unique<Worker>();
@@ -78,7 +78,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "Drone")
 	{
 		tempEntity->SetName(name);
-		std::cout << "Incomplete" << std::endl;
+	//	std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetModel("DronePlatform");
@@ -142,7 +142,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "Warden")
 	{
 		tempEntity->SetName(name);
-		std::cout << "Incomplete" << std::endl;
+	//	std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetProperties("./json/Warden.json");
@@ -355,7 +355,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 	if (name == "Resource")
 	{
-		std::cout << "Incomplete" << std::endl;
+	//	std::cout << "Incomplete" << std::endl;
 		tempEntity->SetName("Resource");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
@@ -394,7 +394,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "Factory")
 	{
 		tempEntity->SetName("Factory");
-		std::cout << "Incomplete" << std::endl;
+	//	std::cout << "Incomplete" << std::endl;
 
 		tempEntity->SetPosition(position);
 
@@ -448,7 +448,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "VehicleBay")
 	{
 		tempEntity->SetName("VehicleBay");
-		std::cout << "Incomplete" << std::endl;
+	//	std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("VehicleBay");
