@@ -15,6 +15,7 @@ void StateManager::StateLoop()
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Theme"), false, true, false);
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Advance"), false, false, false);
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Return"), false, false, false);
+
 	AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Theme"), glm::dvec3(0.0, 0.0, 0.0), -15.0f);
 
 	while (running)
@@ -30,6 +31,7 @@ void StateManager::StateLoop()
 			select = ShowMainMenu();
 			if (select == 0)
 			{
+				AudioEngine::Get().StopAllChannels();
 				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				Game::Get().Initialise(); // This will need a new home later.
 										  // Does it though?
@@ -77,7 +79,6 @@ void StateManager::StateLoop()
 			}
 			break;
 		case(statePlaying):
-			AudioEngine::Get().StopAllChannels();
 			running = Game::Get().Update();
 			Game::Get().Render();
 			break;
