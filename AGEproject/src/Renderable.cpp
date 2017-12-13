@@ -7,10 +7,12 @@ void Renderable::from_json(const nlohmann::json & j)
 
 Renderable::Renderable() : model(nullptr), effect(new Effect()), Component("Rendererable")
 {
+	highlightColour = glm::vec4(1.0f);
 }
 
 Renderable::Renderable(std::string type) : model(nullptr), effect(new Effect()), Component(type)
 {
+	highlightColour = glm::vec4(1.0f);
 }
 
 Renderable::~Renderable()
@@ -42,6 +44,12 @@ void Renderable::SetTexture(std::string texName)
 	renderInfo.texture = effect->texture;
 }
 
+void Renderable::SetHighlight(glm::vec4 highlightColour)
+{
+	this->highlightColour = highlightColour;
+	renderInfo.highlightColour = this->highlightColour;
+}
+
 void Renderable::SetShader(std::string texName)
 {
 	effect->shader = texName;
@@ -71,7 +79,6 @@ void Renderable::Render()
 		renderInfo.sphereRadius = GetParent()->GetComponent<BoundingSphere>().GetRadius();
 		renderInfo.boundingPoint = GetParent()->GetComponent<BoundingSphere>().GetCenter();
 	}
-
 
 	GameEngine::Get().AddToRenderList(renderInfo);
 
