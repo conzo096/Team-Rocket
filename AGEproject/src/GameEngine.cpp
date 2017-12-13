@@ -72,13 +72,11 @@ void GameEngine::Initialise()
 
 void GameEngine::Render()
 {
-
-	std::cout << "Number of renderable objects:";
-	std::cout << renderList.size() << std::endl;
 	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	for (RenderData rl : renderList)
+	for (int i = 0; i < renderList.size(); i++)
 	{
+		RenderData& rl = renderList[i];
 		// Bind shader.
 		glUseProgram(rl.shader);
 		// Bind Uniforms.
@@ -94,7 +92,7 @@ void GameEngine::Render()
 		index = glGetUniformLocation(rl.shader, "N");
 		glUniformMatrix3fv(index, 1, GL_FALSE, glm::value_ptr(glm::mat3(rl.m)));
 		index = glGetUniformLocation(rl.shader, "eye_pos");
-		glm::vec3 eyePos = glm::vec3(mvp[0][3],mvp[1][3],mvp[2][3]);
+		glm::vec3 eyePos = glm::vec3(mvp[0][3], mvp[1][3], mvp[2][3]);
 		glUniform3fv(index, 1, glm::value_ptr(eyePos));
 
 		// Bind material.
@@ -102,13 +100,18 @@ void GameEngine::Render()
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, rl.texture);
-		
 
 		// Bind and draw model.
 		glBindVertexArray(rl.modelVao);
 		glDrawElements(rl.drawType, rl.indices, GL_UNSIGNED_INT, 0);
+		if (i < renderList.size()-1)
+		{
+			if(renderList[i+1].modelVao != renderList[i].modelVao)
+				glBindVertexArray(0);
+		}
+		else
+			glBindVertexArray(0);
 	}
-
 
 	unsigned int shaderId = ResourceHandler::Get().GetShader("Particle")->GetId();
 	// Now render particles.
@@ -162,18 +165,6 @@ void GameEngine::BindMaterial(const Material* material, const int shaderID)
 		idx = glGetUniformLocation(shaderID, "mat.shininess");
 		glUniform1f(idx, material->shininess * 128);
 	}
-	//else
-	//{
-	//	GLint idx;
-	//	idx = glGetUniformLocation(shaderID, "mat.emissive");
-	//	glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7,1)));
-	//	idx = idx = glGetUniformLocation(shaderID, "mat.diffuse_reflection");
-	//	glUniform4fv(idx, 1, value_ptr(glm::vec4(0.9, 0.0, 0.7, 1)));
-	//	idx = idx = glGetUniformLocation(shaderID, "mat.specular_reflection");
-	//	glUniform4fv(idx, 1, value_ptr(glm::vec4(1, 1, 1, 1)));
-	//	idx = glGetUniformLocation(shaderID, "mat.shininess");
-	//	glUniform1f(idx,1);
-	//}
 }
 
 void GameEngine::CreateWindow()
@@ -305,42 +296,6 @@ void GameEngine::GenerateFrustumPlanes()
 	frustumPlanes[5].y = cameraMVP[1][3] - cameraMVP[1][2];
 	frustumPlanes[5].z = cameraMVP[2][3] - cameraMVP[2][2];
 	frustumPlanes[5].w = cameraMVP[3][3] - cameraMVP[3][2];
-
-	//// Left plane
-	//frustumPlanes[0].x = cameraMVP[0][0] + cameraMVP[3][0];
-	//frustumPlanes[0].y = cameraMVP[0][1] + cameraMVP[3][1];
-	//frustumPlanes[0].z = cameraMVP[0][2] + cameraMVP[3][2];
-	//frustumPlanes[0].w = cameraMVP[0][3] + cameraMVP[3][3];
-
-	//// Right plane
-	//frustumPlanes[0].x = -cameraMVP[0][0] + cameraMVP[3][0];
-	//frustumPlanes[0].y = -cameraMVP[0][1] + cameraMVP[3][1];
-	//frustumPlanes[0].z = -cameraMVP[0][2] + cameraMVP[3][2];
-	//frustumPlanes[0].w = -cameraMVP[0][3] + cameraMVP[3][3];
-
-	//// Bottom plane
-	//frustumPlanes[0].x = cameraMVP[1][0] + cameraMVP[3][0];
-	//frustumPlanes[0].y = cameraMVP[1][1] + cameraMVP[3][1];
-	//frustumPlanes[0].z = cameraMVP[1][2] + cameraMVP[3][2];
-	//frustumPlanes[0].w = cameraMVP[1][3] + cameraMVP[3][3];
-
-	//// Top plane
-	//frustumPlanes[0].x = -cameraMVP[1][0] + cameraMVP[3][0];
-	//frustumPlanes[0].y = -cameraMVP[1][1] + cameraMVP[3][1];
-	//frustumPlanes[0].z = -cameraMVP[1][2] + cameraMVP[3][2];
-	//frustumPlanes[0].w = -cameraMVP[1][3] + cameraMVP[3][3];
-
-	//// Near plane
-	//frustumPlanes[0].x = cameraMVP[2][0] + cameraMVP[3][0];
-	//frustumPlanes[0].y = cameraMVP[2][1] + cameraMVP[3][1];
-	//frustumPlanes[0].z = cameraMVP[2][2] + cameraMVP[3][2];
-	//frustumPlanes[0].w = cameraMVP[2][3] + cameraMVP[3][3];
-
-	//// Far plane
-	//frustumPlanes[0].x = -cameraMVP[2][0] + cameraMVP[3][0];
-	//frustumPlanes[0].y = -cameraMVP[2][1] + cameraMVP[3][1];
-	//frustumPlanes[0].z = -cameraMVP[2][2] + cameraMVP[3][2];
-	//frustumPlanes[0].w = -cameraMVP[2][3] + cameraMVP[3][3];
 
 	// Normalize planes
 	for (int i = 0; i < 6; i++)

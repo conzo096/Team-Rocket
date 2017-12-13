@@ -375,6 +375,117 @@ std::string UserControls::GetKeyString(const char* name)
 	return AsciiToString(ascii);
 }
 
+
+std::string UserControls::GetButtonString(const char* name)
+{
+	//std::cout << "Not done" << std::endl;
+	std::string text("");
+	unsigned int ascii = controllerButtons.find(name)->second;
+	switch (ascii)
+	{
+	case 0:
+		text = "A";
+		break;
+	case 1:
+		text = "B";
+		break;
+	case 2:
+		text = "X";
+		break;
+	case 3:
+		text = "Y";
+		break;
+	case 4:
+		text = "leftShoulder";
+		break;
+	case 5:
+		text = "rightShoulder";
+		break;
+	case 6:
+		text = "back";
+		break;
+	case 7:
+		text = "start";
+		break;
+	case 8:
+		text = "leftSticker";
+		break;
+	case 9:
+		text = "rightSticker";
+		break;
+	case 10:
+		text = "dUp";
+		break;
+	case 11:
+		text = "dRight";
+		break;
+	case 12:
+		text = "dDown";
+		break;
+	case 13:
+		text = "dLeft";
+		break;
+	}
+
+	return text;
+}
+
+std::string UserControls::GetButtonString(int name)
+{
+	//std::cout << "Not done" << std::endl;
+	std::string text("");
+	switch (name)
+	{
+	case 0:
+		text = "A";
+		break;
+	case 1:
+		text = "B";
+		break;
+	case 2:
+		text = "X";
+		break;
+	case 3:
+		text = "Y";
+		break;
+	case 4:
+		text = "leftShoulder";
+		break;
+	case 5:
+		text = "rightShoulder";
+		break;
+	case 6:
+		text = "back";
+		break;
+	case 7:
+		text = "start";
+		break;
+	case 8:
+		text = "leftSticker";
+		break;
+	case 9:
+		text = "rightSticker";
+		break;
+	case 10:
+		text = "dUp";
+		break;
+	case 11:
+		text = "dRight";
+		break;
+	case 12:
+		text = "dDown";
+		break;
+	case 13:
+		text = "dLeft";
+		break;
+	}
+
+	return text;
+}
+
+
+
+
 std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCode)
 {
 	const char* text;
@@ -471,4 +582,29 @@ std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCod
 		break;
 	}
 	return text;
+}
+
+void UserControls::BindControllerButton(std::string &name, unsigned int key)
+{
+	// If action has a binding...
+	if (controllerButtons.find(name) != controllerButtons.end())
+	{
+		// If new key is being used for something else, swap them.
+		for (auto it = controllerButtons.begin(); it != controllerButtons.end(); ++it)
+		{
+			if (it->second == key)
+			{
+				// There is a match, swap and break.
+				int valueToSwap = controllerButtons.find(name)->second;
+				controllerButtons.find(name)->second = it->second;
+				it->second = valueToSwap;
+				return;
+			}
+		}
+		// Key is unbound. Just find it.
+		controllerButtons.find(name)->second = key;
+	}
+	// Not match, just insert.
+	else
+		controllerButtons.insert(std::pair<std::string, unsigned int>(name, key));
 }

@@ -27,6 +27,37 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 	}
 }
 
+void ControlsMenu::ControllerCallBack()
+{
+	if (UserControls::Get().isJoystickActive() == GL_TRUE)
+	{
+		if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
+		{
+
+			isControllerCallBack = false;
+			while (true)
+			{
+				std::cout << "In callback" << std::endl;
+				int buttonCount;
+				const unsigned char* keys = glfwGetJoystickButtons(UserControls::Get().GetControllerIndex(), &buttonCount);
+
+				for (int i = 0; i < 14; i++)
+				{
+					if (keys[i] == GLFW_PRESS)
+					{
+						std::cout << keys[i] << std::endl;
+						UserControls::Get().BindControllerButton(bindings[currentSelection].second, keys[i]);
+						buttons[currentSelection].second.SetText(UserControls::Get().GetButtonString(i).c_str());
+						FileIO::Get().SaveIniFile();
+						current_tex[currentSelection] = button_tex[currentSelection];
+						return;
+					}
+				}
+			}
+		}
+	}
+}
+
 void ControlsMenu::DrawButtons()
 {
 	// Initialise the quads.
@@ -143,6 +174,8 @@ int ControlsMenu::Draw(GLShader shader)
 		// Handle selection
 		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
 
+
+
 		if (selectionMade)
 		{
 			// "Reset to default" is pressed
@@ -178,8 +211,14 @@ int ControlsMenu::Draw(GLShader shader)
 					}
 					else if (current_tex[currentSelection] == button_tex[currentSelection])
 					{
+						std::cout << UserControls::Get().isJoystickActive() << std::endl;
 						current_tex[currentSelection] = highlight_tex[currentSelection];
-						glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
+						if (UserControls::Get().isJoystickActive() == GL_TRUE)
+						{
+							ControllerCallBack();
+						}
+						else
+							glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
 					}
 					lastSelection = currentSelection;
 				}
@@ -263,22 +302,46 @@ int ControlsMenu::SelectionPicked()
 void ControlsMenu::PopulateBindings()
 {
 	bindings.resize(numOfControls);
+	
+	if (UserControls::Get().isJoystickActive() != GL_TRUE)
+	{
+		// Camera movement
+		bindings[0] = std::pair<std::string, std::string>("Forward", UserControls::Get().GetKeyString("Forward"));
+		bindings[1] = std::pair<std::string, std::string>("Backward", UserControls::Get().GetKeyString("Backward"));
+		bindings[2] = std::pair<std::string, std::string>("Left", UserControls::Get().GetKeyString("Left"));
+		bindings[3] = std::pair<std::string, std::string>("Right", UserControls::Get().GetKeyString("Right"));
+		bindings[4] = std::pair<std::string, std::string>("RotateLeft", UserControls::Get().GetKeyString("RotateLeft"));
+		bindings[5] = std::pair<std::string, std::string>("RotateRight", UserControls::Get().GetKeyString("RotateRight"));
+		bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
+		bindings[7] = std::pair<std::string, std::string>("ZoomIn", UserControls::Get().GetKeyString("ZoomIn"));
+		bindings[8] = std::pair<std::string, std::string>("ZoomOut", UserControls::Get().GetKeyString("ZoomOut"));
 
-	// Camera movement
-	bindings[0] = std::pair<std::string, std::string>("Forward", UserControls::Get().GetKeyString("Forward"));
-	bindings[1] = std::pair<std::string, std::string>("Backward", UserControls::Get().GetKeyString("Backward"));
-	bindings[2] = std::pair<std::string, std::string>("Left", UserControls::Get().GetKeyString("Left"));
-	bindings[3] = std::pair<std::string, std::string>("Right", UserControls::Get().GetKeyString("Right")); 
-	bindings[4] = std::pair<std::string, std::string>("RotateLeft", UserControls::Get().GetKeyString("RotateLeft")); 
-	bindings[5] = std::pair<std::string, std::string>("RotateRight", UserControls::Get().GetKeyString("RotateRight")); 
-	bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
-	bindings[7] = std::pair<std::string, std::string>("ZoomIn", UserControls::Get().GetKeyString("ZoomIn")); 
-	bindings[8] = std::pair<std::string, std::string>("ZoomOut", UserControls::Get().GetKeyString("ZoomOut")); 
+		// Hotkey/entity options
+		bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetKeyString("Hold"));
+		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1"));
+		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
+		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
+		bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+	}
+	else
+	{
+		// Camera movement
+		bindings[0] = std::pair<std::string, std::string>("Forward", "Not implemented");
+		bindings[1] = std::pair<std::string, std::string>("Backward", "Not implemented");
+		bindings[2] = std::pair<std::string, std::string>("Left", "Not implemented");
+		bindings[3] = std::pair<std::string, std::string>("Right", "Not implemented");
+		bindings[4] = std::pair<std::string, std::string>("RotateLeft", "Not implemented");
+		bindings[5] = std::pair<std::string, std::string>("RotateRight", "Not implemented");
+		bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
+		bindings[7] = std::pair<std::string, std::string>("ZoomIn", "Not implemented");
+		bindings[8] = std::pair<std::string, std::string>("ZoomOut", "Not implemented");
 
-	// Hotkey/entity options
-	bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetKeyString("Hold")); 
-	bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1")); 
-	bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
-	bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
-	bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+		// Hotkey/entity options
+		bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetButtonString("Y"));
+		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetButtonString("dUp"));
+		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetButtonString("dRight"));
+		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetButtonString("dDown"));
+		bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+
+	}
 }

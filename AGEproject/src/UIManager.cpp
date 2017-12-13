@@ -154,6 +154,12 @@ void UIManager::Update(double deltaTime)
 			{
 				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
+			else if (Game::Get().GetPlayer().GetSelectedEntity()->GetName() == "Resource")
+			{
+				std::string hk = "Resources: ";
+				hk +=  std::to_string(Game::Get().GetPlayer().GetSelectedEntity()->GetComponent<Resource>().GetValue());
+				x->second.SetText(hk.c_str());
+			}
 			// Workers are considered both - print their action out underneath the tag.
 			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName() == "Worker")
 			{
@@ -337,6 +343,12 @@ void UIManager::UpdateEnemyLabels(std::shared_ptr<Entity> enemy)
 			x->second.SetIsActive(true);
 			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
 			x->second.SetText(UnitActions[enemy->GetCompatibleComponent<Unit>()->GetAction()].c_str());
+		}
+		if (Game::Get().GetPlayer().GetSelectedEntity()->GetName() == "Resource")
+		{
+			std::string hk = "Resources: ";
+			hk += std::to_string(Game::Get().GetPlayer().GetSelectedEntity()->GetComponent<Resource>().GetValue());
+			x->second.SetText(hk.c_str());
 		}
 		// Workers are considered both - print their action out underneath the tag.
 		if (enemy->GetName() == "Worker")

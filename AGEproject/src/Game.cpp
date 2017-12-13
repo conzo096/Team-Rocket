@@ -235,6 +235,7 @@ void Game::Initialise()
 	auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
 	//tempEntity3->AddComponent(move(tempLightComponent));
+	std::cout << tempLightComponent->ambient.r << " " << tempLightComponent->ambient.g << " " << tempLightComponent->ambient.b << " " << tempLightComponent->ambient.a << std::endl;
 	GameEngine::Get().AddPointLight(tempLightComponent);
 	neutralEntities.push_back(tempEntity3);
 	std::cout << "Light initialised" << std::endl;
@@ -299,7 +300,7 @@ bool Game::Update()
 		allEntities.clear();
 		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
 		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-		NPC->Update(allEntities);
+		//NPC->Update(allEntities);
 
 		if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
 		{
@@ -309,8 +310,8 @@ bool Game::Update()
 		}
 	
 		// Update all the entities in the scene.
+		
 		int i;
-
 		#pragma omp parallel for private(i)
 		for (i = 0; i < neutralEntities.size(); i++)
 		{
@@ -329,6 +330,7 @@ bool Game::Update()
 		// reduce duration.
 		duration -= deltaTime;
 		// Delete any entities in the scene that are required to be removed
+		
 		//// Handle deletion of entities.
 		for (i = 0; i < neutralEntities.size(); i++)
 		{
@@ -350,7 +352,6 @@ bool Game::Update()
 					player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
 				}
 		}
-		player->GetEntities().shrink_to_fit();
 		for (i = 0; i < NPC->GetEntities().size(); i++)
 		{
 			std::shared_ptr<Entity> e = NPC->GetEntities()[i];
@@ -360,6 +361,7 @@ bool Game::Update()
 					NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
 				}
 		}
+	
 		allEntities.clear();
 		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
 		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
@@ -372,7 +374,6 @@ bool Game::Update()
 		timeRemaining -= deltaTime;
 		if (timeRemaining <= 0)
 		{
-			GameEngine::Get().GetPointLights().clear();
 			gameOver = false;
 			timeRemaining = 5.0f;
 			StateManager::Get().currentState = StateManager::State::stateMainMenu;
@@ -384,9 +385,6 @@ bool Game::Update()
 			NPC->GetSelectedEntities().clear();
 			neutralEntities.clear();
 			std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
-			auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
-			tempLightComponent->SetProperties("./json/PointLight.json");
-			GameEngine::Get().AddPointLight(tempLightComponent);
 			neutralEntities.push_back(tempEntity3);
 			std::cout << "Light initialised" << std::endl;
 			// This is the floor.
@@ -395,7 +393,6 @@ bool Game::Update()
 			tempEntity2->UpdateTransforms();
 			auto tempRenderable2 = std::make_unique<Renderable>();
 			tempRenderable2->SetMaterial(new Material());
-			//tempRenderable2->SetPlane(1, 100, 100);
 			tempRenderable2->SetProperties("./json/Plane.json");
 			tempEntity2->SetPosition(tempRenderable2->GetPosition());
 			tempRenderable2->UpdateTransforms();
@@ -416,6 +413,14 @@ bool Game::Update()
 		}
 	}
 
+
+	if (player->GetSelectedEntity() != NULL)
+		ui.UpdateEnemyLabels(player->GetSelectedEntity());
+	else
+		ui.DeselectEnemyLabel();
+	// Update the Game UI.
+	ui.Update(deltaTime);
+
 	if (freeCamEnabled)
 	{
 		glm::mat4 camMatrix = free_cam->GetComponent<Free_Camera>().GetProjection() * free_cam->GetComponent<Free_Camera>().GetView();
@@ -431,14 +436,6 @@ bool Game::Update()
 		game_cam->Update(deltaTime);
 	}
 
-
-
-	// Update the Game UI.
-	ui.Update(deltaTime);
-	if (player->GetSelectedEntity() != NULL)
-		ui.UpdateEnemyLabels(player->GetSelectedEntity());
-	else
-		ui.DeselectEnemyLabel();
 
 	// process events.
 	glfwPollEvents();
@@ -481,7 +478,6 @@ void Game::Render()
 		NPC->GetEntities()[n]->Render();
 	}
 
-
 	// If there is still duration, render the particle.
 	if (duration > 0)
 		location.Render();
@@ -489,9 +485,7 @@ void Game::Render()
 	// render ghost building.
 	player->Render();
 	GameEngine::Get().Render();
-
 	ui.Render();
-
 	// Swap the window buffers.
 	glfwSwapBuffers(GameEngine::Get().GetWindow());
 }
