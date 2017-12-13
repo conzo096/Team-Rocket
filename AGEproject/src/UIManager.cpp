@@ -103,9 +103,11 @@ UIManager::UIManager()
 
 void UIManager::Update(double deltaTime)
 {
-
+	
 	if (!Game::Get().IsGameOver())
 	{
+		uiElements.find("GameOver")->second.SetIsActive(false);
+
 		// Update UI label.
 		auto& x = uiElements.find("Balance");
 

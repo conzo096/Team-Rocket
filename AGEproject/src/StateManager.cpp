@@ -13,7 +13,7 @@ void StateManager::StateLoop()
 	int select;
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("noise"), false, false, false);
 	AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
-
+	Game::Get().Initialise(); //This will need a new home later.
 	while (running)
 	{
 		glfwPollEvents();
@@ -28,7 +28,6 @@ void StateManager::StateLoop()
 			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("noise"));
 			if (select == 0)
 			{
-				Game::Get().Initialise(); //This will need a new home later.
 				currentState = statePlaying;
 			}
 			else if (select == 1)

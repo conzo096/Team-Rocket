@@ -35,7 +35,7 @@ private:
 	bool gameOver = false;
 	// What team won the game.
 	Team winner;
-
+	float timeRemaining = 5.0f;
 
 
 public:
