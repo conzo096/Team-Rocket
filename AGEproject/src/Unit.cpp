@@ -28,7 +28,10 @@ void Unit::AcquireTarget()
 	{
 		if (e->GetCompatibleComponent<Targetable>() != NULL)
 		{
-			if (distance(GetParent()->GetPosition(), e->GetPosition()) < distance(GetParent()->GetPosition(), localUnits[min]->GetPosition()))
+			dvec3 pos = dvec3(GetParent()->GetPosition().x, 0, GetParent()->GetPosition().z);
+			dvec3 ePos = dvec3(e->GetPosition().x, 0, e->GetPosition().z);
+			dvec3 minPos = dvec3(localUnits[min]->GetPosition().x, 0, localUnits[min]->GetPosition().z);
+			if (distance(pos, ePos) < distance(pos, minPos))
 			{
 				min = n;
 			}

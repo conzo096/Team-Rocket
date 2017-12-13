@@ -73,8 +73,8 @@ void GameEngine::Initialise()
 void GameEngine::Render()
 {
 
-	std::cout << "Number of renderable objects:";
-	std::cout << renderList.size() << std::endl;
+	//std::cout << "Number of renderable objects:";
+	//std::cout << renderList.size() << std::endl;
 	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	for (RenderData rl : renderList)
