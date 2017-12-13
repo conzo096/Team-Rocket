@@ -41,6 +41,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempMovement->SetProperties("./json/WorkerMovement.json");
 		tempMovement->SetGoal(glm::vec3(20, 0, 20));
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
+		tempBoundingSphere->SetCenter(spawnPosition);
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto tempStructure = std::make_unique<Structure>();
 		tempStructure->SetTeam(team);

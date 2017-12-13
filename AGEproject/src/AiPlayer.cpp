@@ -4,10 +4,6 @@
 
 void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 {
-	CheckProperty();
-	MacroCycle();
-	ArmyCycle();
-
 	// Collect any units that have been produced by your structures.
 	std::vector<std::shared_ptr<Entity>> temp;
 	for (std::shared_ptr<Entity>&e : entities)
@@ -28,6 +24,9 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 		unitsQueued--;
 		moving = false;
 	}
+	CheckProperty();
+	MacroCycle();
+	ArmyCycle();
 }
 
 void AiPlayer::CheckProperty()
@@ -106,7 +105,7 @@ void AiPlayer::MacroCycle()
 	if (entities.size() > 0)
 	{
 		//Build up to 16 workers, 3 a minute
-		if (workerCount < 16 && workerCount < (int)(Game::Get().GetTime() / 60 * 3.0) + 1)
+		if (workerCount < 16 && workerCount < ((int)(Game::Get().GetTime() / 20)) + 1)
 		{
 			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
 			{
@@ -119,8 +118,8 @@ void AiPlayer::MacroCycle()
 	}
 	if (workerCount > 4)
 	{
-		//Build a factory every 2 minutes if there are less than 4
-		if (factoryCount < (int)(Game::Get().GetTime() / 60 / 2) && factoryCount < 4)
+		//Build a factory every minute if there are less than 4
+		if (factoryCount < (int)(Game::Get().GetTime() / 60) && factoryCount < 4)
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -143,8 +142,8 @@ void AiPlayer::MacroCycle()
 	}
 	if (workerCount > 6 && factoryCount > 1)
 	{
-		//Build a vehicleBay every 3 minutes
-		if (vehicleBayCount < (int)(Game::Get().GetTime() / 60 / 3) && vehicleBayCount < 3)
+		//Build a vehicleBay every 2 minutes
+		if (vehicleBayCount < (int)(Game::Get().GetTime() / 120) && vehicleBayCount < 3)
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{
@@ -164,8 +163,8 @@ void AiPlayer::MacroCycle()
 	}
 	if (workerCount > 8 && factoryCount > 2 && vehicleBayCount > 1)
 	{
-		//Build a vehicleBay every 4 minutes
-		if (hangerCount < (int)(Game::Get().GetTime() / 60 / 4) && hangerCount < 2)
+		//Build a vehicleBay every 3 minutes
+		if (hangerCount < (int)(Game::Get().GetTime() / 180) && hangerCount < 2)
 		{
 			for (int i = 0; i < entities.size(); i++)
 			{

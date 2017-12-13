@@ -46,7 +46,9 @@ std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 positi
 			std::shared_ptr<Entity>& e = player->GetEntities()[n];
 			if (e->GetCompatibleComponent<Targetable>() != NULL)
 			{
-				if (distance(position, e->GetPosition()) <= sightRange)
+				dvec3 pos = dvec3(position.x, 0, position.z);
+				dvec3 ePos = dvec3(e->GetPosition().x, 0, e->GetPosition().z);
+				if (distance(pos, ePos) <= sightRange)
 				{
 					localUnits.push_back(e);
 				}
@@ -62,7 +64,9 @@ std::vector<std::shared_ptr<Entity>> Game::FindLocalUnits(int team, dvec3 positi
 			std::shared_ptr<Entity>& e = NPC->GetEntities()[n];
 			if (e->GetCompatibleComponent<Targetable>() != NULL)
 			{
-				if (distance(position, e->GetPosition()) <= sightRange)
+				dvec3 pos = dvec3(position.x, 0, position.z);
+				dvec3 ePos = dvec3(e->GetPosition().x, 0, e->GetPosition().z);
+				if (distance(pos, ePos) <= sightRange)
 				{
 					localUnits.push_back(e);
 				}
@@ -223,9 +227,9 @@ void Game::Initialise()
 
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
 	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
-
+	Spawner::Get().UpdateGameGrid(player->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
-
+	Spawner::Get().UpdateGameGrid(NPC->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
 
 
@@ -265,7 +269,7 @@ bool Game::Update()
 	}
 
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
-	time += deltaTime*60;
+	time += deltaTime;
 	lastTime = clock();
 
 	if (freeCamEnabled)
