@@ -1,5 +1,6 @@
 #include "Structure.h"
 #include "Spawner.h"
+#include "WorkerUnit.h"
 void Structure::from_json(const nlohmann::json & j)
 {
 }
@@ -43,18 +44,17 @@ bool Structure::AddProduct(int& bal, int hotkey)
 	if (newBalance < 0)
 		return false;
 	// Check if area is valid.
-	auto temp = Spawner::Get().CreateEntity(spawnData[hotkey].unitType, spawnPoint, team);
-	temp->GetComponent<Targetable>().SetHealth(0);
-	temp->Update(0);
-	BoundingSphere sp;
-	sp.SetUpBoundingSphere(temp->GetComponent<BoundingSphere>().GetRadius(), temp->GetPosition());
-	if(!temp->GetCompatibleComponent<Unit>() != NULL)
+	if(spawnData[hotkey].unitType == "Base" || spawnData[hotkey].unitType == "Hanger" || spawnData[hotkey].unitType == "Resource" || spawnData[hotkey].unitType == "Factory"
+			 || spawnData[hotkey].unitType == "VehicleBay")
+	{
+		sp.SetUpBoundingSphere(ResourceHandler::Get().GetModel(spawnData[hotkey].unitType)->GetVertexPositions());
+		sp.SetCenter(spawnPoint);
 		if (!Spawner::Get().CheckGameGrid(sp))
 			return false;
+	}
 	value += spawnData[hotkey].cost;
-	std::cout << GetTeam() << " balance is now: " << newBalance << std::endl;
+	//std::cout << GetTeam() << " balance is now: " << newBalance << std::endl;
 	bal = newBalance;
-	Product tempProduct;
 	tempProduct.productName = spawnData[hotkey].unitType;
 	tempProduct.buildTime = spawnData[hotkey].buildTime;
 	tempProduct.destination = spawnPoint;
@@ -68,7 +68,7 @@ void Structure::Produce(double delta)
 	if (ammountBuilt >= productQueue.front().buildTime)
 	{
 		// Spawn unit should be from factory pattern class, not game!
-		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team));
+		collectionQueue.push_back(Spawner::Get().CreateEntity(productQueue.front().productName, productQueue.front().destination, team,rank));
 		ammountBuilt = 0.0f;
 		productQueue.pop();
 	}
@@ -80,12 +80,17 @@ void Structure::Update(double delta)
 	// Handle worker logic.
 	if (GetParent()->GetName() == "Worker" && productQueue.size() > 0)
 	{
+		GetParent()->GetCompatibleComponent<Worker>()->SetAction(Unit::Build);
 		// Make unit go to destination first.
-		GetParent()->GetCompatibleComponent<Movement>()->SetDestination(productQueue.front().destination);
-		if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 7 /*productQueue.front().radius + 2*/)
-			return;
-		else
-			GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
+		if (productQueue.front().destination != GetParent()->GetPosition() && productQueue.front().destination != GetParent()->GetCompatibleComponent<Movement>()->GetGoal())
+		{
+			GetParent()->GetCompatibleComponent<Movement>()->SetGoal(productQueue.front().destination);
+		}
+			if (glm::distance(GetParent()->GetPosition(), glm::dvec3(productQueue.front().destination)) > 3)
+				return;
+			else
+				GetParent()->GetCompatibleComponent<Movement>()->SetGoal(GetParent()->GetPosition());
+		// If it is in range, allow construction.
 	}
 
 	if (building)

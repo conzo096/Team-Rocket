@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include <queue>
 #include "Player.h"
+#include "BoundingSphere.h"
 struct SpawnInfo
 {
 	// The type of unit that this unit spawns.
@@ -19,7 +20,7 @@ class Structure : public Component
 	{
 		std::string productName;
 		float buildTime;
-		glm::vec3 destination;
+		glm::dvec3 destination;
 		// radius it occupies.
 		float radius;
 
@@ -41,8 +42,14 @@ private:
 	Team team;
 	// Where units created from this will come from.
 	glm::vec3 spawnPoint;
+	// The rank of the structure.
+	int rank = 0;
+	int updateCost = 550;
 
-
+	// Used for ensuring valid structures.
+	BoundingSphere sp;
+	// New product that is being created.
+	Product tempProduct;
 protected:
 	void from_json(const nlohmann::json &j);
 public:
@@ -67,4 +74,43 @@ public:
 
 	glm::vec3 GetSpawnPoint() { return spawnPoint; }
 	void SetSpawnPoint(glm::vec3 sp) { spawnPoint = sp; }
+
+	void SetRank(int r) { rank = r; }
+	int GetRank() { return rank; }
+	void SetUpdateCost(int uc) { updateCost = uc; }
+	int GetUpdateCost() { return updateCost; }
+
+	bool BuyRankUpdate(int& bal)
+	{
+		int newBal = bal;
+		// If Rank if 0 ... apply first update
+		if (rank == 0)
+		{
+			// First upgrade costs x amount.
+			newBal -= updateCost;
+			// It it can afford it.
+			if (newBal >= 0)
+			{
+				updateCost = 750;
+				rank++;
+				bal = newBal;
+				return true;
+			}
+		}
+		// If Rank if 0 ... apply first update
+		else if (rank == 1)
+		{
+			// First upgrade costs x amount.
+			newBal -= updateCost;
+			// It it can afford it.
+			if (newBal >= 0)
+			{
+				rank++;
+				bal = newBal;
+				return true;
+			}
+		}
+		else
+			return false;
+	}
 };

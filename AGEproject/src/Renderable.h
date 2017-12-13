@@ -6,7 +6,7 @@ class Renderable : public Component
 protected:
 	Model *model;
 	Effect *effect;
-
+	glm::vec4 highlightColour;
 	// render info that gets sent to the game engine renderer.
 	RenderData renderInfo;
 	void from_json(const nlohmann::json &j);
@@ -22,6 +22,7 @@ public:
 	void SetPlane(float spacing, unsigned int xSize, unsigned int ySize);
 	void SetModel(std::string location);
 	void SetTexture(std::string texName);
+	void SetHighlight(glm::vec4 highlightColour);
 	Material& GetMaterial() { return *effect->material; };
 	void SetMaterial(Material* mat);
 	void SetShader(std::string shader);

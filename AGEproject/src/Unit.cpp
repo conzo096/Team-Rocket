@@ -141,9 +141,15 @@ void Unit::AttackEntity()
 		}
 		if (action == Build)
 		{
+			targetAcquired = false;
+			targetEntity = NULL;
+			if (GetParent()->GetCompatibleComponent<Structure>() != NULL)
+				if (GetParent()->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && GetParent()->GetPosition() == GetParent()->GetCompatibleComponent<Movement>()->GetGoal())
+				{
+					action = Stop;
+				}
 			BuildStructure();
 		}
-
 
 		// Update all the bullets.
 		for (BulletParticle & b : projectiles)

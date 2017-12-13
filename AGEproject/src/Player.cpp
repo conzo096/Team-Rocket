@@ -191,6 +191,13 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					ent->GetComponent<Targetable>().SetHealth(0);
 				selectedEntity = NULL;
 				selectedEntities.clear();
+
+				// Delete all enemy entities as well.
+				for (auto& ent : enemyList)
+					if (ent->GetCompatibleComponent<Targetable>() != NULL)
+						ent->GetCompatibleComponent<Targetable>()->SetHealth(0);
+				selectedEnemy = NULL;
+				enemyList.clear();
 				return;
 			}
 			// Pause all movement components of selected units.
@@ -242,12 +249,13 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				}
 				else
 				{
-					glm::vec3 spawnLoc;
+			/*		glm::vec3 spawnLoc;
 					spawnLoc.y = 0.0f;
 					spawnLoc.x = static_cast<float>(selectedEntities[0]->GetPosition().x + 5.0f);
 					spawnLoc.y = static_cast<float>(selectedEntities[0]->GetPosition().y + 5.0f);
 
-					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 1);*/
+					selectedEntities[0]->GetCompatibleComponent<Structure>()->BuyRankUpdate(balance);
 				}
 				timeElapsed = 0;
 			}
@@ -568,7 +576,7 @@ void Player::SortEntities(Game_Camera& camera)
 	{
 		return	glm::distance(lhs->GetPosition(), camPos) < glm::distance(rhs->GetPosition(), camPos);
 	});
-	std::cout << entities[0]->GetName() << std::endl;
+//	std::cout << entities[0]->GetName() << std::endl;
 
 
 }

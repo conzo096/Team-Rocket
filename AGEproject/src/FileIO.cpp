@@ -10,7 +10,10 @@ bool FileIO::FileExists(std::string &filePath)
 bool FileIO::LoadIniFile()
 {
 	if (!FileExists(std::string("../res/config.ini")))
+	{
+		std::cout << "Creating file at ../res" << std::endl;
 		CreateIniFile();
+	}
 	// Start reading and setting parameters
 	std::ifstream file("../res/config.ini");
 	std::string para;

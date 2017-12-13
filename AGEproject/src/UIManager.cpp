@@ -1,6 +1,6 @@
 #include "UIManager.h"
 #include "Game.h"
-
+#include "UserControls.h"
 	// Default constructor for UI.
 	UIManager::UIManager()
 	{
@@ -71,6 +71,27 @@
 		uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc2", misc2));
 
 
+		name.SetText("HotKey1");
+		name.SetX(200);
+		name.SetY(25);
+		name.SetSize(8);
+		name.SetIsActive(true);
+		name.SetTextColour(glm::vec4(255, 255, 255, 1));
+		uiElements.insert(std::pair<std::string, UIQuad>("HotKey1", name));
+
+		name.SetText("HotKey2");
+		name.SetX(350);
+		name.SetY(25);
+		name.SetSize(8);
+		name.SetIsActive(true);
+		uiElements.insert(std::pair<std::string, UIQuad>("HotKey2", name));
+
+		name.SetText("HotKey3");
+		name.SetX(500);
+		name.SetY(25);
+		name.SetSize(8);
+		name.SetIsActive(true);
+		uiElements.insert(std::pair<std::string, UIQuad>("HotKey3", name));
 	}
 
 	void UIManager::Update(double deltaTime)
@@ -88,7 +109,15 @@
 		{			// Only interested in first unit.
 			x = uiElements.find("Name");
 			x->second.SetIsActive(true);
-			x->second.SetText(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName().c_str());
+			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>() != NULL && Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>() == NULL)
+			{
+				std::string text = Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName();
+				text += " V";
+				text += std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetRank());
+				x->second.SetText(text.c_str());
+			}
+			else
+				x->second.SetText(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName().c_str());
 			x = uiElements.find("Health");
 			x->second.SetIsActive(true);
 			sprintf_s(buffer, 64, "%.0f\n", Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetComponent<Targetable>().GetHealth());
@@ -120,7 +149,98 @@
 				x->second.SetIsActive(true);
 				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
+
+
+			// Handle hotkeys actions.
+
+			// If it is  a structure - Handle their options.
+			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>() != NULL)
+			{
+				// Check how many spawn units it has.
+				int num = Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo().size();
+			
+				if (num > 0)
+				{
+					auto& y = uiElements.find("HotKey1");
+					y->second.SetIsActive(true);
+					// Hotkey names - Replace the number with the character value.
+					std::string hk = "1:";
+					hk += Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].unitType;
+					// Bracket the cost after.
+					hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost) + ")";
+					y->second.SetText(hk.c_str());
+					if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost > Game::Get().GetPlayer().GetBalance())
+						y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+					else
+						y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
+					if (num > 1)
+					{
+						auto& y = uiElements.find("HotKey2");
+						y->second.SetIsActive(true);
+						// Hotkey names
+						std::string hk = "2:";
+						hk += Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[1].unitType;
+						// Bracket the cost after.
+						hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[1].cost) + ")";
+						y->second.SetText(hk.c_str());
+						if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost > Game::Get().GetPlayer().GetBalance())
+							y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+						else
+							y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
+						if (num > 2)
+						{
+							auto& y = uiElements.find("HotKey3");
+							y->second.SetIsActive(true);
+							// Hotkey names
+							std::string hk = "3:";
+							hk += Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[2].unitType;
+							// Bracket the cost after.
+							hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[2].cost) + ")";
+							y->second.SetText(hk.c_str());
+							if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo()[0].cost > Game::Get().GetPlayer().GetBalance())
+								y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+							else
+								y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
+						}
+					}
+				}
+				
+				
+				// Non worker structures can buy an update. 
+				if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName() != "Worker")
+				{
+					// Second hotkey allows for an update.
+					auto& y = uiElements.find("HotKey2");
+					y->second.SetIsActive(true);
+					// Hotkey names
+					std::string hk = "2:";
+					if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetRank() < 2)
+					{
+						hk += "Upgrade";
+						// Bracket the cost after.
+						hk += "(" + std::to_string(Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetUpdateCost()) + ")";
+						if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetUpdateCost() > Game::Get().GetPlayer().GetBalance())
+							y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+						else
+							y->second.SetTextColour(glm::vec4(0, 120, 0, 1));
+					}
+					else
+					{
+						hk += "MAX";
+						y->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+					}
+					y->second.SetText(hk.c_str());
+				}
+				
+				// Now combat units.
+				if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>() == NULL && Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>() != NULL)
+				{
+					// Second action can heal them?
+
+				}
+			}
 		}	
+
 		else
 		{
 			x = uiElements.find("Name");
@@ -130,6 +250,12 @@
 			x = uiElements.find("Misc");
 			x->second.SetIsActive(false);
 			x = uiElements.find("Misc2");
+			x->second.SetIsActive(false);
+			x = uiElements.find("HotKey1");
+			x->second.SetIsActive(false);
+			x = uiElements.find("HotKey2");
+			x->second.SetIsActive(false);
+			x = uiElements.find("HotKey3");
 			x->second.SetIsActive(false);
 			//DeselectEnemyLabel();
 		}

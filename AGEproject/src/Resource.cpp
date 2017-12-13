@@ -4,11 +4,11 @@
 int Resource::RetrieveResource()
 {
 	// Unit takes 250 from me.
-	int takeAmount = 250;
-	value -= 250;
+	int takeAmount = harvestValue;
+	value -= harvestValue;
 	mut.lock();
-	std::cout << "Retrieving resource. " << value << std::endl;
-	std::cout << "Pretending to reduce resource." << std::endl;
+//	std::cout << "Retrieving resource. " << value << std::endl;
+//	std::cout << "Pretending to reduce resource." << std::endl;
 	if (value < 0)
 	{
 		takeAmount = takeAmount + value;

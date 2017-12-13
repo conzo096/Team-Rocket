@@ -15,7 +15,7 @@ class AiPlayer : public Player
 	int kestralCount;
 
 	int buildMin = 80;
-	int buildMax = 120;
+	int buildMax = 99;
 
 	bool workerbuilding = false;
 	bool moving = false;
