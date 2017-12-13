@@ -341,6 +341,7 @@ bool Game::Update()
 				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
 			}
 	}
+	player->GetEntities().shrink_to_fit();
 	for (i = 0; i < NPC->GetEntities().size(); i++)
 	{
 		std::shared_ptr<Entity> e = NPC->GetEntities()[i];
@@ -350,7 +351,6 @@ bool Game::Update()
 				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
 			}
 	}
-
 	player->SortEntities(game_cam->GetComponent<Game_Camera>());
 
 	// hacky approach to approximating framerate, causes application to crash on closing.

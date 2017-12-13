@@ -62,7 +62,7 @@ void Worker::HarvestResource()
 		// Now check its current carry weight.
 		if (resourcesHeld >= 50 || targetEntity->GetComponent<Targetable>().IsDead())
 		{
-			std::cout << "Wanna go home" << std::endl;
+		//	std::cout << "Wanna go home" << std::endl;
 			// Need to head back to base. 
 			harvestResource = false;
 			// If cp is not its current destination, set it.

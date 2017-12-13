@@ -44,18 +44,17 @@ bool Structure::AddProduct(int& bal, int hotkey)
 	if (newBalance < 0)
 		return false;
 	// Check if area is valid.
-	auto temp = Spawner::Get().CreateEntity(spawnData[hotkey].unitType, spawnPoint, team);
-	temp->GetComponent<Targetable>().SetHealth(0);
-	temp->Update(0);
-	BoundingSphere sp;
-	sp.SetUpBoundingSphere(temp->GetComponent<BoundingSphere>().GetRadius(), temp->GetPosition());
-	if(!temp->GetCompatibleComponent<Unit>() != NULL)
+	if(spawnData[hotkey].unitType == "Base" || spawnData[hotkey].unitType == "Hanger" || spawnData[hotkey].unitType == "Resource" || spawnData[hotkey].unitType == "Factory"
+			 || spawnData[hotkey].unitType == "VehicleBay")
+	{
+		sp.SetUpBoundingSphere(ResourceHandler::Get().GetModel(spawnData[hotkey].unitType)->GetVertexPositions());
+		sp.SetCenter(spawnPoint);
 		if (!Spawner::Get().CheckGameGrid(sp))
 			return false;
+	}
 	value += spawnData[hotkey].cost;
-	std::cout << GetTeam() << " balance is now: " << newBalance << std::endl;
+	//std::cout << GetTeam() << " balance is now: " << newBalance << std::endl;
 	bal = newBalance;
-	Product tempProduct;
 	tempProduct.productName = spawnData[hotkey].unitType;
 	tempProduct.buildTime = spawnData[hotkey].buildTime;
 	tempProduct.destination = spawnPoint;
