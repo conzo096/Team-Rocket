@@ -98,6 +98,44 @@ vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
 	return point;
 }
 
+void Game::CheckForWinner(std::vector<std::shared_ptr<Entity>>& entities)
+{
+	bool enemyBaseFound = false;
+	bool playerBaseFound = false;
+	for (std::shared_ptr<Entity>& e : entities)
+	{
+		if (e->GetName() == "Base")
+		{
+			if (e->GetCompatibleComponent<Structure>() != NULL)
+			{
+				if (e->GetCompatibleComponent<Structure>()->GetTeam() == Team::ai)
+					enemyBaseFound = true;
+				if (e->GetCompatibleComponent<Structure>()->GetTeam() == Team::player)
+					playerBaseFound = true;
+			}
+		}
+	}
+
+	if (playerBaseFound && !enemyBaseFound)
+	{
+		gameOver = true;
+		winner = Team::player;
+		return;
+	}
+	if (!playerBaseFound && enemyBaseFound)
+	{
+		gameOver = true;
+		winner = Team::ai;
+		return;
+	}
+	if (!playerBaseFound && !enemyBaseFound)
+	{
+		gameOver = true;
+		winner = Team::neutral;
+		return;
+	}
+	return;
+}
 
 void ResolveCollisions(std::vector<std::shared_ptr<Entity>>& ents)
 {
@@ -305,10 +343,6 @@ bool Game::Update()
 		NPC->GetEntities()[i]->Update(deltaTime);
 	}
 
-	//allEntities.clear();
-	//allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
-	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-	//allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
 	//// Resolve their collisions.
 	//ResolveCollisions(allEntities);
 
@@ -351,6 +385,11 @@ bool Game::Update()
 				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
 			}
 	}
+	allEntities.clear();
+	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+	CheckForWinner(allEntities);
 	player->SortEntities(game_cam->GetComponent<Game_Camera>());
 
 	// hacky approach to approximating framerate, causes application to crash on closing.

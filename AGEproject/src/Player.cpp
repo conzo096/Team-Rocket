@@ -192,12 +192,12 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				selectedEntity = NULL;
 				selectedEntities.clear();
 
-				// Delete all enemy entities as well.
-				for (auto& ent : enemyList)
-					if (ent->GetCompatibleComponent<Targetable>() != NULL)
-						ent->GetCompatibleComponent<Targetable>()->SetHealth(0);
-				selectedEnemy = NULL;
-				enemyList.clear();
+				//// Delete all enemy entities as well.
+				//for (auto& ent : enemyList)
+				//	if (ent->GetCompatibleComponent<Targetable>() != NULL)
+				//		ent->GetCompatibleComponent<Targetable>()->SetHealth(0);
+				//selectedEnemy = NULL;
+				//enemyList.clear();
 				return;
 			}
 			// Pause all movement components of selected units.
