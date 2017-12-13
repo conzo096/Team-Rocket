@@ -231,6 +231,7 @@ int SettingsMenu::Draw(GLShader shader)
 					GameEngine::Get().SetResolutionHeight(576);
 					break;
 				}
+				FileIO().Get().SaveIniFile();
 			}
 			
 			// One of the option arrows was clicked

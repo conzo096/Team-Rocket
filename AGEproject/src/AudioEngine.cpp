@@ -5,9 +5,7 @@
 
 Implementation* imp = nullptr;
 
-
-
-int PlaySound(const string& soundName, const glm::dvec3& pos, float volume_dB)
+void PlaySound(const string& soundName, const glm::dvec3& pos, float volume_dB)
 {
 	int channelID = imp->nextChannelID++;
 	auto foundIt = imp->mSounds.find(soundName);
@@ -17,7 +15,7 @@ int PlaySound(const string& soundName, const glm::dvec3& pos, float volume_dB)
 		foundIt = imp->mSounds.find(soundName);
 		if (foundIt == imp->mSounds.end())
 		{
-			return channelID;
+			return;
 		}
 	}
 	FMOD::Channel* pChannel = nullptr;
@@ -34,12 +32,8 @@ int PlaySound(const string& soundName, const glm::dvec3& pos, float volume_dB)
 		AudioEngine::Get().ErrorCheck(pChannel->setPaused(false));
 		imp->mChannels[channelID] = pChannel;
 	}
-	return channelID;
+	return;
 }
-
-
-
-
 
 // Initialise FMOD
 Implementation::Implementation()
@@ -112,6 +106,12 @@ void AudioEngine::UnloadSound(const string& soundName)
 	imp->mSounds.erase(foundIt);
 }
 
+void AudioEngine::PlaySoundOnThread(const string& soundName, const glm::dvec3& pos, float volume_dB)
+{
+	std::thread t(PlaySound, soundName, pos, volume_dB);
+	t.join();
+}
+
 int AudioEngine::PlaySoundUnthreaded(const string& soundName, const glm::dvec3& pos, float volume_dB)
 {
 	int channelID = imp->nextChannelID++;
@@ -157,12 +157,6 @@ void AudioEngine::StopAllChannels()
 	}
 }
 
-void AudioEngine::PlaySoundOnThread(const string& soundName, const glm::dvec3& pos, float volume_dB)
-{
-	std::thread t(PlaySound,soundName, pos, volume_dB);
-	t.join();
-}
-
 void AudioEngine::SetChannel3DPosition(int channelID, const glm::dvec3& pos)
 {
 	auto foundIt = imp->mChannels.find(channelID);
@@ -193,9 +187,9 @@ float AudioEngine::Volume_to_dB(float volume)
 
 FMOD_VECTOR AudioEngine::VectorToFMOD(const glm::dvec3& pos) {
 	FMOD_VECTOR fVec;
-	fVec.x = pos.x;
-	fVec.y = pos.y;
-	fVec.z = pos.z;
+	fVec.x = (float)pos.x;
+	fVec.y = (float)pos.y;
+	fVec.z = (float)pos.z;
 	return fVec;
 }
 
