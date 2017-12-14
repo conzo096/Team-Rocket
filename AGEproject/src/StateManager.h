@@ -30,24 +30,6 @@ public:
 
 	void StateLoop();
 
-	int ShowMainMenu()
-	{
-		MainMenu mm;
-		return mm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-	}
-
-	int ShowSettingsMenu()
-	{
-		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-	}
-
-	int ShowControlsMenu()
-	{
-		ControlsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-	}
-
 	int ShowSplashScreen()
 	{
 		// Initialise required assets, time, shader, quad, texture
@@ -76,6 +58,24 @@ public:
 
 		// Show the main menu
 		return stateMainMenu;
+	}
+
+	int ShowMainMenu()
+	{
+		MainMenu mm;
+		return mm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	}
+
+	int ShowSettingsMenu()
+	{
+		SettingsMenu sm;
+		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	}
+
+	int ShowControlsMenu()
+	{
+		ControlsMenu sm;
+		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
 	}
 
 	int ShowPauseScreen()
