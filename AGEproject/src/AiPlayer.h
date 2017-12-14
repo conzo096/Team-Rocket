@@ -4,49 +4,32 @@
 #include "Game.h"
 class AiPlayer : public Player
 {
+	int workerCount;
+
+	int factoryCount;
+	int vehicleBayCount;
+	int hangerCount;
+	
+	int droneCount;
+	int wardenCount;
+	int kestrelCount;
+
+	int buildMin = 80;
+	int buildMax = 99;
+
+	bool attacking = false;
+
+	vector<std::shared_ptr<Entity>> resources;
 
 public:
+	void Update(std::vector<std::shared_ptr<Entity>>& enemyList);
 
-	// Update the ai player.
-	void Update(std::vector<Entity*>& enemyList)
-	{
-		HandleAiLogic(enemyList);
-		// Collect any units that have been produced by your structures.
-		std::vector<Entity*> temp;
-		for (Entity*&e : entities)
-		{
-			if (e->GetCompatibleComponent<Structure>() != NULL)
-				e->GetComponent<Structure>().Collect(temp);
-		}
-		for (Entity*&e : temp)
-		{
-			e->SetScale(glm::vec3(3, 3, 3));
-			entities.push_back(e);
-		}
-	}
+	//Update unit, building and supply counts
+	void CheckProperty();
 
+	//Manage the economy
+	void MacroCycle();
 
-	// Ai decisions are handled here.
-	void HandleAiLogic(std::vector<Entity*>& enemyList)
-	{
-		if (entities.size() < 2 && entities.size() > 0)
-		{
-			// Spawn an entity.
-			if (entities[0]->GetCompatibleComponent<Structure>() != NULL)
-				if (entities[0]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1)
-					entities[0]->GetCompatibleComponent<Structure>()->AddProduct("Ship", 3);
-
-		}
-		for (Entity*& e : entities)
-		{
-			if (e->GetCompatibleComponent<Unit>() != NULL)
-			{
-				if (enemyList.size() > 3)
-				{
-					e->GetCompatibleComponent<Unit>()->SetEntityToTarget(enemyList[2]);
-					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
-				}
-			}
-		}
-	}
+	//Manage all units
+	void ArmyCycle(std::vector<std::shared_ptr<Entity>>& enemyList);
 };

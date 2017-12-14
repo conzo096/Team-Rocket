@@ -1,32 +1,42 @@
 #pragma once
 #include "Entity.h"
+#include "Renderable.h"
 #include "Movement.h"
 #include "Targetable.h"
+#include "TurretRenderable.h"
 #include "GeometryUtil.h"
 #include "Particle.h"
+
+
+static std::string const UnitActions[] = { "Stop","Move","Attack","AttackMove","Hold","Harvest", "Build" };
 class Unit : public Component
 {
 
 public:
-	enum Action { Move, Attack, AttackMove, Hold };
+	enum Action { Stop, Move, Attack, AttackMove, Hold, Harvest, Build };
 protected:
 	// What action this unit is to perform.
 	Action action = Move;
 	// What entity is it looking to attack?
-	Entity* targetEntity = NULL;
-	// What team is this unit on?
-	int team;
-	// Is the unit currently controller by the player?
-	bool isControlled = false;
-	// Previous effect.
-	glm::vec4 tempCol;
-	double fireRate = 0.5;
-	double timeSinceLastFire;
+	std::shared_ptr<Entity> targetEntity = NULL;
 
-	// Disable shooting.
+	// what team this is on.
+	int team;
+
+	double weaponRange = 15;
+	double sightRange = 20;
+
+	double weaponDamage = 10;
+	double fireRate = 0.5;
+
+	double timeSinceLastFire = 0;
+
+	bool targetAcquired = false;
 	bool canShoot = true;
+
 	// Bullet container.
 	std::vector<BulletParticle> projectiles;
+	glm::dvec3 attMoveTarget;
 
 	void from_json(const nlohmann::json &j) {};
 public:
@@ -36,116 +46,32 @@ public:
 	~Unit() {};
 
 
-	void SetAction(Action act)
-	{
-		action = act;
-	}
-
-	// Change value for being controlled by player or not.
-	void IsController(bool act)
-	{	
-		isControlled = act;
-		// If it is being selected.
-		if (act)
-		{
-			// Hold current emissive value.
-			tempCol = glm::vec4(GetParent()->GetComponent<Renderable>().GetMaterial().emissive);
-			// Set objects emissive value to blue (for now). 
-			GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
-		}
-		else
-		{
-			// Return the emissive colour back to its original value.
-			GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(tempCol);
-			tempCol = glm::vec4();
-		}
-	}
-
-	void SetEntityToTarget(Entity*& target)
-	{
-		targetEntity = target;
-	}
-
+	void SetAction(Action act);
+	Action GetAction() { return action; }
 	void SetTeam(int t) { team = t; }
 	int GetTeam() { return team; }
-	
-	virtual void AttackEntity()
-	{
-		if (timeSinceLastFire > fireRate)
-			canShoot = true;
-		// if it is within distance.
-		if (targetEntity != NULL)
-		{
-			// If within range, fire a projectile. - This value should not be hard coded.
-			if (glm::distance(GetParent()->GetPosition(),targetEntity->GetPosition()) < 200 && canShoot)
-			{
-				timeSinceLastFire = 0;
-				canShoot = false;
-				// Find an empty bullet and fire.
-				BulletParticle bullet(GetParent()->GetPosition());
-				bullet.SetTarget(targetEntity);
-				projectiles.push_back(bullet);
-			}
+
+	double GetFireRate() { return fireRate; }
+
+	void SetUnitWeapon(double weaponRange, double sightRange, double weaponDamage, double fireRate);
+
+	void SetWeaponRange(double wr) { weaponRange = wr; }
+	void SetSightRange(double sr) { sightRange = sr; }
+	void SetWeaponDamage(double wd) { weaponDamage = wd; }
+	void SetFireRate(double fr) { fireRate = fr; }
+
+	void SetEntityToTarget(std::shared_ptr<Entity>& target);
+
+	void AcquireTarget();
+
+	void OrderAttackMove(glm::dvec3 target);
+	virtual void AttackEntity();
+
+	// Methods that worker will build upon.
+	virtual void HarvestResource() {}
+	virtual void BuildStructure() {}
 
 
-
-			// Check if enemy is dead and if it is, remove from target.
-			if (targetEntity->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				targetEntity = NULL;
-				// Stop moving.
-				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(GetParent()->GetPosition());
-				action = Hold;
-			}
-
-
-
-		}
-	}
-	
-	void Update(double deltaTime) override
-	{
-		timeSinceLastFire += deltaTime;
-		// If hold, do nothing.
-		if (action == Hold)
-		{
-		}
-		// If move, keep moving the unit to destination.
-		if (action == Move)
-		{
-
-		}
-		if (action == Attack)
-		{
-			// Move towards entity.
-			if (targetEntity != NULL)
-			{
-				GetParent()->GetCompatibleComponent<Movement>()->SetDestination(glm::vec3(targetEntity->GetPosition().x, GetParent()->GetPosition().y, targetEntity->GetPosition().z));
-			}
-			AttackEntity();
-		}
-		if (action == AttackMove)
-		{
-			AttackEntity();
-		}
-
-		// Update all the bullets.
-		for (BulletParticle & b : projectiles)
-			b.Update(deltaTime);
-		// Remove bullets no longer used.
-		projectiles.erase(std::remove_if
-		(projectiles.begin(), projectiles.end(),[](const BulletParticle& x)
-			{
-				return !x.isActive;
-			}), projectiles.end());
-
-
-	}
-
-	void Render()
-	{
-		for (BulletParticle & b : projectiles)
-			b.Render();
-	}
-
+	void Update(double deltaTime) override;
+	void Render();
 };

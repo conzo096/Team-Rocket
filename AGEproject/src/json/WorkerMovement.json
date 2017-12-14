@@ -1,0 +1,6 @@
+{
+    "Destination": [20, 15, 20],
+    "Speed": 15.0,
+    "Acceleration": 0.5,
+    "TurnSpeed": 200
+}

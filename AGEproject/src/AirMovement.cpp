@@ -17,20 +17,18 @@ void AirMovement::MoveTo(double delta)
 {
 	if (IsActive())
 	{
-		if (GetParent()->GetPosition() == destination)
+		/*if (GetParent()->GetPosition() == destination)
+		if (GetParent()->GetPosition() == goal)
 		{
-
-			destination.x = rand() % 200 - 100;
-			destination.z = rand() % 200 - 100;
-
+			goal.x = rand() % 200 - 100;
+			goal.z = rand() % 200 - 100;
 			currentSpeed = 0.0f;
-
 		}
-		else
+		else*/
 		{
 			if (currentSpeed < speed)
 				currentSpeed += speed*delta / accelerationTime;
-			glm::dvec3 moveVec = destination - GetParent()->GetPosition();
+			glm::dvec3 moveVec = goal - GetParent()->GetPosition();
 			double distance = glm::length(moveVec);
 			moveVec = glm::normalize(moveVec);
 			moveVec = moveVec *delta * currentSpeed;
@@ -40,7 +38,7 @@ void AirMovement::MoveTo(double delta)
 			}
 			else
 			{
-				GetParent()->SetPosition(destination);
+				GetParent()->SetPosition(goal);
 			}
 		}
 	}
@@ -48,10 +46,10 @@ void AirMovement::MoveTo(double delta)
 
 void AirMovement::TurnTo(double delta)
 {
-	if (GetParent()->GetPosition() != destination)
+	if (GetParent()->GetPosition() != goal)
 	{
 		glm::vec3 thisPos = GetParent()->GetPosition();
-		glm::vec2 targetVec =glm::vec2(thisPos.x, thisPos.z) -  glm::vec2((float)destination.x, (float)destination.z) ;
+		glm::vec2 targetVec =glm::vec2(thisPos.x, thisPos.z) -  glm::vec2((float)goal.x, (float)goal.z) ;
 		float distance = glm::length(targetVec);
 		if (targetVec.x != 0 && targetVec.y != 0)
 			targetVec = glm::normalize(targetVec);
@@ -69,7 +67,7 @@ void AirMovement::TurnTo(double delta)
 
 		glm::vec3 distantPoint = thisPos + (distance * 2 * currentVec);
 
-		double determinant = ((destination.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((destination.z - thisPos.z)*(distantPoint.x - thisPos.x));
+		double determinant = ((goal.x - thisPos.x)*(distantPoint.z - thisPos.z)) - ((goal.z - thisPos.z)*(distantPoint.x - thisPos.x));
 
 		if (determinant != 0 && !glm::isnan(angle))
 		{
@@ -102,6 +100,7 @@ void AirMovement::TurnTo(double delta)
 
 void AirMovement::Update(double delta)
 {
+	goal.y = 15.0;
 	MoveTo(delta);
 	TurnTo(delta);
 }

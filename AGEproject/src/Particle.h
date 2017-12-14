@@ -13,7 +13,7 @@ private:
 	// For bullets only.
 
 	// Target entity. - I wanna shoot this.
-	Entity* target = NULL;
+	std::shared_ptr<Entity>target = NULL;
 	// How much does the bullet do?
 	float damage = 20;
 	BoundingSphere* sphere = new BoundingSphere;
@@ -28,7 +28,7 @@ public:
 	bool isActive = true;
 
 	void SetBulletDamage(float d) { damage = d; }
-	void SetTarget(Entity* t) { target = t; }
+	void SetTarget(std::shared_ptr<Entity> t) { target = t; }
 	BulletParticle();
 	BulletParticle(glm::vec3 pos);
 	~BulletParticle();

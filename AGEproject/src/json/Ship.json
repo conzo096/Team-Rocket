@@ -1,0 +1,6 @@
+{
+  "Model": "Kestrel",
+  "Texture": "FlyerUV",
+  "Shader": "Phong",
+  "Position": [ 0, 0.5, 0 ]
+}

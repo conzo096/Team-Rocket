@@ -8,7 +8,9 @@
 #include "Singleton.h"
 #include "Material.h"
 #include "Model.h"
+#include <mutex>
 
+class PointLight;
 class Material;
 
 struct Effect
@@ -36,24 +38,32 @@ struct RenderData
 	glm::mat4 m;
 
 	Material* mat;
+
+	glm::vec3 boundingPoint;
+	float sphereRadius;
+
+	glm::vec4 highlightColour;
 };
 
 struct ParticleData
 {
 	glm::vec3 pos;
 	unsigned int tex;
-
 };
 
 
 class GameEngine : public Singleton<GameEngine>
 {
 private:
-
 	// The window that is to be rendered too.
 	GLFWwindow* window;
+	// This is physical screen width and height.
 	int width;
 	int height;
+	// Resolution size.
+	int resolutionWidth;
+	int resolutionHeight;
+
 	bool fullScreen;
 	glm::mat4 cameraMVP;
 	glm::vec3 cameraPos;
@@ -61,27 +71,35 @@ private:
 	glm::vec3 cameraRight;
 	std::vector<RenderData> renderList;
 	std::vector<ParticleData> particles;
-public:
+	std::vector<PointLight*> lights;
+	glm::vec4 frustumPlanes[6];
+	std::mutex mut;
 
+public:
 	// The render window.
 	GLFWwindow* GetWindow() { return window; }
-
+	void CreateWindow();
+	void UpdateWindow();
 	void Initialise();
 	//void Render(glm::mat4 mvp, Model model, Effect effect);
 
 	// Getters for width and height
 	int GetScreenWidth() { return width; }
 	int GetScreenHeight() { return height; }
+	int GetResolutionWidth() { return resolutionWidth; }
+	int GetResolutionHeight() { return resolutionHeight; }
 	bool GetFullScreen() { return fullScreen; }
 	void SetFullScreen(int val) { fullScreen = val; }
 	void SetScreenWidth(int val) { width = val; }
 	void SetScreenHeight(int val) { height = val; }
+	void SetResolutionWidth(int val) { resolutionWidth = val; }
+	void SetResolutionHeight(int val) { resolutionHeight = val; }
 	void SetCameraPos(glm::vec3 pos) { cameraPos = pos; }
 	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
 	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
-	// Execute the game engine.
-	void Start();
+	void AddPointLight(PointLight* light);
+	std::vector<PointLight*>& GetPointLights();
 	// Cleans up game engine resources.
 	void CleanUp();
 
@@ -94,4 +112,7 @@ public:
 	void PrintGlewInfo();
 	//void LoadShaders();
 
+	void GenerateFrustumPlanes();
+
+	bool IsInCameraFrustum(RenderData& rd);
 };

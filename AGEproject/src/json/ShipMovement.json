@@ -1,0 +1,6 @@
+{
+    "Goal": [90, 0, 90],
+    "Speed": 15.0,
+    "Acceleration": 0.5,
+    "TurnSpeed": 200
+}

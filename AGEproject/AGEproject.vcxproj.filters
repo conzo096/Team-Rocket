@@ -72,9 +72,6 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\Menu_Camera.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
     <ClCompile Include="src\Spawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GroundMovement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -143,6 +137,45 @@
     </ClCompile>
     <ClCompile Include="src\SettingsMenu.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Quad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GroundMovement.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIQuad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Unit.cpp">
+      <Filter>Source Files\Components\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControlsMenu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LevelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game_Camera.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioEngine.cpp">
+      <Filter>Source Files\Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TurretRenderable.cpp">
+      <Filter>Source Files\Components\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WorkerUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AiPlayer.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resource.cpp">
+      <Filter>Source Files\Components\Structures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +299,6 @@
     <ClInclude Include="src\Free_Camera.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\Menu_Camera.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\ResourceHandler.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -286,6 +316,30 @@
     </ClInclude>
     <ClInclude Include="src\SettingsMenu.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resource.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControlsMenu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LevelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AudioEngine.h">
+      <Filter>Header Files\Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game_Camera.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TurretRenderable.h">
+      <Filter>Header Files\Components\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +374,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\shaders\Particle.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\shaders\font.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

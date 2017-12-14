@@ -1,7 +1,6 @@
 #include "StateManager.h"
 
-int main()
-{
+int main(){
 	StateManager::Get().StateLoop();
 	return 0;
 }

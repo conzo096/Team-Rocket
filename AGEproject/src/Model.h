@@ -24,6 +24,12 @@ enum BUFFERS {POSITION, COLOR, NORMAL, TEX_COORD};
 class Model
 {
 	unsigned int VAO, VBO, EBO;
+	float lowestYVertex;
+	float largestYVertex;
+
+	// Width and length of model, for gridplacement.
+	int width, length;
+
 	GLenum type;
 public:
 	Model();
@@ -33,11 +39,13 @@ public:
 	std::vector<GLuint> indices;
 	GLenum GetType() { return type; }
 	unsigned int GetVAO() { return VAO; }
-	int GetIndices() { return indices.size(); }
+	int GetIndices() { return static_cast<int>(indices.size()); }
 	void SetType(GLenum t) { type = t; }
-
+	float GetLowestYPosition() { return lowestYVertex; }
+	float GetLargestYPosition() { return largestYVertex; }
 	void Draw();
-
+	int GetLength() { return length; }
+	int GetWidth() { return width; }
 	Model(const std::string& fileName);
 
 	std::vector<glm::vec3> GetVertexPositions()

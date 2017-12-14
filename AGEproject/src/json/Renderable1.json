@@ -1,0 +1,6 @@
+{
+	"Model" : "Shipyard",
+	"Shader" : "Phong",
+	"Texture" : "ConstructorUV",
+	"Position" : [30.5, 2.5, 30.5]
+}

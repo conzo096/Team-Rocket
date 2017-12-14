@@ -75,6 +75,28 @@ Model::Model(const std::string &fileName)
 		}
 		vertex_begin += modelMesh->mNumVertices;
 	}
+
+
+	int minX = INT_MAX, minZ = INT_MAX, maxX = INT_MIN, maxZ = INT_MIN;
+	std::vector<glm::vec3> temp = GetVertexPositions();
+	for (glm::vec3& v : temp)
+	{
+		if (lowestYVertex > v.y)
+			lowestYVertex = v.y;
+		if (largestYVertex < v.y)
+			largestYVertex = v.y;
+		if (v.x > maxX)
+			maxX = v.x;
+		if (v.x < maxX)
+			minX = v.x;
+		if (v.x > maxZ)
+			maxZ = v.z;
+		if (v.x < maxZ)
+			minZ = v.z;
+	}
+	// 2D dimensions of object.
+	length = std::sqrt(std::pow(minX, 2) + std::pow(maxX, 2));
+	width = std::sqrt(std::pow(minZ, 2) + std::pow(maxZ, 2));
 	SetUpMesh();
 }
 

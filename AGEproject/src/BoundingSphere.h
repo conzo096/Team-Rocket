@@ -13,7 +13,7 @@ private:
 public:
 
 	BoundingSphere() : Component("BoundingSphere") {};
-	~BoundingSphere() {}
+	~BoundingSphere(){}
 
 	// This center will only work for symmetrical objects.
 	void SetUpBoundingSphere(std::vector<glm::vec3> &vertices)
@@ -34,22 +34,24 @@ public:
 
 		for(glm::vec3 &v : vertices)
 		{
-			float length = float((modelCenter - v).length());
+			float length = glm::distance(modelCenter, v);//		float((modelCenter - v).length());
 			radius = std::max(radius,length);
 		}
-		radius += 2;
+		radius;
 	}
 	
 
 	glm::vec3 GetCenter() { return center; }
 	void SetCenter(glm::vec3 c) { center = c; }
 
-
+	float GetRadius() { return radius; }
+	void SetRadius(float r) { radius = r; }
 	void SetUpBoundingSphere(float rad,glm::vec3 c)
 	{
 		radius = rad;
 		center = c;
 	}
+
 	
 	void from_json(const nlohmann::json &j) {};
 
@@ -101,7 +103,7 @@ public:
 
 
 	// Different render methods.
-	void Render() {};
+	void Render(){}
 };
 
 

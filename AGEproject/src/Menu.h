@@ -4,12 +4,10 @@
 #include <string>
 #include <glm\gtc\type_ptr.hpp>
 #include <glm\gtc/matrix_transform.hpp>
-#include "UserControls.h"
 #include "GLShader.h"
 #include "Texture.h"
 #include "Quad.h"
-#include "Menu_Camera.h"
-
+#include "Singleton.h"
 struct Label
 {
 	// Texture of the label.
@@ -28,24 +26,22 @@ struct Button
 	Quad renderTarget;
 };
 
-class Menu
+class Menu : public Singleton<Menu>
 {
 protected:
-	Entity* menu_cam;
+	bool mouseButtonHeld;
 	bool selectionMade;
+
+	// small timer for controller.
+	int cooldown = 6;
+	// frames since last call.
+	int timeElapsed = 0;
 
 public:
 	Menu()
 	{
+		mouseButtonHeld = false;
 		selectionMade = false;
-		menu_cam = new Entity;
-
-		auto cam = std::make_unique<Menu_Camera>();
-		cam->SetPosition(glm::dvec3(0.0, 0.0, 100.0));
-		cam->SetTarget(glm::vec3(0, 0, 0));
-		cam->SetProjection(glm::half_pi<float>(), (float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
-
-		menu_cam->AddComponent(move(cam));
 	}
 	//Menu(std::vector<char *> textureLocs);
 	virtual ~Menu() {}

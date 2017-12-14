@@ -27,7 +27,7 @@ uniform directional_light light;
 uniform material mat;
 uniform vec3 eye_pos;
 uniform sampler2D tex;
-
+uniform vec4 highlightColour;
 #define NUM_POINT_LIGHTS 16
 
 uniform PointLight point_light[NUM_POINT_LIGHTS];
@@ -110,6 +110,11 @@ void main()
 	vec3 norm = normalize(normal);
 	vec4 tex_colour = texture(tex, tex_coord);
 
+	if(tex_colour.a < 1.0)
+	{
+		tex_colour *= highlightColour;
+	}
+
 	colour = vec4(0, 0, 0, 1);
 
 	//colour = calculate_point(obvious_name, mat, position, norm, view_dir, tex_colour);
@@ -120,4 +125,6 @@ void main()
 		colour += calculate_point(point_light[i], mat, position, normal, view_dir, tex_colour);
 	//	for(int i = 0; i < num_spot_lights; i++)
 	//	do_directional_light(light);
+
+	//colour.a = tex_colour.a; //Allows transparency, but right now I'm just using UVs as textures so the models only have solid edges -ru
 }
