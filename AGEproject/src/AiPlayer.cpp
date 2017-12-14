@@ -20,7 +20,15 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 	{
 		entities.push_back(temp[i]);
 		if (temp[i]->GetCompatibleComponent<Movement>() != NULL)
-			temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(70, 0, 70));//Rally point kinda
+		{
+			if (temp[i]->GetName() == "Worker")
+			{
+				temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(270, 0, 270));
+				temp[i]->GetCompatibleComponent<Worker>()->SetCollectionPoint(glm::vec3(250, 0, 250));
+			}
+			else
+				temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(230, 0, 230));
+		}
 	}
 	CheckProperty();
 	MacroCycle();
@@ -194,23 +202,16 @@ void AiPlayer::MacroCycle()
 void AiPlayer::ArmyCycle(std::vector<std::shared_ptr<Entity>>& enemyList)
 {
 	int unitCount = droneCount + wardenCount + kestrelCount;
-	if (!attacking)
+
+	if ((unitCount > (int)(Game::Get().GetTime() / 12) || unitCount > 20))
 	{
-		if ((unitCount > (int)(Game::Get().GetTime() / 6)|| unitCount > 40))
+		for (int i = 0; i < entities.size(); i++)
 		{
-			attacking = true;
-			for (int i = 0; i < entities.size(); i++)
+			if (entities[i]->GetName() == "Drone" || entities[i]->GetName() == "Warden" || entities[i]->GetName() == "Kestrel")
 			{
-				if (entities[i]->GetName() == "Drone" || entities[i]->GetName() == "Warden" || entities[i]->GetName() == "Kestrel")
-				{
-					//need attack move function
+				if (entities[i]->GetCompatibleComponent<Unit>()->GetAction() != Unit::AttackMove)
 					entities[i]->GetCompatibleComponent<Unit>()->OrderAttackMove(enemyList[0].get()->GetPosition());
-				}
 			}
-		}
-		else
-		{
-			attacking = false;
 		}
 	}
 }

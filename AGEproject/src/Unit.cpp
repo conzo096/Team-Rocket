@@ -34,7 +34,7 @@ void Unit::AcquireTarget()
 	int n = 0;
 	for (std::shared_ptr<Entity>& e : localUnits)
 	{
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
+		if (e->GetCompatibleComponent<Targetable>() != NULL && !(GetParent()->GetName() == "Warden" && e->GetName() != "Kestrel"))
 		{
 			dvec3 pos = dvec3(GetParent()->GetPosition().x, 0, GetParent()->GetPosition().z);
 			dvec3 ePos = dvec3(e->GetPosition().x, 0, e->GetPosition().z);

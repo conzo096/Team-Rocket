@@ -24,7 +24,7 @@ class AiPlayer;
 class Game : public Singleton<Game>
 {
 private:
-	int gridSize = 1000;
+	int gridSize = 300;
 	double time;
 	double lastTime;
 	int** navGrid;

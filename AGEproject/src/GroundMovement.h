@@ -76,8 +76,8 @@ inline bool operator<(const Node & a, const Node & b)
 class GroundMovement : public Movement
 {
 private:
-	int xSize = 100; // horizontal size of the map
-	int zSize = 100; // vertical size size of the map
+	int xSize = 300; // horizontal size of the map
+	int zSize = 300; // vertical size size of the map
 	int **nodeMap;
 	int **closedNodes; // map of closed (tried-out) nodes
 	int **openNodes; // map of open (not-yet-tried) nodes
