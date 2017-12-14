@@ -10,7 +10,6 @@
 #include "StateManager.h"
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
-	//return;
 	for (int i = start; i < end; i++)
 	{
 		Entity*& e = entities[i];

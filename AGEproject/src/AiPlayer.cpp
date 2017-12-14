@@ -196,7 +196,7 @@ void AiPlayer::ArmyCycle(std::vector<std::shared_ptr<Entity>>& enemyList)
 	int unitCount = droneCount + wardenCount + kestrelCount;
 	if (!attacking)
 	{
-		if ((unitCount > (int)(Game::Get().GetTime() / 6) - 10 || unitCount > 40))
+		if ((unitCount > (int)(Game::Get().GetTime() / 6)|| unitCount > 40))
 		{
 			attacking = true;
 			for (int i = 0; i < entities.size(); i++)
@@ -204,7 +204,7 @@ void AiPlayer::ArmyCycle(std::vector<std::shared_ptr<Entity>>& enemyList)
 				if (entities[i]->GetName() == "Drone" || entities[i]->GetName() == "Warden" || entities[i]->GetName() == "Kestrel")
 				{
 					//need attack move function
-					entities[i]->GetCompatibleComponent<Unit>();
+					entities[i]->GetCompatibleComponent<Unit>()->OrderAttackMove(enemyList[0].get()->GetPosition());
 				}
 			}
 		}

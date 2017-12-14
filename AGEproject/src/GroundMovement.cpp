@@ -41,6 +41,14 @@ GroundMovement::~GroundMovement()
 {
 }
 
+void GroundMovement::SetGoal(glm::dvec3 goal)
+{
+	this->goal = goal;
+	waypoints.clear();
+	if (GetParent() != NULL && this->goal != GetParent()->GetPosition())
+		needPath = true;
+}
+
 bool GroundMovement::LineOfSight()
 {
 	return false;
@@ -178,7 +186,7 @@ void GroundMovement::MoveTo(double delta)
 			goal.x = (std::rand() % (99));
 		while((goal.z < 50 || goal.z >75))
 			goal.z = (std::rand() % (99));*/
-		//needPath = true;
+			//needPath = true;
 	}
 	else
 	{
