@@ -1,6 +1,6 @@
 # Team-Rocket
 
-<img src="https://github.com/conzo096/Team-Rocket/blob/master/AGEproject/res/textures/UI/SplashScreenUniLogo.png"/>
+<img src="AGEproject/res/textures/UI/SplashScreenUniLogo.png"/>
 
 Scrapitalism is the game project that was developed during the Advanced Games Engineering module at Edinburgh Napier University. 
 
