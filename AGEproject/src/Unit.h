@@ -36,6 +36,7 @@ protected:
 
 	// Bullet container.
 	std::vector<BulletParticle> projectiles;
+	glm::dvec3 attMoveTarget;
 
 	void from_json(const nlohmann::json &j) {};
 public:
@@ -62,6 +63,8 @@ public:
 	void SetEntityToTarget(std::shared_ptr<Entity>& target);
 
 	void AcquireTarget();
+
+	void OrderAttackMove(glm::dvec3 target);
 	virtual void AttackEntity();
 
 	// Methods that worker will build upon.

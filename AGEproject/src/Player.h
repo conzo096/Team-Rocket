@@ -39,6 +39,7 @@ protected:
 	Entity ghostBuilding;
 	// cost to build object.
 	float buildingCost;
+	bool attackMove = false;
 public:
 	
 

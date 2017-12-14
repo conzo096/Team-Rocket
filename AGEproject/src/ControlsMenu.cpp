@@ -2,11 +2,11 @@
 #include "UserControls.h"
 #include "AudioEngine.h"
 
-#define CLOSE 14
+#define CLOSE 15
 
 int ControlsMenu::currentSelection = -1;
 int ControlsMenu::lastSelection = -1;
-int const ControlsMenu::numOfControls = 14;
+int const ControlsMenu::numOfControls = 15;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::pair<std::string, std::string>> ControlsMenu::bindings;
 std::vector <unsigned int> ControlsMenu::button_tex;
@@ -16,7 +16,7 @@ std::vector <unsigned int> ControlsMenu::current_tex;
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
+	if (!(currentSelection == 6 || currentSelection == 13 || currentSelection == 14) && currentSelection != -1)
 	{
 		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
 		UserControls::Get().BindKey(bindings[currentSelection].first, key);
@@ -32,7 +32,7 @@ void ControlsMenu::ControllerCallBack()
 {
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 	{
-		if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
+		if (!(currentSelection == 6 || currentSelection == 14) && currentSelection != -1)
 		{
 			int timer = 0;
 			auto t = clock();
@@ -79,7 +79,7 @@ void ControlsMenu::DrawButtons()
 	float offsetChange = 0.1f + buttonHeight;
 
 	// Handle left hand side.
-	for (int i = 0; i < (buttons.size() / 2); i++)
+	for (int i = 0; i < ((buttons.size() - 1) / 2); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
@@ -101,10 +101,9 @@ void ControlsMenu::DrawButtons()
 		}
 		else
 		{
-			buttonOffsetX = 0.05f;
 			buttonOffsetY += 0.1f;
-			newButton.renderTarget = Quad(glm::vec2(0 - buttonOffsetX - resetWidth, 1 - buttonOffsetY - resetHeight),
-				glm::vec2(0 - buttonOffsetX, 1 - buttonOffsetY));
+			newButton.renderTarget = Quad(glm::vec2(-1 + buttonOffsetX, 1 - buttonOffsetY - resetHeight),
+										  glm::vec2(-1 + buttonOffsetX + resetWidth, 1 - buttonOffsetY));
 		}
 		newButton.renderTarget.SetOpenGL();
 	}
@@ -112,13 +111,13 @@ void ControlsMenu::DrawButtons()
 	// Handle right hand side.
 	buttonOffsetX = 0.1f;
 	buttonOffsetY = 0.1f;
-	for (int i = (buttons.size() / 2); i < buttons.size(); i++)
+	for (int i = ((buttons.size() - 1) / 2); i < buttons.size(); i++)
 	{
 		Button& newButton = buttons[i].first;
 		newButton.action = i;
 		newButton.texture = current_tex[i];
 
-		if (!(i == 13))
+		if (!(i == 14))
 		{
 			newButton.renderTarget = Quad(glm::vec2(0 + buttonOffsetX, 1 - buttonOffsetY - buttonHeight),
 										  glm::vec2(0 + buttonOffsetX + buttonWidth, 1 - buttonOffsetY));
@@ -134,10 +133,10 @@ void ControlsMenu::DrawButtons()
 		}
 		else
 		{
-			buttonOffsetX = 0.05f;
+			buttonOffsetY -= offsetChange;
 			buttonOffsetY += 0.1f;
-			newButton.renderTarget = Quad(glm::vec2(0 + buttonOffsetX, 1 - buttonOffsetY - resetHeight),
-										  glm::vec2(0 + buttonOffsetX + resetWidth, 1 - buttonOffsetY));
+			newButton.renderTarget = Quad(glm::vec2(-1 + (buttonOffsetX * 3) + resetWidth, 1 - buttonOffsetY - resetHeight),
+										  glm::vec2(-1 + (buttonOffsetX * 3) + resetWidth + resetWidth, 1 - buttonOffsetY));
 		}
 		newButton.renderTarget.SetOpenGL();
 	}
@@ -145,6 +144,8 @@ void ControlsMenu::DrawButtons()
 
 int ControlsMenu::Draw(GLShader shader)
 {	
+	shader = *ResourceHandler::Get().GetShader("Basic");
+
 	DrawButtons();
 	DrawButtons();
 
@@ -152,6 +153,7 @@ int ControlsMenu::Draw(GLShader shader)
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		currentSelection = 0;
 	timeElapsed = 0;
+
 	while (!selectionMade)
 	{
 		// Update textures.
@@ -165,7 +167,7 @@ int ControlsMenu::Draw(GLShader shader)
 		PopulateBindings();
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			if (!(i == 6 || i == 13))
+			if (!(i == 6 || i == 14))
 			{
 				buttons[i].second.SetText(bindings[i].second.c_str());
 			}
@@ -174,6 +176,8 @@ int ControlsMenu::Draw(GLShader shader)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
+
+		// When using controller
 		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
 			timeElapsed += 1;
@@ -201,6 +205,7 @@ int ControlsMenu::Draw(GLShader shader)
 					if (currentSelection == 6)
 					{
 						selectionMade = false;
+						AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 						UserControls::Get().ResetControllerBindings();
 						FileIO::Get().SaveIniFile();
 					/*	for (int i = 0; i < buttons.size(); i++)
@@ -216,7 +221,7 @@ int ControlsMenu::Draw(GLShader shader)
 						FileIO::Get().SaveIniFile();
 					}
 					// "Back" is pressed
-					else if (currentSelection == 13)
+					else if (currentSelection == 14)
 					{
 						//	FileIO::Get().SaveIniFile();
 					}
@@ -252,6 +257,8 @@ int ControlsMenu::Draw(GLShader shader)
 				}
 			}
 		}
+	
+		// When using keyboard
 		else
 		{
 			// Handle input.
@@ -276,11 +283,12 @@ int ControlsMenu::Draw(GLShader shader)
 				if (currentSelection == 6)
 				{
 					selectionMade = false;
+					AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 					UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
 
 					for (int i = 0; i < buttons.size(); i++)
 					{
-						if (!(i == 6 || i == 13))
+						if (!(i == 6 || i == 14))
 						{
 							UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
 							buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
@@ -289,10 +297,16 @@ int ControlsMenu::Draw(GLShader shader)
 					}
 					FileIO::Get().SaveIniFile();
 				}
-				// "Back" is pressed
-				else if (currentSelection == 13)
+
+				if (currentSelection == 13 && (!(UserControls::Get().isJoystickActive() == GL_TRUE)))
 				{
-					//	FileIO::Get().SaveIniFile();
+					currentSelection = 14;
+				}
+
+				// "Back" is pressed
+				else if (currentSelection == 14)
+				{
+					return currentSelection;
 				}
 				else
 				{
@@ -324,11 +338,6 @@ int ControlsMenu::Draw(GLShader shader)
 			}
 		}
 	
-		
-		
-		
-		
-		
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{
 			selectionMade = true;
@@ -338,27 +347,34 @@ int ControlsMenu::Draw(GLShader shader)
 		// Draw the quads.
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, buttons[i].first.texture);
-			buttons[i].first.renderTarget.Draw();
+			if (UserControls::Get().isJoystickActive() == GL_TRUE || (!(i == 13)))
+			{
+				// Bind texture.
+				if(shader.IsLinked())
+				{
+					glUniform1i(shader.GetUniformLocation("tex"), 0);
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, buttons[i].first.texture);
+					buttons[i].first.renderTarget.Draw();
+				}
+			}
 		}
 
 		// Draw their corresponding bindings.
 		for (int i = 0; i < buttons.size(); i++)
 		{
-			if (i != 6 && i != 13)
+			if (UserControls::Get().isJoystickActive() == GL_TRUE || (!(i == 13)))
 			{
-				buttons[i].second.Render();
+				if (i != 6 && i != 14)
+				{
+					buttons[i].second.Render();
+				}
 			}
 		}
 
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
 	}
-
-
 
 	return currentSelection;
 }
@@ -418,7 +434,8 @@ void ControlsMenu::PopulateBindings()
 		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1"));
 		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
 		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
-		bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+		bindings[13] = std::pair<std::string, std::string>("Select", "Not implemented");
+		bindings[14] = std::pair<std::string, std::string>("Back", "Not implemented");
 	}
 	else if (UserControls::Get().isJoystickActive() == GL_TRUE)
 	{
@@ -438,7 +455,8 @@ void ControlsMenu::PopulateBindings()
 		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetButtonString("dUp"));
 		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetButtonString("dRight"));
 		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetButtonString("dDown"));
-		bindings[13] = std::pair<std::string, std::string>("Back", "Not Supported");
+		bindings[13] = std::pair<std::string, std::string>("Select", UserControls::Get().GetButtonString("A"));
+		bindings[14] = std::pair<std::string, std::string>("Back", "Not Supported");
 
 	}
 }

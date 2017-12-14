@@ -95,6 +95,7 @@ public:
 	GroundMovement();
 	~GroundMovement();
 
+	void SetGoal(glm::dvec3 goal) override;
 	void SetGrid(int xSize, int zSize, int **nodeMap) { this->xSize = xSize; this->zSize = zSize, this->nodeMap = nodeMap; };
 	bool LineOfSight();
 	bool Pathfind(const int & xStart, const int & zStart, const int & xFinish, const int & zFinish);

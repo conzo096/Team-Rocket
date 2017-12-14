@@ -10,7 +10,6 @@
 #include "StateManager.h"
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
-	//return;
 	for (int i = start; i < end; i++)
 	{
 		Entity*& e = entities[i];
@@ -216,8 +215,8 @@ void Game::Initialise()
 
 	game_cam = new Entity;
 	auto cam1 = std::make_unique<Game_Camera>();
-	cam1->Rotate(pi<float>() / -4.0f);
-	cam1->SetPosition(glm::dvec3(85.0, 60.0, 85.0));
+	cam1->Rotate( (pi<float>() / 4.0f) + half_pi<float>());
+	cam1->SetPosition(glm::dvec3(0.0, 60.0, 0.0));
 	cam1->SetProjection(glm::half_pi<float>(), (float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	game_cam->AddComponent(move(cam1));
 

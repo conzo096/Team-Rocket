@@ -7,6 +7,7 @@
 
 int SettingsMenu::Draw(GLShader shader)
 {
+	shader = *ResourceHandler::Get().GetShader("Basic");
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
 	int currentOption1 = -1;
@@ -278,15 +279,17 @@ int SettingsMenu::Draw(GLShader shader)
 			return CLOSE;
 		}
 
-
 		// Draw the quads.
 		for (int i = 0; i < numOfLabels; i++)
 		{
 			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
-			labels[i].renderTarget.Draw();
+			if (shader.IsLinked())
+			{
+				glUniform1i(shader.GetUniformLocation("tex"), 0);
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
+				labels[i].renderTarget.Draw();
+			}
 		}
 		for (int i = 0; i < numOfButtons; i++)
 		{
@@ -296,9 +299,9 @@ int SettingsMenu::Draw(GLShader shader)
 			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
 			buttons[i].renderTarget.Draw();
 		}
+
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
-
 	}
 	return currentSelection;
 }
