@@ -6,7 +6,7 @@
 
 int ControlsMenu::currentSelection = -1;
 int ControlsMenu::lastSelection = -1;
-int const ControlsMenu::numOfControls = 15;
+int const ControlsMenu::numOfControls = 16;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::pair<std::string, std::string>> ControlsMenu::bindings;
 std::vector <unsigned int> ControlsMenu::button_tex;
@@ -16,7 +16,7 @@ std::vector <unsigned int> ControlsMenu::current_tex;
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (!(currentSelection == 6 || currentSelection == 13 || currentSelection == 14) && currentSelection != -1)
+	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
 	{
 		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
 		UserControls::Get().BindKey(bindings[currentSelection].first, key);
@@ -32,7 +32,7 @@ void ControlsMenu::ControllerCallBack()
 {
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 	{
-		if (!(currentSelection == 6 || currentSelection == 14) && currentSelection != -1)
+		if (!(currentSelection == 6 || currentSelection == 15) && currentSelection != -1)
 		{
 			int timer = 0;
 			auto t = clock();
@@ -289,7 +289,7 @@ int ControlsMenu::Draw(GLShader shader)
 
 					for (int i = 0; i < buttons.size(); i++)
 					{
-						if (!(i == 6 || i == 14))
+						if (!(i == 6 || i == 15))
 						{
 							UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
 							buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());

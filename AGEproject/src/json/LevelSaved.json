@@ -49,9 +49,9 @@
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    61.7640380859375,
+                    85.0,
                     0.0,
-                    77.9424285888672
+                    98.0
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
@@ -59,9 +59,9 @@
             },
             "Name": "Worker",
             "Position": [
-                68.74449,
+                92.0,
                 0.0,
-                81.0
+                94.9789
             ],
             "Shader": "Phong",
             "SpawnInfos": [
@@ -101,9 +101,9 @@
             },
             "Name": "Worker",
             "Position": [
-                90.0,
+                72.0,
                 0.0,
-                93.0
+                85.0
             ],
             "Shader": "Phong",
             "SpawnInfos": [
@@ -133,9 +133,9 @@
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    60.8192329406738,
+                    61.7640380859375,
                     0.0,
-                    76.4265365600586
+                    77.9424285888672
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
@@ -143,9 +143,9 @@
             },
             "Name": "Worker",
             "Position": [
-                66.819327146339,
+                89.0,
                 0.0,
-                72.180672853661
+                92.0
             ],
             "Shader": "Phong",
             "SpawnInfos": [
@@ -168,6 +168,241 @@
             "Texture": "WorkerUV",
             "Type": "Renderable",
             "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "Worker",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    96.5,
+                    0.0,
+                    96.5
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                69.5409366876077,
+                0.0,
+                83.5409366876077
+            ],
+            "Shader": "Phong",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "WorkerUV",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "Worker",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    61.7640380859375,
+                    0.0,
+                    77.9424285888672
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                74.0,
+                0.0,
+                82.0
+            ],
+            "Shader": "Phong",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "WorkerUV",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "Worker",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    96.5,
+                    0.0,
+                    96.5
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                86.0,
+                0.0,
+                89.0
+            ],
+            "Shader": "Phong",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "WorkerUV",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "Factory",
+            "Name": "Factory",
+            "Position": [
+                94.0,
+                0.0,
+                93.0
+            ],
+            "Shader": "Phong",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Drone"
+                }
+            ],
+            "Texture": "FactoryUV",
+            "Type": "Renderable",
+            "TypeCode": "Barracks"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "DronePlatform",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    70.0,
+                    0.0,
+                    70.0
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Drone",
+            "Position": [
+                83.0,
+                0.0,
+                78.20899
+            ],
+            "Shader": "Phong",
+            "Texture": "DronePlatformUV",
+            "Type": "Renderable",
+            "TypeCode": "Troop"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "Worker",
+            "Movement": {
+                "Acceleration": 0.5,
+                "Goal": [
+                    60.8192329406738,
+                    0.0,
+                    76.4265365600586
+                ],
+                "Speed": 15.0,
+                "TurnSpeed": 200.0,
+                "Type": "Ground"
+            },
+            "Name": "Worker",
+            "Position": [
+                69.8816727512362,
+                0.0,
+                70.1183272487638
+            ],
+            "Shader": "Phong",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 500,
+                    "UnitType": "Factory"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 750,
+                    "UnitType": "VehicleBay"
+                },
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 1000,
+                    "UnitType": "Hanger"
+                }
+            ],
+            "Texture": "WorkerUV",
+            "Type": "Renderable",
+            "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "NPC",
+            "Model": "Factory",
+            "Name": "Factory",
+            "Position": [
+                94.0,
+                0.0,
+                97.0
+            ],
+            "Shader": "Phong",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 2.0,
+                    "Cost": 100,
+                    "UnitType": "Drone"
+                }
+            ],
+            "Texture": "FactoryUV",
+            "Type": "Renderable",
+            "TypeCode": "Barracks"
         },
         {
             "Emissive": [
