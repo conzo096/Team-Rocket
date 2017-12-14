@@ -33,6 +33,7 @@ int MainMenu::SelectionPicked()
 
 int MainMenu::Draw(GLShader shader)
 {
+	shader = *ResourceHandler::Get().GetShader("Basic");
 	// Draw background texture
 	Quad background = Quad();
 	const unsigned int background_tex = ResourceHandler::Get().GetTexture("Background");

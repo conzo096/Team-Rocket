@@ -79,6 +79,7 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey1"), Texture("../res/textures/UI/ControlsMenu/Hotkey_1.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey2"), Texture("../res/textures/UI/ControlsMenu/Hotkey_2.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey3"), Texture("../res/textures/UI/ControlsMenu/Hotkey_3.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Select"), Texture("../res/textures/UI/ControlsMenu/Select.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Reset"), Texture("../res/textures/UI/ControlsMenu/Reset.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Back"), Texture("../res/textures/UI/ControlsMenu/Back.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Forward_Highlight.png").GetTextureId()));
@@ -93,6 +94,7 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey1_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hotkey_1_Highlight.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey2_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hotkey_2_Highlight.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("HotKey3_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Hotkey_3_Highlight.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Select_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Select_Highlight.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Reset_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Reset_Highlight.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Back_HIGHLIGHTED"), Texture("../res/textures/UI/ControlsMenu/Back_Highlight.png").GetTextureId()));
 

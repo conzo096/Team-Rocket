@@ -72,25 +72,27 @@ public:
 	int ShowMainMenu()
 	{
 		MainMenu mm;
-		return mm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		return mm.Draw(*shader);
 	}
 
 	int ShowSettingsMenu()
 	{
 		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		return sm.Draw(*shader);
 	}
 
 	int ShowControlsMenu()
 	{
 		ControlsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		return sm.Draw(*shader);
 	}
 
 	int ShowPauseScreen()
 	{
 		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		return sm.Draw(*shader);
 	}
 
+private:
+	GLShader* shader;
 };
