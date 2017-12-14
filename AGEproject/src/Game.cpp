@@ -415,9 +415,16 @@ bool Game::Update()
 			neutralEntities.push_back(tempEntity2);
 
 			// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
-			player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
-			NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
-			neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
+			player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(50.5, 0, 50.5), player->GetTeam()));
+			Spawner::Get().UpdateGameGrid(player->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
+			NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(249.5, 0, 249.5), NPC->GetTeam()));
+			Spawner::Get().UpdateGameGrid(NPC->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
+			for (int i = 0; i < 10; i++)
+			{
+				neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(10 + (i * 2), 0, 30 + (i * -2)), Team::neutral));
+				neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(140 + (i * 2), 0, 160 + (i * -2)), Team::neutral));
+				neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(270 + (i * 2), 0, 290 + (i * -2)), Team::neutral));
+			}
 		}
 	}
 
