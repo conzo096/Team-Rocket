@@ -6,6 +6,14 @@ void Unit::SetAction(Action act)
 	action = act;
 }
 
+void Unit::SetUnitWeapon(double weaponRange, double sightRange, double weaponDamage, double fireRate)
+{
+	this->weaponRange = weaponRange;
+	this->sightRange = sightRange;
+	this->weaponDamage = weaponDamage;
+	this->fireRate = fireRate;
+}
+
 
 void Unit::SetEntityToTarget(std::shared_ptr<Entity>& target)
 {
@@ -63,6 +71,7 @@ void Unit::AttackEntity()
 				canShoot = false;
 				// Find an empty bullet and fire.
 				BulletParticle bullet(GetParent()->GetPosition());
+				bullet.SetBulletDamage(weaponDamage);
 				bullet.SetTarget(targetEntity);
 				projectiles.push_back(bullet);
 			}

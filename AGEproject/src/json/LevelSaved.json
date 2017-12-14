@@ -1,5 +1,5 @@
 {
-    "Balance": 1215751292,
+    "Balance": 1215750542,
     "Objects": [
         {
             "EntityList": "Player",
@@ -7,9 +7,9 @@
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    23.2173328399658,
+                    20.9372692108154,
                     0.0,
-                    22.3857097625732
+                    22.0122394561768
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
@@ -32,9 +32,9 @@
             "Movement": {
                 "Acceleration": 0.5,
                 "Goal": [
-                    25.6966734275714,
+                    9.75005927792108,
                     0.0,
-                    16.9858962279817
+                    21.1167371787524
                 ],
                 "Speed": 15.0,
                 "TurnSpeed": 200.0,
@@ -67,6 +67,27 @@
             "Texture": "",
             "Type": "Renderable",
             "TypeCode": "Worker"
+        },
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Name": "VehicleBay",
+            "Position": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 3.0,
+                    "Cost": 300,
+                    "UnitType": "Warden"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard"
         },
         {
             "EntityList": "Player",

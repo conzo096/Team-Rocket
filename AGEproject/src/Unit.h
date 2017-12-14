@@ -26,7 +26,9 @@ protected:
 	double weaponRange = 15;
 	double sightRange = 20;
 
+	double weaponDamage = 10;
 	double fireRate = 0.5;
+
 	double timeSinceLastFire = 0;
 
 	bool targetAcquired = false;
@@ -49,7 +51,13 @@ public:
 	int GetTeam() { return team; }
 
 	double GetFireRate() { return fireRate; }
-	void SetFireRate(float fr) { fireRate = fr; }
+
+	void SetUnitWeapon(double weaponRange, double sightRange, double weaponDamage, double fireRate);
+
+	void SetWeaponRange(double wr) { weaponRange = wr; }
+	void SetSightRange(double sr) { sightRange = sr; }
+	void SetWeaponDamage(double wd) { weaponDamage = wd; }
+	void SetFireRate(double fr) { fireRate = fr; }
 
 	void SetEntityToTarget(std::shared_ptr<Entity>& target);
 
