@@ -14,6 +14,7 @@
 
 class StateManager : public Singleton<StateManager>
 {
+public:
 	enum State
 	{
 		stateSplash,
@@ -24,8 +25,6 @@ class StateManager : public Singleton<StateManager>
 		stateExiting,
 		statePause
 	};
-
-public:
 
 	State currentState;
 

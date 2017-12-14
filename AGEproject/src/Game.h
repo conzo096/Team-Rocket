@@ -17,7 +17,7 @@
 #include "UIManager.h"
 #include "Unit.h"
 #include "Resource.h"
-
+#include "Player.h"
 class Entity;
 class Player;
 class AiPlayer;
@@ -31,6 +31,12 @@ private:
 	dvec3** terrainGrid;
 	bool freeCamEnabled;
 	bool keyHeld;
+	// Has anyone won the game.
+	bool gameOver = false;
+	// What team won the game.
+	Team winner;
+	float timeRemaining = 5.0f;
+
 
 public:
 	// User.
@@ -39,7 +45,6 @@ public:
 	AiPlayer* NPC;
 	Entity *game_cam = new Entity;
 	Entity *free_cam = new Entity;
-
 
 	// Contains a list of just the neutral entities in the scene.
 	std::vector <std::shared_ptr<Entity>> neutralEntities;
@@ -70,7 +75,12 @@ public:
 	
 	// Obtain the nearest valid point to end from start.
 	vec3 ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end);
-	
+	void CheckForWinner(std::vector<std::shared_ptr<Entity>>& entities);
+
+
+
+	bool IsGameOver() { return gameOver; }
+	Team GetWinner() { return winner; }
 	void Initialise();
 	bool Update();
 	void Render();

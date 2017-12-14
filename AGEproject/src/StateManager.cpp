@@ -11,6 +11,7 @@ void StateManager::StateLoop()
 	GameEngine::Get().Initialise();
 	bool running = true;
 	int select;
+	Game::Get().Initialise(); //This will need a new home later.
 
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Theme"), false, true, false);
 	AudioEngine::Get().LoadSound(ResourceHandler::Get().GetAudio("Advance"), false, false, false);

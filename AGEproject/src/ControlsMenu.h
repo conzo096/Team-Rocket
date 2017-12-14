@@ -61,9 +61,11 @@ private:
 	static int lastSelection;
 	static const int numOfControls;
 
+	bool isControllerCallBack = false;
+
+
 	// Buttons which display their key binding.
 	static std::vector<std::pair<Button, UIQuad>> buttons;
-
 	// Button textures
 	static std::vector <unsigned int> button_tex;
 	static std::vector <unsigned int> highlight_tex;
@@ -73,7 +75,7 @@ private:
 	static std::vector<std::pair<std::string, std::string>> bindings;
 
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
+	void ControllerCallBack();
 	void PopulateBindings();
 	void DrawButtons();
 };

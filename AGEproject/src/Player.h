@@ -48,8 +48,8 @@ public:
 	std::vector<std::shared_ptr<Entity>>& GetSelectedEntities() { return selectedEntities; }
 	int GetBalance() { return balance; }
 	void SetBalance(const int val) { balance = val; }
-	std::shared_ptr<Entity> GetSelectedEntity() { return selectedEnemy; }
-	std::shared_ptr<Entity> GetSelectedFriendlyEntity() { return selectedFriendly; }
+	std::shared_ptr<Entity>& GetSelectedEntity() { return selectedEnemy; }
+	std::shared_ptr<Entity>& GetSelectedFriendlyEntity() { return selectedFriendly; }
 	// Change from int type.
 	void UpdateGhostBuilding(int type);
 

@@ -210,22 +210,22 @@ bool UserControls::SetCursorImage()
 int UserControls::GetPickedColourIndexUnderMouse()
 {
 	std::cout << "Obsolete now!" << std::endl;
-	//GLint viewport[4]; //var to hold the viewport info
-		//GLdouble modelview[16]; //var to hold the modelview info
-		//GLdouble projection[16]; //var to hold the projection matrix info
-		//GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
+	GLint viewport[4]; //var to hold the viewport info
+		GLdouble modelview[16]; //var to hold the modelview info
+		GLdouble projection[16]; //var to hold the projection matrix info
+		GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
 
-		//glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
-		//glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
-		//glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
+		glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
+		glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
 
-		//winX = (float)mouseX;
-		//winY = (float)viewport[3] - (float)mouseY;
-		//winZ = 0;
-		//GLubyte bArray[4];
-		//glReadPixels(winX, winY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, bArray);
-		//int iResult = (bArray[0]) | (bArray[1] << 8) | (bArray[2] << 16);
-		//return iResult;
+		winX = (float)mouseX;
+		winY = (float)viewport[3] - (float)mouseY;
+		winZ = 0;
+		GLubyte bArray[4];
+		glReadPixels(winX, winY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, bArray);
+		int iResult = (bArray[0]) | (bArray[1] << 8) | (bArray[2] << 16);
+		return iResult;
 	return 0;
 }
 
@@ -260,9 +260,10 @@ void UserControls::HandleConsoleInput()
 }
 
 
-
 void UserControls::ResetControllerBindings()
 {
+	controllerButtons.clear();
+	controllerAxis.clear();
 	std::pair<std::string, unsigned int> temp;
 	temp.first = "A";
 	temp.second = 0;
@@ -329,9 +330,15 @@ void UserControls::ResetControllerBindings()
 	controllerAxis.insert(temp);
 }
 
+int UserControls::GetControllerButton(const char* name)
+{
+	return controllerButtons.find(name)->second;
+}
+
+
 bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
 {
-	ResetControllerBindings();
+
 	isJoystickActive();
 	int axesCount, buttonCount;
 	const float * axes = glfwGetJoystickAxes(joyStickConnected, &axesCount);
@@ -340,7 +347,7 @@ bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
 		return false;
 	if (type == BUTTON)
 	{	
-		if (GLFW_PRESS == keys[controllerButtons.find(action)->second])
+	if (GLFW_PRESS == keys[controllerButtons.find(action)->second])
 			return true;
 	}
 	else
@@ -374,6 +381,117 @@ std::string UserControls::GetKeyString(const char* name)
 	// invalid ascii character, have to handle manually.
 	return AsciiToString(ascii);
 }
+
+
+std::string UserControls::GetButtonString(const char* name)
+{
+	//std::cout << "Not done" << std::endl;
+	std::string text("");
+	unsigned int ascii = controllerButtons.find(name)->second;
+	switch (ascii)
+	{
+	case 0:
+		text = "A";
+		break;
+	case 1:
+		text = "B";
+		break;
+	case 2:
+		text = "X";
+		break;
+	case 3:
+		text = "Y";
+		break;
+	case 4:
+		text = "leftShoulder";
+		break;
+	case 5:
+		text = "rightShoulder";
+		break;
+	case 6:
+		text = "back";
+		break;
+	case 7:
+		text = "start";
+		break;
+	case 8:
+		text = "leftSticker";
+		break;
+	case 9:
+		text = "rightSticker";
+		break;
+	case 10:
+		text = "dUp";
+		break;
+	case 11:
+		text = "dRight";
+		break;
+	case 12:
+		text = "dDown";
+		break;
+	case 13:
+		text = "dLeft";
+		break;
+	}
+
+	return text;
+}
+
+std::string UserControls::GetButtonString(int name)
+{
+	//std::cout << "Not done" << std::endl;
+	std::string text("");
+	switch (name)
+	{
+	case 0:
+		text = "A";
+		break;
+	case 1:
+		text = "B";
+		break;
+	case 2:
+		text = "X";
+		break;
+	case 3:
+		text = "Y";
+		break;
+	case 4:
+		text = "leftShoulder";
+		break;
+	case 5:
+		text = "rightShoulder";
+		break;
+	case 6:
+		text = "back";
+		break;
+	case 7:
+		text = "start";
+		break;
+	case 8:
+		text = "leftSticker";
+		break;
+	case 9:
+		text = "rightSticker";
+		break;
+	case 10:
+		text = "dUp";
+		break;
+	case 11:
+		text = "dRight";
+		break;
+	case 12:
+		text = "dDown";
+		break;
+	case 13:
+		text = "dLeft";
+		break;
+	}
+
+	return text;
+}
+
+
+
 
 std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCode)
 {
@@ -471,4 +589,29 @@ std::string UserControls::AsciiToString(unsigned int ascii, unsigned int scanCod
 		break;
 	}
 	return text;
+}
+
+void UserControls::BindControllerButton(std::string &name, unsigned int key)
+{
+	// If action has a binding...
+	if (controllerButtons.find(name) != controllerButtons.end())
+	{
+		// If new key is being used for something else, swap them.
+		for (auto it = controllerButtons.begin(); it != controllerButtons.end(); ++it)
+		{
+			if (it->second == key)
+			{
+				// There is a match, swap and break.
+				int valueToSwap = controllerButtons.find(name)->second;
+				controllerButtons.find(name)->second = it->second;
+				it->second = valueToSwap;
+				return;
+			}
+		}
+		// Key is unbound. Just find it.
+		controllerButtons.find(name)->second = key;
+	}
+	// Not match, just insert.
+	else
+		controllerButtons.insert(std::pair<std::string, unsigned int>(name, key));
 }
