@@ -2,7 +2,8 @@
 #pragma once
 #include <vector>
 #include "Entity.h"
-
+#include "Game_Camera.h"
+#include "Free_Camera.h"
 enum Team
 {
 	player, ai, neutral
@@ -16,10 +17,15 @@ protected:
 	Team team;
 	// List of entities that this player contains.
 	std::vector<std::shared_ptr<Entity>>entities;
+
 	// The units that the player is controlling.
 	std::vector<std::shared_ptr<Entity>> selectedEntities;
+	// What enemy unit the player last choose.
+	std::shared_ptr<Entity> selectedEnemy;
+	// Most recent selected friendly unit
+	std::shared_ptr<Entity> selectedFriendly;
 	// How much $$$$ the player has, used for unit spawning.
-	int balance = 10000;
+	int balance = 100000000000;
 
 	// Used to limit key calls.
 	float timeElapsed = 0.5f;
@@ -42,7 +48,8 @@ public:
 	std::vector<std::shared_ptr<Entity>>& GetSelectedEntities() { return selectedEntities; }
 	int GetBalance() { return balance; }
 	void SetBalance(const int val) { balance = val; }
-
+	std::shared_ptr<Entity> GetSelectedEntity() { return selectedEnemy; }
+	std::shared_ptr<Entity> GetSelectedFriendlyEntity() { return selectedFriendly; }
 	// Change from int type.
 	void UpdateGhostBuilding(int type);
 
@@ -50,6 +57,11 @@ public:
 	void Update(std::vector<std::shared_ptr<Entity>>& enemyList);
 	void HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList);
 	void Render();
+
+
+	// Sort entities by closest to the camera?
+	void SortEntities(Free_Camera& camera);
+	void SortEntities(Game_Camera& camera);
 
 
 

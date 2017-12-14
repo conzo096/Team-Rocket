@@ -12,7 +12,7 @@ private:
 	bool returnToResource = true;
 	bool walkToBase = false;
 	bool waitingForCollection = false;
-
+	bool destSet = false;
 
 	// True if it is to harvest resource, false if it is to head back to cp.
 	bool harvestResource = true;

@@ -6,6 +6,17 @@
 #include "UserControls.h"
 #include <tuple>
 #include "AudioEngine.h"
+#include "PointLight.h"
+
+
+void GameEngine::AddPointLight(PointLight* light)
+{ 
+	lights.push_back(light);
+}
+std::vector<PointLight*>& GameEngine::GetPointLights() 
+{
+	return lights;
+}
 
 void GameEngine::Initialise()
 {
@@ -14,9 +25,11 @@ void GameEngine::Initialise()
 		fprintf(stderr, "ERROR: glfw failed init! exiting.");
 		return;
 	}
+	std::cout << "Creating or loading config file" << std::endl;
 	FileIO io = FileIO::Get();
 	io.LoadIniFile();
 
+	std::cout << "Creating game window" << std::endl;
 	GameEngine::CreateWindow();
 	
 	// Window is now initalised, now make it the current context.
@@ -60,8 +73,8 @@ void GameEngine::Initialise()
 void GameEngine::Render()
 {
 
-//	std::cout << "Number of renderable objects:";
-//	std::cout << renderList.size() << std::endl;
+	//std::cout << "Number of renderable objects:";
+	//std::cout << renderList.size() << std::endl;
 	glClearColor(0.1f, 0.0f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	for (RenderData rl : renderList)
@@ -70,7 +83,9 @@ void GameEngine::Render()
 		glUseProgram(rl.shader);
 		// Bind Uniforms.
 		const auto mvp = cameraMVP * rl.m;
-
+		// Bind all the lights.
+		for (int i = 0; i < lights.size(); i++)
+			lights[i]->Render();
 		GLint index;
 		index = glGetUniformLocation(rl.shader, "MVP");
 		glUniformMatrix4fv(index, 1, GL_FALSE, value_ptr(mvp));
@@ -81,7 +96,8 @@ void GameEngine::Render()
 		index = glGetUniformLocation(rl.shader, "eye_pos");
 		glm::vec3 eyePos = glm::vec3(mvp[0][3],mvp[1][3],mvp[2][3]);
 		glUniform3fv(index, 1, glm::value_ptr(eyePos));
-
+		index = glGetUniformLocation(rl.shader, "highlightColour");
+		glUniform4fv(index,1,glm::value_ptr(rl.highlightColour));
 		// Bind material.
 		BindMaterial(rl.mat, rl.shader);
 
@@ -197,28 +213,27 @@ void GameEngine::AddToRenderList(RenderData data)
 {
 	// Sort vector here.
 	mut.lock();
-	//if (data.sphereRadius == 0)
-	//{
+	if (data.sphereRadius == 0)
+	{
+		renderList.push_back(data);
+		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
+		// it should be inserted to first.
+		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
+		{
+			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
+		});
+	}
+	else if(IsInCameraFrustum(data))
+	{
 		renderList.push_back(data);
 		// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
 		// it should be inserted to first.
 
 		std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
 		{
-			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao,lhs.drawType);
+			return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao, lhs.drawType);
 		});
-	//}
-	//else if(IsInCameraFrustum(data))
-	//{
-	//	renderList.push_back(data);
-	//	// Lazy sort - sorts renderlist by shader id then type of model. Would be smarter by calculate where 
-	//	// it should be inserted to first.
-
-	//	std::sort(renderList.begin(), renderList.end(), [](const RenderData& lhs, const RenderData& rhs)
-	//	{
-	//		return std::tie(lhs.shader, lhs.modelVao, lhs.drawType) < std::tie(rhs.shader, rhs.modelVao, lhs.drawType);
-	//	});
-	//}
+	}
 	mut.unlock();
 }
 
@@ -256,94 +271,107 @@ void GameEngine::PrintGlewInfo()
 
 void GameEngine::GenerateFrustumPlanes()
 {
-	//// Left plane
-	//frustumPlanes[0].x = cameraMVP[0][3] + cameraMVP[0][0];
-	//frustumPlanes[0].y = cameraMVP[1][3] + cameraMVP[1][0];
-	//frustumPlanes[0].z = cameraMVP[2][3] + cameraMVP[2][0];
-	//frustumPlanes[0].w = cameraMVP[3][3] + cameraMVP[3][0];
-
-	//// Right plane
-	//frustumPlanes[1].x = cameraMVP[0][3] - cameraMVP[0][0];
-	//frustumPlanes[1].y = cameraMVP[1][3] - cameraMVP[1][0];
-	//frustumPlanes[1].z = cameraMVP[2][3] - cameraMVP[2][0];
-	//frustumPlanes[1].w = cameraMVP[3][3] - cameraMVP[3][0];
-
-	//// Top plane
-	//frustumPlanes[2].x = cameraMVP[0][3] - cameraMVP[0][1];
-	//frustumPlanes[2].y = cameraMVP[1][3] - cameraMVP[1][1];
-	//frustumPlanes[2].z = cameraMVP[2][3] - cameraMVP[2][1];
-	//frustumPlanes[2].w = cameraMVP[3][3] - cameraMVP[3][1];
-
-	//// Bottom plane
-	//frustumPlanes[3].x = cameraMVP[0][0] + cameraMVP[0][1];
-	//frustumPlanes[3].y = cameraMVP[1][0] + cameraMVP[1][1];
-	//frustumPlanes[3].z = cameraMVP[2][0] + cameraMVP[2][1];
-	//frustumPlanes[3].w = cameraMVP[3][0] + cameraMVP[3][1];
-
-	//// Near plane
-	//frustumPlanes[4].x = cameraMVP[0][2] + cameraMVP[0][1];
-	//frustumPlanes[4].y = cameraMVP[1][2] + cameraMVP[1][2];
-	//frustumPlanes[4].z = cameraMVP[2][2] + cameraMVP[2][2];
-	//frustumPlanes[4].w = cameraMVP[3][2] + cameraMVP[3][2];
-
-	//// Far plane
-	//frustumPlanes[5].x = cameraMVP[0][3] - cameraMVP[0][2];
-	//frustumPlanes[5].y = cameraMVP[1][3] - cameraMVP[1][2];
-	//frustumPlanes[5].z = cameraMVP[2][3] - cameraMVP[2][2];
-	//frustumPlanes[5].w = cameraMVP[3][3] - cameraMVP[3][2];
-
-
 	// Left plane
-	frustumPlanes[0].x = cameraMVP[0][0] + cameraMVP[3][0];
-	frustumPlanes[0].y = cameraMVP[0][1] + cameraMVP[3][1];
-	frustumPlanes[0].z = cameraMVP[0][2] + cameraMVP[3][2];
-	frustumPlanes[0].w = cameraMVP[0][3] + cameraMVP[3][3];
+	frustumPlanes[0].x = cameraMVP[0][3] + cameraMVP[0][0];
+	frustumPlanes[0].y = cameraMVP[1][3] + cameraMVP[1][0];
+	frustumPlanes[0].z = cameraMVP[2][3] + cameraMVP[2][0];
+	frustumPlanes[0].w = cameraMVP[3][3] + cameraMVP[3][0];
 
 	// Right plane
-	frustumPlanes[0].x = -cameraMVP[0][0] + cameraMVP[3][0];
-	frustumPlanes[0].y = -cameraMVP[0][1] + cameraMVP[3][1];
-	frustumPlanes[0].z = -cameraMVP[0][2] + cameraMVP[3][2];
-	frustumPlanes[0].w = -cameraMVP[0][3] + cameraMVP[3][3];
-
-	// Bottom plane
-	frustumPlanes[0].x = cameraMVP[1][0] + cameraMVP[3][0];
-	frustumPlanes[0].y = cameraMVP[1][1] + cameraMVP[3][1];
-	frustumPlanes[0].z = cameraMVP[1][2] + cameraMVP[3][2];
-	frustumPlanes[0].w = cameraMVP[1][3] + cameraMVP[3][3];
+	frustumPlanes[1].x = cameraMVP[0][3] - cameraMVP[0][0];
+	frustumPlanes[1].y = cameraMVP[1][3] - cameraMVP[1][0];
+	frustumPlanes[1].z = cameraMVP[2][3] - cameraMVP[2][0];
+	frustumPlanes[1].w = cameraMVP[3][3] - cameraMVP[3][0];
 
 	// Top plane
-	frustumPlanes[0].x = -cameraMVP[1][0] + cameraMVP[3][0];
-	frustumPlanes[0].y = -cameraMVP[1][1] + cameraMVP[3][1];
-	frustumPlanes[0].z = -cameraMVP[1][2] + cameraMVP[3][2];
-	frustumPlanes[0].w = -cameraMVP[1][3] + cameraMVP[3][3];
+	frustumPlanes[2].x = cameraMVP[0][3] - cameraMVP[0][1];
+	frustumPlanes[2].y = cameraMVP[1][3] - cameraMVP[1][1];
+	frustumPlanes[2].z = cameraMVP[2][3] - cameraMVP[2][1];
+	frustumPlanes[2].w = cameraMVP[3][3] - cameraMVP[3][1];
+
+	// Bottom plane
+	frustumPlanes[3].x = cameraMVP[0][3] + cameraMVP[0][1];
+	frustumPlanes[3].y = cameraMVP[1][3] + cameraMVP[1][1];
+	frustumPlanes[3].z = cameraMVP[2][3] + cameraMVP[2][1];
+	frustumPlanes[3].w = cameraMVP[3][3] + cameraMVP[3][1];
 
 	// Near plane
-	frustumPlanes[0].x = cameraMVP[2][0] + cameraMVP[3][0];
-	frustumPlanes[0].y = cameraMVP[2][1] + cameraMVP[3][1];
-	frustumPlanes[0].z = cameraMVP[2][2] + cameraMVP[3][2];
-	frustumPlanes[0].w = cameraMVP[2][3] + cameraMVP[3][3];
+	frustumPlanes[4].x = cameraMVP[0][2] + cameraMVP[0][1];
+	frustumPlanes[4].y = cameraMVP[1][2] + cameraMVP[1][2];
+	frustumPlanes[4].z = cameraMVP[2][2] + cameraMVP[2][2];
+	frustumPlanes[4].w = cameraMVP[3][2] + cameraMVP[3][2];
 
 	// Far plane
-	frustumPlanes[0].x = -cameraMVP[2][0] + cameraMVP[3][0];
-	frustumPlanes[0].y = -cameraMVP[2][1] + cameraMVP[3][1];
-	frustumPlanes[0].z = -cameraMVP[2][2] + cameraMVP[3][2];
-	frustumPlanes[0].w = -cameraMVP[2][3] + cameraMVP[3][3];
+	frustumPlanes[5].x = cameraMVP[0][3] - cameraMVP[0][2];
+	frustumPlanes[5].y = cameraMVP[1][3] - cameraMVP[1][2];
+	frustumPlanes[5].z = cameraMVP[2][3] - cameraMVP[2][2];
+	frustumPlanes[5].w = cameraMVP[3][3] - cameraMVP[3][2];
+
+	//// Left plane
+	//frustumPlanes[0].x = cameraMVP[0][0] + cameraMVP[3][0];
+	//frustumPlanes[0].y = cameraMVP[0][1] + cameraMVP[3][1];
+	//frustumPlanes[0].z = cameraMVP[0][2] + cameraMVP[3][2];
+	//frustumPlanes[0].w = cameraMVP[0][3] + cameraMVP[3][3];
+
+	//// Right plane
+	//frustumPlanes[0].x = -cameraMVP[0][0] + cameraMVP[3][0];
+	//frustumPlanes[0].y = -cameraMVP[0][1] + cameraMVP[3][1];
+	//frustumPlanes[0].z = -cameraMVP[0][2] + cameraMVP[3][2];
+	//frustumPlanes[0].w = -cameraMVP[0][3] + cameraMVP[3][3];
+
+	//// Bottom plane
+	//frustumPlanes[0].x = cameraMVP[1][0] + cameraMVP[3][0];
+	//frustumPlanes[0].y = cameraMVP[1][1] + cameraMVP[3][1];
+	//frustumPlanes[0].z = cameraMVP[1][2] + cameraMVP[3][2];
+	//frustumPlanes[0].w = cameraMVP[1][3] + cameraMVP[3][3];
+
+	//// Top plane
+	//frustumPlanes[0].x = -cameraMVP[1][0] + cameraMVP[3][0];
+	//frustumPlanes[0].y = -cameraMVP[1][1] + cameraMVP[3][1];
+	//frustumPlanes[0].z = -cameraMVP[1][2] + cameraMVP[3][2];
+	//frustumPlanes[0].w = -cameraMVP[1][3] + cameraMVP[3][3];
+
+	//// Near plane
+	//frustumPlanes[0].x = cameraMVP[2][0] + cameraMVP[3][0];
+	//frustumPlanes[0].y = cameraMVP[2][1] + cameraMVP[3][1];
+	//frustumPlanes[0].z = cameraMVP[2][2] + cameraMVP[3][2];
+	//frustumPlanes[0].w = cameraMVP[2][3] + cameraMVP[3][3];
+
+	//// Far plane
+	//frustumPlanes[0].x = -cameraMVP[2][0] + cameraMVP[3][0];
+	//frustumPlanes[0].y = -cameraMVP[2][1] + cameraMVP[3][1];
+	//frustumPlanes[0].z = -cameraMVP[2][2] + cameraMVP[3][2];
+	//frustumPlanes[0].w = -cameraMVP[2][3] + cameraMVP[3][3];
 
 	// Normalize planes
 	for (int i = 0; i < 6; i++)
 	{	
-		frustumPlanes[i] =	glm::vec4(glm::normalize(glm::vec3(frustumPlanes[i])),frustumPlanes[i].w);
+		frustumPlanes[i] =	glm::normalize(frustumPlanes[i]);
 	}
 
 }
 
 bool GameEngine::IsInCameraFrustum(RenderData& rd)
 {
+
 	// Not fully tested.
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	if ((glm::dot(frustumPlanes[i], glm::vec4(rd.boundingPoint, 1)) + rd.sphereRadius) < 0)
+	//	{
+	//		std::cout << i << std::endl;
+	//		return false;
+	//	}
+	//}
+	//return true;
+
+	// Check if the radius of the sphere is inside the view frustum.
 	for (int i = 0; i < 6; i++)
 	{
-		if ((glm::dot(glm::vec3(frustumPlanes[i]), rd.boundingPoint) - rd.sphereRadius)  < -frustumPlanes[i].w)
-		return false;
+		if (glm::dot(frustumPlanes[i], glm::vec4(rd.boundingPoint,1)) < -1)
+		{
+			return false;
+		}
 	}
 	return true;
 }

@@ -3,6 +3,7 @@
 void ResourceHandler::LoadModels()
 {
 	std::cout << "Convert to file loading!" << std::endl;
+	models.insert(std::pair<std::string, Model*>(std::string("Resource"), new Model("../res/models/Resource.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("Worker"), new Model("../res/models/Worker.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("DronePlatform"), new Model("../res/models/DronePlatform.obj")));
 	models.insert(std::pair<std::string, Model*>(std::string("DroneTurret"), new Model("../res/models/DroneTurret.obj")));
@@ -23,6 +24,7 @@ void ResourceHandler::LoadModels()
 void ResourceHandler::LoadTextures()
 {
 	std::cout << "Convert to file loading!" << std::endl;
+	textures.insert(std::pair<std::string, unsigned int>(std::string("ResourceUV"), Texture("../res/textures/ResourceUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WorkerUV"), Texture("../res/textures/WorkerUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("ConstructorUV"), Texture("../res/textures/ConstructorUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("DronePlatformUV"), Texture("../res/textures/DronePlatformUV.png").GetTextureId()));
@@ -30,6 +32,9 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WardenPlatformUV"), Texture("../res/textures/WardenPlatformUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("WardenTurretUV"), Texture("../res/textures/WardenTurretUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("FlyerUV"), Texture("../res/textures/FlyerUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("FactoryUV"), Texture("../res/textures/FactoryUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("VehicleBayUV"), Texture("../res/textures/VehicleBayUV.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("HangerUV"), Texture("../res/textures/HangerUV.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("debug"), Texture("../res/textures/debug.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Rock"), Texture("../res/textures/rock.png").GetTextureId()));
 
@@ -143,5 +148,7 @@ void ResourceHandler::LoadShaders()
 
 void ResourceHandler::LoadAudio()
 {
-	audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/tone-beep.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Advance"), "../res/audio/tone-beep.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Return"), "../res/audio/tone-beep-reverse.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Theme"), "../res/audio/Clash_Defiant.wav"));
 }
