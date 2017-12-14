@@ -60,7 +60,7 @@ public:
 		{
 			t = clock() - t;
 			elapsedTime = (float)t / CLOCKS_PER_SEC;
-			if (elapsedTime > 5.0f)
+			if (elapsedTime > 2.0f)
 				// Show the main menu
 				return stateMainMenu;
 		}

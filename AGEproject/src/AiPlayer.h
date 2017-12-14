@@ -12,16 +12,12 @@ class AiPlayer : public Player
 	
 	int droneCount;
 	int wardenCount;
-	int kestralCount;
+	int kestrelCount;
 
 	int buildMin = 80;
 	int buildMax = 99;
 
-	bool workerbuilding = false;
-	bool moving = false;
-	bool factoryMade = false;
-
-	int unitsQueued = 0;
+	bool attacking = false;
 
 	vector<std::shared_ptr<Entity>> resources;
 
@@ -35,9 +31,5 @@ public:
 	void MacroCycle();
 
 	//Manage all units
-	void ArmyCycle();
-
-	// Ai decisions are handled here.
-	void HandleAiLogic(std::vector<std::shared_ptr<Entity>>& enemyList);
-
+	void ArmyCycle(std::vector<std::shared_ptr<Entity>>& enemyList);
 };

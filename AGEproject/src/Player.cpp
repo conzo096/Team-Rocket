@@ -36,7 +36,7 @@ void Player::Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 		}
 		else
 		{
-			ghostBuilding.SetPosition(glm::dvec3(poi.x, 0.0f, poi.z));
+			ghostBuilding.SetPosition(glm::dvec3(poi.x, 0.0, poi.z));
 			// Check if the position is valid.
 			ghostBuilding.Update(0);
 			// Check square grid around radius.
@@ -61,6 +61,11 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 {
 	timeElapsed += (float)(clock() - lastClock)/CLOCKS_PER_SEC;
 
+	if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON))
+	{
+		attackMove = !attackMove;
+	}
+
 	glm::vec3 poi;
 	// if it is a move action, move selected entity.
 	if (UserControls::Get().IsMouseButtonPressed(std::string("Move")) || UserControls::Get().IsJoystickPressed(std::string("A"),UserControls::ControllerAction::BUTTON))
@@ -78,8 +83,16 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					e->GetCompatibleComponent<Movement>()->SetActive(true);
 					poi.y = (float)e->GetPosition().y;
 					glm::dvec3 t = Game::Get().ObtainNearestValidCoordinate(e->GetPosition(), poi);
-					e->GetCompatibleComponent<Movement>()->SetGoal(t);
-					e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
+					
+					if (!attackMove)
+					{
+						e->GetCompatibleComponent<Movement>()->SetGoal(t);
+						e->GetCompatibleComponent<Unit>()->SetAction(Unit::Move);
+					}
+					else
+					{
+						e->GetCompatibleComponent<Unit>()->OrderAttackMove(t);
+					}
 				}
 			}
 			// Particle that appears when the user selects a location.
@@ -199,18 +212,6 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 				//selectedEnemy = NULL;
 				//enemyList.clear();
 				return;
-			}
-			// Pause all movement components of selected units.
-			if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON))
-			{
-				// Pause all units.
-				for (std::shared_ptr<Entity>& e : selectedEntities)
-				{
-					if (e->GetCompatibleComponent<Movement>() != NULL)
-					{
-						e->GetCompatibleComponent<Movement>()->SetActive((e->GetCompatibleComponent<Movement>()->IsActive()) ? false : true);
-					}
-				}
 			}
 		}
 
