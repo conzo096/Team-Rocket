@@ -7,6 +7,7 @@
 
 int SettingsMenu::Draw(GLShader shader)
 {
+	shader = *ResourceHandler::Get().GetShader("Basic");
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
 	int currentOption1 = -1;
@@ -283,10 +284,13 @@ int SettingsMenu::Draw(GLShader shader)
 		for (int i = 0; i < numOfLabels; i++)
 		{
 			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
-			labels[i].renderTarget.Draw();
+			if (shader.IsLinked())
+			{
+				glUniform1i(shader.GetUniformLocation("tex"), 0);
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
+				labels[i].renderTarget.Draw();
+			}
 		}
 		for (int i = 0; i < numOfButtons; i++)
 		{
