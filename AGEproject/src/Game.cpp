@@ -385,6 +385,12 @@ bool Game::Update()
 			NPC->GetSelectedEntities().clear();
 			neutralEntities.clear();
 			std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
+			//auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
+			//tempLightComponent->SetProperties("./json/PointLight.json");
+			////tempEntity3->AddComponent(move(tempLightComponent));
+			//std::cout << tempLightComponent->ambient.r << " " << tempLightComponent->ambient.g << " " << tempLightComponent->ambient.b << " " << tempLightComponent->ambient.a << std::endl;
+			//GameEngine::Get().AddPointLight(tempLightComponent);
+
 			neutralEntities.push_back(tempEntity3);
 			std::cout << "Light initialised" << std::endl;
 			// This is the floor.

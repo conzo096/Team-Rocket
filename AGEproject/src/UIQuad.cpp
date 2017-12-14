@@ -31,12 +31,12 @@ void UIQuad::Render()
 			glm::vec2 uv_down_right = glm::vec2(uv_x + 1.0f / 16.0f, (uv_y + 1.0f / 16.0f));
 			glm::vec2 uv_down_left = glm::vec2(uv_x, (uv_y + 1.0f / 16.0f));
 			/*	UVs.push_back(uv_up_left);
-				UVs.push_back(uv_down_left);
-				UVs.push_back(uv_up_right);
+			UVs.push_back(uv_down_left);
+			UVs.push_back(uv_up_right);
 
-				UVs.push_back(uv_down_right);
-				UVs.push_back(uv_up_right);
-				UVs.push_back(uv_down_left);*/
+			UVs.push_back(uv_down_right);
+			UVs.push_back(uv_up_right);
+			UVs.push_back(uv_down_left);*/
 
 			UVs.push_back(uv_down_left);
 			UVs.push_back(uv_up_left);
@@ -53,14 +53,6 @@ void UIQuad::Render()
 		glBindBuffer(GL_ARRAY_BUFFER, Text2DUVBufferID);
 		glBufferData(GL_ARRAY_BUFFER, UVs.size() * sizeof(glm::vec2), &UVs[0], GL_STATIC_DRAW);
 
-		// Bind shader
-		glUseProgram(shader);
-		// Bind texture
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, ResourceHandler::Get().GetTexture("Font"));
-		// Set our "myTextureSampler" sampler to use Texture Unit 0
-		glUniform1i(Text2DUniformID, 0);
-
 		// 1rst attribute buffer : vertices
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, Text2DVertexBufferID);
@@ -72,15 +64,24 @@ void UIQuad::Render()
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 
+		// Bind shader
+		glUseProgram(shader);
+		// Bind texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, ResourceHandler::Get().GetTexture("Font"));
+		// Set our "myTextureSampler" sampler to use Texture Unit 0
+		glUniform1i(Text2DUniformID, 0);
+
+
 		// Set colour field.
 		glUniform4fv(ResourceHandler::Get().GetShader("Font")->GetUniformLocation("texColour"), 1, glm::value_ptr(textColour));
 
 
 		// Draw call
 		glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+		glBindVertexArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
-		glBindVertexArray(0);
 	}
 
 }
