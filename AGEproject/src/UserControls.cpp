@@ -172,6 +172,7 @@ void UserControls::ResetKeyBindings(ControllerOption options)
 		buttonOptions.insert(std::pair<std::string, unsigned int>("HotKey4", GLFW_KEY_4));
 		// Other
 		buttonOptions.insert(std::pair<std::string, unsigned int>("Enter", GLFW_KEY_ENTER));
+		buttonOptions.insert(std::pair<std::string, unsigned int>("Pause", GLFW_KEY_P));
 	}
 	// Set up controller configuration.
 	else

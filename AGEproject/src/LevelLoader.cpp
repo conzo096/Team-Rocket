@@ -15,20 +15,6 @@ void LevelLoader::SetMovement(json j, Movement &m)
 		m.SetGoal(glm::dvec3(g[0], g[1], g[2]));
 	}
 
-	// Destination is the current way point - no need to save
-	/*
-	if (j["Destination"] != nullptr)
-	{
-		json destination = j["Destination"];
-		std::vector<float> d;
-		for (const auto elem : destination)
-		{
-			d.push_back(elem);
-		}
-		m.SetDestination(glm::dvec3(d[0], d[1], d[2]));
-	}
-	*/
-
 	if (j["Speed"] != "")
 		m.SetSpeed(j["Speed"]);
 
@@ -62,13 +48,12 @@ void LevelLoader::EncodeEntity(std::shared_ptr<Entity> entity, json &objects, st
 		auto tempRenderable = entity->GetCompatibleComponent<Renderable>();
 		const auto tempMaterial = tempRenderable->GetMaterial();
 
-		// This bit is not working...
-
 		jEntity["Model"] = tempRenderable->modelName;
 		jEntity["Shader"] = tempRenderable->shaderName;
 		jEntity["Texture"] = tempRenderable->textureName;
 
-		auto p = tempRenderable->GetPosition();
+		// auto p = tempRenderable->GetPosition();
+		auto p = entity->GetPosition();
 		jEntity["Position"] = { p.x, p.y, p.z };
 
 		if(tempMaterial.diffuse != vec4(0) && entity->GetCompatibleComponent<Resource>() != nullptr)
@@ -170,6 +155,11 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 
 	vector<json> objects = j["Objects"];
 
+	// Remove current entities from the game world
+	playerEntities.clear();
+	NPCEntities.clear();
+	neutralEntities.clear();
+
 	for(json object : objects)
 	{
 		std::shared_ptr<Entity> tempEntity = std::make_shared<Entity>();
@@ -226,9 +216,9 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 			{
 				positions.push_back(elem);
 			}
-			tempRenderable->SetPosition(glm::dvec3(positions[0], positions[1], positions[2]));
-			tempEntity->SetPosition(tempRenderable->GetPosition());
+			tempEntity->SetPosition(glm::dvec3(positions[0], positions[1], positions[2]));
 			tempRenderable->UpdateTransforms();
+			tempEntity->UpdateTransforms();
 			// tempEntity has tempRenderable added later as it is still needed for the bounding sphere
 
 			json movement = object["Movement"];

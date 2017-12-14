@@ -312,9 +312,17 @@ bool Game::Update()
 		if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
 		{
 			freeCamEnabled = !freeCamEnabled;
-			LevelLoader ll;
-			ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		//	LevelLoader ll;
+		//	ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		//	ll.LoadLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
 		}
+
+		if (UserControls::Get().KeyBuffer(std::string("Pause"), keyHeld))
+		{
+			StateManager::Get().currentState = StateManager::statePause;
+		}
+
+
 	
 		// Update all the entities in the scene.
 		

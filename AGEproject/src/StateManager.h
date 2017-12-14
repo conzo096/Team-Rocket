@@ -55,7 +55,7 @@ public:
 		// After drawing, start waiting
 		const clock_t start_time = clock();
 		float elapsedTime = 0;
-		while (elapsedTime < 5.0f)
+		while (elapsedTime < 2.0f)
 		{
 			elapsedTime = static_cast<float>(clock() - start_time) / CLOCKS_PER_SEC;
 		}
