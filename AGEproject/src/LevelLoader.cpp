@@ -62,9 +62,11 @@ void LevelLoader::EncodeEntity(std::shared_ptr<Entity> entity, json &objects, st
 		auto tempRenderable = entity->GetCompatibleComponent<Renderable>();
 		const auto tempMaterial = tempRenderable->GetMaterial();
 
-		jEntity["Model"] = entity->modelName;
-		jEntity["Shader"] = entity->shaderName;
-		jEntity["Texture"] = entity->textureName;
+		// This bit is not working...
+
+		jEntity["Model"] = tempRenderable->modelName;
+		jEntity["Shader"] = tempRenderable->shaderName;
+		jEntity["Texture"] = tempRenderable->textureName;
 
 		auto p = tempRenderable->GetPosition();
 		jEntity["Position"] = { p.x, p.y, p.z };
@@ -155,7 +157,8 @@ void LevelLoader::EncodeEntity(std::shared_ptr<Entity> entity, json &objects, st
 		auto c = pL->diffuse;
 		jEntity["Colour"] = { c.r, c.g, c.b, c.w };
 	}
-	objects.push_back(jEntity);
+	if(entity != nullptr && entity->numComponents() != 0)
+		objects.push_back(jEntity);
 }
 
 void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<Entity>> &playerEntities, vector<std::shared_ptr<Entity>> &NPCEntities, vector<std::shared_ptr<Entity>> &neutralEntities, Player* player)
@@ -201,19 +204,19 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 			if (object["Model"] != "")
 			{
 				const string s = object["Model"];
-				tempEntity->modelName = s;
+				tempRenderable->modelName = s;
 				tempRenderable->SetModel(s);
 			}
 			if (object["Shader"] != "")
 			{
 				const string s = object["Shader"];
-				tempEntity->shaderName = s;
+				tempRenderable->shaderName = s;
 				tempRenderable->SetShader(s);
 			}
 			if (object["Texture"] != "")
 			{
 				const string s = object["Texture"];
-				tempEntity->textureName = s;
+				tempRenderable->textureName = s;
 				tempRenderable->SetTexture(s);
 			}
 
@@ -403,6 +406,8 @@ void LevelLoader::SaveLevel(const std::string jsonFile, vector<std::shared_ptr<E
 	j["Balance"] = balance;
 
 	json objects = json::array();
+
+	// There's a reason these aren't const... I think
 
 	for(auto pE : playerEntities)
 	{

@@ -82,7 +82,9 @@ public:
 	int ShowPauseScreen()
 	{
 		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+
+		return statePlaying;
 	}
 
 };

@@ -85,6 +85,10 @@ void StateManager::StateLoop()
 		case(stateExiting):
 			running = false;
 			break;
+		case statePause:
+			ShowPauseScreen();
+			currentState = statePlaying;
+			break;
 		default:
 			throw std::invalid_argument("Error: No behavior has been set for state" + currentState);
 			break;
