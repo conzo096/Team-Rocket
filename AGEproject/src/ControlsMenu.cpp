@@ -270,8 +270,6 @@ int ControlsMenu::Draw(GLShader shader)
 			// Handle selection
 			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
 
-
-
 			if (selectionMade)
 			{
 				// "Reset to default" is pressed

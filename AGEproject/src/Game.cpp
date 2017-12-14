@@ -384,13 +384,13 @@ bool Game::Update()
 			gameOver = false;
 			timeRemaining = 5.0f;
 			StateManager::Get().currentState = StateManager::State::stateMainMenu;
-			player->GetEntities().clear();
-			player->GetSelectedEntities().clear();
+			player->GetEntities().resize(0);
+			player->GetSelectedEntities().resize(0);
 			player->GetSelectedFriendlyEntity() = NULL;
 			player->GetSelectedEntity() = NULL;
-			NPC->GetEntities().clear();
-			NPC->GetSelectedEntities().clear();
-			neutralEntities.clear();
+			NPC->GetEntities().resize(0);
+			NPC->GetSelectedEntities().resize(0);
+			neutralEntities.resize(0);
 			std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
 			//auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 			//tempLightComponent->SetProperties("./json/PointLight.json");

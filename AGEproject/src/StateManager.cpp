@@ -32,11 +32,8 @@ void StateManager::StateLoop()
 			select = ShowMainMenu();
 			if (select == 0)
 			{
-				AudioEngine::Get().StopAllChannels();
 				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
-				Game::Get().Initialise(); // This will need a new home later.
-										  // Does it though?
-				currentState = statePlaying;
+				currentState = stateTutorial;
 			}
 			else if (select == 1)
 			{
@@ -78,6 +75,13 @@ void StateManager::StateLoop()
 			{
 				currentState = stateExiting;
 			}
+			break;
+		case(stateTutorial):
+			ShowTutorial();
+			AudioEngine::Get().StopAllChannels();
+			AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+			currentState = statePlaying;
+			Game::Get().SetLastTime(clock());
 			break;
 		case(statePlaying):
 			running = Game::Get().Update();

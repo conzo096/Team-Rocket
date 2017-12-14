@@ -83,5 +83,4 @@ void UIQuad::Render()
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
 	}
-
 }

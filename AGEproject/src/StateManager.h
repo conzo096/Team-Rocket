@@ -8,6 +8,7 @@
 #include "MainMenu.h"
 #include "SettingsMenu.h"
 #include "ControlsMenu.h"
+#include "UserControls.h"
 #include <thread>
 #include <chrono>
 
@@ -21,6 +22,7 @@ public:
 		stateMainMenu,
 		stateSettings,
 		stateControls,
+		stateTutorial,
 		statePlaying,
 		stateExiting,
 		statePause
@@ -30,7 +32,7 @@ public:
 
 	void StateLoop();
 
-	int ShowSplashScreen()
+	void ShowSplashScreen()
 	{
 		// Initialise required assets, time, shader, quad, texture
 		const std::chrono::milliseconds timeToWait(5000); // 5 Seconds
@@ -55,9 +57,6 @@ public:
 
 		// After drawing, start waiting
 		std::this_thread::sleep_for(timeToWait);
-
-		// Show the main menu
-		return stateMainMenu;
 	}
 
 	int ShowMainMenu()
@@ -74,14 +73,42 @@ public:
 
 	int ShowControlsMenu()
 	{
-		ControlsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		ControlsMenu cm;
+		return cm.Draw(*ResourceHandler::Get().GetShader("Basic"));
 	}
 
-	int ShowPauseScreen()
+	void ShowTutorial()
 	{
-		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+		bool selectionMade = false;
+		bool mouseButtonHeld = false;
+		GLShader shader = *ResourceHandler::Get().GetShader("Basic");
+		const unsigned int tex = ResourceHandler::Get().GetTexture("Tutorial");
+		Quad tutorial = Quad();
+
+		tutorial.SetOpenGL();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClearColor(0, 0, 1, 1);
+		shader.Use();
+
+		// Do texture & quad things
+		glBindTexture(GL_TEXTURE_2D, tex);
+		tutorial.Draw();
+
+		// Render it
+		glfwSwapBuffers(GameEngine::Get().GetWindow());
+
+		while (!selectionMade)
+		{
+			selectionMade = UserControls::Get().IsMouseButtonPressed(std::string("Action"));
+			glfwPollEvents();
+		}
 	}
+
+	//int ShowPauseScreen()
+	//{
+	//	SettingsMenu sm;
+	//	return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
+	//}
 
 };
