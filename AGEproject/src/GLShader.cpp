@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include <vector>
-
+#include <iostream>
 GLShader::~GLShader()
 {
 
@@ -120,7 +120,7 @@ bool GLShader::Link()
 // Checks if the shader has been linked together successfully or not.
 bool GLShader::IsLinked()
 {
-	GLint isLinked;
+	GLint isLinked;	
 	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
 	if (isLinked == GL_FALSE)
 		return false;
@@ -152,13 +152,14 @@ void GLShader::SetUniform(const char* name, int val)
 // Returns -1 if location does not exist.
 GLuint GLShader::GetUniformLocation(const char* name)
 {
-	const GLuint loc = glGetUniformLocation(program, name);
+	//std::cout << name << std::endl;
+	GLuint loc = glGetUniformLocation(program, name);
 	return loc;
 }
 
 GLuint GLShader::GetUniformLocation(std::string name)
 {
-	const GLuint loc = glGetUniformLocation(program, name.c_str());
+	GLuint loc = glGetUniformLocation(program, name.c_str());
 	return loc;
 }
 

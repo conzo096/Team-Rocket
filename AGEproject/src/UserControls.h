@@ -63,7 +63,7 @@ public:
 	{
 		return buttonOptions.find(name)->second;
 	}
-
+	int GetControllerButton(const char* name);
 	unsigned int GetKeyValue(const char* name)
 	{
 		return buttonOptions.find(name)->second;
@@ -94,7 +94,7 @@ public:
 	// Returns if a controller is connected or not.
 	bool isJoystickActive()
 	{
-		
+		FindConnectedJoystick();
 		if (glfwJoystickPresent(joyStickConnected) == false)
 		{
 			IsJoystick = false;
@@ -150,7 +150,11 @@ public:
 	void ResetControllerBindings();
 	bool IsJoystickPressed(std::string action, ControllerAction type = BUTTON);
 
-	float GetAxisValue(std::string action);
 
+
+	float GetAxisValue(std::string action);
+	void BindControllerButton(std::string &name, unsigned int key);
+	std::string UserControls::GetButtonString(const char* name);
+	std::string UserControls::GetButtonString(int name);
 	std::vector<unsigned int> GetDefaultKeys();
 };

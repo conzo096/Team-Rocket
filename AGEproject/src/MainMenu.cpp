@@ -33,6 +33,12 @@ int MainMenu::SelectionPicked()
 
 int MainMenu::Draw(GLShader shader)
 {
+	shader = *ResourceHandler::Get().GetShader("Basic");
+	// Draw background texture
+	Quad background = Quad();
+	const unsigned int background_tex = ResourceHandler::Get().GetTexture("Background");
+	background.SetOpenGL();
+
 	buttons.resize(numberOfButtons);
 
 	for (int i = 0; i < numberOfButtons; i++)
@@ -119,6 +125,10 @@ int MainMenu::Draw(GLShader shader)
 			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
 			buttons[i].renderTarget.Draw();
 		}
+
+		glBindTexture(GL_TEXTURE_2D, background_tex);
+		background.Draw();
+
 		glfwPollEvents();
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 	}

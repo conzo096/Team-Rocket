@@ -21,6 +21,7 @@ public:
 		button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey1"));
 		button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2"));
 		button_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3"));
+		button_tex.push_back(ResourceHandler::Get().GetTexture("Select"));
 		button_tex.push_back(ResourceHandler::Get().GetTexture("Back"));
 
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Forward_HIGHLIGHTED"));
@@ -37,6 +38,7 @@ public:
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey1_HIGHLIGHTED"));
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey2_HIGHLIGHTED"));
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("HotKey3_HIGHLIGHTED"));
+		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Select_HIGHLIGHTED"));
 		highlight_tex.push_back(ResourceHandler::Get().GetTexture("Back_HIGHLIGHTED"));
 
 		current_tex = button_tex;
@@ -61,9 +63,10 @@ private:
 	static int lastSelection;
 	static const int numOfControls;
 
+	bool isControllerCallBack = false;
+
 	// Buttons which display their key binding.
 	static std::vector<std::pair<Button, UIQuad>> buttons;
-
 	// Button textures
 	static std::vector <unsigned int> button_tex;
 	static std::vector <unsigned int> highlight_tex;
@@ -73,7 +76,7 @@ private:
 	static std::vector<std::pair<std::string, std::string>> bindings;
 
 	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
+	void ControllerCallBack();
 	void PopulateBindings();
 	void DrawButtons();
 };

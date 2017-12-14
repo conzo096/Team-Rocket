@@ -7,7 +7,7 @@
 #include "GLShader.h"
 #include "Texture.h"
 #include "Quad.h"
-
+#include "Singleton.h"
 struct Label
 {
 	// Texture of the label.
@@ -26,7 +26,7 @@ struct Button
 	Quad renderTarget;
 };
 
-class Menu
+class Menu : public Singleton<Menu>
 {
 protected:
 	bool mouseButtonHeld;
@@ -35,7 +35,7 @@ protected:
 	// small timer for controller.
 	int cooldown = 6;
 	// frames since last call.
-	int timeElapsed = 6;
+	int timeElapsed = 0;
 
 public:
 	Menu()

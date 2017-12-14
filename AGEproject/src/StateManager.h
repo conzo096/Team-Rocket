@@ -14,6 +14,7 @@
 
 class StateManager : public Singleton<StateManager>
 {
+public:
 	enum State
 	{
 		stateSplash,
@@ -25,34 +26,16 @@ class StateManager : public Singleton<StateManager>
 		statePause
 	};
 
-public:
-
 	State currentState;
 
 	void StateLoop();
 
-	int ShowMainMenu()
-	{
-		MainMenu mm;
-		return mm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-	}
-
-	int ShowSettingsMenu()
-	{
-		SettingsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-	}
-
-	int ShowControlsMenu()
-	{
-		ControlsMenu sm;
-		return sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-	}
-
 	int ShowSplashScreen()
 	{
 		// Initialise required assets, time, shader, quad, texture
-		const std::chrono::milliseconds timeToWait(5000); // 5 Seconds
+	//	const std::chrono::milliseconds timeToWait(5000); // 5 Seconds
+		clock_t t = clock();
+		float elapsedTime = 0;
 		GLShader shader = *ResourceHandler::Get().GetShader("Basic");
 		Quad quad = Quad();
 		const unsigned int tex = ResourceHandler::Get().GetTexture("Splash_Screen");
@@ -72,19 +55,44 @@ public:
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
 
-		// After drawing, start waiting
-		std::this_thread::sleep_for(timeToWait);
 
-		// Show the main menu
+		while (true)
+		{
+			t = clock() - t;
+			elapsedTime = (float)t / CLOCKS_PER_SEC;
+			if (elapsedTime > 5.0f)
+				// Show the main menu
+				return stateMainMenu;
+		}
+		//// After drawing, start waiting
+		//std::this_thread::sleep_for(timeToWait);
 		return stateMainMenu;
+	}
+
+	int ShowMainMenu()
+	{
+		MainMenu mm;
+		return mm.Draw(*shader);
+	}
+
+	int ShowSettingsMenu()
+	{
+		SettingsMenu sm;
+		return sm.Draw(*shader);
+	}
+
+	int ShowControlsMenu()
+	{
+		ControlsMenu sm;
+		return sm.Draw(*shader);
 	}
 
 	int ShowPauseScreen()
 	{
 		SettingsMenu sm;
-		sm.Draw(*ResourceHandler::Get().GetShader("Basic"));
-
-		return statePlaying;
+		return sm.Draw(*shader);
 	}
 
+private:
+	GLShader* shader;
 };
