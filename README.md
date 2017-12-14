@@ -1,6 +1,6 @@
 # Team-Rocket
 
-![alt text](https://github.com/conzo096/Team-Rocket/blob/master/AGEproject/res/textures/UI/SplashScreenUniLogo.png)
+<img src="https://github.com/conzo096/Team-Rocket/blob/master/AGEproject/res/textures/UI/SplashScreenUniLogo.png"/>
 
 Scrapitalism is the game project that was developed during the Advanced Games Engineering module at Edinburgh Napier University. 
 
@@ -12,9 +12,6 @@ Some of the main features in this game are:
 * Army management. 
 * Real-time strategy. 
 * Variety of combat units. 
-
-A link to a small demo video can be found [here].(https://www.youtube.com/watch?v=g1Sq1Nr58hM)
-
 
 
 If you are interested in the status of the most recent builds. You can check the progress of the main branches here!
