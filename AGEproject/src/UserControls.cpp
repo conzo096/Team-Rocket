@@ -74,6 +74,25 @@ bool UserControls::IsMouseButtonPressed(std::string &action)
 	return false;
 }
 
+bool UserControls::MouseSelection(std::string action, Button& button, bool& mouseButtonHeld)
+{
+	if (IsMouseButtonPressed(action))
+	{
+		if (!mouseButtonHeld)
+			mouseButtonHeld = true;
+	}
+	else
+	{
+		if (mouseButtonHeld)
+		{
+			mouseButtonHeld = false;
+			if (button.renderTarget.IsMouseInBounds())
+				return true;
+		}
+	}
+	return false;
+}
+
 bool UserControls::MouseSelection(std::string action, std::vector<Button>& buttons, bool& mouseButtonHeld, int& currentSelection)
 {
 	if (IsMouseButtonPressed(action))
