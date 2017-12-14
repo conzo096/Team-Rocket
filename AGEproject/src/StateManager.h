@@ -116,9 +116,19 @@ public:
 
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 
+		int count = 0;
 		while (!selectionMade)
 		{
+			count++;
 			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), newButton, mouseButtonHeld);
+			if (count > 2000)
+			{
+				if (selectionMade)
+					return;
+				selectionMade = UserControls::Get().IsJoystickPressed("A");
+			}
+			if (selectionMade)
+				return;
 			glfwPollEvents();
 		}
 	}
