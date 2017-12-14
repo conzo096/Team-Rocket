@@ -215,8 +215,8 @@ void Game::Initialise()
 
 	game_cam = new Entity;
 	auto cam1 = std::make_unique<Game_Camera>();
-	cam1->Rotate(pi<float>() / -4.0f);
-	cam1->SetPosition(glm::dvec3(85.0, 60.0, 85.0));
+	cam1->Rotate( (pi<float>() / 4.0f) + half_pi<float>());
+	cam1->SetPosition(glm::dvec3(0.0, 60.0, 0.0));
 	cam1->SetProjection(glm::half_pi<float>(), (float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	game_cam->AddComponent(move(cam1));
 
@@ -383,13 +383,13 @@ bool Game::Update()
 			gameOver = false;
 			timeRemaining = 5.0f;
 			StateManager::Get().currentState = StateManager::State::stateMainMenu;
-			player->GetEntities().clear();
-			player->GetSelectedEntities().clear();
+			player->GetEntities().resize(0);
+			player->GetSelectedEntities().resize(0);
 			player->GetSelectedFriendlyEntity() = NULL;
 			player->GetSelectedEntity() = NULL;
-			NPC->GetEntities().clear();
-			NPC->GetSelectedEntities().clear();
-			neutralEntities.clear();
+			NPC->GetEntities().resize(0);
+			NPC->GetSelectedEntities().resize(0);
+			neutralEntities.resize(0);
 			std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
 			//auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 			//tempLightComponent->SetProperties("./json/PointLight.json");

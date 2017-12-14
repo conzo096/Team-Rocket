@@ -232,4 +232,5 @@ void Quad::Draw()
 {
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_QUADS, 0, (GLsizei)vertices.size());
+	glBindVertexArray(0);
 }
