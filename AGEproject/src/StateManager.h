@@ -61,7 +61,6 @@ public:
 		{
 			elapsedTime = static_cast<float>(clock() - start_time) / CLOCKS_PER_SEC;
 		}
-		return stateMainMenu;
 	}
 
 	int ShowMainMenu()
@@ -80,6 +79,12 @@ public:
 	{
 		ControlsMenu cm;
 		return cm.Draw(*shader);
+	}
+
+	int ShowPauseScreen()
+	{
+		SettingsMenu sm;
+		return sm.Draw(*shader);
 	}
 
 	void ShowTutorial()
