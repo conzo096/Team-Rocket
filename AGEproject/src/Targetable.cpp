@@ -17,7 +17,7 @@ void Targetable::IsSelected(bool act)
 	if (act)
 	{
 		// Set objects emissive value to blue (for now). 
-		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(0, 0, 1, 1);
+		GetParent()->GetComponent<Renderable>().GetMaterial().emissive = glm::vec4(originalColour.r*0.3, originalColour.g*0.6, originalColour.b*1.8, 0.7);
 	}
 	else
 	{

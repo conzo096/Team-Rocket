@@ -2,100 +2,112 @@
 #include "Game.h"
 #include "UserControls.h"
 	// Default constructor for UI.
-	UIManager::UIManager()
-	{
-		// Add balance.
-		UIQuad balance;
-		balance.SetText("Bal:");
-		balance.SetX(0);
-		balance.SetY(550);
-		balance.SetSize(10);
-		uiElements.insert(std::pair<std::string,UIQuad>("Balance", balance));
+UIManager::UIManager()
+{
+	// Add balance.
+	UIQuad balance;
+	balance.SetText("Bal:");
+	balance.SetX(0);
+	balance.SetY(550);
+	balance.SetSize(10);
+	uiElements.insert(std::pair<std::string, UIQuad>("Balance", balance));
 
-		// Friendly selected unit
-		UIQuad name;
-		name.SetText("Name:");
-		name.SetX(650);
-		name.SetY(100);
-		name.SetSize(10);
-		uiElements.insert(std::pair<std::string, UIQuad>("Name", name));
+	// Friendly selected unit
+	UIQuad name;
+	name.SetText("Name:");
+	name.SetX(650);
+	name.SetY(100);
+	name.SetSize(10);
+	uiElements.insert(std::pair<std::string, UIQuad>("Name", name));
+
+	UIQuad health;
+	health.SetText("Health:");
+	health.SetX(650);
+	health.SetY(75);
+	health.SetSize(10);
+	uiElements.insert(std::pair<std::string, UIQuad>("Health", health));
+	UIQuad misc;
+	misc.SetText("misc:");
+	misc.SetX(650);
+	misc.SetY(50);
+	misc.SetSize(10);
+	uiElements.insert(std::pair<std::string, UIQuad>("Misc", misc));
+	UIQuad misc2;
+	misc2.SetText("misc2:");
+	misc2.SetX(650);
+	misc2.SetY(25);
+	misc2.SetSize(10);
+	uiElements.insert(std::pair<std::string, UIQuad>("Misc2", misc2));
+
+	//Enemy selected unit.
+	// Friendly selected unit
+
+	name.SetText("Name:");
+	name.SetX(0);
+	name.SetY(100);
+	name.SetSize(10);
+	name.SetTextColour(glm::vec4(255, 0, 0, 1));
+	uiElements.insert(std::pair<std::string, UIQuad>("EnemyName", name));
+
+	health.SetText("Health:");
+	health.SetX(0);
+	health.SetY(75);
+	health.SetSize(10);
+	health.SetTextColour(glm::vec4(255, 0, 0, 1));
+	uiElements.insert(std::pair<std::string, UIQuad>("EnemyHealth", health));
+
+	misc.SetText("misc:");
+	misc.SetX(0);
+	misc.SetY(50);
+	misc.SetSize(10);
+	misc.SetTextColour(glm::vec4(255, 0, 0, 1));
+	uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc", misc));
+
+	misc2.SetText("misc2:");
+	misc2.SetX(0);
+	misc2.SetY(25);
+	misc2.SetSize(10);
+	misc2.SetTextColour(glm::vec4(255, 0, 0, 1));
+	uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc2", misc2));
+
+
+	name.SetText("HotKey1");
+	name.SetX(200);
+	name.SetY(25);
+	name.SetSize(8);
+	name.SetIsActive(true);
+	name.SetTextColour(glm::vec4(255, 255, 255, 1));
+	uiElements.insert(std::pair<std::string, UIQuad>("HotKey1", name));
+
+	name.SetText("HotKey2");
+	name.SetX(350);
+	name.SetY(25);
+	name.SetSize(8);
+	name.SetIsActive(true);
+	uiElements.insert(std::pair<std::string, UIQuad>("HotKey2", name));
+
+	name.SetText("HotKey3");
+	name.SetX(500);
+	name.SetY(25);
+	name.SetSize(8);
+	name.SetIsActive(true);
+	uiElements.insert(std::pair<std::string, UIQuad>("HotKey3", name));
+
+	name.SetText("GameOver");
+	name.SetX(325);
+	name.SetY(325);
+	name.SetSize(20);
+	name.SetIsActive(false);
+	uiElements.insert(std::pair<std::string, UIQuad>("GameOver", name));
+}
+
+void UIManager::Update(double deltaTime)
+{
 	
-		UIQuad health;
-		health.SetText("Health:");
-		health.SetX(650);
-		health.SetY(75);
-		health.SetSize(10);
-		uiElements.insert(std::pair<std::string, UIQuad>("Health", health));
-		UIQuad misc;
-		misc.SetText("misc:");
-		misc.SetX(650);
-		misc.SetY(50);
-		misc.SetSize(10);
-		uiElements.insert(std::pair<std::string, UIQuad>("Misc", misc));
-		UIQuad misc2;
-		misc2.SetText("misc2:");
-		misc2.SetX(650);
-		misc2.SetY(25);
-		misc2.SetSize(10);
-		uiElements.insert(std::pair<std::string, UIQuad>("Misc2", misc2));
-
-		//Enemy selected unit.
-		// Friendly selected unit
-		
-		name.SetText("Name:");
-		name.SetX(0);
-		name.SetY(100);
-		name.SetSize(10);
-		name.SetTextColour(glm::vec4(255, 0, 0, 1));
-		uiElements.insert(std::pair<std::string, UIQuad>("EnemyName", name));
-
-		health.SetText("Health:");
-		health.SetX(0);
-		health.SetY(75);
-		health.SetSize(10);
-		health.SetTextColour(glm::vec4(255, 0, 0, 1));
-		uiElements.insert(std::pair<std::string, UIQuad>("EnemyHealth", health));
-		
-		misc.SetText("misc:");
-		misc.SetX(0);
-		misc.SetY(50);
-		misc.SetSize(10);
-		misc.SetTextColour(glm::vec4(255, 0, 0, 1));
-		uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc", misc));
-		
-		misc2.SetText("misc2:");
-		misc2.SetX(0);
-		misc2.SetY(25);
-		misc2.SetSize(10);
-		misc2.SetTextColour(glm::vec4(255, 0, 0, 1));
-		uiElements.insert(std::pair<std::string, UIQuad>("EnemyMisc2", misc2));
-
-
-		name.SetText("HotKey1");
-		name.SetX(200);
-		name.SetY(25);
-		name.SetSize(8);
-		name.SetIsActive(true);
-		name.SetTextColour(glm::vec4(255, 255, 255, 1));
-		uiElements.insert(std::pair<std::string, UIQuad>("HotKey1", name));
-
-		name.SetText("HotKey2");
-		name.SetX(350);
-		name.SetY(25);
-		name.SetSize(8);
-		name.SetIsActive(true);
-		uiElements.insert(std::pair<std::string, UIQuad>("HotKey2", name));
-
-		name.SetText("HotKey3");
-		name.SetX(500);
-		name.SetY(25);
-		name.SetSize(8);
-		name.SetIsActive(true);
-		uiElements.insert(std::pair<std::string, UIQuad>("HotKey3", name));
-	}
-
-	void UIManager::Update(double deltaTime)
+	if (!Game::Get().IsGameOver())
 	{
+		uiElements.find("GameOver")->second.SetIsActive(false);
+
 		// Update UI label.
 		auto& x = uiElements.find("Balance");
 
@@ -142,6 +154,12 @@
 			{
 				x->second.SetText(UnitActions[Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>()->GetAction()].c_str());
 			}
+			else if (Game::Get().GetPlayer().GetSelectedEntity()->GetName() == "Resource")
+			{
+				std::string hk = "Resources: ";
+				hk +=  std::to_string(Game::Get().GetPlayer().GetSelectedEntity()->GetComponent<Resource>().GetValue());
+				x->second.SetText(hk.c_str());
+			}
 			// Workers are considered both - print their action out underneath the tag.
 			if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName() == "Worker")
 			{
@@ -158,7 +176,7 @@
 			{
 				// Check how many spawn units it has.
 				int num = Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>()->GetSpawnInfo().size();
-			
+
 				if (num > 0)
 				{
 					auto& y = uiElements.find("HotKey1");
@@ -204,8 +222,8 @@
 						}
 					}
 				}
-				
-				
+
+
 				// Non worker structures can buy an update. 
 				if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetName() != "Worker")
 				{
@@ -231,7 +249,7 @@
 					}
 					y->second.SetText(hk.c_str());
 				}
-				
+
 				// Now combat units.
 				if (Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Structure>() == NULL && Game::Get().GetPlayer().GetSelectedFriendlyEntity()->GetCompatibleComponent<Unit>() != NULL)
 				{
@@ -239,7 +257,7 @@
 
 				}
 			}
-		}	
+		}
 
 		else
 		{
@@ -260,79 +278,97 @@
 			//DeselectEnemyLabel();
 		}
 	}
-
-	void UIManager::Render()
+	else
 	{
-		for (auto& x : uiElements)
-		{
-			x.second.Render();
-		}
+		uiElements.find("GameOver")->second.SetIsActive(true);
+		if(Game::Get().GetWinner() == Team::player)
+			uiElements.find("GameOver")->second.SetText("GameOver: You won!");
+		if (Game::Get().GetWinner() == Team::ai)
+			uiElements.find("GameOver")->second.SetText("GameOver: You lost!");
+		if (Game::Get().GetWinner() == Team::neutral)
+			uiElements.find("GameOver")->second.SetText("GameOver: Nature won!");
+		uiElements.find("GameOver")->second.SetTextColour(glm::vec4(255, 0, 0, 1));
 	}
+}
 
-
-	void UIManager::UpdateEnemyLabels(std::shared_ptr<Entity> enemy)
-	{		
-		if (enemy == NULL)
-			DeselectEnemyLabel();
-		else
-		{
-			char buffer[64];
-			auto& x = uiElements.find("EnemyName");
-			x->second.SetIsActive(true);
-			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
-			x->second.SetText(enemy->GetName().c_str());
-			x = uiElements.find("EnemyHealth");
-			x->second.SetIsActive(true);
-			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
-			if (enemy->GetCompatibleComponent<Targetable>()->GetHealth()!= NULL)
-			{
-				sprintf_s(buffer, 64, "%.0f\n", enemy->GetComponent<Targetable>().GetHealth());
-				x->second.SetText(buffer);
-			}
-			else
-				x->second.SetText("0");
-			// Set the third info quad.
-			x = uiElements.find("EnemyMisc");
-			x->second.SetIsActive(true);
-			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
-			x->second.SetIsActive(true);
-			// If the selected entity is a structure, print out number of queued items.
-			if (enemy->GetCompatibleComponent<Structure>() != NULL)
-			{
-				// If there is an item in queue display name, else print none.
-				if (enemy->GetCompatibleComponent<Structure>()->GetQueueSize() > 0)
-					x->second.SetText(enemy->GetCompatibleComponent<Structure>()->GetNextProduct().productName.c_str());
-				else
-				{
-					x->second.SetText("None!");
-				}
-			}
-			// If it is just a combat unit print out there action.
-			else if (enemy->GetCompatibleComponent<Unit>() != NULL)
-			{
-				x->second.SetIsActive(true);
-				x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
-				x->second.SetText(UnitActions[enemy->GetCompatibleComponent<Unit>()->GetAction()].c_str());
-			}
-			// Workers are considered both - print their action out underneath the tag.
-			if (enemy->GetName() == "Worker")
-			{
-				x = uiElements.find("EnemyMisc2");
-				x->second.SetIsActive(true);
-				x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
-				x->second.SetText(UnitActions[enemy->GetCompatibleComponent<Unit>()->GetAction()].c_str());
-			}
-		}
-	}
-
-	void UIManager::DeselectEnemyLabel()
+void UIManager::Render()
+{
+	for (auto& x : uiElements)
 	{
+		x.second.Render();
+	}
+}
+
+
+void UIManager::UpdateEnemyLabels(std::shared_ptr<Entity> enemy)
+{		
+	if (enemy == NULL)
+		DeselectEnemyLabel();
+	else
+	{
+		char buffer[64];
 		auto& x = uiElements.find("EnemyName");
-		x->second.SetIsActive(false);
+		x->second.SetIsActive(true);
+		x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+		x->second.SetText(enemy->GetName().c_str());
 		x = uiElements.find("EnemyHealth");
-		x->second.SetIsActive(false);
+		x->second.SetIsActive(true);
+		x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+		if (enemy->GetCompatibleComponent<Targetable>()->GetHealth()!= NULL)
+		{
+			sprintf_s(buffer, 64, "%.0f\n", enemy->GetComponent<Targetable>().GetHealth());
+			x->second.SetText(buffer);
+		}
+		else
+			x->second.SetText("0");
+		// Set the third info quad.
 		x = uiElements.find("EnemyMisc");
-		x->second.SetIsActive(false);
-		x = uiElements.find("EnemyMisc2");
-		x->second.SetIsActive(false);
+		x->second.SetIsActive(true);
+		x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+		x->second.SetIsActive(true);
+		// If the selected entity is a structure, print out number of queued items.
+		if (enemy->GetCompatibleComponent<Structure>() != NULL)
+		{
+			// If there is an item in queue display name, else print none.
+			if (enemy->GetCompatibleComponent<Structure>()->GetQueueSize() > 0)
+				x->second.SetText(enemy->GetCompatibleComponent<Structure>()->GetNextProduct().productName.c_str());
+			else
+			{
+				x->second.SetText("None!");
+			}
+		}
+		// If it is just a combat unit print out there action.
+		else if (enemy->GetCompatibleComponent<Unit>() != NULL)
+		{
+			x->second.SetIsActive(true);
+			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+			x->second.SetText(UnitActions[enemy->GetCompatibleComponent<Unit>()->GetAction()].c_str());
+		}
+		if (Game::Get().GetPlayer().GetSelectedEntity()->GetName() == "Resource")
+		{
+			std::string hk = "Resources: ";
+			hk += std::to_string(Game::Get().GetPlayer().GetSelectedEntity()->GetComponent<Resource>().GetValue());
+			x->second.SetText(hk.c_str());
+		}
+		// Workers are considered both - print their action out underneath the tag.
+		if (enemy->GetName() == "Worker")
+		{
+			x = uiElements.find("EnemyMisc2");
+			x->second.SetIsActive(true);
+			x->second.SetTextColour(glm::vec4(255, 0, 0, 1));
+			x->second.SetText(UnitActions[enemy->GetCompatibleComponent<Unit>()->GetAction()].c_str());
+		}
 	}
+}
+
+void UIManager::DeselectEnemyLabel()
+{
+	auto& x = uiElements.find("EnemyName");
+	x->second.SetIsActive(false);
+	x = uiElements.find("EnemyHealth");
+	x->second.SetIsActive(false);
+	x = uiElements.find("EnemyMisc");
+	x->second.SetIsActive(false);
+	x = uiElements.find("EnemyMisc2");
+	x->second.SetIsActive(false);
+}

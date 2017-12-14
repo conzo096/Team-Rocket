@@ -109,14 +109,13 @@ int SettingsMenu::Draw(GLShader shader)
 	UserControls::Get().FindConnectedJoystick();
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		currentSelection = 0;
-
+	timeElapsed = 0;
 	while (!selectionMade)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
-		
 		// Controller is being used
 		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
@@ -231,6 +230,7 @@ int SettingsMenu::Draw(GLShader shader)
 					GameEngine::Get().SetResolutionHeight(576);
 					break;
 				}
+				FileIO().Get().SaveIniFile();
 			}
 			
 			// One of the option arrows was clicked

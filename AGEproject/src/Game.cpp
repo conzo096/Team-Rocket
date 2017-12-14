@@ -7,7 +7,7 @@
 #include <thread>
 #include <omp.h>
 #include "LevelLoader.h"
-
+#include "StateManager.h"
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
 	//return;
@@ -102,6 +102,44 @@ vec3 Game::ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end)
 	return point;
 }
 
+void Game::CheckForWinner(std::vector<std::shared_ptr<Entity>>& entities)
+{
+	bool enemyBaseFound = false;
+	bool playerBaseFound = false;
+	for (std::shared_ptr<Entity>& e : entities)
+	{
+		if (e->GetName() == "Base")
+		{
+			if (e->GetCompatibleComponent<Structure>() != NULL)
+			{
+				if (e->GetCompatibleComponent<Structure>()->GetTeam() == Team::ai)
+					enemyBaseFound = true;
+				if (e->GetCompatibleComponent<Structure>()->GetTeam() == Team::player)
+					playerBaseFound = true;
+			}
+		}
+	}
+
+	if (playerBaseFound && !enemyBaseFound)
+	{
+		gameOver = true;
+		winner = Team::player;
+		return;
+	}
+	if (!playerBaseFound && enemyBaseFound)
+	{
+		gameOver = true;
+		winner = Team::ai;
+		return;
+	}
+	if (!playerBaseFound && !enemyBaseFound)
+	{
+		gameOver = true;
+		winner = Team::neutral;
+		return;
+	}
+	return;
+}
 
 void ResolveCollisions(std::vector<std::shared_ptr<Entity>>& ents)
 {
@@ -201,6 +239,7 @@ void Game::Initialise()
 	auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 	tempLightComponent->SetProperties("./json/PointLight.json");
 	//tempEntity3->AddComponent(move(tempLightComponent));
+	std::cout << tempLightComponent->ambient.r << " " << tempLightComponent->ambient.g << " " << tempLightComponent->ambient.b << " " << tempLightComponent->ambient.a << std::endl;
 	GameEngine::Get().AddPointLight(tempLightComponent);
 	neutralEntities.push_back(tempEntity3);
 	std::cout << "Light initialised" << std::endl;
@@ -231,7 +270,10 @@ void Game::Initialise()
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
 	Spawner::Get().UpdateGameGrid(NPC->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
-
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(33, 0, 32), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(60, 0, 77), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 2), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(90, 0, 0), Team::neutral));
 
 	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
@@ -244,33 +286,153 @@ void Game::Initialise()
 
 bool Game::Update()
 {
-	// Populate the all entity list.
-	allEntities.clear();
-	//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
+	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
+	time += deltaTime * 60;
+	lastTime = clock();
 
-	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
-	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-	allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
-	// all entities now contains all the entities in the game.
-
-	// Let user and update their actions. 
-	player->Update(allEntities);
-
-	allEntities.clear();
-	allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
-	allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-	NPC->Update(allEntities);
-
-	if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
+	if (!gameOver)
 	{
-		freeCamEnabled = !freeCamEnabled;
-		LevelLoader ll;
-		ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		// Populate the all entity list.
+		allEntities.clear();
+		//allEntities.resize(player->GetEntities().size() + NPC->GetEntities().size() + neutralEntities.size());
+
+		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+		//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+		allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+		// all entities now contains all the entities in the game.
+
+		// Let user and update their actions. 
+		player->Update(allEntities);
+
+		allEntities.clear();
+		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+		NPC->Update(allEntities);
+
+		if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
+		{
+			freeCamEnabled = !freeCamEnabled;
+			LevelLoader ll;
+			ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		}
+	
+		// Update all the entities in the scene.
+		
+		int i;
+		#pragma omp parallel for private(i)
+		for (i = 0; i < neutralEntities.size(); i++)
+		{
+			neutralEntities[i]->Update(deltaTime);
+		}
+		#pragma omp parallel for private(i)
+		for (i = 0; i < player->GetEntities().size(); i++)
+		{
+			player->GetEntities()[i]->Update(deltaTime);
+		}
+		#pragma omp parallel for private(i)
+		for (i = 0; i < NPC->GetEntities().size(); i++)
+		{
+			NPC->GetEntities()[i]->Update(deltaTime);
+		}
+		// reduce duration.
+		duration -= deltaTime;
+		// Delete any entities in the scene that are required to be removed
+		
+		//// Handle deletion of entities.
+		for (i = 0; i < neutralEntities.size(); i++)
+		{
+			std::shared_ptr<Entity>& e = neutralEntities[i];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+				if (e->GetCompatibleComponent<Targetable>()->IsDead())
+				{
+					//	e->~Entity();
+					neutralEntities.erase(std::remove(neutralEntities.begin(), neutralEntities.end(), e), neutralEntities.end());
+				}
+		}
+		for (i = 0; i < player->GetEntities().size(); i++)
+		{
+			std::shared_ptr<Entity>& e = player->GetEntities()[i];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+				if (e->GetCompatibleComponent<Targetable>()->IsDead())
+				{
+					//	e->~Entity();
+					player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
+				}
+		}
+		for (i = 0; i < NPC->GetEntities().size(); i++)
+		{
+			std::shared_ptr<Entity> e = NPC->GetEntities()[i];
+			if (e->GetCompatibleComponent<Targetable>() != NULL)
+				if (e->GetCompatibleComponent<Targetable>()->IsDead())
+				{
+					NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
+				}
+		}
+	
+		allEntities.clear();
+		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
+		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
+		allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
+		CheckForWinner(allEntities);
+		player->SortEntities(game_cam->GetComponent<Game_Camera>());
+	}
+	else if (gameOver)
+	{
+		timeRemaining -= deltaTime;
+		if (timeRemaining <= 0)
+		{
+			gameOver = false;
+			timeRemaining = 5.0f;
+			StateManager::Get().currentState = StateManager::State::stateMainMenu;
+			player->GetEntities().clear();
+			player->GetSelectedEntities().clear();
+			player->GetSelectedFriendlyEntity() = NULL;
+			player->GetSelectedEntity() = NULL;
+			NPC->GetEntities().clear();
+			NPC->GetSelectedEntities().clear();
+			neutralEntities.clear();
+			std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
+			//auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
+			//tempLightComponent->SetProperties("./json/PointLight.json");
+			////tempEntity3->AddComponent(move(tempLightComponent));
+			//std::cout << tempLightComponent->ambient.r << " " << tempLightComponent->ambient.g << " " << tempLightComponent->ambient.b << " " << tempLightComponent->ambient.a << std::endl;
+			//GameEngine::Get().AddPointLight(tempLightComponent);
+
+			neutralEntities.push_back(tempEntity3);
+			std::cout << "Light initialised" << std::endl;
+			// This is the floor.
+			std::shared_ptr<Entity> tempEntity2 = std::make_shared<Entity>();
+			tempEntity2->SetPosition(glm::vec3(0, 0, 0));
+			tempEntity2->UpdateTransforms();
+			auto tempRenderable2 = std::make_unique<Renderable>();
+			tempRenderable2->SetMaterial(new Material());
+			tempRenderable2->SetProperties("./json/Plane.json");
+			tempEntity2->SetPosition(tempRenderable2->GetPosition());
+			tempRenderable2->UpdateTransforms();
+			auto tempBoundingBox2 = std::make_unique<BoundingBox>();
+			tempBoundingBox2->SetUpBoundingBox(tempRenderable2->GetModel().GetVertexPositions());
+			// Set custom material.
+			Material* mat = new Material();
+			mat->emissive = glm::vec4(0.02, 0.02, 0.02, 1);
+			tempRenderable2->SetMaterial(mat);
+			tempEntity2->AddComponent(move(tempRenderable2));
+			tempEntity2->AddComponent(move(tempBoundingBox2));
+			neutralEntities.push_back(tempEntity2);
+
+			// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
+			player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
+			NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
+			neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
+		}
 	}
 
-	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
-	time += deltaTime;
-	lastTime = clock();
+
+	if (player->GetSelectedEntity() != NULL)
+		ui.UpdateEnemyLabels(player->GetSelectedEntity());
+	else
+		ui.DeselectEnemyLabel();
+	// Update the Game UI.
+	ui.Update(deltaTime);
 
 	if (freeCamEnabled)
 	{
@@ -287,94 +449,6 @@ bool Game::Update()
 		game_cam->Update(deltaTime);
 	}
 
-	// reduce duration.
-	duration -= deltaTime;
-
-	// Update all the entities in the scene.
-	int i;
-
-#pragma omp parallel for private(i)
-	for (i = 0; i < neutralEntities.size(); i++)
-	{
-		neutralEntities[i]->Update(deltaTime);
-	}
-#pragma omp parallel for private(i)
-	for (i = 0; i < player->GetEntities().size(); i++)
-	{
-		player->GetEntities()[i]->Update(deltaTime);
-	}
-#pragma omp parallel for private(i)
-	for (i = 0; i < NPC->GetEntities().size(); i++)
-	{
-		NPC->GetEntities()[i]->Update(deltaTime);
-	}
-
-	//allEntities.clear();
-	//allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
-	//allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-	//allEntities.insert(allEntities.end(), NPC->GetEntities().begin(), NPC->GetEntities().end());
-	//// Resolve their collisions.
-	//ResolveCollisions(allEntities);
-
-	// Update the Game UI.
-	ui.Update(deltaTime);
-	if (player->GetSelectedEntity() != NULL)
-		ui.UpdateEnemyLabels(player->GetSelectedEntity());
-	else
-		ui.DeselectEnemyLabel();
-
-	// Delete any entities in the scene that are required to be removed
-	//// Handle deletion of entities.
-	for (i = 0; i < neutralEntities.size(); i++)
-	{
-		std::shared_ptr<Entity>& e = neutralEntities[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				//	e->~Entity();
-				neutralEntities.erase(std::remove(neutralEntities.begin(), neutralEntities.end(), e), neutralEntities.end());
-			}
-	}
-	for (i = 0; i < player->GetEntities().size(); i++)
-	{
-		std::shared_ptr<Entity>& e = player->GetEntities()[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				//	e->~Entity();
-				player->GetEntities().erase(std::remove(player->GetEntities().begin(), player->GetEntities().end(), e), player->GetEntities().end());
-			}
-	}
-	player->GetEntities().shrink_to_fit();
-	for (i = 0; i < NPC->GetEntities().size(); i++)
-	{
-		std::shared_ptr<Entity> e = NPC->GetEntities()[i];
-		if (e->GetCompatibleComponent<Targetable>() != NULL)
-			if (e->GetCompatibleComponent<Targetable>()->IsDead())
-			{
-				NPC->GetEntities().erase(std::remove(NPC->GetEntities().begin(), NPC->GetEntities().end(), e), NPC->GetEntities().end());
-			}
-	}
-	player->SortEntities(game_cam->GetComponent<Game_Camera>());
-
-	// hacky approach to approximating framerate, causes application to crash on closing.
-	//static double dts[255];
-	//static unsigned char dti =0;
-	//dts[dti] = deltaTime;
-	//if (dti == 0)
-	//{
-	//	double avg = 0;
-	//	double min = dts[0];
-	//	double max = dts[0];
-	//	for (auto f : dts){
-	//		avg += f;
-	//		min = (f < min ? f : min);
-	//		max = (f > max ? f : max);
-	//	}
-	//	avg /= 255.0f;
-	//	printf("fps:%f, avg:%f, min: %f, max:%f\n",1.0/avg, avg, min, max);
-	//}
-	//++dti;
 
 	// process events.
 	glfwPollEvents();
@@ -401,22 +475,21 @@ void Game::Render()
 	}
 
 	int n;
-#pragma omp parallel for private(n)
+	#pragma omp parallel for private(n)
 	for (n = 0; n < neutralEntities.size(); n++)
 	{
 		neutralEntities[n]->Render();
 	}
-#pragma omp parallel for private(n)
+	#pragma omp parallel for private(n)
 	for (n = 0; n < player->GetEntities().size(); n++)
 	{
 		player->GetEntities()[n]->Render();
 	}
-#pragma omp parallel for private(n)
+	#pragma omp parallel for private(n)
 	for (n = 0; n < NPC->GetEntities().size(); n++)
 	{
 		NPC->GetEntities()[n]->Render();
 	}
-
 
 	// If there is still duration, render the particle.
 	if (duration > 0)
@@ -425,9 +498,7 @@ void Game::Render()
 	// render ghost building.
 	player->Render();
 	GameEngine::Get().Render();
-
 	ui.Render();
-
 	// Swap the window buffers.
 	glfwSwapBuffers(GameEngine::Get().GetWindow());
 }
@@ -439,3 +510,22 @@ void Game::UpdateNavGrid(int val, glm::ivec2 pos)
 	navGrid[pos.x][pos.y] = val;
 	//	std::cout << "Pos:" << pos.x << "," << pos.y << " Value:" << navGrid[pos.x][pos.y] << std::endl;
 }
+
+// hacky approach to approximating framerate, causes application to crash on closing.
+//static double dts[255];
+//static unsigned char dti =0;
+//dts[dti] = deltaTime;
+//if (dti == 0)
+//{
+//	double avg = 0;
+//	double min = dts[0];
+//	double max = dts[0];
+//	for (auto f : dts){
+//		avg += f;
+//		min = (f < min ? f : min);
+//		max = (f > max ? f : max);
+//	}
+//	avg /= 255.0f;
+//	printf("fps:%f, avg:%f, min: %f, max:%f\n",1.0/avg, avg, min, max);
+//}
+//++dti;

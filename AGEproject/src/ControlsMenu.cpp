@@ -1,5 +1,6 @@
 #include "ControlsMenu.h"
 #include "UserControls.h"
+#include "AudioEngine.h"
 
 #define CLOSE 14
 
@@ -24,6 +25,41 @@ void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int ac
 
 		// Remove key callback.
 		glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
+	}
+}
+
+void ControlsMenu::ControllerCallBack()
+{
+	if (UserControls::Get().isJoystickActive() == GL_TRUE)
+	{
+		if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
+		{
+			int timer = 0;
+			auto t = clock();
+			while (true)
+			{
+				// Wait a couple of seconds before starting.
+				if((clock() - t)/CLOCKS_PER_SEC > 0.8f)
+				{ 
+					std::cout << "waiting" << std::endl;
+					int buttonCount;
+					const unsigned char* keys = glfwGetJoystickButtons(UserControls::Get().GetControllerIndex(), &buttonCount);
+					for (int i = 0; i < 14; i++)
+					{
+						if (keys[i] == GLFW_PRESS)
+						{
+							std::cout  << "Key to bind: " << bindings[currentSelection].first << std::endl;
+							std::cout << "What to bind to: " << UserControls::Get().GetButtonString(i) << std::endl;
+							UserControls::Get().BindControllerButton(bindings[currentSelection].second, i);
+							buttons[currentSelection].second.SetText(UserControls::Get().GetButtonString(i).c_str());
+							FileIO::Get().SaveIniFile();
+							current_tex[currentSelection] = button_tex[currentSelection];
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -110,9 +146,22 @@ void ControlsMenu::DrawButtons()
 int ControlsMenu::Draw(GLShader shader)
 {	
 	DrawButtons();
+	DrawButtons();
 
+	UserControls::Get().FindConnectedJoystick();
+	if (UserControls::Get().isJoystickActive() == GL_TRUE)
+		currentSelection = 0;
+	timeElapsed = 0;
 	while (!selectionMade)
 	{
+		// Update textures.
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			if (i == currentSelection)
+				buttons[i].first.texture = highlight_tex[i];
+			else
+				buttons[i].first.texture = current_tex[i];
+		}
 		PopulateBindings();
 		for (int i = 0; i < buttons.size(); i++)
 		{
@@ -121,81 +170,167 @@ int ControlsMenu::Draw(GLShader shader)
 				buttons[i].second.SetText(bindings[i].second.c_str());
 			}
 		}
-		
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
 		shader.Use();
-
-		// Handle input.
-		if (!mouseButtonHeld)
+		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
-			// Update textures.
-			for (int i = 0; i < buttons.size(); i++)
+			timeElapsed += 1;
+			int axesCount, buttonCount;
+			const float * axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+			const unsigned char* keys = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
+			if (timeElapsed > cooldown)
 			{
-				if (buttons[i].first.renderTarget.IsMouseInBounds())
-					buttons[i].first.texture = highlight_tex[i];
-				else
-					buttons[i].first.texture = current_tex[i];
-			}
-		}
-
-		// Handle selection
-		selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
-
-		if (selectionMade)
-		{
-			// "Reset to default" is pressed
-			if (currentSelection == 6)
-			{
-				selectionMade = false;
-				UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
-
-				for (int i = 0; i < buttons.size(); i++)
+				timeElapsed = 0;
+				// process our joystick info
+				if (GLFW_PRESS == keys[10])
 				{
-					if (!(i == 6 || i == 13))
+					SelectionUp();
+				}
+				if (GLFW_PRESS == keys[12])
+				{
+					SelectionDown();
+				}
+
+				if (GLFW_PRESS == keys[0])
+					selectionMade = true;
+				if (selectionMade)
+				{
+					// "Reset to default" is pressed
+					if (currentSelection == 6)
 					{
-						UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
-						buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
-						current_tex[i] = button_tex[i];
+						selectionMade = false;
+						UserControls::Get().ResetControllerBindings();
+						FileIO::Get().SaveIniFile();
+					/*	for (int i = 0; i < buttons.size(); i++)
+						{
+							if (!(i == 6 || i == 13))
+							{
+								UserControls::Get().BindControllerButton(bindings[currentSelection].second, i);
+							
+								buttons[i].second.SetText(UserControls::Get().GetButtonString(i).c_str());
+								current_tex[i] = button_tex[i];
+							}
+						}*/
+						FileIO::Get().SaveIniFile();
+					}
+					// "Back" is pressed
+					else if (currentSelection == 13)
+					{
+						//	FileIO::Get().SaveIniFile();
+					}
+					else
+					{
+						selectionMade = false;
+						if (lastSelection == currentSelection)
+						{
+							if (current_tex[currentSelection] == highlight_tex[currentSelection])
+							{
+								current_tex[currentSelection] = button_tex[currentSelection];
+							}
+							else if (current_tex[currentSelection] == button_tex[currentSelection])
+							{
+								std::cout << "INPUT NEW COMMAND";
+
+								current_tex[currentSelection] = highlight_tex[currentSelection];
+								ControllerCallBack();
+							}
+							lastSelection = currentSelection;
+						}
+						else
+						{
+							current_tex[currentSelection] = highlight_tex[currentSelection];
+							ControllerCallBack();
+							if (!(lastSelection == -1))
+							{
+								current_tex[lastSelection] = button_tex[lastSelection];
+							}
+							lastSelection = currentSelection;
+						}
 					}
 				}
-				FileIO::Get().SaveIniFile();
 			}
-			// "Back" is pressed
-			else if (currentSelection == 13)
+		}
+		else
+		{
+			// Handle input.
+			if (!mouseButtonHeld)
 			{
-			//	FileIO::Get().SaveIniFile();
-			}
-			else
-			{
-				selectionMade = false;
-				if (lastSelection == currentSelection)
+				// Update textures.
+				for (int i = 0; i < buttons.size(); i++)
 				{
-					if (current_tex[currentSelection] == highlight_tex[currentSelection])
+					if (buttons[i].first.renderTarget.IsMouseInBounds())
+						buttons[i].first.texture = highlight_tex[i];
+					else
+						buttons[i].first.texture = current_tex[i];
+				}
+			}
+
+			// Handle selection
+			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), buttons, mouseButtonHeld, currentSelection);
+
+
+
+			if (selectionMade)
+			{
+				// "Reset to default" is pressed
+				if (currentSelection == 6)
+				{
+					selectionMade = false;
+					UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
+
+					for (int i = 0; i < buttons.size(); i++)
 					{
-						current_tex[currentSelection] = button_tex[currentSelection];
+						if (!(i == 6 || i == 13))
+						{
+							UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
+							buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
+							current_tex[i] = button_tex[i];
+						}
 					}
-					else if (current_tex[currentSelection] == button_tex[currentSelection])
+					FileIO::Get().SaveIniFile();
+				}
+				// "Back" is pressed
+				else if (currentSelection == 13)
+				{
+					//	FileIO::Get().SaveIniFile();
+				}
+				else
+				{
+					selectionMade = false;
+					if (lastSelection == currentSelection)
+					{
+						if (current_tex[currentSelection] == highlight_tex[currentSelection])
+						{
+							current_tex[currentSelection] = button_tex[currentSelection];
+						}
+						else if (current_tex[currentSelection] == button_tex[currentSelection])
+						{
+							current_tex[currentSelection] = highlight_tex[currentSelection];
+							glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
+						}
+						lastSelection = currentSelection;
+					}
+					else
 					{
 						current_tex[currentSelection] = highlight_tex[currentSelection];
 						glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
+						if (!(lastSelection == -1))
+						{
+							current_tex[lastSelection] = button_tex[lastSelection];
+						}
+						lastSelection = currentSelection;
 					}
-					lastSelection = currentSelection;
-				}
-				else
-				{
-					current_tex[currentSelection] = highlight_tex[currentSelection];
-					glfwSetKeyCallback(GameEngine::Get().GetWindow(), KeyCallback);
-					if (!(lastSelection == -1))
-					{
-						current_tex[lastSelection] = button_tex[lastSelection];
-					}
-					lastSelection = currentSelection;
 				}
 			}
 		}
-
+	
+		
+		
+		
+		
+		
 		if (glfwWindowShouldClose(GameEngine::Get().GetWindow()))
 		{
 			selectionMade = true;
@@ -224,6 +359,9 @@ int ControlsMenu::Draw(GLShader shader)
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
 	}
+
+
+
 	return currentSelection;
 }
 
@@ -263,22 +401,46 @@ int ControlsMenu::SelectionPicked()
 void ControlsMenu::PopulateBindings()
 {
 	bindings.resize(numOfControls);
+	
+	if (UserControls::Get().isJoystickActive() != GL_TRUE)
+	{
+		// Camera movement
+		bindings[0] = std::pair<std::string, std::string>("Forward", UserControls::Get().GetKeyString("Forward"));
+		bindings[1] = std::pair<std::string, std::string>("Backward", UserControls::Get().GetKeyString("Backward"));
+		bindings[2] = std::pair<std::string, std::string>("Left", UserControls::Get().GetKeyString("Left"));
+		bindings[3] = std::pair<std::string, std::string>("Right", UserControls::Get().GetKeyString("Right"));
+		bindings[4] = std::pair<std::string, std::string>("RotateLeft", UserControls::Get().GetKeyString("RotateLeft"));
+		bindings[5] = std::pair<std::string, std::string>("RotateRight", UserControls::Get().GetKeyString("RotateRight"));
+		bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
+		bindings[7] = std::pair<std::string, std::string>("ZoomIn", UserControls::Get().GetKeyString("ZoomIn"));
+		bindings[8] = std::pair<std::string, std::string>("ZoomOut", UserControls::Get().GetKeyString("ZoomOut"));
 
-	// Camera movement
-	bindings[0] = std::pair<std::string, std::string>("Forward", UserControls::Get().GetKeyString("Forward"));
-	bindings[1] = std::pair<std::string, std::string>("Backward", UserControls::Get().GetKeyString("Backward"));
-	bindings[2] = std::pair<std::string, std::string>("Left", UserControls::Get().GetKeyString("Left"));
-	bindings[3] = std::pair<std::string, std::string>("Right", UserControls::Get().GetKeyString("Right")); 
-	bindings[4] = std::pair<std::string, std::string>("RotateLeft", UserControls::Get().GetKeyString("RotateLeft")); 
-	bindings[5] = std::pair<std::string, std::string>("RotateRight", UserControls::Get().GetKeyString("RotateRight")); 
-	bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
-	bindings[7] = std::pair<std::string, std::string>("ZoomIn", UserControls::Get().GetKeyString("ZoomIn")); 
-	bindings[8] = std::pair<std::string, std::string>("ZoomOut", UserControls::Get().GetKeyString("ZoomOut")); 
+		// Hotkey/entity options
+		bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetKeyString("Hold"));
+		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1"));
+		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
+		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
+		bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+	}
+	else if (UserControls::Get().isJoystickActive() == GL_TRUE)
+	{
+		// Camera movement
+		bindings[0] = std::pair<std::string, std::string>("Forward", "Not Supported");
+		bindings[1] = std::pair<std::string, std::string>("Backward", "Not Supported");
+		bindings[2] = std::pair<std::string, std::string>("Left", "Not Supported");
+		bindings[3] = std::pair<std::string, std::string>("Right", "Not Supported");
+		bindings[4] = std::pair<std::string, std::string>("RotateLeft", "Not Supported");
+		bindings[5] = std::pair<std::string, std::string>("RotateRight", "Not Supported");
+		bindings[6] = std::pair<std::string, std::string>("Reset", "Not Supported");
+		bindings[7] = std::pair<std::string, std::string>("ZoomIn", "Not Supported");
+		bindings[8] = std::pair<std::string, std::string>("ZoomOut", "Not Supported");
 
-	// Hotkey/entity options
-	bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetKeyString("Hold")); 
-	bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetKeyString("HotKey1")); 
-	bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetKeyString("HotKey2"));
-	bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetKeyString("HotKey3"));
-	bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+		// Hotkey/entity options
+		bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetButtonString("Y"));
+		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetButtonString("dUp"));
+		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetButtonString("dRight"));
+		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetButtonString("dDown"));
+		bindings[13] = std::pair<std::string, std::string>("Back", "Not Supported");
+
+	}
 }

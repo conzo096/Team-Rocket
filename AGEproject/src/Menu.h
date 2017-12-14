@@ -35,7 +35,7 @@ protected:
 	// small timer for controller.
 	int cooldown = 6;
 	// frames since last call.
-	int timeElapsed = 6;
+	int timeElapsed = 0;
 
 public:
 	Menu()
