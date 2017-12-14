@@ -101,6 +101,7 @@ void ResourceHandler::LoadTextures()
 
 	// Splash Screen - M8 you get much better compression with jpeg for colour images but they break it, needs 4 channels apparently
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Splash_Screen"), Texture("../res/textures/UI/SplashScreen.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Background"), Texture("../res/textures/UI/Background.png").GetTextureId()));
 }
 
 void ResourceHandler::LoadShaders()
