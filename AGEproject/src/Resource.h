@@ -8,7 +8,7 @@ private:
 	// How much value the resource value contains, should it increment over times?
 	int value = 3000;
 	//How much the workers take each pass
-	int harvestValue = 50;
+	int harvestValue = 5;
 	// Required if resource is finite.
 	std::mutex mut;
 public:

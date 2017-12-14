@@ -22,8 +22,41 @@ void Player::Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 	for (std::shared_ptr<Entity>&e : temp)
 	{
 		if (e->GetCompatibleComponent<Movement>() != NULL)
-			e->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(20, 0, 20));
+		{
+			if(e->GetName() == "Worker")
+			{
+				e->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(30, 0, 30));
+				e->GetCompatibleComponent<Worker>()->SetCollectionPoint(glm::vec3(50, 0, 50));
+			}
+			else
+				e->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(70, 0, 70));
+		}
 		entities.push_back(e);
+	}
+	resources = Game::Get().FindResources();
+	for (int i = 0; i < entities.size(); i++)
+	{
+		if (entities[i]->GetName() == "Worker")
+		{
+			if (entities[i]->GetCompatibleComponent<Structure>()->GetQueueSize() < 1 && entities[i]->GetCompatibleComponent<Worker>()->GetAction() == Unit::Stop)
+			{
+				int min = 0;
+				int n = 0;
+				for (std::shared_ptr<Entity>& e : resources)
+				{
+					if (distance(entities[i]->GetPosition(), e->GetPosition()) < distance(entities[i]->GetPosition(), resources[min]->GetPosition()))
+					{
+						min = n;
+					}
+					n++;
+				}
+				if (resources.size() > 0)
+				{
+					entities[i]->GetCompatibleComponent<Worker>()->SetEntityToTarget(resources[min]);
+					entities[i]->GetCompatibleComponent<Worker>()->SetAction(Unit::Harvest);
+				}
+			}
+		}
 	}
 
 	// If ghost building is active, update location and change boolean.
@@ -61,9 +94,10 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 {
 	timeElapsed += (float)(clock() - lastClock)/CLOCKS_PER_SEC;
 
-	if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON))
+	if (UserControls::Get().IsKeyPressed(std::string("Hold")) || UserControls::Get().IsJoystickPressed(std::string("Y"), UserControls::ControllerAction::BUTTON) && timeElapsed >= 0.5f)
 	{
 		attackMove = !attackMove;
+		timeElapsed = 0;
 	}
 
 	glm::vec3 poi;
@@ -113,7 +147,7 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					// Attack the enemy. 
 					for (std::shared_ptr<Entity>& m : selectedEntities)
 					{
-						if (m->GetCompatibleComponent<Unit>() != NULL)
+						if (m->GetCompatibleComponent<Unit>() != NULL && !(m->GetName() == "Warden" && e->GetName() != "Kestrel"))
 						{
 							m->GetCompatibleComponent<Unit>()->SetEntityToTarget(e);
 							m->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
@@ -200,11 +234,11 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 			// Delete all selected entities.
 			if (UserControls::Get().IsKeyPressed(std::string("HotKey4")) || UserControls::Get().IsJoystickPressed(std::string("dLeft"), UserControls::ControllerAction::BUTTON))
 			{
-				for (auto& ent : selectedEntities)
+			/*	for (auto& ent : selectedEntities)
 					ent->GetComponent<Targetable>().SetHealth(0);
 				selectedEntity = NULL;
 				selectedEntities.clear();
-
+*/
 				//// Delete all enemy entities as well.
 				//for (auto& ent : enemyList)
 				//	if (ent->GetCompatibleComponent<Targetable>() != NULL)
