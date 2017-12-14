@@ -63,7 +63,7 @@ public:
 	{
 		return buttonOptions.find(name)->second;
 	}
-
+	int GetControllerButton(const char* name);
 	unsigned int GetKeyValue(const char* name)
 	{
 		return buttonOptions.find(name)->second;

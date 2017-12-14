@@ -51,7 +51,7 @@ void ControlsMenu::ControllerCallBack()
 							std::cout << "What to bind to: " << UserControls::Get().GetButtonString(i) << std::endl;
 							UserControls::Get().BindControllerButton(bindings[currentSelection].second, i);
 							buttons[currentSelection].second.SetText(UserControls::Get().GetButtonString(i).c_str());
-							//FileIO::Get().SaveIniFile();
+							FileIO::Get().SaveIniFile();
 							current_tex[currentSelection] = button_tex[currentSelection];
 							return;
 						}
@@ -201,17 +201,18 @@ int ControlsMenu::Draw(GLShader shader)
 					if (currentSelection == 6)
 					{
 						selectionMade = false;
-						UserControls::Get().ResetKeyBindings(UserControls::Get().KEYBOARD);
-
-						for (int i = 0; i < buttons.size(); i++)
+						UserControls::Get().ResetControllerBindings();
+						FileIO::Get().SaveIniFile();
+					/*	for (int i = 0; i < buttons.size(); i++)
 						{
 							if (!(i == 6 || i == 13))
 							{
-								UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
-								buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
+								UserControls::Get().BindControllerButton(bindings[currentSelection].second, i);
+							
+								buttons[i].second.SetText(UserControls::Get().GetButtonString(i).c_str());
 								current_tex[i] = button_tex[i];
 							}
-						}
+						}*/
 						FileIO::Get().SaveIniFile();
 					}
 					// "Back" is pressed
@@ -231,6 +232,7 @@ int ControlsMenu::Draw(GLShader shader)
 							else if (current_tex[currentSelection] == button_tex[currentSelection])
 							{
 								std::cout << "INPUT NEW COMMAND";
+
 								current_tex[currentSelection] = highlight_tex[currentSelection];
 								ControllerCallBack();
 							}
@@ -423,22 +425,22 @@ void ControlsMenu::PopulateBindings()
 	else if (UserControls::Get().isJoystickActive() == GL_TRUE)
 	{
 		// Camera movement
-		bindings[0] = std::pair<std::string, std::string>("Forward", "Not implemented");
-		bindings[1] = std::pair<std::string, std::string>("Backward", "Not implemented");
-		bindings[2] = std::pair<std::string, std::string>("Left", "Not implemented");
-		bindings[3] = std::pair<std::string, std::string>("Right", "Not implemented");
-		bindings[4] = std::pair<std::string, std::string>("RotateLeft", "Not implemented");
-		bindings[5] = std::pair<std::string, std::string>("RotateRight", "Not implemented");
-		bindings[6] = std::pair<std::string, std::string>("Reset", "Not implemented");
-		bindings[7] = std::pair<std::string, std::string>("ZoomIn", "Not implemented");
-		bindings[8] = std::pair<std::string, std::string>("ZoomOut", "Not implemented");
+		bindings[0] = std::pair<std::string, std::string>("Forward", "Not Supported");
+		bindings[1] = std::pair<std::string, std::string>("Backward", "Not Supported");
+		bindings[2] = std::pair<std::string, std::string>("Left", "Not Supported");
+		bindings[3] = std::pair<std::string, std::string>("Right", "Not Supported");
+		bindings[4] = std::pair<std::string, std::string>("RotateLeft", "Not Supported");
+		bindings[5] = std::pair<std::string, std::string>("RotateRight", "Not Supported");
+		bindings[6] = std::pair<std::string, std::string>("Reset", "Not Supported");
+		bindings[7] = std::pair<std::string, std::string>("ZoomIn", "Not Supported");
+		bindings[8] = std::pair<std::string, std::string>("ZoomOut", "Not Supported");
 
 		// Hotkey/entity options
 		bindings[9] = std::pair<std::string, std::string>("Hold", UserControls::Get().GetButtonString("Y"));
 		bindings[10] = std::pair<std::string, std::string>("HotKey1", UserControls::Get().GetButtonString("dUp"));
 		bindings[11] = std::pair<std::string, std::string>("HotKey2", UserControls::Get().GetButtonString("dRight"));
 		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetButtonString("dDown"));
-		bindings[13] = std::pair<std::string, std::string>("Back", "Not implemented");
+		bindings[13] = std::pair<std::string, std::string>("Back", "Not Supported");
 
 	}
 }

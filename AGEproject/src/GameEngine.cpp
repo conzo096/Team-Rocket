@@ -66,7 +66,7 @@ void GameEngine::Initialise()
 
 	AudioEngine::Get().Initialise();
 
-	UserControls::Get().ResetControllerBindings();
+
 }
 
 

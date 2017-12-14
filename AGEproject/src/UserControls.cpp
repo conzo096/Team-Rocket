@@ -210,22 +210,22 @@ bool UserControls::SetCursorImage()
 int UserControls::GetPickedColourIndexUnderMouse()
 {
 	std::cout << "Obsolete now!" << std::endl;
-	//GLint viewport[4]; //var to hold the viewport info
-		//GLdouble modelview[16]; //var to hold the modelview info
-		//GLdouble projection[16]; //var to hold the projection matrix info
-		//GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
+	GLint viewport[4]; //var to hold the viewport info
+		GLdouble modelview[16]; //var to hold the modelview info
+		GLdouble projection[16]; //var to hold the projection matrix info
+		GLfloat winX, winY, winZ; //variables to hold screen x,y,z coordinates
 
-		//glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
-		//glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
-		//glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview); //get the modelview info
+		glGetDoublev(GL_PROJECTION_MATRIX, projection); //get the projection matrix info
+		glGetIntegerv(GL_VIEWPORT, viewport); //get the viewport info
 
-		//winX = (float)mouseX;
-		//winY = (float)viewport[3] - (float)mouseY;
-		//winZ = 0;
-		//GLubyte bArray[4];
-		//glReadPixels(winX, winY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, bArray);
-		//int iResult = (bArray[0]) | (bArray[1] << 8) | (bArray[2] << 16);
-		//return iResult;
+		winX = (float)mouseX;
+		winY = (float)viewport[3] - (float)mouseY;
+		winZ = 0;
+		GLubyte bArray[4];
+		glReadPixels(winX, winY, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, bArray);
+		int iResult = (bArray[0]) | (bArray[1] << 8) | (bArray[2] << 16);
+		return iResult;
 	return 0;
 }
 
@@ -260,9 +260,10 @@ void UserControls::HandleConsoleInput()
 }
 
 
-
 void UserControls::ResetControllerBindings()
 {
+	controllerButtons.clear();
+	controllerAxis.clear();
 	std::pair<std::string, unsigned int> temp;
 	temp.first = "A";
 	temp.second = 0;
@@ -329,9 +330,15 @@ void UserControls::ResetControllerBindings()
 	controllerAxis.insert(temp);
 }
 
+int UserControls::GetControllerButton(const char* name)
+{
+	return controllerButtons.find(name)->second;
+}
+
+
 bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
 {
-	ResetControllerBindings();
+
 	isJoystickActive();
 	int axesCount, buttonCount;
 	const float * axes = glfwGetJoystickAxes(joyStickConnected, &axesCount);
@@ -340,7 +347,7 @@ bool UserControls::IsJoystickPressed(std::string action, ControllerAction type)
 		return false;
 	if (type == BUTTON)
 	{	
-		if (GLFW_PRESS == keys[controllerButtons.find(action)->second])
+	if (GLFW_PRESS == keys[controllerButtons.find(action)->second])
 			return true;
 	}
 	else

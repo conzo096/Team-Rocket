@@ -266,7 +266,10 @@ void Game::Initialise()
 	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
 
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
-
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(33, 0, 32), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(60, 0, 77), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 2), Team::neutral));
+	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(90, 0, 0), Team::neutral));
 
 	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
 	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
@@ -300,7 +303,7 @@ bool Game::Update()
 		allEntities.clear();
 		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
 		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
-		//NPC->Update(allEntities);
+		NPC->Update(allEntities);
 
 		if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
 		{
