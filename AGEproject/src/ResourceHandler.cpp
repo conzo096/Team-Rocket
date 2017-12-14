@@ -17,8 +17,9 @@ void ResourceHandler::LoadModels()
 	models.insert(std::pair<std::string, Model*>(std::string("Hanger"), new Model("../res/models/Hanger.obj")));
 
 	models.insert(std::pair<std::string, Model*>(std::string("Torus"), new Model("../res/models/Torus2.obj")));
-	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 100, 100)));
-	models.insert(std::pair<std::string, Model*>(std::string("BillBoard"), GeometryUtil::BuildPlane(0.5, 4,4)));
+	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 300, 300)));
+	models.insert(std::pair<std::string, Model*>(std::string("BillBoard"), GeometryUtil::BuildPlane(0.2, 4,4)));
+
 }
 
 void ResourceHandler::LoadTextures()
@@ -108,6 +109,9 @@ void ResourceHandler::LoadTextures()
 	// Splash Screen - M8 you get much better compression with jpeg for colour images but they break it, needs 4 channels apparently
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Splash_Screen"), Texture("../res/textures/UI/SplashScreen.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Background"), Texture("../res/textures/UI/Background.png").GetTextureId()));
+
+	// Tutorial screen
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Tutorial"), Texture("../res/textures/UI/Tutorial.png").GetTextureId()));
 }
 
 void ResourceHandler::LoadShaders()

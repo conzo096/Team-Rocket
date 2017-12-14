@@ -24,7 +24,7 @@ class AiPlayer;
 class Game : public Singleton<Game>
 {
 private:
-	int gridSize = 1000;
+	int gridSize = 300;
 	double time;
 	double lastTime;
 	int** navGrid;
@@ -76,7 +76,7 @@ public:
 	// Obtain the nearest valid point to end from start.
 	vec3 ObtainNearestValidCoordinate(glm::vec3 start, glm::vec3 end);
 	void CheckForWinner(std::vector<std::shared_ptr<Entity>>& entities);
-
+	void SetLastTime(float t) { lastTime = t; }
 
 
 	bool IsGameOver() { return gameOver; }

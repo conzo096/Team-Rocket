@@ -144,7 +144,6 @@ void ControlsMenu::DrawButtons()
 
 int ControlsMenu::Draw(GLShader shader)
 {	
-
 	shader = *ResourceHandler::Get().GetShader("Basic");
 
 	DrawButtons();

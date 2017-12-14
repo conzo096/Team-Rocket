@@ -10,7 +10,6 @@
 #include "StateManager.h"
 void UpdateEntityList(int start, int end, double deltaTime, std::vector<Entity*>& entities)
 {
-	//return;
 	for (int i = start; i < end; i++)
 	{
 		Entity*& e = entities[i];
@@ -216,8 +215,8 @@ void Game::Initialise()
 
 	game_cam = new Entity;
 	auto cam1 = std::make_unique<Game_Camera>();
-	cam1->Rotate(pi<float>() / -4.0f);
-	cam1->SetPosition(glm::dvec3(85.0, 60.0, 85.0));
+	cam1->Rotate( (pi<float>() / 4.0f) + half_pi<float>());
+	cam1->SetPosition(glm::dvec3(0.0, 60.0, 0.0));
 	cam1->SetProjection(glm::half_pi<float>(), (float)(GameEngine::Get().GetScreenWidth() / GameEngine::Get().GetScreenHeight()), 2.414f, 1000);
 	game_cam->AddComponent(move(cam1));
 
@@ -265,21 +264,17 @@ void Game::Initialise()
 
 
 	// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
-	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
+	player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(50.5, 0, 50.5), player->GetTeam()));
 	Spawner::Get().UpdateGameGrid(player->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
-	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
+	NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(249.5, 0, 249.5), NPC->GetTeam()));
 	Spawner::Get().UpdateGameGrid(NPC->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(33, 0, 32), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(60, 0, 77), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 2), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(90, 0, 0), Team::neutral));
+	for (int i = 0; i < 10; i++)
+	{
+		neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(10+(i*2), 0, 30 + (i * -2)), Team::neutral));
+		neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(140 + (i * 2), 0, 160 + (i * -2)), Team::neutral));
+		neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(270 + (i * 2), 0, 290 + (i * -2)), Team::neutral));
+	}
 
-	/*neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(25, 2.5, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(75, 2.5, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 25), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 50), Team::neutral));
-	neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 2.5, 75), Team::neutral));*/
 	lastTime = clock();
 }
 
@@ -287,7 +282,7 @@ void Game::Initialise()
 bool Game::Update()
 {
 	double deltaTime = (clock() - lastTime) / CLOCKS_PER_SEC;
-	time += deltaTime * 60;
+	time += deltaTime;
 	lastTime = clock();
 
 	if (!gameOver)
@@ -308,11 +303,6 @@ bool Game::Update()
 		allEntities.insert(allEntities.end(), neutralEntities.begin(), neutralEntities.end());
 		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
 		NPC->Update(allEntities);
-
-		if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
-		{
-			freeCamEnabled = !freeCamEnabled;
-		}
 
 		if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_P) == GLFW_PRESS)
 		{
@@ -400,13 +390,13 @@ bool Game::Update()
 			gameOver = false;
 			timeRemaining = 5.0f;
 			StateManager::Get().currentState = StateManager::State::stateMainMenu;
-			player->GetEntities().clear();
-			player->GetSelectedEntities().clear();
+			player->GetEntities().resize(0);
+			player->GetSelectedEntities().resize(0);
 			player->GetSelectedFriendlyEntity() = NULL;
 			player->GetSelectedEntity() = NULL;
-			NPC->GetEntities().clear();
-			NPC->GetSelectedEntities().clear();
-			neutralEntities.clear();
+			NPC->GetEntities().resize(0);
+			NPC->GetSelectedEntities().resize(0);
+			neutralEntities.resize(0);
 			std::shared_ptr<Entity> tempEntity3 = std::make_shared<Entity>();
 			//auto tempLightComponent = new PointLight(); //std::make_unique<PointLight>();
 			//tempLightComponent->SetProperties("./json/PointLight.json");
@@ -436,9 +426,16 @@ bool Game::Update()
 			neutralEntities.push_back(tempEntity2);
 
 			// Add starting structures. - This is the same for each NEW game. Maybe they can have random starting positions? - Then resources need to be worried about.
-			player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(3.5, 0, 3.5), player->GetTeam()));
-			NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(80, 0, 80), NPC->GetTeam()));
-			neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(50, 0, 50), Team::neutral));
+			player->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(50.5, 0, 50.5), player->GetTeam()));
+			Spawner::Get().UpdateGameGrid(player->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
+			NPC->GetEntities().push_back(Spawner::Get().CreateEntity("Base", glm::vec3(249.5, 0, 249.5), NPC->GetTeam()));
+			Spawner::Get().UpdateGameGrid(NPC->GetEntities()[0]->GetComponent<BoundingSphere>(), 1);
+			for (int i = 0; i < 10; i++)
+			{
+				neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(10 + (i * 2), 0, 30 + (i * -2)), Team::neutral));
+				neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(140 + (i * 2), 0, 160 + (i * -2)), Team::neutral));
+				neutralEntities.push_back(Spawner::Get().CreateEntity("Resource", glm::vec3(270 + (i * 2), 0, 290 + (i * -2)), Team::neutral));
+			}
 		}
 	}
 

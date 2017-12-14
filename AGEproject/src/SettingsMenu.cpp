@@ -279,7 +279,6 @@ int SettingsMenu::Draw(GLShader shader)
 			return CLOSE;
 		}
 
-
 		// Draw the quads.
 		for (int i = 0; i < numOfLabels; i++)
 		{
@@ -300,9 +299,9 @@ int SettingsMenu::Draw(GLShader shader)
 			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
 			buttons[i].renderTarget.Draw();
 		}
+
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
-
 	}
 	return currentSelection;
 }

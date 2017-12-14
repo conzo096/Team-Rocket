@@ -35,6 +35,8 @@ void Targetable::TakeDamage(float damage)
 	mut.lock();
 	damage *= (1.0f - resistanceArmour);
 	damage -= thresholdArmour;
+	if (damage < 1.0f)
+		damage = 1.0f;
 	health -= damage;
 	mut.unlock();
 }

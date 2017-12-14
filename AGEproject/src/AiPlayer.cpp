@@ -2,7 +2,7 @@
 #include "WorkerUnit.h"
 #include <random>
 
-void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
+void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>& enemyList)
 {
 	// Collect any units that have been produced by your structures.
 	std::vector<std::shared_ptr<Entity>> temp;
@@ -20,20 +20,26 @@ void AiPlayer::Update(std::vector<std::shared_ptr<Entity>>&)
 	{
 		entities.push_back(temp[i]);
 		if (temp[i]->GetCompatibleComponent<Movement>() != NULL)
-			temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(70, 0, 70));//Rally point kinda
-		unitsQueued--;
-		moving = false;
+		{
+			if (temp[i]->GetName() == "Worker")
+			{
+				temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(270, 0, 270));
+				temp[i]->GetCompatibleComponent<Worker>()->SetCollectionPoint(glm::vec3(250, 0, 250));
+			}
+			else
+				temp[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(230, 0, 230));
+		}
 	}
 	CheckProperty();
 	MacroCycle();
-	ArmyCycle();
+	ArmyCycle(enemyList);
 }
 
 void AiPlayer::CheckProperty()
 {
 	resources = Game::Get().FindResources();
 
-	workerCount = 0; factoryCount = 0; vehicleBayCount = 0; hangerCount = 0; droneCount = 0; wardenCount = 0; kestralCount = 0;
+	workerCount = 0; factoryCount = 0; vehicleBayCount = 0; hangerCount = 0; droneCount = 0; wardenCount = 0; kestrelCount = 0;
 	for (int i = 0; i < entities.size(); i++)
 	{
 		if (entities[i]->GetName() == "Worker")
@@ -53,7 +59,7 @@ void AiPlayer::CheckProperty()
 				else
 					if (entities[i]->GetName() == "Kestral")
 					{
-						kestralCount++;
+						kestrelCount++;
 					}
 					else
 						if (entities[i]->GetName() == "Factory")
@@ -193,83 +199,18 @@ void AiPlayer::MacroCycle()
 	}
 }
 
-void AiPlayer::ArmyCycle()
+void AiPlayer::ArmyCycle(std::vector<std::shared_ptr<Entity>>& enemyList)
 {
-}
+	int unitCount = droneCount + wardenCount + kestrelCount;
 
-void AiPlayer::HandleAiLogic(std::vector<std::shared_ptr<Entity>>&)
-{
-	// If it only has a base, build a worker.
-
-	if (entities.size() > 0)
+	if ((unitCount > (int)(Game::Get().GetTime() / 12) || unitCount > 20))
 	{
-		if (entities.size() == 1 && entities[0]->GetName() == "Base" && !workerbuilding)
-		{
-			workerbuilding = true;
-			// Build a worker.
-			entities[0]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
-			unitsQueued++;
-		}
-	}
-
-	// Set all units to same destination.
-	for (int i = 0; i < entities.size(); i++)
-	{
-
-		if (entities[i]->GetCompatibleComponent<Structure>() == NULL)
-		{
-			entities[i]->GetCompatibleComponent<Movement>()->SetGoal(glm::vec3(65 + (i * 2), 2.5, 50));
-			moving = true;
-		}
-		// Factory made
-	}
-
-	// Tell worker to spawn a factory object.
-	for (int i = 0; i < entities.size(); i++)
-	{
-		if (entities[i]->GetName() == "Factory")
-		{
-			break;
-			factoryMade = true;
-		}
-	}
-	if (factoryMade == false)
-	{
-		// Get first worker.
 		for (int i = 0; i < entities.size(); i++)
 		{
-			if (entities[i]->GetName() == "Worker")
+			if (entities[i]->GetName() == "Drone" || entities[i]->GetName() == "Warden" || entities[i]->GetName() == "Kestrel")
 			{
-				// Add a factory at a set position.
-				entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
-				unitsQueued++;
-				factoryMade = true;
-			}
-		}
-	}
-
-
-	// Spawn up to 3 units if there is not enough.
-	int combatUnitCount = 0;
-	for (int i = 0; i < entities.size(); i++)
-	{
-		if (entities[i]->GetCompatibleComponent<Structure>() == NULL)
-		{
-			combatUnitCount++;
-		}
-	}
-	// If there are not enough combat units, spawn some more.
-	if (combatUnitCount < 3 && unitsQueued < 5)
-	{
-		// Find a factory.
-		for (int i = 0; i < entities.size(); i++)
-		{
-			//	std::cout << entities[i]->GetName() << std::endl;
-			if (entities[i]->GetName() == "Factory")
-			{
-				entities[i]->GetCompatibleComponent<Structure>()->AddProduct(balance, 0);
-				combatUnitCount++;
-				unitsQueued++;
+				if (entities[i]->GetCompatibleComponent<Unit>()->GetAction() != Unit::AttackMove)
+					entities[i]->GetCompatibleComponent<Unit>()->OrderAttackMove(enemyList[0].get()->GetPosition());
 			}
 		}
 	}

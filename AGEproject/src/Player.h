@@ -17,7 +17,7 @@ protected:
 	Team team;
 	// List of entities that this player contains.
 	std::vector<std::shared_ptr<Entity>>entities;
-
+	std::vector<std::shared_ptr<Entity>> resources;
 	// The units that the player is controlling.
 	std::vector<std::shared_ptr<Entity>> selectedEntities;
 	// What enemy unit the player last choose.
@@ -25,7 +25,7 @@ protected:
 	// Most recent selected friendly unit
 	std::shared_ptr<Entity> selectedFriendly;
 	// How much $$$$ the player has, used for unit spawning.
-	int balance = 100000000000;
+	int balance = 200;
 
 	// Used to limit key calls.
 	float timeElapsed = 0.5f;
@@ -39,6 +39,7 @@ protected:
 	Entity ghostBuilding;
 	// cost to build object.
 	float buildingCost;
+	bool attackMove = true;
 public:
 	
 

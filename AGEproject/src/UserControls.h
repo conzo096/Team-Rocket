@@ -55,6 +55,7 @@ public:
 
 	bool IsMouseButtonPressed(std::string &action);
 
+	bool MouseSelection(std::string action, Button& button, bool& mouseButtonHeld);
 	bool MouseSelection(std::string action, std::vector<Button>& buttons, bool& mouseButtonHeld, int& currentSelection);
 	bool MouseSelection(std::string action, std::vector<std::pair<Button, UIQuad>>& buttons, bool& mouseButtonHeld, int& currentSelection);
 

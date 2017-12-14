@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "Balance": 1215752192,
     "Objects": [
         {
@@ -19,11 +20,34 @@
                 }
             ],
             "Texture": "ConstructorUV",
+=======
+    "Balance": 200,
+    "Objects": [
+        {
+            "EntityList": "Player",
+            "Model": "",
+            "Name": "Base",
+            "Position": [
+                0.0,
+                2.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 10.0,
+                    "Cost": 100,
+                    "UnitType": "Worker"
+                }
+            ],
+            "Texture": "",
+>>>>>>> Development
             "Type": "Renderable",
             "TypeCode": "Shipyard"
         },
         {
             "EntityList": "NPC",
+<<<<<<< HEAD
             "Model": "Base",
             "Name": "Base",
             "Position": [
@@ -299,10 +323,1036 @@
             "EntityList": "NPC",
             "Model": "Factory",
             "Name": "Factory",
+=======
+            "Model": "",
+            "Name": "Base",
+            "Position": [
+                0.0,
+                2.5,
+                0.0
+            ],
+            "Shader": "",
+            "SpawnInfos": [
+                {
+                    "BuildTime": 10.0,
+                    "Cost": 100,
+                    "UnitType": "Worker"
+                }
+            ],
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Shipyard"
+        },
+        null,
+        {
+            "Emissive": [
+                0.0199999995529652,
+                0.0199999995529652,
+                0.0199999995529652,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "",
+            "Plane": [
+                10.0,
+                10.0,
+                10.0
+            ],
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        null,
+        {
+            "Emissive": [
+                0.0199999995529652,
+                0.0199999995529652,
+                0.0199999995529652,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "",
+            "Plane": [
+                10.0,
+                10.0,
+                10.0
+            ],
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+>>>>>>> Development
             "Position": [
                 94.0,
                 0.0,
+<<<<<<< HEAD
                 93.0
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "SpawnInfos": [
@@ -314,6 +1364,7 @@
             ],
             "Texture": "FactoryUV",
             "Type": "Renderable",
+<<<<<<< HEAD
             "TypeCode": "Barracks"
         },
         {
@@ -331,17 +1382,37 @@
                 "Type": "Ground"
             },
             "Name": "Drone",
+=======
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+>>>>>>> Development
             "Position": [
                 83.0,
                 0.0,
+<<<<<<< HEAD
                 78.20899
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "Texture": "DronePlatformUV",
             "Type": "Renderable",
-            "TypeCode": "Troop"
+            "TypeCode": "Resource"
         },
         {
+<<<<<<< HEAD
             "EntityList": "NPC",
             "Model": "Worker",
             "Movement": {
@@ -356,9 +1427,21 @@
                 "Type": "Ground"
             },
             "Name": "Worker",
+=======
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+>>>>>>> Development
             "Position": [
                 69.8816727512362,
                 0.0,
+<<<<<<< HEAD
                 70.1183272487638
             ],
             "Shader": "Phong",
@@ -378,19 +1461,43 @@
                     "Cost": 1000,
                     "UnitType": "Hanger"
                 }
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Texture": "WorkerUV",
             "Type": "Renderable",
+<<<<<<< HEAD
             "TypeCode": "Worker"
         },
         {
             "EntityList": "NPC",
             "Model": "Factory",
             "Name": "Factory",
+=======
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+>>>>>>> Development
             "Position": [
                 94.0,
                 0.0,
+<<<<<<< HEAD
                 97.0
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "SpawnInfos": [
@@ -402,6 +1509,7 @@
             ],
             "Texture": "FactoryUV",
             "Type": "Renderable",
+<<<<<<< HEAD
             "TypeCode": "Barracks"
         },
         {
@@ -409,10 +1517,20 @@
                 0.0199999995529652,
                 0.0199999995529652,
                 0.0199999995529652,
+=======
+            "TypeCode": "Resource"
+        },
+        {
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
+>>>>>>> Development
                 1.0
             ],
             "EntityList": "Neutral",
             "Model": "",
+<<<<<<< HEAD
             "Name": "",
             "Plane": [
                 10.0,
@@ -427,6 +1545,46 @@
             "Shader": "Phong",
             "Texture": "Rock",
             "Type": "Renderable"
+=======
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+>>>>>>> Development
+        },
+        {
+            "Diffuse": [
+                1.0,
+<<<<<<< HEAD
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "Resource",
+=======
+                0.0,
+                0.0,
+                1.0
+            ],
+            "EntityList": "Neutral",
+            "Model": "",
+            "Name": "Resource",
+            "Position": [
+                0.0,
+                0.5,
+                0.0
+            ],
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
         },
         {
             "Diffuse": [
@@ -436,12 +1594,18 @@
                 1.0
             ],
             "EntityList": "Neutral",
-            "Model": "Resource",
+            "Model": "",
+>>>>>>> Development
             "Name": "Resource",
             "Position": [
                 50.0,
                 0.0,
+<<<<<<< HEAD
                 50.0
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "Texture": "ResourceUV",
@@ -456,12 +1620,21 @@
                 1.0
             ],
             "EntityList": "Neutral",
+<<<<<<< HEAD
             "Model": "Resource",
+=======
+            "Model": "",
+>>>>>>> Development
             "Name": "Resource",
             "Position": [
                 33.0,
                 0.0,
+<<<<<<< HEAD
                 32.0
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "Texture": "ResourceUV",
@@ -476,12 +1649,21 @@
                 1.0
             ],
             "EntityList": "Neutral",
+<<<<<<< HEAD
             "Model": "Resource",
+=======
+            "Model": "",
+>>>>>>> Development
             "Name": "Resource",
             "Position": [
                 60.0,
                 0.0,
+<<<<<<< HEAD
                 77.0
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "Texture": "ResourceUV",
@@ -496,12 +1678,21 @@
                 1.0
             ],
             "EntityList": "Neutral",
+<<<<<<< HEAD
             "Model": "Resource",
+=======
+            "Model": "",
+>>>>>>> Development
             "Name": "Resource",
             "Position": [
                 50.0,
                 0.0,
+<<<<<<< HEAD
                 2.0
+=======
+                0.5,
+                0.0
+>>>>>>> Development
             ],
             "Shader": "Phong",
             "Texture": "ResourceUV",
@@ -516,11 +1707,19 @@
                 1.0
             ],
             "EntityList": "Neutral",
+<<<<<<< HEAD
             "Model": "Resource",
+=======
+            "Model": "",
+>>>>>>> Development
             "Name": "Resource",
             "Position": [
                 90.0,
                 0.0,
+<<<<<<< HEAD
+=======
+                0.5,
+>>>>>>> Development
                 0.0
             ],
             "Shader": "Phong",
@@ -529,28 +1728,30 @@
             "TypeCode": "Resource"
         },
         {
-            "Emissive": [
-                0.0199999995529652,
-                0.0199999995529652,
-                0.0199999995529652,
+            "Diffuse": [
+                1.0,
+                0.0,
+                0.0,
                 1.0
             ],
             "EntityList": "Neutral",
             "Model": "",
-            "Name": "",
-            "Plane": [
-                10.0,
-                10.0,
-                10.0
-            ],
+            "Name": "Resource",
             "Position": [
                 0.0,
-                0.0,
+                0.5,
                 0.0
             ],
+<<<<<<< HEAD
             "Shader": "Phong",
             "Texture": "Rock",
             "Type": "Renderable"
+=======
+            "Shader": "",
+            "Texture": "",
+            "Type": "Renderable",
+            "TypeCode": "Resource"
+>>>>>>> Development
         },
         {
             "Diffuse": [
