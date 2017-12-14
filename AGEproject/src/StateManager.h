@@ -93,8 +93,8 @@ public:
 
 		Button newButton;
 		newButton.texture = ResourceHandler::Get().GetTexture("Start_Game");
-		newButton.renderTarget = Quad(glm::vec2(0.1f, -1 + 0.02f),
-									  glm::vec2(0.1f + 0.6f, -1 + 0.4f + 0.02f));
+		newButton.renderTarget = Quad(glm::vec2(0.05f, -1 + 0.02f),
+									  glm::vec2(0.75f, -1 + 0.4f + 0.02f));
 		
 		newButton.renderTarget.SetOpenGL();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
