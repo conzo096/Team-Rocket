@@ -1,7 +1,7 @@
 # All the other settings can be tweaked by editing the !defines at the top of this script
-!define APPNAME "Team Rocket RTS V2"
+!define APPNAME "Team Rocket RTS 64 bit"
 !define COMPANYNAME "Team Rocket (Team D)"
-!define DESCRIPTION "Version 2 of the untitled RTS game."
+!define DESCRIPTION "Scrapitalism."
 # These three must be integers
 !define VERSIONMAJOR 1
 !define VERSIONMINOR 1
@@ -13,14 +13,12 @@
 !define ABOUTURL "http://..." # "Publisher" link
 # This is the size (in kB) of all the files copied into "Program Files"
 !define INSTALLSIZE 7233
- 
-RequestExecutionLevel admin ;Require admin rights on NT6+ (When UAC is turned on)
- 
+  
 InstallDir "$DESKTOP\${COMPANYNAME}\${APPNAME}"
  
 # This will be in the installer/uninstaller's title bar
 Name "${COMPANYNAME} - ${APPNAME}"
-outFile "rtsV2.exe"
+outFile "Scrapitalism64.exe"
  
 !include LogicLib.nsh
  
@@ -31,10 +29,8 @@ Page instfiles
 !macro VerifyUserIsAdmin
 UserInfo::GetAccountType
 pop $0
-${If} $0 != "admin" ;Require admin rights on NT4+
-        messageBox mb_iconstop "Administrator rights required!"
-        setErrorLevel 740 ;ERROR_ELEVATION_REQUIRED
-        quit
+${If} $0 >= "admin" ;Require admin rights on NT4+
+
 ${EndIf}
 !macroend
  
@@ -48,20 +44,23 @@ section "install"
 	setOutPath $INSTDIR\game
 	# Files added here should be removed by the uninstaller (see section "uninstall")
 	file "x64\Release\AGEProject.exe"
+	File /r "src\json"
 	# Add any other files for the install directory (license files, app data, etc) here
 	#setOutPath $INSTDIR\gamebin
-	File /r "bin\"
+	File /r  "bin\win64\*.dll*"
+
 #	setOutPath $INSTDIR\game\include
 #	File /r "include\"
 	setOutPath $INSTDIR\res
 	File /r "res\models"
 	File /r "res\shaders"
 	File /r "res\textures"
+	File /r "res\audio"
 	# Uninstaller - See function un.onInit and section "uninstall" for configuration
-	writeUninstaller "$INSTDIR\rtsV2Uninstall.exe" 
+	writeUninstaller "$INSTDIR\\ScrapitalismUninstall.exe" 
 	# Start Menu
 	createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-	createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\rtsV1.exe"
+	createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\Scrapitalism.exe"
  
 	# Registry information for add/remove programs
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" "DisplayName" "${COMPANYNAME} - ${APPNAME} - ${DESCRIPTION}"
@@ -106,6 +105,7 @@ section "uninstall"
 	Delete "$INSTDIR\res\shaders\*.*"
 	Delete "$INSTDIR\res\textures\*.*"
 	Delete "$INSTDIR\res\models\*.*"
+		Delete "$INSTDIR\res\audio\*.*"
 	Delete "$INSTDIR\game\*.*"
 	Delete "$INSTDIR\*.*"
 
@@ -118,7 +118,7 @@ section "uninstall"
 	rmDir $INSTDIR\res\models
 	rmDir $INSTDIR\res\shaders
 	rmDir $INSTDIR\res\textures
-	rmDir $INSTDIR\res\Images
+	rmDir $INSTDIR\res\audio
 	rmDir $INSTDIR\res
 	rmDir $INSTDIR\game
 
@@ -128,7 +128,7 @@ section "uninstall"
 #	rmDir $INSTDIR\include\assimp
 #	rmDir $INSTDIR\include
 	# Always delete uninstaller as the last action
-	delete $INSTDIR\rtsV1.exe
+	delete $INSTDIR\Scrapitalism.exe
 	# Try to remove the install directory - this will only happen if it is empty
 	rmDir $INSTDIR
  
