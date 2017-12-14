@@ -88,7 +88,16 @@ void Unit::AttackEntity()
 				timeSinceLastFire = 0;
 				canShoot = false;
 				// Find an empty bullet and fire.
-				BulletParticle bullet(GetParent()->GetPosition());
+				dvec3 pos;
+				if (GetParent()->GetCompatibleComponent<TurretRenderable>() != NULL)
+				{
+					pos = GetParent()->GetCompatibleComponent<TurretRenderable>()->GetPosition();
+				}
+				else
+				{
+					pos = GetParent()->GetCompatibleComponent<Renderable>()->GetPosition();
+				}
+				BulletParticle bullet(GetParent()->GetPosition()+pos);
 				bullet.SetBulletDamage(weaponDamage);
 				bullet.SetTarget(targetEntity);
 				projectiles.push_back(bullet);
