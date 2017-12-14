@@ -4,6 +4,6 @@ void BoundingSphere::Update(double deltaTime)
 {
 	if (GetParent() != NULL)
 	{
-		center = GetParent()->GetPosition();
+		center = GetParent()->GetComponent<Renderable>().GetPosition() + GetParent()->GetPosition();
 	}
 }

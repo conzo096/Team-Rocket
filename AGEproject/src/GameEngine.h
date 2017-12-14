@@ -41,6 +41,8 @@ struct RenderData
 
 	glm::vec3 boundingPoint;
 	float sphereRadius;
+
+	glm::vec4 highlightColour;
 };
 
 struct ParticleData
@@ -87,7 +89,7 @@ public:
 	int GetResolutionWidth() { return resolutionWidth; }
 	int GetResolutionHeight() { return resolutionHeight; }
 	bool GetFullScreen() { return fullScreen; }
-	void SetFullScreen(int val){ fullScreen = val; }
+	void SetFullScreen(int val) { fullScreen = val; }
 	void SetScreenWidth(int val) { width = val; }
 	void SetScreenHeight(int val) { height = val; }
 	void SetResolutionWidth(int val) { resolutionWidth = val; }
@@ -96,7 +98,7 @@ public:
 	void SetCameraUp(glm::vec3 u) { cameraUp = u; }
 	void SetCameraRight(glm::vec3 r) { cameraRight = r; }
 	void SetCamera(glm::mat4 camera);
-	void AddPointLight(PointLight* light); 
+	void AddPointLight(PointLight* light);
 	std::vector<PointLight*>& GetPointLights();
 	// Cleans up game engine resources.
 	void CleanUp();

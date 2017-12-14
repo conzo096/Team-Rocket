@@ -94,7 +94,8 @@ void GameEngine::Render()
 		index = glGetUniformLocation(rl.shader, "eye_pos");
 		glm::vec3 eyePos = glm::vec3(mvp[0][3], mvp[1][3], mvp[2][3]);
 		glUniform3fv(index, 1, glm::value_ptr(eyePos));
-
+		index = glGetUniformLocation(rl.shader, "highlightColour");
+		glUniform4fv(index,1,glm::value_ptr(rl.highlightColour));
 		// Bind material.
 		BindMaterial(rl.mat, rl.shader);
 

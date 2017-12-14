@@ -1,5 +1,6 @@
 #include "ControlsMenu.h"
 #include "UserControls.h"
+#include "AudioEngine.h"
 
 #define CLOSE 14
 
@@ -194,7 +195,6 @@ int ControlsMenu::Draw(GLShader shader)
 
 				if (GLFW_PRESS == keys[0])
 					selectionMade = true;
-
 				if (selectionMade)
 				{
 					// "Reset to default" is pressed

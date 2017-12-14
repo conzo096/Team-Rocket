@@ -21,7 +21,7 @@ void TurretRenderable::TurnTo(double deltaTime)
 
 	//glm::dvec3 f = glm::rotate(GetParent()->GetRotation(), glm::dvec3(0, 0, -1));
 
-	glm::vec3 currentVec = glm::vec3(-GetParent()->GetTransform()[2][0], 0, -GetParent()->GetTransform()[2][2]);
+	glm::vec3 currentVec = glm::vec3(-GetTransform()[2][0], 0, -GetTransform()[2][2]);
 	if (currentVec.x != 0 && currentVec.z != 0)
 		currentVec = glm::normalize(currentVec);
 
@@ -41,22 +41,22 @@ void TurretRenderable::TurnTo(double deltaTime)
 		{
 			if ((turnSpeed*deltaTime) < angle)
 			{
-				GetParent()->Rotate(glm::vec3(0, turnSpeed*deltaTime, 0));
+				Rotate(glm::vec3(0, turnSpeed*deltaTime, 0));
 			}
 			else
 			{
-				GetParent()->Rotate(glm::vec3(0, angle, 0));
+				Rotate(glm::vec3(0, angle, 0));
 			}
 		}
 		else
 		{
 			if ((turnSpeed*deltaTime) < angle)
 			{
-				GetParent()->Rotate(glm::vec3(0, -turnSpeed*deltaTime, 0));
+				Rotate(glm::vec3(0, -turnSpeed*deltaTime, 0));
 			}
 			else
 			{
-				GetParent()->Rotate(glm::vec3(0, -angle, 0));
+				Rotate(glm::vec3(0, -angle, 0));
 			}
 		}
 	}
@@ -64,5 +64,6 @@ void TurretRenderable::TurnTo(double deltaTime)
 
 void TurretRenderable::Update(double deltaTime)
 {
-
+	if (target != NULL)
+		TurnTo(deltaTime);
 }

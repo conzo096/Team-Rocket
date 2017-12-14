@@ -98,6 +98,9 @@ void ResourceHandler::LoadTextures()
 
 	// UI font
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Font"), Texture("../res/textures/Holstein.png").GetTextureId()));
+
+	// Splash Screen - M8 you get much better compression with jpeg for colour images but they break it, needs 4 channels apparently
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Splash_Screen"), Texture("../res/textures/UI/SplashScreen.png").GetTextureId()));
 }
 
 void ResourceHandler::LoadShaders()
@@ -145,5 +148,7 @@ void ResourceHandler::LoadShaders()
 
 void ResourceHandler::LoadAudio()
 {
-	audio.insert(std::pair<std::string, char*>(std::string("noise"), "../res/audio/tone-beep.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Advance"), "../res/audio/tone-beep.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Return"), "../res/audio/tone-beep-reverse.wav"));
+	audio.insert(std::pair<std::string, char*>(std::string("Theme"), "../res/audio/Clash_Defiant.wav"));
 }

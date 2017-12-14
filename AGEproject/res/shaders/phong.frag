@@ -27,7 +27,7 @@ uniform directional_light light;
 uniform material mat;
 uniform vec3 eye_pos;
 uniform sampler2D tex;
-
+uniform vec4 highlightColour;
 #define NUM_POINT_LIGHTS 16
 
 uniform PointLight point_light[NUM_POINT_LIGHTS];
@@ -112,7 +112,7 @@ void main()
 
 	if(tex_colour.a < 1.0)
 	{
-		tex_colour *= vec4(1,0,0,1);
+		tex_colour *= highlightColour;
 	}
 
 	colour = vec4(0, 0, 0, 1);
