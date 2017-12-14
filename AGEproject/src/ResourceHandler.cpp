@@ -67,6 +67,10 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId()));
 
+	// Pause Menu buttons
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_Game"), Texture("../res/textures/UI/SettingsMenu/Save_Game_Button.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Load_Game"), Texture("../res/textures/UI/SettingsMenu/Load_Game_Button.png").GetTextureId()));
+
 	// ControlsMenu buttons
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward"), Texture("../res/textures/UI/ControlsMenu/Forward.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Backward"), Texture("../res/textures/UI/ControlsMenu/Backward.png").GetTextureId()));

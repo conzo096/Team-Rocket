@@ -35,6 +35,7 @@ void Renderable::SetModel(std::string location)
 	renderInfo.modelVao = model->GetVAO();
 	renderInfo.drawType = model->GetType();
 	renderInfo.indices = model->GetIndices();
+	modelName = location;
 }
 
 void Renderable::SetTexture(std::string texName)
@@ -42,6 +43,7 @@ void Renderable::SetTexture(std::string texName)
 	//effect->texture = Shader::Get().AddTexture(texName);
 	effect->texture = ResourceHandler::Get().GetTexture(texName);
 	renderInfo.texture = effect->texture;
+	textureName = texName;
 }
 
 void Renderable::SetHighlight(glm::vec4 highlightColour)
@@ -54,7 +56,7 @@ void Renderable::SetShader(std::string texName)
 {
 	effect->shader = texName;
 	renderInfo.shader = ResourceHandler::Get().GetShader(texName)->GetId();
-
+	shaderName = texName;
 }
 
 void Renderable::SetMaterial(Material* mat)

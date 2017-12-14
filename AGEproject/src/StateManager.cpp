@@ -4,6 +4,7 @@
 #include "Renderable.h"
 #include "UserControls.h"
 #include "AudioEngine.h"
+#include "LevelLoader.h"
 #include <memory>
 
 void StateManager::StateLoop()
@@ -90,6 +91,10 @@ void StateManager::StateLoop()
 			break;
 		case(stateExiting):
 			running = false;
+			break;
+		case statePause:
+			ShowPauseScreen();
+			currentState = statePlaying;
 			break;
 		default:
 			throw std::invalid_argument("Error: No behavior has been set for state" + currentState);

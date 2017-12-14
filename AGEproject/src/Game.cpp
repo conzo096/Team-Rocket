@@ -304,13 +304,24 @@ bool Game::Update()
 		allEntities.insert(allEntities.end(), player->GetEntities().begin(), player->GetEntities().end());
 		NPC->Update(allEntities);
 
-		//if (UserControls::Get().KeyBuffer(std::string("Enter"), keyHeld))
-		//{
-		//	//freeCamEnabled = !freeCamEnabled;
-		//	LevelLoader ll;
-		//	ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
-		//}
-	
+		if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_P) == GLFW_PRESS)
+		{
+			LevelLoader ll;
+			ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+			StateManager::Get().currentState = StateManager::statePause;
+		}
+
+		if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_L) == GLFW_PRESS)
+		{
+			LevelLoader ll;
+			ll.LoadLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player);
+		}
+		if (glfwGetKey(GameEngine::Get().GetWindow(), GLFW_KEY_K) == GLFW_PRESS)
+		{
+			LevelLoader ll;
+			ll.SaveLevel("./json/LevelSaved.json", player->GetEntities(), NPC->GetEntities(), neutralEntities, player->GetBalance());
+		}
+
 		// Update all the entities in the scene.
 		
 		int i;

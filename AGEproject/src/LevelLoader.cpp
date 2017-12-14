@@ -15,20 +15,6 @@ void LevelLoader::SetMovement(json j, Movement &m)
 		m.SetGoal(glm::dvec3(g[0], g[1], g[2]));
 	}
 
-	// Destination is the current way point - no need to save
-	/*
-	if (j["Destination"] != nullptr)
-	{
-		json destination = j["Destination"];
-		std::vector<float> d;
-		for (const auto elem : destination)
-		{
-			d.push_back(elem);
-		}
-		m.SetDestination(glm::dvec3(d[0], d[1], d[2]));
-	}
-	*/
-
 	if (j["Speed"] != "")
 		m.SetSpeed(j["Speed"]);
 
@@ -62,11 +48,12 @@ void LevelLoader::EncodeEntity(std::shared_ptr<Entity> entity, json &objects, st
 		auto tempRenderable = entity->GetCompatibleComponent<Renderable>();
 		const auto tempMaterial = tempRenderable->GetMaterial();
 
-		jEntity["Model"] = entity->modelName;
-		jEntity["Shader"] = entity->shaderName;
-		jEntity["Texture"] = entity->textureName;
+		jEntity["Model"] = tempRenderable->modelName;
+		jEntity["Shader"] = tempRenderable->shaderName;
+		jEntity["Texture"] = tempRenderable->textureName;
 
-		auto p = tempRenderable->GetPosition();
+		// auto p = tempRenderable->GetPosition();
+		auto p = entity->GetPosition();
 		jEntity["Position"] = { p.x, p.y, p.z };
 
 		if(tempMaterial.diffuse != vec4(0) && entity->GetCompatibleComponent<Resource>() != nullptr)
@@ -155,7 +142,8 @@ void LevelLoader::EncodeEntity(std::shared_ptr<Entity> entity, json &objects, st
 		auto c = pL->diffuse;
 		jEntity["Colour"] = { c.r, c.g, c.b, c.w };
 	}
-	objects.push_back(jEntity);
+	if(entity != nullptr && entity->numComponents() != 0)
+		objects.push_back(jEntity);
 }
 
 void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<Entity>> &playerEntities, vector<std::shared_ptr<Entity>> &NPCEntities, vector<std::shared_ptr<Entity>> &neutralEntities, Player* player)
@@ -166,6 +154,11 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 	player->SetBalance(j["Balance"]);
 
 	vector<json> objects = j["Objects"];
+
+	// Remove current entities from the game world
+	playerEntities.clear();
+	NPCEntities.clear();
+	neutralEntities.clear();
 
 	for(json object : objects)
 	{
@@ -201,19 +194,19 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 			if (object["Model"] != "")
 			{
 				const string s = object["Model"];
-				tempEntity->modelName = s;
+				tempRenderable->modelName = s;
 				tempRenderable->SetModel(s);
 			}
 			if (object["Shader"] != "")
 			{
 				const string s = object["Shader"];
-				tempEntity->shaderName = s;
+				tempRenderable->shaderName = s;
 				tempRenderable->SetShader(s);
 			}
 			if (object["Texture"] != "")
 			{
 				const string s = object["Texture"];
-				tempEntity->textureName = s;
+				tempRenderable->textureName = s;
 				tempRenderable->SetTexture(s);
 			}
 
@@ -223,9 +216,9 @@ void LevelLoader::LoadLevel(const std::string jsonFile, vector<std::shared_ptr<E
 			{
 				positions.push_back(elem);
 			}
-			tempRenderable->SetPosition(glm::dvec3(positions[0], positions[1], positions[2]));
-			tempEntity->SetPosition(tempRenderable->GetPosition());
+			tempEntity->SetPosition(glm::dvec3(positions[0], positions[1], positions[2]));
 			tempRenderable->UpdateTransforms();
+			tempEntity->UpdateTransforms();
 			// tempEntity has tempRenderable added later as it is still needed for the bounding sphere
 
 			json movement = object["Movement"];
@@ -403,6 +396,8 @@ void LevelLoader::SaveLevel(const std::string jsonFile, vector<std::shared_ptr<E
 	j["Balance"] = balance;
 
 	json objects = json::array();
+
+	// There's a reason these aren't const... I think
 
 	for(auto pE : playerEntities)
 	{
