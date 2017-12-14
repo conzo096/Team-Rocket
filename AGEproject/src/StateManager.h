@@ -33,9 +33,6 @@ public:
 	int ShowSplashScreen()
 	{
 		// Initialise required assets, time, shader, quad, texture
-	//	const std::chrono::milliseconds timeToWait(5000); // 5 Seconds
-		clock_t t = clock();
-		float elapsedTime = 0;
 		GLShader shader = *ResourceHandler::Get().GetShader("Basic");
 		Quad quad = Quad();
 		const unsigned int tex = ResourceHandler::Get().GetTexture("Splash_Screen");
@@ -55,17 +52,13 @@ public:
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
 
-
-		while (true)
+		// After drawing, start waiting
+		const clock_t start_time = clock();
+		float elapsedTime = 0;
+		while (elapsedTime < 5.0f)
 		{
-			t = clock() - t;
-			elapsedTime = (float)t / CLOCKS_PER_SEC;
-			if (elapsedTime > 5.0f)
-				// Show the main menu
-				return stateMainMenu;
+			elapsedTime = static_cast<float>(clock() - start_time) / CLOCKS_PER_SEC;
 		}
-		//// After drawing, start waiting
-		//std::this_thread::sleep_for(timeToWait);
 		return stateMainMenu;
 	}
 
