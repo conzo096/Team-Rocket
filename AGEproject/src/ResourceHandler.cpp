@@ -17,8 +17,9 @@ void ResourceHandler::LoadModels()
 	models.insert(std::pair<std::string, Model*>(std::string("Hanger"), new Model("../res/models/Hanger.obj")));
 
 	models.insert(std::pair<std::string, Model*>(std::string("Torus"), new Model("../res/models/Torus2.obj")));
-	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 100, 100)));
-	models.insert(std::pair<std::string, Model*>(std::string("BillBoard"), GeometryUtil::BuildPlane(0.5, 4,4)));
+	models.insert(std::pair<std::string, Model*>(std::string("Plane"), GeometryUtil::BuildPlane(1, 300, 300)));
+	models.insert(std::pair<std::string, Model*>(std::string("BillBoard"), GeometryUtil::BuildPlane(0.2, 4,4)));
+
 }
 
 void ResourceHandler::LoadTextures()
@@ -65,6 +66,10 @@ void ResourceHandler::LoadTextures()
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Cancel_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_LargeButton3_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Left_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton1_Highlighted.png").GetTextureId()));
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Right_arrow_HIGHLIGHTED"), Texture("../res/textures/UI/SettingsMenu/SettingsMenu_SmallButton2_Highlighted.png").GetTextureId()));
+
+	// Pause Menu buttons
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Save_Game"), Texture("../res/textures/UI/SettingsMenu/Save_Game_Button.png").GetTextureId()));
+	textures.insert(std::pair<std::string, unsigned int>(std::string("Load_Game"), Texture("../res/textures/UI/SettingsMenu/Load_Game_Button.png").GetTextureId()));
 
 	// ControlsMenu buttons
 	textures.insert(std::pair<std::string, unsigned int>(std::string("Forward"), Texture("../res/textures/UI/ControlsMenu/Forward.png").GetTextureId()));

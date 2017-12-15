@@ -7,7 +7,8 @@
 
 int SettingsMenu::Draw(GLShader shader)
 {
-	shader = *ResourceHandler::Get().GetShader("Basic");
+	std::cout << "Draw settings menu" << std::endl;
+	//shader = *ResourceHandler::Get().GetShader("Basic");
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
 	int currentOption1 = -1;
@@ -116,7 +117,7 @@ int SettingsMenu::Draw(GLShader shader)
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
-		shader.Use();
+		ResourceHandler::Get().GetShader("Basic")->Use();
 		// Controller is being used
 		if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		{
@@ -283,9 +284,9 @@ int SettingsMenu::Draw(GLShader shader)
 		for (int i = 0; i < numOfLabels; i++)
 		{
 			// Bind texture.
-			if (shader.IsLinked())
+			if (ResourceHandler::Get().GetShader("Basic")->IsLinked())
 			{
-				glUniform1i(shader.GetUniformLocation("tex"), 0);
+				glUniform1i(ResourceHandler::Get().GetShader("Basic")->GetUniformLocation("tex"), 0);
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, labels.at(i).texture);
 				labels[i].renderTarget.Draw();
@@ -294,7 +295,7 @@ int SettingsMenu::Draw(GLShader shader)
 		for (int i = 0; i < numOfButtons; i++)
 		{
 			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
+			glUniform1i(ResourceHandler::Get().GetShader("Basic")->GetUniformLocation("tex"), 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
 			buttons[i].renderTarget.Draw();

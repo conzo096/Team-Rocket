@@ -20,6 +20,8 @@ public:
 		button_tex[2] = ResourceHandler::Get().GetTexture("Cancel");
 		button_tex[3] = ResourceHandler::Get().GetTexture("Right_arrow");
 		button_tex[4] = ResourceHandler::Get().GetTexture("Left_arrow");
+//		button_tex[5] = ResourceHandler::Get().GetTexture("Save_Game");
+//		button_tex[6] = ResourceHandler::Get().GetTexture("Load_Game");
 
 		highlight_tex[0] = ResourceHandler::Get().GetTexture("Customise_controls_HIGHLIGHTED");
 		highlight_tex[1] = ResourceHandler::Get().GetTexture("Save_changes_HIGHLIGHTED");

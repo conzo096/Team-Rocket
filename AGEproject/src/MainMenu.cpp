@@ -33,9 +33,11 @@ int MainMenu::SelectionPicked()
 
 int MainMenu::Draw(GLShader shader)
 {
+	std::cout << "Draw Main Menu" << std::endl;
+	//shader = *ResourceHandler::Get().GetShader("Basic");
 	// Draw background texture
 	Quad background = Quad();
-	const unsigned int background_tex = ResourceHandler::Get().GetTexture("Background");
+	unsigned int background_tex = ResourceHandler::Get().GetTexture("Background");
 	background.SetOpenGL();
 
 	buttons.resize(numberOfButtons);
@@ -57,12 +59,13 @@ int MainMenu::Draw(GLShader shader)
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 		currentSelection = 0;
 
+	auto t = ResourceHandler::Get().GetShader("Basic")->GetUniformLocation("tex");
 	while (!selectionMade)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
-		shader.Use();
+		ResourceHandler::Get().GetShader("Basic")->Use();
 
 		if (UserControls::Get().isJoystickActive())
 		{
@@ -119,7 +122,7 @@ int MainMenu::Draw(GLShader shader)
 		for (int i = 0; i < numberOfButtons; i++)
 		{
 			// Bind texture.
-			glUniform1i(shader.GetUniformLocation("tex"), 0);
+			glUniform1i(t, 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, buttons.at(i).texture);
 			buttons[i].renderTarget.Draw();

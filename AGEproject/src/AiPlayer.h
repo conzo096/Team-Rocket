@@ -14,8 +14,8 @@ class AiPlayer : public Player
 	int wardenCount;
 	int kestrelCount;
 
-	int buildMin = 80;
-	int buildMax = 99;
+	int buildMin = 180;
+	int buildMax = 250;
 
 	bool attacking = false;
 

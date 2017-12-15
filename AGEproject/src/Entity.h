@@ -34,6 +34,8 @@ public:
 		return std::unique_ptr<T>(static_cast<T *>(MakeGeneric(j)));
 	}
 
+	std::string modelName, textureName, shaderName;
+
 	virtual ~Component();
 	virtual void Update(double delta) {};
 	virtual void Render() {};
@@ -59,7 +61,9 @@ public:
 	void Update(const double delta);
 	void Render();
 
-	std::string modelName, textureName, shaderName;
+	int numComponents() { return components.size(); }
+
+	
 
 	template <typename T> T &GetComponent() const {
 		map::const_iterator iter = components.find(std::type_index(typeid(T)));

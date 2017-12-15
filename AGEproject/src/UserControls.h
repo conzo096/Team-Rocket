@@ -26,7 +26,7 @@ private:
 	// List of default keys
 	std::vector<unsigned int> defaultKeys =
 		{ GLFW_KEY_W, GLFW_KEY_S, GLFW_KEY_A, GLFW_KEY_D, GLFW_KEY_Q, GLFW_KEY_E, 0,
-		  GLFW_KEY_SPACE, GLFW_KEY_LEFT_CONTROL, GLFW_KEY_X, GLFW_KEY_1, GLFW_KEY_2, GLFW_KEY_3, 0 };
+		  GLFW_KEY_SPACE, GLFW_KEY_LEFT_CONTROL, GLFW_KEY_X, GLFW_KEY_1, GLFW_KEY_2, GLFW_KEY_3, 0, GLFW_KEY_P };
 
 	// Mouse position.
 	double mouseX, mouseY;

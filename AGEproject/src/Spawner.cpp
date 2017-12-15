@@ -46,7 +46,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		auto tempStructure = std::make_unique<Structure>();
 		tempStructure->SetTeam(team);
 		SpawnInfo si;
-		si.buildTime = 3.0f;
+		si.buildTime = 10.0f;
 		si.cost = 500;
 		si.unitType = "Factory";
 		tempStructure->AddSpawnInfo(si);
@@ -80,7 +80,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "Drone")
 	{
 		tempEntity->SetName(name);
-	//	std::cout << "Incomplete" << std::endl;
+		//	std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetModel("DronePlatform");
@@ -120,19 +120,30 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		auto tempBoundingSphere = std::make_unique<BoundingSphere>();
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 		auto target = std::make_unique<Targetable>();
+
+		target->SetMaxHealth(100);
 		target->SetHealth(100);
+
+		auto tempUnit = std::make_unique<Troop>();
+		tempUnit->SetTeam(team);
+		tempUnit->SetUnitWeapon(5.0, 6.0, 5.0, 0.5);
+
 		// Changes depending on rank.
 		if (rank > 0)
 		{
 			target->SetMaxHealth(150);
 			target->SetHealth(150);
+			target->SetThreshold(2);
+			tempUnit->SetWeaponDamage(7);
 		}
 		if (rank > 1)
 		{
-			target->SetResistance(3);
+			target->SetMaxHealth(200);
+			target->SetHealth(200);
+			target->SetThreshold(4);
+			tempUnit->SetWeaponDamage(9);
 		}
-		auto tempUnit = std::make_unique<Troop>();
-		tempUnit->SetTeam(team);
+
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
 		tempEntity->AddComponent(move(tempMovement));
@@ -144,7 +155,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "Warden")
 	{
 		tempEntity->SetName(name);
-	//	std::cout << "Incomplete" << std::endl;
+		//	std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempRenderable->SetMaterial(new Material());
 		tempRenderable->SetProperties("./json/Warden.json");
@@ -183,19 +194,28 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempBoundingSphere->SetUpBoundingSphere(tempRenderable->GetModel().GetVertexPositions());
 
 		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
-		// Changes depending on rank.
+		target->SetMaxHealth(300);
+		target->SetHealth(300);
+
+		auto tempUnit = std::make_unique<Tank>();
+		tempUnit->SetTeam(team);
+		tempUnit->SetUnitWeapon(8.0, 10.0, 40.0, 1.5);
+
 		if (rank > 0)
 		{
-			target->SetMaxHealth(150);
-			target->SetHealth(150);
+			target->SetMaxHealth(400);
+			target->SetHealth(400);
+			target->SetThreshold(3);
+			tempUnit->SetWeaponDamage(45);
 		}
 		if (rank > 1)
 		{
-			target->SetResistance(3);
+			target->SetMaxHealth(500);
+			target->SetHealth(500);
+			target->SetThreshold(6);
+			tempUnit->SetWeaponDamage(50);
 		}
-		auto tempUnit = std::make_unique<Tank>();
-		tempUnit->SetTeam(team);
+
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
 		tempEntity->AddComponent(move(tempMovement));
@@ -225,19 +245,28 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		if (team == Team::ai)
 			tempRenderable->SetHighlight(enemyColour);
 		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
-		// Changes depending on rank.
+		target->SetMaxHealth(200);
+		target->SetHealth(200);
+
+		auto tempUnit = std::make_unique<Ship>();
+		tempUnit->SetTeam(team);
+		tempUnit->SetUnitWeapon(6.0, 12.0, 20.0, 0.8);
+
 		if (rank > 0)
 		{
-			target->SetMaxHealth(150);
-			target->SetHealth(150);
+			target->SetMaxHealth(250);
+			target->SetHealth(250);
+			target->SetThreshold(3);
+			tempUnit->SetWeaponDamage(25);
 		}
 		if (rank > 1)
 		{
-			target->SetResistance(3);
+			target->SetMaxHealth(300);
+			target->SetHealth(300);
+			target->SetThreshold(6);
+			tempUnit->SetWeaponDamage(30);
 		}
-		auto tempUnit = std::make_unique<Ship>();
-		tempUnit->SetTeam(team);
+
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempUnit));
 		tempEntity->AddComponent(move(tempMovement));
@@ -261,8 +290,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
 		SpawnInfo si;
-		si.buildTime = 3.0f;
-		si.cost = 300;
+		si.buildTime = 10.0f;
+		si.cost = 100;
 		si.unitType = "Worker";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
@@ -296,7 +325,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
 		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
+		target->SetMaxHealth(1000);
+		target->SetHealth(1000);
 		tempEntity->AddComponent(move(target));
 
 		return tempEntity;
@@ -317,7 +347,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
 		SpawnInfo si;
-		si.buildTime = 3.0f;
+		si.buildTime = 20.0f;
 		si.cost = 300;
 		si.unitType = "Kestrel";
 		tempStructure->AddSpawnInfo(si);
@@ -349,7 +379,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
 		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
+		target->SetMaxHealth(500);
+		target->SetHealth(500);
 		tempEntity->AddComponent(move(target));
 
 		return tempEntity;
@@ -357,7 +388,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 
 	if (name == "Resource")
 	{
-	//	std::cout << "Incomplete" << std::endl;
+		//	std::cout << "Incomplete" << std::endl;
 		tempEntity->SetName("Resource");
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
@@ -397,7 +428,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "Factory")
 	{
 		tempEntity->SetName("Factory");
-	//	std::cout << "Incomplete" << std::endl;
+		//	std::cout << "Incomplete" << std::endl;
 
 		tempEntity->SetPosition(position);
 
@@ -411,7 +442,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Barracks>();
 		SpawnInfo si;
-		si.buildTime = 2.0f;
+		si.buildTime = 15.0;
 		si.cost = 100;
 		si.unitType = "Drone";
 		tempStructure->AddSpawnInfo(si);
@@ -444,7 +475,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
 		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
+		target->SetMaxHealth(500);
+		target->SetHealth(500);
 		tempEntity->AddComponent(move(target));
 		return tempEntity;
 	}
@@ -452,7 +484,7 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 	if (name == "VehicleBay")
 	{
 		tempEntity->SetName("VehicleBay");
-	//	std::cout << "Incomplete" << std::endl;
+		//	std::cout << "Incomplete" << std::endl;
 		auto tempRenderable = std::make_unique<Renderable>();
 		tempEntity->SetPosition(position);
 		tempRenderable->SetModel("VehicleBay");
@@ -464,8 +496,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempRenderable->UpdateTransforms();
 		auto tempStructure = std::make_unique<Shipyard>();
 		SpawnInfo si;
-		si.buildTime = 3.0f;
-		si.cost = 300;
+		si.buildTime = 20.0f;
+		si.cost = 200;
 		si.unitType = "Warden";
 		tempStructure->AddSpawnInfo(si);
 		tempStructure->SetTeam(team);
@@ -497,7 +529,8 @@ std::shared_ptr<Entity> Spawner::CreateEntity(std::string name, glm::vec3 positi
 		tempEntity->AddComponent(move(tempRenderable));
 		tempEntity->AddComponent(move(tempStructure));
 		auto target = std::make_unique<Targetable>();
-		target->SetHealth(100);
+		target->SetMaxHealth(500);
+		target->SetHealth(500);
 		tempEntity->AddComponent(move(target));
 		return tempEntity;
 	}

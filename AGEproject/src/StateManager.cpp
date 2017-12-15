@@ -4,11 +4,13 @@
 #include "Renderable.h"
 #include "UserControls.h"
 #include "AudioEngine.h"
+#include "LevelLoader.h"
 #include <memory>
 
 void StateManager::StateLoop()
 {
 	GameEngine::Get().Initialise();
+	ResourceHandler::Get().Load();
 	shader = ResourceHandler::Get().GetShader("Basic");
 	bool running = true;
 	int select;
@@ -33,12 +35,12 @@ void StateManager::StateLoop()
 			select = ShowMainMenu();
 			if (select == 0)
 			{
-				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				//AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				currentState = stateTutorial;
 			}
 			else if (select == 1)
 			{
-				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				//AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				currentState = stateSettings;
 			}
 			else if (select == 2) { currentState = stateExiting; }
@@ -47,17 +49,17 @@ void StateManager::StateLoop()
 			select = ShowSettingsMenu();
 			if (select == 0)
 			{
-				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				//AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				currentState = stateControls;
 			}
 			else if (select == 1)
 			{
-				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				//AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				GameEngine::Get().UpdateWindow();
 			}
 			else if (select == 2) 
 			{ 
-				AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Return"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
+				//AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Return"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 				currentState = stateMainMenu; 
 			}
 			else if (select == 7) 
@@ -90,6 +92,10 @@ void StateManager::StateLoop()
 			break;
 		case(stateExiting):
 			running = false;
+			break;
+		case statePause:
+			ShowPauseScreen();
+			currentState = statePlaying;
 			break;
 		default:
 			throw std::invalid_argument("Error: No behavior has been set for state" + currentState);

@@ -15,6 +15,9 @@
 
 class StateManager : public Singleton<StateManager>
 {
+
+private:
+	GLShader* shader;
 public:
 	enum State
 	{
@@ -35,9 +38,6 @@ public:
 	void ShowSplashScreen()
 	{
 		// Initialise required assets, time, shader, quad, texture
-	//	const std::chrono::milliseconds timeToWait(5000); // 5 Seconds
-		clock_t t = clock();
-		float elapsedTime = 0;
 		GLShader shader = *ResourceHandler::Get().GetShader("Basic");
 		Quad quad = Quad();
 		const unsigned int tex = ResourceHandler::Get().GetTexture("Splash_Screen");
@@ -56,15 +56,14 @@ public:
 		// Render it
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 		glfwPollEvents();
-		while (true)
+
+		// After drawing, start waiting
+		const clock_t start_time = clock();
+		float elapsedTime = 0;
+		while (elapsedTime < 2.0f)
 		{
-			t = clock() - t;
-			elapsedTime = (float)t / CLOCKS_PER_SEC;
-			if (elapsedTime > 2.0f)
-				// Show the main menu
-				return;
+			elapsedTime = static_cast<float>(clock() - start_time) / CLOCKS_PER_SEC;
 		}
-		return;
 	}
 
 	int ShowMainMenu()
@@ -83,6 +82,12 @@ public:
 	{
 		ControlsMenu cm;
 		return cm.Draw(*shader);
+	}
+
+	int ShowPauseScreen()
+	{
+		SettingsMenu sm;
+		return sm.Draw(*shader);
 	}
 
 	void ShowTutorial()
@@ -116,13 +121,21 @@ public:
 
 		glfwSwapBuffers(GameEngine::Get().GetWindow());
 
+		int count = 0;
 		while (!selectionMade)
 		{
+			count++;
 			selectionMade = UserControls::Get().MouseSelection(std::string("Action"), newButton, mouseButtonHeld);
+			if (count > 2000)
+			{
+				if (selectionMade)
+					return;
+				selectionMade = UserControls::Get().IsJoystickPressed("A");
+			}
+			if (selectionMade)
+				return;
 			glfwPollEvents();
 		}
 	}
 
-private:
-	GLShader* shader;
 };
