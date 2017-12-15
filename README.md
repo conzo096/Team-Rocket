@@ -13,6 +13,13 @@ Some of the main features in this game are:
 * Real-time strategy. 
 * Variety of combat units. 
 
+Here is a small demo of the ![game](https://www.youtube.com/watch?v=DpTRG49Xh54).
+
+Download for the exe are provided down below:
+
+![64 bit](https://github.com/conzo096/Team-Rocket/releases/download/V3/Scrapitalism64.exe)
+
+![32 bit](https://github.com/conzo096/Team-Rocket/releases/download/V3/Scrapitalism32.exe)
 
 If you are interested in the status of the most recent builds. You can check the progress of the main branches here!
 Most recent: [![Build status](https://ci.appveyor.com/api/projects/status/4qq6xm4gckyo6am3?svg=true)](https://ci.appveyor.com/project/conzo096/team-rocket)
