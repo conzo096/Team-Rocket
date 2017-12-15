@@ -22,18 +22,13 @@ public:
 	std::map<std::string, GLShader*> shaders;
 	std::map<std::string, char*> audio;
 
-	// Better way to handle this?
-	//std::vector<Component*> componentList;
-
-	ResourceHandler() 
+	void Load()
 	{
 		LoadModels();
 		LoadTextures();
 		LoadShaders();
 		LoadAudio();
 	}
-
-	~ResourceHandler() {}
 
 	void LoadModels();
 	void LoadTextures();

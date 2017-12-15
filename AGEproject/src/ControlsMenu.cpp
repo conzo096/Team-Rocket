@@ -294,7 +294,7 @@ int ControlsMenu::Draw(GLShader shader)
 					FileIO::Get().SaveIniFile();
 				}
 
-				if (currentSelection == 13 && (!(UserControls::Get().isJoystickActive() == GL_TRUE)))
+				else if (currentSelection == 13 && (!(UserControls::Get().isJoystickActive() == GL_TRUE)))
 				{
 					selectionMade = false;
 				}

@@ -10,6 +10,7 @@
 void StateManager::StateLoop()
 {
 	GameEngine::Get().Initialise();
+	ResourceHandler::Get().Load();
 	shader = ResourceHandler::Get().GetShader("Basic");
 	bool running = true;
 	int select;
