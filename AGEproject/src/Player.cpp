@@ -147,7 +147,7 @@ void Player::HandleInput(std::vector<std::shared_ptr<Entity>>& enemyList)
 					// Attack the enemy. 
 					for (std::shared_ptr<Entity>& m : selectedEntities)
 					{
-						if (m->GetCompatibleComponent<Unit>() != NULL && !(m->GetName() == "Warden" && e->GetName() != "Kestrel"))
+						if (m->GetCompatibleComponent<Unit>() != NULL && !(m->GetName() == "Warden" && e->GetName() == "Kestrel"))
 						{
 							m->GetCompatibleComponent<Unit>()->SetEntityToTarget(e);
 							m->GetCompatibleComponent<Unit>()->SetAction(Unit::Attack);
