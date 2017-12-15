@@ -6,7 +6,7 @@
 
 int ControlsMenu::currentSelection = -1;
 int ControlsMenu::lastSelection = -1;
-int const ControlsMenu::numOfControls = 16;
+int const ControlsMenu::numOfControls = 15;
 std::vector <std::pair<Button, UIQuad>> ControlsMenu::buttons;
 std::vector <std::pair<std::string, std::string>> ControlsMenu::bindings;
 std::vector <unsigned int> ControlsMenu::button_tex;
@@ -16,15 +16,22 @@ std::vector <unsigned int> ControlsMenu::current_tex;
 // Key callback method.
 void ControlsMenu::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (!(currentSelection == 6 || currentSelection == 13) && currentSelection != -1)
+	if (!(currentSelection == 6 || currentSelection == 14) && currentSelection != -1)
 	{
-		buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key,scancode).c_str());
-		UserControls::Get().BindKey(bindings[currentSelection].first, key);
-		FileIO::Get().SaveIniFile();
-		current_tex[currentSelection] = button_tex[currentSelection];
+		if (current_tex[currentSelection] == highlight_tex[currentSelection])
+		{
+			buttons[currentSelection].second.SetText(UserControls::Get().AsciiToString(key, scancode).c_str());
+			UserControls::Get().BindKey(bindings[currentSelection].first, key);
+			FileIO::Get().SaveIniFile();
+			current_tex[currentSelection] = button_tex[currentSelection];
 
-		// Remove key callback.
-		glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
+			// Remove key callback.
+			glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
+		}
+		else
+		{
+			glfwSetKeyCallback(GameEngine::Get().GetWindow(), NULL);
+		}
 	}
 }
 
@@ -32,7 +39,7 @@ void ControlsMenu::ControllerCallBack()
 {
 	if (UserControls::Get().isJoystickActive() == GL_TRUE)
 	{
-		if (!(currentSelection == 6 || currentSelection == 15) && currentSelection != -1)
+		if (!(currentSelection == 6 || currentSelection == 14) && currentSelection != -1)
 		{
 			int timer = 0;
 			auto t = clock();
@@ -44,7 +51,7 @@ void ControlsMenu::ControllerCallBack()
 					std::cout << "waiting" << std::endl;
 					int buttonCount;
 					const unsigned char* keys = glfwGetJoystickButtons(UserControls::Get().GetControllerIndex(), &buttonCount);
-					for (int i = 0; i < 14; i++)
+					for (int i = 0; i < numOfControls; i++)
 					{
 						if (keys[i] == GLFW_PRESS)
 						{
@@ -182,7 +189,7 @@ int ControlsMenu::Draw(GLShader shader)
 		{
 			timeElapsed += 1;
 			int axesCount, buttonCount;
-			const float * axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
+			const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
 			const unsigned char* keys = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttonCount);
 			if (timeElapsed > cooldown)
 			{
@@ -208,22 +215,12 @@ int ControlsMenu::Draw(GLShader shader)
 						AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 						UserControls::Get().ResetControllerBindings();
 						FileIO::Get().SaveIniFile();
-					/*	for (int i = 0; i < buttons.size(); i++)
-						{
-							if (!(i == 6 || i == 13))
-							{
-								UserControls::Get().BindControllerButton(bindings[currentSelection].second, i);
-							
-								buttons[i].second.SetText(UserControls::Get().GetButtonString(i).c_str());
-								current_tex[i] = button_tex[i];
-							}
-						}*/
 						FileIO::Get().SaveIniFile();
 					}
 					// "Back" is pressed
 					else if (currentSelection == 14)
 					{
-						//	FileIO::Get().SaveIniFile();
+						return currentSelection;
 					}
 					else
 					{
@@ -288,7 +285,7 @@ int ControlsMenu::Draw(GLShader shader)
 
 					for (int i = 0; i < buttons.size(); i++)
 					{
-						if (!(i == 6 || i == 15))
+						if (!(i == 6 || i == 14))
 						{
 							UserControls::Get().BindKey(bindings[i].first, UserControls::Get().GetDefaultKeys()[i]);
 							buttons[i].second.SetText(UserControls::Get().AsciiToString(UserControls::Get().GetDefaultKeys()[i]).c_str());
@@ -298,9 +295,10 @@ int ControlsMenu::Draw(GLShader shader)
 					FileIO::Get().SaveIniFile();
 				}
 
-				if (currentSelection == 13 && (!(UserControls::Get().isJoystickActive() == GL_TRUE)))
+				// Hacky hacky hack hack
+				else if (currentSelection == 13 && (!(UserControls::Get().isJoystickActive() == GL_TRUE)))
 				{
-					currentSelection = 14;
+					selectionMade = false;
 				}
 
 				// "Back" is pressed
@@ -393,7 +391,7 @@ void ControlsMenu::SelectionDown()
 {
 	if (buttons.size() == 0)
 		return;
-	// If currentSelection is the last one one, loop to first one. 
+	// If currentSelection is the last one, loop to first one. 
 	currentSelection += 1;
 	if (currentSelection > buttons.size() - 1)
 		currentSelection = 0;
@@ -457,6 +455,5 @@ void ControlsMenu::PopulateBindings()
 		bindings[12] = std::pair<std::string, std::string>("HotKey3", UserControls::Get().GetButtonString("dDown"));
 		bindings[13] = std::pair<std::string, std::string>("Select", UserControls::Get().GetButtonString("A"));
 		bindings[14] = std::pair<std::string, std::string>("Back", "Not Supported");
-
 	}
 }
