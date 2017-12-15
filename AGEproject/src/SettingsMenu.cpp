@@ -8,7 +8,7 @@
 int SettingsMenu::Draw(GLShader shader)
 {
 	std::cout << "Draw settings menu" << std::endl;
-	shader = *ResourceHandler::Get().GetShader("Basic");
+	//shader = *ResourceHandler::Get().GetShader("Basic");
 	const int numOfLabels = numOfTitles + numOfOptions;
 	const int numOfButtons = numOfSmallButtons + numOfLargeButtons;
 	int currentOption1 = -1;

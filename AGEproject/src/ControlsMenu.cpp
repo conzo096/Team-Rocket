@@ -152,7 +152,7 @@ void ControlsMenu::DrawButtons()
 int ControlsMenu::Draw(GLShader shader)
 {	
 	std::cout << "Draw Controls Menu" << std::endl;
-	shader = *ResourceHandler::Get().GetShader("Basic");
+//	shader = *ResourceHandler::Get().GetShader("Basic");
 	DrawButtons();
 	DrawButtons();
 

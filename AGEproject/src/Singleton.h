@@ -19,11 +19,8 @@ public:
 	//	static T instance;
 	//	return instance;
 
-		// Static memory is not good if you have big objects.
-		// Consider using a static unique pointer.  Code commented
-		// out below.
-		 static std::unique_ptr<T> instance(new T());
+		static std::unique_ptr<T> instance(new T());
 		// Dereference the pointer to get the data.
-		 return *instance.get();
+		return *instance.get();
 	}
 };
