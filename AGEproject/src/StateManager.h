@@ -15,9 +15,6 @@
 
 class StateManager : public Singleton<StateManager>
 {
-
-private:
-	GLShader* shader;
 public:
 	enum State
 	{
@@ -138,4 +135,6 @@ public:
 		}
 	}
 
+private:
+	GLShader* shader;
 };

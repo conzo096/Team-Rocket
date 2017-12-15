@@ -25,18 +25,15 @@ public:
 	// Better way to handle this?
 	//std::vector<Component*> componentList;
 
-
-
-	~ResourceHandler() {}
-
-
-	void Load()
+	ResourceHandler() 
 	{
 		LoadModels();
 		LoadTextures();
 		LoadShaders();
 		LoadAudio();
 	}
+
+	~ResourceHandler() {}
 
 	void LoadModels();
 	void LoadTextures();
