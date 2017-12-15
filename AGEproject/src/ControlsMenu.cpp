@@ -151,8 +151,8 @@ void ControlsMenu::DrawButtons()
 
 int ControlsMenu::Draw(GLShader shader)
 {	
-	std::cout << "Draw Controls Menu" << std::endl;
-//	shader = *ResourceHandler::Get().GetShader("Basic");
+	shader = *ResourceHandler::Get().GetShader("Basic");
+
 	DrawButtons();
 	DrawButtons();
 
@@ -182,7 +182,7 @@ int ControlsMenu::Draw(GLShader shader)
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClearColor(0, 0, 1, 1);
-		ResourceHandler::Get().GetShader("Basic")->Use();
+		shader.Use();
 
 		// When using controller
 		if (UserControls::Get().isJoystickActive() == GL_TRUE)
@@ -214,7 +214,6 @@ int ControlsMenu::Draw(GLShader shader)
 						selectionMade = false;
 						AudioEngine::Get().PlaySoundOnThread(ResourceHandler::Get().GetAudio("Advance"), glm::dvec3(0.0, 0.0, 0.0), -12.0f);
 						UserControls::Get().ResetControllerBindings();
-						FileIO::Get().SaveIniFile();
 						FileIO::Get().SaveIniFile();
 					}
 					// "Back" is pressed
@@ -295,7 +294,6 @@ int ControlsMenu::Draw(GLShader shader)
 					FileIO::Get().SaveIniFile();
 				}
 
-				// Hacky hacky hack hack
 				else if (currentSelection == 13 && (!(UserControls::Get().isJoystickActive() == GL_TRUE)))
 				{
 					selectionMade = false;
@@ -348,9 +346,9 @@ int ControlsMenu::Draw(GLShader shader)
 			if (UserControls::Get().isJoystickActive() == GL_TRUE || (!(i == 13)))
 			{
 				// Bind texture.
-				if(ResourceHandler::Get().GetShader("Basic")->IsLinked())
+				if(shader.IsLinked())
 				{
-					glUniform1i(ResourceHandler::Get().GetShader("Basic")->GetUniformLocation("tex"), 0);
+					glUniform1i(shader.GetUniformLocation("tex"), 0);
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, buttons[i].first.texture);
 					buttons[i].first.renderTarget.Draw();

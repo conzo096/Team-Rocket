@@ -26,7 +26,7 @@ struct Button
 	Quad renderTarget;
 };
 
-class Menu //: public Singleton<Menu>
+class Menu
 {
 protected:
 	bool mouseButtonHeld;
